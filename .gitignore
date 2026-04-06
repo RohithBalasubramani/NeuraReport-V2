@@ -204,3 +204,6 @@ samples/
 
 # CI (removed)
 .github/
+
+# Vendor (external repos)
+vendor/
