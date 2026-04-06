@@ -1,0 +1,23 @@
+{
+  "scalars": [
+    "invoice_date",
+    "invoice_number",
+    "bill_to",
+    "ship_to",
+    "remarks",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping_handling",
+    "other",
+    "total"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "totals": [],
+  "notes": "Invoice template with line items table and comprehensive totals section including subtotal, discount, tax, shipping, and final total"
+}

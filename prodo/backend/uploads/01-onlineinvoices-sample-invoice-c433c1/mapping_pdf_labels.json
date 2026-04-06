@@ -1,0 +1,117 @@
+[
+  {
+    "header": "company_name",
+    "placeholder": "{company_name}",
+    "mapping": "invoices.vendor_name"
+  },
+  {
+    "header": "company_address",
+    "placeholder": "{company_address}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_phone",
+    "placeholder": "{company_phone}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_email",
+    "placeholder": "{company_email}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices.issue_date"
+  },
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices.invoice_number"
+  },
+  {
+    "header": "payment_terms",
+    "placeholder": "{payment_terms}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "client_name",
+    "placeholder": "{client_name}",
+    "mapping": "customers.customer_name"
+  },
+  {
+    "header": "client_company",
+    "placeholder": "{client_company}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "client_address",
+    "placeholder": "{client_address}",
+    "mapping": "customers.billing_address"
+  },
+  {
+    "header": "client_phone",
+    "placeholder": "{client_phone}",
+    "mapping": "customers.phone"
+  },
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_qty",
+    "placeholder": "{row_qty}",
+    "mapping": "invoice_items.quantity"
+  },
+  {
+    "header": "row_unit_price",
+    "placeholder": "{row_unit_price}",
+    "mapping": "invoice_items.unit_price"
+  },
+  {
+    "header": "row_total",
+    "placeholder": "{row_total}",
+    "mapping": "invoice_items.line_total"
+  },
+  {
+    "header": "remarks_text",
+    "placeholder": "{remarks_text}",
+    "mapping": "invoices.notes"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "invoices.subtotal"
+  },
+  {
+    "header": "discount",
+    "placeholder": "{discount}",
+    "mapping": "invoices.discount_amount"
+  },
+  {
+    "header": "subtotal_less_discount",
+    "placeholder": "{subtotal_less_discount}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "tax_rate",
+    "placeholder": "{tax_rate}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "total_tax",
+    "placeholder": "{total_tax}",
+    "mapping": "invoices.tax_amount"
+  },
+  {
+    "header": "shipping",
+    "placeholder": "{shipping}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "balance_due",
+    "placeholder": "{balance_due}",
+    "mapping": "invoices.total_amount"
+  }
+]

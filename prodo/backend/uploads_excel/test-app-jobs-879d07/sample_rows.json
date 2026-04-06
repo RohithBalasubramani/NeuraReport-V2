@@ -1,0 +1,16 @@
+{
+  "sample_row": {
+    "row_cpu_budget": "balanced",
+    "row_triggers_json": "[]",
+    "row_id": "job_1771159889406",
+    "row_status": "stopped",
+    "row_interval_ms": "1000",
+    "row_metrics_json": "{}",
+    "row_tables_json": "[\"tbl_1771159526049_3\"]",
+    "row_enabled": "1",
+    "row_name": "12test",
+    "row_batching_json": "{}",
+    "row_columns_json": "\"all\"",
+    "row_type": "continuous"
+  }
+}

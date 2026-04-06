@@ -1,0 +1,13 @@
+{
+  "sample_row": {
+    "row_gateway_id": "gw_1771075949405",
+    "row_latency_ms": "NOT_VISIBLE",
+    "row_id": "dev_1771075949408",
+    "row_port": "502",
+    "row_protocol": "modbus",
+    "row_unit_id": "21",
+    "row_name": "MFM 20",
+    "row_auto_reconnect": "1",
+    "row_status": "reconnecting"
+  }
+}

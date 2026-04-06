@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Gateways</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #1a1a1a;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            font-weight: 700;
+            text-align: left;
+            vertical-align: middle;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific widths */
+        #data-table col.col-id { width: 10%; }
+        #data-table col.col-name { width: 15%; }
+        #data-table col.col-host { width: 18%; }
+        #data-table col.col-adapter { width: 8%; }
+        #data-table col.col-nic { width: 8%; }
+        #data-table col.col-protocol { width: 9%; }
+        #data-table col.col-status { width: 8%; }
+        #data-table col.col-created { width: 12%; }
+        #data-table col.col-updated { width: 12%; }
+        #data-table col.col-last-test { width: 12%; }
+        
+        /* Empty cell styling */
+        td:empty::before {
+            content: "\2014";
+            color: #ccc;
+        }
+        
+        /* Print optimization */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>App Gateways</h1>
+    </div>
+    
+    <table id="data-table">
+        <colgroup>
+            <col class="col-id">
+            <col class="col-name">
+            <col class="col-host">
+            <col class="col-adapter">
+            <col class="col-nic">
+            <col class="col-protocol">
+            <col class="col-status">
+            <col class="col-created">
+            <col class="col-updated">
+            <col class="col-last-test">
+        </colgroup>
+        <thead>
+            <tr>
+                <th data-label="id">ID</th>
+                <th data-label="name">Name</th>
+                <th data-label="host">Host</th>
+                <th data-label="adapter_id">Adapter ID</th>
+                <th data-label="nic_hint">NIC Hint</th>
+                <th data-label="protocol_hint">Protocol Hint</th>
+                <th data-label="status">Status</th>
+                <th data-label="created_at">Created At</th>
+                <th data-label="updated_at">Updated At</th>
+                <th data-label="last_test_at">Last Test At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_id}</td>
+                <td>{row_name}</td>
+                <td>{row_host}</td>
+                <td>{row_adapter_id}</td>
+                <td>{row_nic_hint}</td>
+                <td>{row_protocol_hint}</td>
+                <td>{row_status}</td>
+                <td>{row_created_at}</td>
+                <td>{row_updated_at}</td>
+                <td>{row_last_test_at}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_device_name",
+    "row_protocol",
+    "row_status",
+    "row_port",
+    "row_latency_ms",
+    "row_auto_reconnect",
+    "row_last_error"
+  ],
+  "totals": {},
+  "notes": {
+    "description": "Devices report with connection status and diagnostics",
+    "table_contains": "Device configuration and runtime status information",
+    "numeric_columns": [
+      "row_port",
+      "row_latency_ms",
+      "row_auto_reconnect"
+    ]
+  }
+}

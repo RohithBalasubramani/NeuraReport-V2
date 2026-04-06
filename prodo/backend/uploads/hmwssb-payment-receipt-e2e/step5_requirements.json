@@ -1,0 +1,49 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Consumer and current transaction summary data",
+      "columns": [
+        "can_number",
+        "consumer_name",
+        "reference_number",
+        "transaction_date",
+        "transaction_time",
+        "transaction_status",
+        "bill_amount",
+        "bank_name"
+      ]
+    },
+    "rows": {
+      "description": "Complete payment history for the consumer",
+      "columns": [
+        "row_date",
+        "row_reference",
+        "row_amount",
+        "row_status",
+        "row_bank"
+      ],
+      "grouping": [],
+      "ordering": [
+        "transaction_date DESC",
+        "transaction_time DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this receipt",
+      "columns": []
+    }
+  },
+  "semantics": "consumer_name is a pass-through parameter value provided by the user at runtime via key_values. All other tokens are direct database column mappings.",
+  "parameters": {
+    "required": [
+      {
+        "name": "consumer_name",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape operations needed - direct table joins suffice"
+  ]
+}

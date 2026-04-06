@@ -1,0 +1,138 @@
+{
+  "mapping": {
+    "transaction_status": "transactions.transaction_status",
+    "transaction_ref": "transactions.transaction_ref_number",
+    "transaction_date": "transactions.transaction_date",
+    "transaction_time": "transactions.transaction_time",
+    "can_no": "transactions.can_number",
+    "bill_amount": "transactions.bill_amount",
+    "bank_name": "transactions.bank_name",
+    "logo_url": "UNRESOLVED",
+    "billdesk_logo_url": "UNRESOLVED",
+    "page_url": "UNRESOLVED",
+    "update_note": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "logo_url",
+      "billdesk_logo_url",
+      "page_url",
+      "update_note"
+    ],
+    "hints": {
+      "logo_url": {
+        "op": "STATIC_ASSET",
+        "over": [
+          "note:Logo image URL - likely a static file path or external URL"
+        ]
+      },
+      "billdesk_logo_url": {
+        "op": "STATIC_ASSET",
+        "over": [
+          "note:BillDesk logo image URL - likely a static file path or external URL"
+        ]
+      },
+      "page_url": {
+        "op": "STATIC_TEXT",
+        "over": [
+          "note:Footer URL - appears to be a constant BillDesk payment page URL"
+        ]
+      },
+      "update_note": {
+        "op": "STATIC_TEXT",
+        "over": [
+          "note:Security notice text - appears to be a constant disclaimer message"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "33db9475c7a3cd7cf4df1d4c27c864a9c2f1423bfa696b49a7bcce2973c2b7f3",
+    "catalog_sha256": "191ef492d64f3b3f19bd2650de4a8fd2489f25597a3ffaa95b08fdbc417a977a",
+    "schema_sha256": "da11490e10a6fc90c15513d96564c08d259f932b3e1e29f1973dbc1eb19dc1df",
+    "cache_key": "355ef5da7bdf8cc4f9ef71c80fc79f33290f1992acc706dda1535ee4c21c7071",
+    "pre_html_sha256": "54df6581ff8e59999edce4b2b2ad6be7f277c46b06626ea5c26b0b819d0ad76c",
+    "post_html_sha256": "54df6581ff8e59999edce4b2b2ad6be7f277c46b06626ea5c26b0b819d0ad76c",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273"
+  },
+  "raw_payload": {
+    "mapping": {
+      "transaction_status": "transactions.transaction_status",
+      "transaction_ref": "transactions.transaction_ref_number",
+      "transaction_date": "transactions.transaction_date",
+      "transaction_time": "transactions.transaction_time",
+      "can_no": "transactions.can_number",
+      "bill_amount": "transactions.bill_amount",
+      "bank_name": "transactions.bank_name",
+      "logo_url": "UNRESOLVED",
+      "billdesk_logo_url": "UNRESOLVED",
+      "page_url": "UNRESOLVED",
+      "update_note": "UNRESOLVED"
+    },
+    "token_samples": {
+      "transaction_status": "Success",
+      "transaction_ref": "YAX62668702574",
+      "transaction_date": "2026-02-01",
+      "transaction_time": "02:53:29",
+      "can_no": "624140910",
+      "bill_amount": "1510.0",
+      "bank_name": "NA",
+      "logo_url": "NOT_VISIBLE",
+      "billdesk_logo_url": "NOT_VISIBLE",
+      "page_url": "https://www.billdesk.com/pgmerc/payments/ve/",
+      "update_note": "It is advised not to click the back/refresh button. Please update your records with the transaction details mentioned above."
+    },
+    "meta": {
+      "unresolved": [
+        "logo_url",
+        "billdesk_logo_url",
+        "page_url",
+        "update_note"
+      ],
+      "hints": {
+        "logo_url": {
+          "op": "STATIC_ASSET",
+          "over": [
+            "note:Logo image URL - likely a static file path or external URL"
+          ]
+        },
+        "billdesk_logo_url": {
+          "op": "STATIC_ASSET",
+          "over": [
+            "note:BillDesk logo image URL - likely a static file path or external URL"
+          ]
+        },
+        "page_url": {
+          "op": "STATIC_TEXT",
+          "over": [
+            "note:Footer URL - appears to be a constant BillDesk payment page URL"
+          ]
+        },
+        "update_note": {
+          "op": "STATIC_TEXT",
+          "over": [
+            "note:Security notice text - appears to be a constant disclaimer message"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "transaction_status": "Success",
+    "transaction_ref": "YAX62668702574",
+    "transaction_date": "2026-02-01",
+    "transaction_time": "02:53:29",
+    "can_no": "624140910",
+    "bill_amount": "1510.0",
+    "bank_name": "NA",
+    "logo_url": "NOT_VISIBLE",
+    "billdesk_logo_url": "NOT_VISIBLE",
+    "page_url": "https://www.billdesk.com/pgmerc/payments/ve/",
+    "update_note": "It is advised not to click the back/refresh button. Please update your records with the transaction details mentioned above."
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_job_id": "app_job_errors_minute.job_id",
+    "row_code": "app_job_errors_minute.code",
+    "row_minute_utc": "app_job_errors_minute.minute_utc",
+    "row_count": "app_job_errors_minute.count",
+    "row_last_message": "app_job_errors_minute.last_message"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "7328ef16e83241aae6d212651c06be4c006052a2d20dafa6f748a0d0933c9d88",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "6a0592f2d86233cc75571031cf05a5ad59498a7f20931af3e135303e938a3ade",
+    "cache_key": "be1bee4541727d2412f3612a3b92776b191bd8660b541f4a4592451ec27134b6",
+    "pre_html_sha256": "ae86ab7d76e40f7dc2c59bdc7134f51c478f6ad97e8aedb10a9437d75991ece7",
+    "post_html_sha256": "dc7c7138165d0d39a35663196a57d8fd3b421eba11e0706db9a58f03a3069377",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_job_id": "app_job_errors_minute.job_id",
+      "row_code": "app_job_errors_minute.code",
+      "row_minute_utc": "app_job_errors_minute.minute_utc",
+      "row_count": "app_job_errors_minute.count",
+      "row_last_message": "app_job_errors_minute.last_message"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_job_id": "NOT_VISIBLE",
+      "row_code": "NOT_VISIBLE",
+      "row_minute_utc": "NOT_VISIBLE",
+      "row_count": "NOT_VISIBLE",
+      "row_last_message": "NOT_VISIBLE"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": []
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "NOT_VISIBLE"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "NOT_VISIBLE"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_job_id": "NOT_VISIBLE",
+    "row_code": "NOT_VISIBLE",
+    "row_minute_utc": "NOT_VISIBLE",
+    "row_count": "NOT_VISIBLE",
+    "row_last_message": "NOT_VISIBLE"
+  }
+}

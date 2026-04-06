@@ -1,0 +1,100 @@
+{
+  "mapping": {
+    "row_id": "app_schemas.id",
+    "row_name": "app_schemas.name",
+    "row_device_table_id": "UNRESOLVED",
+    "row_version": "UNRESOLVED",
+    "row_created_at": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_device_table_id",
+      "row_version",
+      "row_created_at"
+    ],
+    "hints": {
+      "row_device_table_id": {
+        "op": "NOTE",
+        "over": [
+          "reason:No device_table_id column found in app_schemas table"
+        ]
+      },
+      "row_version": {
+        "op": "NOTE",
+        "over": [
+          "reason:No version column found in app_schemas table"
+        ]
+      },
+      "row_created_at": {
+        "op": "NOTE",
+        "over": [
+          "reason:No created_at column found in app_schemas table; app_gateways has created_at but wrong table"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "1ef60df332982f21df298c929b1d9a0942340c02dddae027773053020ea5e8e5",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "8c95552f7d6b926e9d9a87a9327d03fde435d5a39943afb4e65938ee7502c06a",
+    "pre_html_sha256": "420f77745067456b6e9c6d0fdc4cdc548dad1789ae8462ca3ff7e47d6702eec2",
+    "post_html_sha256": "420f77745067456b6e9c6d0fdc4cdc548dad1789ae8462ca3ff7e47d6702eec2",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_schemas.id",
+      "row_name": "app_schemas.name",
+      "row_device_table_id": "UNRESOLVED",
+      "row_version": "UNRESOLVED",
+      "row_created_at": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_device_table_id": "{row_device_table_id}",
+      "row_version": "{row_version}",
+      "row_created_at": "{row_created_at}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_device_table_id",
+        "row_version",
+        "row_created_at"
+      ],
+      "hints": {
+        "row_device_table_id": {
+          "op": "NOTE",
+          "over": [
+            "reason:No device_table_id column found in app_schemas table"
+          ]
+        },
+        "row_version": {
+          "op": "NOTE",
+          "over": [
+            "reason:No version column found in app_schemas table"
+          ]
+        },
+        "row_created_at": {
+          "op": "NOTE",
+          "over": [
+            "reason:No created_at column found in app_schemas table; app_gateways has created_at but wrong table"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_device_table_id": "{row_device_table_id}",
+    "row_version": "{row_version}",
+    "row_created_at": "{row_created_at}"
+  }
+}

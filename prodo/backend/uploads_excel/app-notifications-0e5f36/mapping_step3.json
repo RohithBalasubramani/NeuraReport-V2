@@ -1,0 +1,58 @@
+{
+  "mapping": {
+    "row_id": "app_notifications.id",
+    "row_type": "app_notifications.type",
+    "row_message": "app_notifications.message",
+    "row_user": "app_notifications.user",
+    "row_read": "app_notifications.read",
+    "row_time": "app_notifications.time"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "4ff1bf55f65b11e977bd566fecb650c9927966d75bb7dcf9848acf9fb566255f",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "b02c9af5145fe3a3ab329b9bd6251066b2ef00fd8b5d7c4e11ccad03c4c0b14d",
+    "pre_html_sha256": "131211b126b1cd86c6602784828d1aebcc3e856f237fc8f2a079b5a313ae26f0",
+    "post_html_sha256": "131211b126b1cd86c6602784828d1aebcc3e856f237fc8f2a079b5a313ae26f0",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_notifications.id",
+      "row_type": "app_notifications.type",
+      "row_message": "app_notifications.message",
+      "row_user": "app_notifications.user",
+      "row_read": "app_notifications.read",
+      "row_time": "app_notifications.time"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_type": "{row_type}",
+      "row_message": "{row_message}",
+      "row_user": "{row_user}",
+      "row_read": "{row_read}",
+      "row_time": "{row_time}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_type": "{row_type}",
+    "row_message": "{row_message}",
+    "row_user": "{row_user}",
+    "row_read": "{row_read}",
+    "row_time": "{row_time}"
+  }
+}

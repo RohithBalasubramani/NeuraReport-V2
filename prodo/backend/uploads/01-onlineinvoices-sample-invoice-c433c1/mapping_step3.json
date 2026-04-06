@@ -1,0 +1,260 @@
+{
+  "mapping": {
+    "company_name": "invoices.vendor_name",
+    "company_address": "UNRESOLVED",
+    "company_phone": "UNRESOLVED",
+    "company_email": "UNRESOLVED",
+    "invoice_date": "invoices.issue_date",
+    "invoice_number": "invoices.invoice_number",
+    "payment_terms": "UNRESOLVED",
+    "client_name": "customers.customer_name",
+    "client_company": "UNRESOLVED",
+    "client_address": "customers.billing_address",
+    "client_phone": "customers.phone",
+    "row_description": "invoice_items.description",
+    "row_qty": "invoice_items.quantity",
+    "row_unit_price": "invoice_items.unit_price",
+    "row_total": "invoice_items.line_total",
+    "remarks_text": "invoices.notes",
+    "subtotal": "invoices.subtotal",
+    "discount": "invoices.discount_amount",
+    "subtotal_less_discount": "UNRESOLVED",
+    "tax_rate": "UNRESOLVED",
+    "total_tax": "invoices.tax_amount",
+    "shipping": "UNRESOLVED",
+    "balance_due": "invoices.total_amount"
+  },
+  "meta": {
+    "unresolved": [
+      "company_address",
+      "company_phone",
+      "company_email",
+      "payment_terms",
+      "client_company",
+      "subtotal_less_discount",
+      "tax_rate",
+      "shipping"
+    ],
+    "hints": {
+      "company_address": {
+        "op": "concat",
+        "over": [
+          "columns:invoices.vendor_name",
+          "note:No vendor address columns in catalog"
+        ]
+      },
+      "company_phone": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No vendor contact columns in catalog"
+        ]
+      },
+      "company_email": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No vendor contact columns in catalog"
+        ]
+      },
+      "payment_terms": {
+        "op": "FORMAT",
+        "over": [
+          "columns:invoices.due_date",
+          "columns:invoices.issue_date",
+          "note:Computed from due_date - issue_date difference"
+        ]
+      },
+      "client_company": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No separate company field in customers table"
+        ]
+      },
+      "subtotal_less_discount": {
+        "op": "subtract",
+        "over": [
+          "columns:invoices.subtotal",
+          "columns:invoices.discount_amount"
+        ]
+      },
+      "tax_rate": {
+        "op": "FORMAT",
+        "over": [
+          "columns:invoices.tax_amount",
+          "columns:invoices.subtotal",
+          "note:Computed as (tax_amount / subtotal) * 100"
+        ]
+      },
+      "shipping": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No shipping column in catalog; may be embedded in total_amount calculation"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "868e9b5ef1f296469fa321744d94461c84e0e1e982121d633facb09d4d77e29a",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "2fd4e5ac7dac8ccd3e6e34a4193ce3d828e3e7e5b85a3df4026f541575fb1569",
+    "cache_key": "e48d4e4afa0e1c68f1d1c53999673e4208de30dd6e4f437cc0c4828c3f12f37d",
+    "pre_html_sha256": "39e6d8a7b18882c7476a073997d77d641ae0aebf03dfb82236a63ee7dc95c3b5",
+    "post_html_sha256": "069cd406ca6b81ee1409ec0c22266cb5b862c249d13e0f15154c087b82a2d29a",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "5597d5a31db126f9ac5172c0b1d143aa0f33416b2a26efe56c84f561230b410f",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "company_name": "invoices.vendor_name",
+      "company_address": "UNRESOLVED",
+      "company_phone": "UNRESOLVED",
+      "company_email": "UNRESOLVED",
+      "invoice_date": "invoices.issue_date",
+      "invoice_number": "invoices.invoice_number",
+      "payment_terms": "UNRESOLVED",
+      "client_name": "customers.customer_name",
+      "client_company": "UNRESOLVED",
+      "client_address": "customers.billing_address",
+      "client_phone": "customers.phone",
+      "row_description": "invoice_items.description",
+      "row_qty": "invoice_items.quantity",
+      "row_unit_price": "invoice_items.unit_price",
+      "row_total": "invoice_items.line_total",
+      "remarks_text": "invoices.notes",
+      "subtotal": "invoices.subtotal",
+      "discount": "invoices.discount_amount",
+      "subtotal_less_discount": "UNRESOLVED",
+      "tax_rate": "UNRESOLVED",
+      "total_tax": "invoices.tax_amount",
+      "shipping": "UNRESOLVED",
+      "balance_due": "invoices.total_amount"
+    },
+    "token_samples": {
+      "invoice_title": "Sample Invoice Template",
+      "company_name": "<Name>",
+      "company_address": "<Address>",
+      "company_phone": "<Phone>",
+      "company_email": "<Email>",
+      "invoice_date": "8/8/2024",
+      "invoice_number": "76543",
+      "payment_terms": "<Payment terms (due on receipt, due in X days)>",
+      "client_name": "<Name / Dept>",
+      "client_company": "<Client Company Name>",
+      "client_address": "<Address>",
+      "client_phone": "<Phone>",
+      "row_description": "NOT_VISIBLE",
+      "row_qty": "1",
+      "row_unit_price": "5.00",
+      "row_total": "5.00",
+      "remarks_text": "Payment terms: Net 30. Late payments may incur a 2% monthly interest. Rates applied as per local contract laws.",
+      "subtotal": "18.00",
+      "discount": "2.00",
+      "subtotal_less_discount": "16.00",
+      "tax_rate": "8%",
+      "total_tax": "1.28",
+      "shipping": "2.99",
+      "balance_due": "20.27"
+    },
+    "meta": {
+      "unresolved": [
+        "company_address",
+        "company_phone",
+        "company_email",
+        "payment_terms",
+        "client_company",
+        "subtotal_less_discount",
+        "tax_rate",
+        "shipping"
+      ],
+      "hints": {
+        "company_address": {
+          "op": "concat",
+          "over": [
+            "columns:invoices.vendor_name",
+            "note:No vendor address columns in catalog"
+          ]
+        },
+        "company_phone": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No vendor contact columns in catalog"
+          ]
+        },
+        "company_email": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No vendor contact columns in catalog"
+          ]
+        },
+        "payment_terms": {
+          "op": "FORMAT",
+          "over": [
+            "columns:invoices.due_date",
+            "columns:invoices.issue_date",
+            "note:Computed from due_date - issue_date difference"
+          ]
+        },
+        "client_company": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No separate company field in customers table"
+          ]
+        },
+        "subtotal_less_discount": {
+          "op": "subtract",
+          "over": [
+            "columns:invoices.subtotal",
+            "columns:invoices.discount_amount"
+          ]
+        },
+        "tax_rate": {
+          "op": "FORMAT",
+          "over": [
+            "columns:invoices.tax_amount",
+            "columns:invoices.subtotal",
+            "note:Computed as (tax_amount / subtotal) * 100"
+          ]
+        },
+        "shipping": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No shipping column in catalog; may be embedded in total_amount calculation"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "invoice_title": "Sample Invoice Template"
+    }
+  },
+  "constant_replacements": {
+    "invoice_title": "Sample Invoice Template"
+  },
+  "token_samples": {
+    "invoice_title": "Sample Invoice Template",
+    "company_name": "<Name>",
+    "company_address": "<Address>",
+    "company_phone": "<Phone>",
+    "company_email": "<Email>",
+    "invoice_date": "8/8/2024",
+    "invoice_number": "76543",
+    "payment_terms": "<Payment terms (due on receipt, due in X days)>",
+    "client_name": "<Name / Dept>",
+    "client_company": "<Client Company Name>",
+    "client_address": "<Address>",
+    "client_phone": "<Phone>",
+    "row_description": "NOT_VISIBLE",
+    "row_qty": "1",
+    "row_unit_price": "5.00",
+    "row_total": "5.00",
+    "remarks_text": "Payment terms: Net 30. Late payments may incur a 2% monthly interest. Rates applied as per local contract laws.",
+    "subtotal": "18.00",
+    "discount": "2.00",
+    "subtotal_less_discount": "16.00",
+    "tax_rate": "8%",
+    "total_tax": "1.28",
+    "shipping": "2.99",
+    "balance_due": "20.27"
+  }
+}

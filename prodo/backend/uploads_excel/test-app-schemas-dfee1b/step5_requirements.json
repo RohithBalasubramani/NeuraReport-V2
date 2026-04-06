@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens — report displays only row data",
+      "columns": []
+    },
+    "rows": {
+      "description": "List of all schemas with ID and name. Three tokens (device_table_id, version, created_at) remain unresolved as they are not present in the source table.",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_version",
+        "row_created_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report",
+      "columns": []
+    }
+  },
+  "semantics": "This is a simple list report with no filtering or aggregation. All rows from app_schemas are displayed.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct column mapping from app_schemas table."
+  ]
+}

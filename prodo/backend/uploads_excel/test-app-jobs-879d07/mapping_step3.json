@@ -1,0 +1,82 @@
+{
+  "mapping": {
+    "row_id": "app_jobs.id",
+    "row_name": "app_jobs.name",
+    "row_type": "app_jobs.type",
+    "row_tables_json": "app_jobs.tables_json",
+    "row_columns_json": "app_jobs.columns_json",
+    "row_interval_ms": "app_jobs.interval_ms",
+    "row_enabled": "app_jobs.enabled",
+    "row_status": "app_jobs.status",
+    "row_batching_json": "app_jobs.batching_json",
+    "row_cpu_budget": "app_jobs.cpu_budget",
+    "row_triggers_json": "app_jobs.triggers_json",
+    "row_metrics_json": "app_jobs.metrics_json"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "4ee2640d7c76a4a20aee8aa96fb1116aa0bd230628ee868b0ee2d36d2312649d",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "62960e81798a54c981caff3c1206a8ce834dd7ef5ff035e20f4861e38da6fc49",
+    "cache_key": "54fba2e02d7a38b9503e691910537a35b4bd03d99481c69c296b789201a2620d",
+    "pre_html_sha256": "a77c292ac3cfb704a3134ad3509f91adaa2ad1ec144885616112e63887c9bf5c",
+    "post_html_sha256": "a77c292ac3cfb704a3134ad3509f91adaa2ad1ec144885616112e63887c9bf5c",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_jobs.id",
+      "row_name": "app_jobs.name",
+      "row_type": "app_jobs.type",
+      "row_tables_json": "app_jobs.tables_json",
+      "row_columns_json": "app_jobs.columns_json",
+      "row_interval_ms": "app_jobs.interval_ms",
+      "row_enabled": "app_jobs.enabled",
+      "row_status": "app_jobs.status",
+      "row_batching_json": "app_jobs.batching_json",
+      "row_cpu_budget": "app_jobs.cpu_budget",
+      "row_triggers_json": "app_jobs.triggers_json",
+      "row_metrics_json": "app_jobs.metrics_json"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_type": "{row_type}",
+      "row_tables_json": "{row_tables_json}",
+      "row_columns_json": "{row_columns_json}",
+      "row_interval_ms": "{row_interval_ms}",
+      "row_enabled": "{row_enabled}",
+      "row_status": "{row_status}",
+      "row_batching_json": "{row_batching_json}",
+      "row_cpu_budget": "{row_cpu_budget}",
+      "row_triggers_json": "{row_triggers_json}",
+      "row_metrics_json": "{row_metrics_json}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_type": "{row_type}",
+    "row_tables_json": "{row_tables_json}",
+    "row_columns_json": "{row_columns_json}",
+    "row_interval_ms": "{row_interval_ms}",
+    "row_enabled": "{row_enabled}",
+    "row_status": "{row_status}",
+    "row_batching_json": "{row_batching_json}",
+    "row_cpu_budget": "{row_cpu_budget}",
+    "row_triggers_json": "{row_triggers_json}",
+    "row_metrics_json": "{row_metrics_json}"
+  }
+}

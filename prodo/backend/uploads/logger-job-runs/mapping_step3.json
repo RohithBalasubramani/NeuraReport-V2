@@ -1,0 +1,98 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "generated_at": "UNRESOLVED",
+    "row_job_id": "app_job_runs.job_id",
+    "row_started_at": "app_job_runs.started_at",
+    "row_stopped_at": "app_job_runs.stopped_at",
+    "row_duration_ms": "app_job_runs.duration_ms",
+    "row_rows": "app_job_runs.rows",
+    "row_read_lat_avg": "app_job_runs.read_lat_avg",
+    "row_write_lat_avg": "app_job_runs.write_lat_avg",
+    "row_error_pct": "app_job_runs.error_pct"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_at"
+    ],
+    "hints": {
+      "generated_at": {
+        "op": "FORMAT",
+        "over": [
+          "columns:current_timestamp",
+          "note:Runtime timestamp of report generation — inject server-side at render time"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "62c9bd3e2310568f397f4abbd4d39b5a2e2e41377272f4d57764bc6ee4fc9333",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "9d9404dc9c5269930668e95fb57217ec5a2565d1b90881c116a62713aabcfb66",
+    "cache_key": "9a50d7f8fa9b8617ffec840177feef06a897e94d32963da827959e55119ecede",
+    "pre_html_sha256": "265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09",
+    "post_html_sha256": "265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "UNRESOLVED",
+      "row_job_id": "app_job_runs.job_id",
+      "row_started_at": "app_job_runs.started_at",
+      "row_stopped_at": "app_job_runs.stopped_at",
+      "row_duration_ms": "app_job_runs.duration_ms",
+      "row_rows": "app_job_runs.rows",
+      "row_read_lat_avg": "app_job_runs.read_lat_avg",
+      "row_write_lat_avg": "app_job_runs.write_lat_avg",
+      "row_error_pct": "app_job_runs.error_pct"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_job_id": "job_1771013897364",
+      "row_started_at": "2026-02-15T17:32:11+05:30",
+      "row_stopped_at": "2026-02-15T17:32:29+05:30",
+      "row_duration_ms": "18000",
+      "row_rows": "0",
+      "row_read_lat_avg": "1.2366279",
+      "row_write_lat_avg": "0.0",
+      "row_error_pct": "1900.0"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "columns:current_timestamp",
+            "note:Runtime timestamp of report generation — inject server-side at render time"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_job_id": "job_1771013897364",
+    "row_started_at": "2026-02-15T17:32:11+05:30",
+    "row_stopped_at": "2026-02-15T17:32:29+05:30",
+    "row_duration_ms": "18000",
+    "row_rows": "0",
+    "row_read_lat_avg": "1.2366279",
+    "row_write_lat_avg": "0.0",
+    "row_error_pct": "1900.0"
+  }
+}

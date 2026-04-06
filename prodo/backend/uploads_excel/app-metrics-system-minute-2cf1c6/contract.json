@@ -1,0 +1,148 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_minute_utc",
+      "row_cpu",
+      "row_memory",
+      "row_disk_r_s",
+      "row_disk_w_s",
+      "row_net_rx_s",
+      "row_net_tx_s",
+      "row_proc_cpu",
+      "row_proc_rss_mb",
+      "row_proc_handles"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_minute_utc": "app_metrics_system_minute.minute_utc",
+    "row_cpu": "app_metrics_system_minute.cpu",
+    "row_memory": "app_metrics_system_minute.mem",
+    "row_disk_r_s": "app_metrics_system_minute.disk_rps",
+    "row_disk_w_s": "app_metrics_system_minute.disk_wps",
+    "row_net_rx_s": "app_metrics_system_minute.net_rxps",
+    "row_net_tx_s": "app_metrics_system_minute.net_txps",
+    "row_proc_cpu": "app_metrics_system_minute.proc_cpu",
+    "row_proc_rss_mb": "app_metrics_system_minute.proc_rss_mb",
+    "row_proc_handles": "app_metrics_system_minute.proc_handles"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_metrics_system_minute",
+    "parent_key": "minute_utc",
+    "child_table": "app_metrics_system_minute",
+    "child_key": "minute_utc"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_minute_utc",
+          "from": [
+            "app_metrics_system_minute.minute_utc"
+          ]
+        },
+        {
+          "as": "row_cpu",
+          "from": [
+            "app_metrics_system_minute.cpu"
+          ]
+        },
+        {
+          "as": "row_memory",
+          "from": [
+            "app_metrics_system_minute.mem"
+          ]
+        },
+        {
+          "as": "row_disk_r_s",
+          "from": [
+            "app_metrics_system_minute.disk_rps"
+          ]
+        },
+        {
+          "as": "row_disk_w_s",
+          "from": [
+            "app_metrics_system_minute.disk_wps"
+          ]
+        },
+        {
+          "as": "row_net_rx_s",
+          "from": [
+            "app_metrics_system_minute.net_rxps"
+          ]
+        },
+        {
+          "as": "row_net_tx_s",
+          "from": [
+            "app_metrics_system_minute.net_txps"
+          ]
+        },
+        {
+          "as": "row_proc_cpu",
+          "from": [
+            "app_metrics_system_minute.proc_cpu"
+          ]
+        },
+        {
+          "as": "row_proc_rss_mb",
+          "from": [
+            "app_metrics_system_minute.proc_rss_mb"
+          ]
+        },
+        {
+          "as": "row_proc_handles",
+          "from": [
+            "app_metrics_system_minute.proc_handles"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_cpu": "number(1)",
+    "row_memory": "number(1)",
+    "row_disk_r_s": "number(0)",
+    "row_disk_w_s": "number(0)",
+    "row_net_rx_s": "number(0)",
+    "row_net_tx_s": "number(0)",
+    "row_proc_cpu": "number(1)",
+    "row_proc_rss_mb": "number(1)",
+    "row_proc_handles": "number(0)",
+    "row_minute_utc": "date(YYYY-MM-DD HH:mm:ss)"
+  },
+  "order_by": {
+    "rows": [
+      "minute_utc ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_minute_utc",
+    "row_cpu",
+    "row_memory",
+    "row_disk_r_s",
+    "row_disk_w_s",
+    "row_net_rx_s",
+    "row_net_tx_s",
+    "row_proc_cpu",
+    "row_proc_rss_mb",
+    "row_proc_handles"
+  ],
+  "row_order": [
+    "minute_utc ASC"
+  ],
+  "literals": {},
+  "notes": "Simple time-series report of system metrics. No parameters, no joins, no computed fields. All data comes directly from app_metrics_system_minute table."
+}

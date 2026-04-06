@@ -1,0 +1,76 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Single-record header providing print date and print time as user-supplied parameter values displayed in the report header banner.",
+      "columns": [
+        "print_date",
+        "print_time"
+      ]
+    },
+    "rows": {
+      "description": "One row per timestamp record from neuract__PT_TABLE. The first column is the formatted date label; subsequent columns are KG/CM² readings for each of the 31 pressure transmitters.",
+      "columns": [
+        "row_pressure_meter",
+        "row_pt_105",
+        "row_pt_107",
+        "row_pt_109",
+        "row_pt_111",
+        "row_pt_114",
+        "row_pt_115",
+        "row_pt_117",
+        "row_pt_125",
+        "row_pt_121",
+        "row_pt_119",
+        "row_pt_123",
+        "row_pt_127",
+        "row_pt_129",
+        "row_pt_131",
+        "row_pt_132",
+        "row_pt_133",
+        "row_pt_135",
+        "row_pt_136",
+        "row_pt_140",
+        "row_pt_141",
+        "row_pt_142",
+        "row_pt_138",
+        "row_pt_139",
+        "row_pt_147",
+        "row_pt_148",
+        "row_pt_143",
+        "row_pt_145",
+        "row_ph_146",
+        "row_pt_149",
+        "row_pt_151",
+        "row_pt_154"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section present in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "print_date and print_time are pass-through parameters injected into the report header at generation time; they are not used as data filters. No date-range filter is encoded in the mapping_override; the pipeline will return all rows from neuract__PT_TABLE ordered by timestamp ascending.",
+  "parameters": {
+    "required": [
+      {
+        "name": "print_date",
+        "type": "string"
+      },
+      {
+        "name": "print_time",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "Read all columns from neuract__PT_TABLE in wide format — no reshape needed.",
+    "Derive row_pressure_meter by formatting the timestamp_utc column as DD/MM/YYYY string.",
+    "Format all 31 pressure transmitter value columns to 4 decimal places for display.",
+    "Note: row_ph_146 maps to catalog column PT_146; the HTML header label PH-146 is a display alias only."
+  ]
+}

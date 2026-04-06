@@ -1,0 +1,58 @@
+{
+  "mapping": {
+    "row_schema_id": "app_schema_fields.schema_id",
+    "row_field_key": "app_schema_fields.key",
+    "row_field_type": "app_schema_fields.type",
+    "row_unit": "app_schema_fields.unit",
+    "row_scale": "app_schema_fields.scale",
+    "row_description": "app_schema_fields.desc_text"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "200f63f7f708edd2b6b84d5864f2af61cbbf5a53be992b3aa9c470b1085f27f4",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "b03149e83470457ea7fc343db17dbba98964e3267c806cb13aa2e1c1cccf7433",
+    "cache_key": "e14361b40410ff874cafa3e0195cf2c4e82e5845f185b1d0cf109f8634126b22",
+    "pre_html_sha256": "22e68dc7fc5679f0d20661b61b431aca3b90820d000676198fb50692a9d380c5",
+    "post_html_sha256": "22e68dc7fc5679f0d20661b61b431aca3b90820d000676198fb50692a9d380c5",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_schema_id": "app_schema_fields.schema_id",
+      "row_field_key": "app_schema_fields.key",
+      "row_field_type": "app_schema_fields.type",
+      "row_unit": "app_schema_fields.unit",
+      "row_scale": "app_schema_fields.scale",
+      "row_description": "app_schema_fields.desc_text"
+    },
+    "token_samples": {
+      "row_schema_id": "{row_schema_id}",
+      "row_field_key": "{row_field_key}",
+      "row_field_type": "{row_field_type}",
+      "row_unit": "{row_unit}",
+      "row_scale": "{row_scale}",
+      "row_description": "{row_description}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_schema_id": "{row_schema_id}",
+    "row_field_key": "{row_field_key}",
+    "row_field_type": "{row_field_type}",
+    "row_unit": "{row_unit}",
+    "row_scale": "{row_scale}",
+    "row_description": "{row_description}"
+  }
+}

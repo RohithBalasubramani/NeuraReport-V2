@@ -1,0 +1,193 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "cbb7fe3743e6f2c9df0bbc1adcabacc756b36af62c850bb06b3f018d4cd76549",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771516421,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_schema_id",
+        "row_gateway_id",
+        "row_interval_sec",
+        "row_protocol",
+        "row_enabled",
+        "row_status",
+        "row_last_run_at",
+        "row_error_count",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_jobs.id",
+      "row_name": "app_jobs.name",
+      "row_device_table_id": "app_jobs.device_table_id",
+      "row_schema_id": "app_jobs.schema_id",
+      "row_gateway_id": "app_jobs.gateway_id",
+      "row_interval_sec": "app_jobs.interval_sec",
+      "row_protocol": "app_jobs.protocol",
+      "row_enabled": "app_jobs.enabled",
+      "row_status": "app_jobs.status",
+      "row_last_run_at": "app_jobs.last_run_at",
+      "row_error_count": "app_jobs.error_count",
+      "row_created_at": "app_jobs.created_at",
+      "row_updated_at": "app_jobs.updated_at"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_jobs",
+      "parent_key": "id",
+      "child_table": "app_jobs",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_jobs.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_jobs.name"
+            ]
+          },
+          {
+            "as": "row_device_table_id",
+            "from": [
+              "app_jobs.device_table_id"
+            ]
+          },
+          {
+            "as": "row_schema_id",
+            "from": [
+              "app_jobs.schema_id"
+            ]
+          },
+          {
+            "as": "row_gateway_id",
+            "from": [
+              "app_jobs.gateway_id"
+            ]
+          },
+          {
+            "as": "row_interval_sec",
+            "from": [
+              "app_jobs.interval_sec"
+            ]
+          },
+          {
+            "as": "row_protocol",
+            "from": [
+              "app_jobs.protocol"
+            ]
+          },
+          {
+            "as": "row_enabled",
+            "from": [
+              "app_jobs.enabled"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_jobs.status"
+            ]
+          },
+          {
+            "as": "row_last_run_at",
+            "from": [
+              "app_jobs.last_run_at"
+            ]
+          },
+          {
+            "as": "row_error_count",
+            "from": [
+              "app_jobs.error_count"
+            ]
+          },
+          {
+            "as": "row_created_at",
+            "from": [
+              "app_jobs.created_at"
+            ]
+          },
+          {
+            "as": "row_updated_at",
+            "from": [
+              "app_jobs.updated_at"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_enabled": "number(0)",
+      "row_interval_sec": "number(0)",
+      "row_error_count": "number(0)",
+      "row_last_run_at": "date(YYYY-MM-DD HH:mm:ss)",
+      "row_created_at": "date(YYYY-MM-DD HH:mm:ss)",
+      "row_updated_at": "date(YYYY-MM-DD HH:mm:ss)"
+    },
+    "order_by": {
+      "rows": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_device_table_id",
+      "row_schema_id",
+      "row_gateway_id",
+      "row_interval_sec",
+      "row_protocol",
+      "row_enabled",
+      "row_status",
+      "row_last_run_at",
+      "row_error_count",
+      "row_created_at",
+      "row_updated_at"
+    ],
+    "row_order": [
+      "app_jobs.id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple full-table jobs report. All columns exist directly in app_jobs table (mapping_override was authoritative). No joins, no aggregations, no parameters, no filters. This is a straightforward data dump with formatting applied to numeric and date columns."
+  },
+  "key_tokens": []
+}

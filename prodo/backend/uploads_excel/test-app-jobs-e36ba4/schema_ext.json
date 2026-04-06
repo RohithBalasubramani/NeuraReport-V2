@@ -1,0 +1,24 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_device_table_id",
+    "row_schema_id",
+    "row_gateway_id",
+    "row_interval_sec",
+    "row_protocol",
+    "row_enabled",
+    "row_status",
+    "row_last_run_at",
+    "row_error_count",
+    "row_created_at",
+    "row_updated_at"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Jobs",
+    "column_count": 13,
+    "repeating_row_count": 1
+  }
+}

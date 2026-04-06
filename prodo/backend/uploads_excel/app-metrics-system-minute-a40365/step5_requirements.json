@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required - report contains only time-series data rows",
+      "columns": []
+    },
+    "rows": {
+      "description": "Time-series system metrics collected per minute, including CPU, memory, disk I/O, network traffic, and process-level resource usage",
+      "columns": [
+        "row_minute_utc",
+        "row_cpu",
+        "row_mem",
+        "row_disk_rps",
+        "row_disk_wps",
+        "row_net_rxps",
+        "row_net_txps",
+        "row_proc_cpu",
+        "row_proc_rss_mb",
+        "row_proc_handles"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required",
+      "columns": []
+    }
+  },
+  "semantics": "All columns are direct pass-through from the database table. No filtering parameters are defined. Future enhancements could add optional date range filters on minute_utc.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required - direct 1:1 mapping from app_metrics_system_minute table to report rows"
+  ]
+}

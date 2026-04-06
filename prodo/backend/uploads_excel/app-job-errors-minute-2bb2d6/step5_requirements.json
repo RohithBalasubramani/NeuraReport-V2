@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job error metrics aggregated by minute, showing job ID, error code, timestamp, count, and last error message",
+      "columns": [
+        "row_job_id",
+        "row_error_code",
+        "row_minute_utc",
+        "row_count",
+        "row_last_message"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All fields are pass-through from the app_job_errors_minute table. No filtering parameters defined.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping required - single table with direct column mapping"
+  ]
+}

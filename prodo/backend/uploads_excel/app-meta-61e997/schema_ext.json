@@ -1,0 +1,9 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_key",
+    "row_value"
+  ],
+  "totals": {},
+  "notes": "Simple key-value metadata table with two columns. The prototype row contains tokens for key and value fields that will be repeated for each data row during report generation."
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_job_runs.id"
+  },
+  {
+    "header": "row_job_id",
+    "placeholder": "{row_job_id}",
+    "mapping": "app_job_runs.job_id"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_started_at",
+    "placeholder": "{row_started_at}",
+    "mapping": "app_job_runs.started_at"
+  },
+  {
+    "header": "row_finished_at",
+    "placeholder": "{row_finished_at}",
+    "mapping": "app_job_runs.stopped_at"
+  },
+  {
+    "header": "row_rows_written",
+    "placeholder": "{row_rows_written}",
+    "mapping": "app_job_runs.rows"
+  },
+  {
+    "header": "row_duration_ms",
+    "placeholder": "{row_duration_ms}",
+    "mapping": "app_job_runs.duration_ms"
+  },
+  {
+    "header": "row_error_message",
+    "placeholder": "{row_error_message}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_run_type",
+    "placeholder": "{row_run_type}",
+    "mapping": "UNRESOLVED"
+  }
+]

@@ -1,0 +1,160 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_print_date_time",
+      "row_solid_waste_management_system",
+      "row_column_3",
+      "row_column_4",
+      "row_column_5",
+      "row_column_6",
+      "row_column_7",
+      "row_column_8",
+      "row_column_9",
+      "row_column_10",
+      "row_column_11"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_print_date_time": "neuract__ANALYSER_TABLE.timestamp_utc",
+    "row_solid_waste_management_system": "neuract__ANALYSER_TABLE.ORP_101",
+    "row_column_3": "neuract__ANALYSER_TABLE.ORP_102",
+    "row_column_4": "neuract__ANALYSER_TABLE.PH_101",
+    "row_column_5": "neuract__ANALYSER_TABLE.PH_102",
+    "row_column_6": "neuract__ANALYSER_TABLE.ORP_103",
+    "row_column_7": "neuract__ANALYSER_TABLE.PH_103",
+    "row_column_8": "neuract__ANALYSER_TABLE.TDS_101",
+    "row_column_9": "neuract__ANALYSER_TABLE.PH_104",
+    "row_column_10": "neuract__ANALYSER_TABLE.TDS_102",
+    "row_column_11": "neuract__ANALYSER_TABLE.D0_101"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "neuract__ANALYSER_TABLE",
+    "parent_key": "timestamp_utc",
+    "child_table": "neuract__ANALYSER_TABLE",
+    "child_key": "timestamp_utc"
+  },
+  "date_columns": {
+    "neuract__ANALYSER_TABLE": "timestamp_utc"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_print_date_time",
+          "from": [
+            "neuract__ANALYSER_TABLE.timestamp_utc"
+          ]
+        },
+        {
+          "as": "row_solid_waste_management_system",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_101"
+          ]
+        },
+        {
+          "as": "row_column_3",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_102"
+          ]
+        },
+        {
+          "as": "row_column_4",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_101"
+          ]
+        },
+        {
+          "as": "row_column_5",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_102"
+          ]
+        },
+        {
+          "as": "row_column_6",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_103"
+          ]
+        },
+        {
+          "as": "row_column_7",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_103"
+          ]
+        },
+        {
+          "as": "row_column_8",
+          "from": [
+            "neuract__ANALYSER_TABLE.TDS_101"
+          ]
+        },
+        {
+          "as": "row_column_9",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_104"
+          ]
+        },
+        {
+          "as": "row_column_10",
+          "from": [
+            "neuract__ANALYSER_TABLE.TDS_102"
+          ]
+        },
+        {
+          "as": "row_column_11",
+          "from": [
+            "neuract__ANALYSER_TABLE.D0_101"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_print_date_time": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_solid_waste_management_system": "number(2)",
+    "row_column_3": "number(2)",
+    "row_column_4": "number(2)",
+    "row_column_5": "number(2)",
+    "row_column_6": "number(2)",
+    "row_column_7": "number(2)",
+    "row_column_8": "number(2)",
+    "row_column_9": "number(2)",
+    "row_column_10": "number(2)",
+    "row_column_11": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "timestamp_utc ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_print_date_time",
+    "row_solid_waste_management_system",
+    "row_column_3",
+    "row_column_4",
+    "row_column_5",
+    "row_column_6",
+    "row_column_7",
+    "row_column_8",
+    "row_column_9",
+    "row_column_10",
+    "row_column_11"
+  ],
+  "row_order": [
+    "timestamp_utc ASC"
+  ],
+  "literals": {},
+  "notes": "Single-table analyser report displaying real-time sensor readings from the Solid Waste Management System. All 11 columns map directly to neuract__ANALYSER_TABLE without transformations."
+}

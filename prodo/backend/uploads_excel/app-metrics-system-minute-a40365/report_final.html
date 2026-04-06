@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Metrics</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 24mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            color: #000;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            padding: 0;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: 0;
+        }
+        
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            text-align: left;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            vertical-align: top;
+            font-size: 11px;
+        }
+        
+        /* Timestamp column - left aligned */
+        #data-table thead th:nth-child(1),
+        #data-table tbody td:nth-child(1) {
+            text-align: left;
+            width: 16%;
+        }
+        
+        /* Numeric columns - right aligned */
+        #data-table thead th:nth-child(n+2),
+        #data-table tbody td:nth-child(n+2) {
+            text-align: right;
+            width: 9.33%;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+            
+            #data-table tbody tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>System Metrics</h1>
+    </div>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="minute_utc">Minute UTC</th>
+                <th data-label="cpu">CPU</th>
+                <th data-label="mem">Mem</th>
+                <th data-label="disk_rps">Disk RPS</th>
+                <th data-label="disk_wps">Disk WPS</th>
+                <th data-label="net_rxps">Net RXPS</th>
+                <th data-label="net_txps">Net TXPS</th>
+                <th data-label="proc_cpu">Proc CPU</th>
+                <th data-label="proc_rss_mb">Proc RSS MB</th>
+                <th data-label="proc_handles">Proc Handles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_minute_utc}</td>
+                <td>{row_cpu}</td>
+                <td>{row_mem}</td>
+                <td>{row_disk_rps}</td>
+                <td>{row_disk_wps}</td>
+                <td>{row_net_rxps}</td>
+                <td>{row_net_txps}</td>
+                <td>{row_proc_cpu}</td>
+                <td>{row_proc_rss_mb}</td>
+                <td>{row_proc_handles}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

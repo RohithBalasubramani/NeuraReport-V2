@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header/scalar tokens defined for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Gateway records from app_gateways table, one row per gateway with ID, name, host, adapter configuration, protocol hints, status, and timestamp metadata.",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_host",
+        "row_adapter_id",
+        "row_nic_hint",
+        "row_protocol_hint",
+        "row_status",
+        "row_created_at",
+        "row_updated_at",
+        "row_last_test_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals/aggregations defined for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no filter parameters. All gateways are displayed. Tokens are direct column passthroughs from app_gateways table.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct column mapping from app_gateways table."
+  ]
+}

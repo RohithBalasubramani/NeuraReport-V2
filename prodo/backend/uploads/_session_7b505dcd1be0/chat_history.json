@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: filled_1762928694.pdf] Create a template from this PDF. This is a recipe batch consumption report. My database connection ID is ec04e4d6-0bae-4b95-8389-ee9f4c563a11"
+  },
+  {
+    "role": "assistant",
+    "content": "Great! I can see the template has been created successfully with 6 tokens that need to be mapped:\n\n**Template Tokens:**\n1. `row_sl_no` - Serial number\n2. `row_material_name` - Material name\n3. `row_set_wt_kg` - Set weight in kg\n4. `row_ach_wt_kg` - Actual weight in kg\n5. `row_error_kg` - Error in kg\n6. `row_error_pct` - Error percentage\n\nThe template shows a consumption report with a header section (plant name, location, dates, recipe code) and a data table with material consumption details.\n\n**Issue:** I'm having trouble accessing your database to see the available tables and columns. The database file appears to be at `/home/rohith/desktop/Neurareport V2/new reports/recipe_log (1).sqlite3`, but I can't query it directly.\n\n**Next Steps:**\nCould you help me identify:\n1. What is the name of the main table in your database that contains the batch consumption data?\n2. Or, if you know the table structure, could you tell me the column names that correspond to these tokens?\n\nAlternatively, if you can provide the correct table name, I can try to inspect the data again. Common table names might be: `batches`, `consumption`, `recipe_batches`, `material_usage`, etc."
+  }
+]

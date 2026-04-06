@@ -1,0 +1,62 @@
+{
+  "mapping": {
+    "row_device_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_port": "app_devices.port",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_last_error": "app_devices.last_error"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "4c2d6a900cfadf6c4502514a074b347edacb7f3918d4adde8f1b5843331dbfb3",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "77780534a7b4c4d9cf36c1fd7ddc55b3f4217216cbbc7e4718a14c5edae3f596",
+    "cache_key": "c5ae6c47af4dbe3f6068224969a0529b0795d8fd8b0bbdc5ce09b1f1af5dd6af",
+    "pre_html_sha256": "e10c0e9c4995fdcb7b4dd2ec88dc09720359f31220508f35a2ccdd4ae1d2d30b",
+    "post_html_sha256": "e10c0e9c4995fdcb7b4dd2ec88dc09720359f31220508f35a2ccdd4ae1d2d30b",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_device_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_port": "app_devices.port",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_last_error": "app_devices.last_error"
+    },
+    "token_samples": {
+      "row_device_name": "{row_device_name}",
+      "row_protocol": "{row_protocol}",
+      "row_status": "{row_status}",
+      "row_port": "{row_port}",
+      "row_latency_ms": "{row_latency_ms}",
+      "row_auto_reconnect": "{row_auto_reconnect}",
+      "row_last_error": "{row_last_error}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_device_name": "{row_device_name}",
+    "row_protocol": "{row_protocol}",
+    "row_status": "{row_status}",
+    "row_port": "{row_port}",
+    "row_latency_ms": "{row_latency_ms}",
+    "row_auto_reconnect": "{row_auto_reconnect}",
+    "row_last_error": "{row_last_error}"
+  }
+}

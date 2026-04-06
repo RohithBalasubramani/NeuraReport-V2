@@ -1,0 +1,26 @@
+{
+  "correlation_id": "f0705dc583aa4f948656c3768438b4a2",
+  "file_checksums": {
+    "reference_p1.html": "7dc1589f9aed392cbeb9d79742edb7e15d3638d90d9c94395d6b120e2a657e0f",
+    "reference_p1.png": "b52402d5ca5910c87207a63480e8c64ce5341c530eb0f83638b86a4b019cc4fe",
+    "report_final.png": "4efe7e9a5366768d1350ea79b9f045d3b230fc31714f6fcbd548fdd25f53756a",
+    "sample_rows.json": "18dc95bd813e87532e4bb61bd2cd46951c1145c052c17d5696220aacf5511e3d",
+    "source.xlsx": "150e52a5e40e2d4161809b9a6d4c08f4897caf99cd8b4a5f5beac82d755c104c",
+    "template_p1.html": "0d4b1e723bf930df72e10d92a657903ee162a3ee011b0d82052f1e1777b4b8aa"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/app-devices-3515d0/source.xlsx"
+  ],
+  "pid": 4104959,
+  "produced_at": "2026-02-19T07:00:06.210913+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

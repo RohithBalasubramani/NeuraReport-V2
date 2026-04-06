@@ -1,0 +1,127 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "1af05cff4c2aed58b963dc39ec4b05385e8188439b3d7be6c1a9c7141a588a48",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771512399,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_type",
+        "row_message",
+        "row_user",
+        "row_read",
+        "row_time"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_notifications.id",
+      "row_type": "app_notifications.type",
+      "row_message": "app_notifications.message",
+      "row_user": "app_notifications.user",
+      "row_read": "app_notifications.read",
+      "row_time": "app_notifications.time"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_notifications",
+      "parent_key": "id",
+      "child_table": "app_notifications",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "app_notifications": "time"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_notifications.id"
+            ]
+          },
+          {
+            "as": "row_type",
+            "from": [
+              "app_notifications.type"
+            ]
+          },
+          {
+            "as": "row_message",
+            "from": [
+              "app_notifications.message"
+            ]
+          },
+          {
+            "as": "row_user",
+            "from": [
+              "app_notifications.user"
+            ]
+          },
+          {
+            "as": "row_read",
+            "from": [
+              "app_notifications.read"
+            ]
+          },
+          {
+            "as": "row_time",
+            "from": [
+              "app_notifications.time"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_time": "date(YYYY-MM-DD HH:mm:ss)"
+    },
+    "order_by": {
+      "rows": [
+        "app_notifications.id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_type",
+      "row_message",
+      "row_user",
+      "row_read",
+      "row_time"
+    ],
+    "row_order": [
+      "app_notifications.id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple notification list report with direct column mappings. The 'read' column stores boolean read status, and 'time' contains the notification timestamp. No business logic or transformations required."
+  },
+  "key_tokens": []
+}

@@ -1,0 +1,32 @@
+# Prometheus configuration for NeuraReport
+# Scrapes the FastAPI backend metrics endpoint
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "neurareport-backend"
+    # Scrape the FastAPI /metrics endpoint (OpenMetrics format)
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["host.docker.internal:8000"]
+        labels:
+          service: neurareport-backend
+          environment: development
+
+  - job_name: "neurareport-worker"
+    # Scrape Dramatiq worker Prometheus metrics
+    static_configs:
+      - targets: ["worker:9191"]
+        labels:
+          service: neurareport-worker
+          environment: development
+      - targets: ["worker-agents:9192"]
+        labels:
+          service: neurareport-worker-agents
+          environment: development
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

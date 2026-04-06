@@ -1,0 +1,16 @@
+{
+  "scalars": [
+    "bill_date",
+    "company_name",
+    "consumer_name",
+    "due_date"
+  ],
+  "row_tokens": [
+    "amount",
+    "meter_reading",
+    "month"
+  ],
+  "totals": [
+    "total_amount"
+  ]
+}

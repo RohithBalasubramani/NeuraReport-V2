@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — this report contains no scalar tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "One row per schema field, listing the schema ID, key name, data type, unit, scale, and description.",
+      "columns": [
+        "row_schema_id",
+        "row_key",
+        "row_type",
+        "row_unit",
+        "row_scale",
+        "row_desc_text"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required — this report contains no totals tokens.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column pass-throughs. No filtering, no parameter substitution, no aggregations.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Each row token maps directly to a source column in app_schema_fields."
+  ]
+}

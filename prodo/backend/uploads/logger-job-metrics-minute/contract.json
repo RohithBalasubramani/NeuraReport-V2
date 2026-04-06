@@ -1,0 +1,160 @@
+{
+  "tokens": {
+    "scalars": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_job_id",
+      "row_minute_utc",
+      "row_reads",
+      "row_read_err",
+      "row_writes",
+      "row_write_err",
+      "row_read_p50",
+      "row_read_p95",
+      "row_write_p50",
+      "row_write_p95"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date_from": "PARAM:date_from",
+    "date_to": "PARAM:date_to",
+    "generated_at": "PARAM:generated_at",
+    "row_job_id": "app_metrics_jobs_minute.job_id",
+    "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+    "row_reads": "app_metrics_jobs_minute.reads",
+    "row_read_err": "app_metrics_jobs_minute.read_err",
+    "row_writes": "app_metrics_jobs_minute.writes",
+    "row_write_err": "app_metrics_jobs_minute.write_err",
+    "row_read_p50": "app_metrics_jobs_minute.read_p50",
+    "row_read_p95": "app_metrics_jobs_minute.read_p95",
+    "row_write_p50": "app_metrics_jobs_minute.write_p50",
+    "row_write_p95": "app_metrics_jobs_minute.write_p95"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_metrics_jobs_minute",
+    "parent_key": "job_id",
+    "child_table": "app_metrics_jobs_minute",
+    "child_key": "job_id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Direct pass-through; no reshape needed for single flat table",
+      "strategy": "NONE",
+      "columns": [
+        {
+          "as": "job_id",
+          "from": [
+            "app_metrics_jobs_minute.job_id"
+          ]
+        },
+        {
+          "as": "minute_utc",
+          "from": [
+            "app_metrics_jobs_minute.minute_utc"
+          ]
+        },
+        {
+          "as": "reads",
+          "from": [
+            "app_metrics_jobs_minute.reads"
+          ]
+        },
+        {
+          "as": "read_err",
+          "from": [
+            "app_metrics_jobs_minute.read_err"
+          ]
+        },
+        {
+          "as": "writes",
+          "from": [
+            "app_metrics_jobs_minute.writes"
+          ]
+        },
+        {
+          "as": "write_err",
+          "from": [
+            "app_metrics_jobs_minute.write_err"
+          ]
+        },
+        {
+          "as": "read_p50",
+          "from": [
+            "app_metrics_jobs_minute.read_p50"
+          ]
+        },
+        {
+          "as": "read_p95",
+          "from": [
+            "app_metrics_jobs_minute.read_p95"
+          ]
+        },
+        {
+          "as": "write_p50",
+          "from": [
+            "app_metrics_jobs_minute.write_p50"
+          ]
+        },
+        {
+          "as": "write_p95",
+          "from": [
+            "app_metrics_jobs_minute.write_p95"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_minute_utc": "date(YYYY-MM-DDTHH:mm:ssZ)",
+    "row_reads": "number(0)",
+    "row_read_err": "number(0)",
+    "row_writes": "number(0)",
+    "row_write_err": "number(0)",
+    "row_read_p50": "number(2)",
+    "row_read_p95": "number(2)",
+    "row_write_p50": "number(2)",
+    "row_write_p95": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "job_id ASC",
+      "minute_utc ASC"
+    ]
+  },
+  "header_tokens": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_job_id",
+    "row_minute_utc",
+    "row_reads",
+    "row_read_err",
+    "row_writes",
+    "row_write_err",
+    "row_read_p50",
+    "row_read_p95",
+    "row_write_p50",
+    "row_write_p95"
+  ],
+  "row_order": [
+    "job_id ASC",
+    "minute_utc ASC"
+  ],
+  "literals": {},
+  "notes": "All row data from app_metrics_jobs_minute. date_from and date_to filter minute_utc range. generated_at is a runtime-injected scalar representing report generation time \u2014 must be supplied by the report runner as datetime.utcnow().isoformat() or equivalent."
+}

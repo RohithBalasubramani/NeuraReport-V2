@@ -1,0 +1,17 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_schema_id",
+    "row_field_key",
+    "row_field_type",
+    "row_unit",
+    "row_scale",
+    "row_description"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Schema Fields",
+    "column_count": 6,
+    "repeating_row_structure": "Single prototype row with 6 columns for schema field definitions"
+  }
+}

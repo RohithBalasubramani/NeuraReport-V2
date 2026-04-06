@@ -1,0 +1,90 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice header with customer billing details, dates, and document metadata",
+      "columns": [
+        "invoice_number",
+        "balance_due",
+        "bill_to_name",
+        "bill_to_address_line1",
+        "bill_to_address_line2",
+        "bill_to_address_line3",
+        "bill_to_country",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "po_number",
+        "project_name",
+        "subtotal",
+        "tax1_label",
+        "tax1_amount",
+        "tax2_label",
+        "tax2_amount",
+        "total",
+        "payment_made",
+        "balance_due_final",
+        "notes",
+        "terms_and_conditions"
+      ]
+    },
+    "rows": {
+      "description": "Invoice line items with product/service details, quantities, pricing, and calculations",
+      "columns": [
+        "row_line_number",
+        "row_item_name",
+        "row_item_description",
+        "row_qty",
+        "row_rate",
+        "row_discount",
+        "row_amount"
+      ],
+      "grouping": [],
+      "ordering": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "No separate totals dataset; all aggregates appear as scalar tokens",
+      "columns": []
+    }
+  },
+  "semantics": "Parameters (terms, po_number, project_name, tax labels, terms_and_conditions) are pass-through values provided at runtime. No filtering is applied; all invoice items for the selected invoice are included.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "terms",
+        "type": "string"
+      },
+      {
+        "name": "po_number",
+        "type": "string"
+      },
+      {
+        "name": "project_name",
+        "type": "string"
+      },
+      {
+        "name": "tax1_label",
+        "type": "string"
+      },
+      {
+        "name": "tax2_label",
+        "type": "string"
+      },
+      {
+        "name": "terms_and_conditions",
+        "type": "string"
+      }
+    ]
+  },
+  "transformations": [
+    "Concatenate city and state for bill_to_address_line2",
+    "Concatenate postal_code and state for bill_to_address_line3",
+    "Calculate discount per row: multiply(qty, rate) then subtract line_total",
+    "Calculate tax1_amount: multiply subtotal by 0.047",
+    "Calculate tax2_amount: multiply subtotal by 0.07",
+    "Calculate balance_due: subtract payment_made from total_amount",
+    "Calculate balance_due_final: subtract payment_made from total_amount (duplicate for footer)"
+  ]
+}

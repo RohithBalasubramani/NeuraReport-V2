@@ -1,0 +1,78 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4; margin: 24mm; }
+      body { font-family: Arial, sans-serif; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 6px 8px; vertical-align: top; }
+    </style>
+    
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head><body><table id="data-table"><caption style='caption-side:top;font-weight:700;text-align:left;margin:6px 0'>Devices</caption><thead><tr><th data-label="id">ID</th><th data-label="name">Name</th><th data-label="protocol">Protocol</th><th data-label="status">Status</th><th data-label="latency_ms">Latency MS</th><th data-label="auto_reconnect">Auto Reconnect</th><th data-label="unit_id">Unit ID</th><th data-label="port">Port</th><th data-label="gateway_id">Gateway ID</th></tr></thead><tbody><tr><td>1</td><td>MFM 20</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>21</td><td>502</td><td>gw_1771075949405</td></tr>
+<tr><td>2</td><td>Lighting</td><td>modbus</td><td>connected</td><td>21</td><td>1</td><td>9</td><td>502</td><td>gw_1771158928169</td></tr>
+<tr><td>3</td><td>MFM 10</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>11</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>4</td><td>Nexsine Production</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>4</td><td>502</td><td>gw_1771148626826</td></tr>
+<tr><td>5</td><td>MFM 3</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>4</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>6</td><td>MFM 11</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>12</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>7</td><td>PLC 1</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>1</td><td>502</td><td>gw_1771051169005</td></tr>
+<tr><td>8</td><td>MFM 4</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>5</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>9</td><td>Nexsine Incomer</td><td>modbus</td><td>connected</td><td>16</td><td>1</td><td>11</td><td>502</td><td>gw_1771158928169</td></tr>
+<tr><td>10</td><td>MFM 12</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>13</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>11</td><td>Modbus Device TEST</td><td>modbus</td><td>connected</td><td>16</td><td>1</td><td>1</td><td>5020</td><td>gw_1771012391581</td></tr>
+<tr><td>12</td><td>Server 1</td><td>opcua</td><td>reconnecting</td><td>0</td><td>1</td><td>0</td><td>4840</td><td>gw_1771004131086</td></tr>
+<tr><td>13</td><td>MFM 5</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>6</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>14</td><td>MFM 13</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>14</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>15</td><td>MFM 17</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>18</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>16</td><td>SN Production</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>6</td><td>502</td><td>gw_1771148626826</td></tr>
+<tr><td>17</td><td>MFM 6</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>7</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>18</td><td>Device 1</td><td>modbus</td><td>connected</td><td>38</td><td>1</td><td>1</td><td>5020</td><td>gw_1771148626826</td></tr>
+<tr><td>19</td><td>MFM 14</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>15</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>20</td><td>SN Incomer</td><td>modbus</td><td>connected</td><td>33</td><td>1</td><td>12</td><td>502</td><td>gw_1771158928169</td></tr>
+<tr><td>21</td><td>MFM 18</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>19</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>22</td><td>MFM 7</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>8</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>23</td><td>Spare</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>5</td><td>502</td><td>gw_1771148626826</td></tr>
+<tr><td>24</td><td>MFM 15</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>16</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>25</td><td>MFM 19</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>20</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>26</td><td>MFM 8</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>9</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>27</td><td>APFC Incomer</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>2</td><td>502</td><td>gw_1771148626826</td></tr>
+<tr><td>28</td><td>MFM 16</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>17</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>29</td><td>MFM 2</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>3</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>30</td><td>MFM 9</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>10</td><td>502</td><td>gw_1771051169012</td></tr>
+<tr><td>31</td><td>Busduct Testing Machine</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>2</td><td>502</td><td>gw_1771148626826</td></tr>
+<tr><td>32</td><td>MFM 1</td><td>modbus</td><td>reconnecting</td><td>0</td><td>1</td><td>2</td><td>502</td><td>gw_1771051169012</td></tr></tbody></table></body></html>

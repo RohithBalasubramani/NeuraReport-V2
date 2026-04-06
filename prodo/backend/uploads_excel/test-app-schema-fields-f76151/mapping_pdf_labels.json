@@ -1,0 +1,32 @@
+[
+  {
+    "header": "row_schema_id",
+    "placeholder": "{row_schema_id}",
+    "mapping": "app_schema_fields.schema_id"
+  },
+  {
+    "header": "row_key",
+    "placeholder": "{row_key}",
+    "mapping": "app_schema_fields.key"
+  },
+  {
+    "header": "row_type",
+    "placeholder": "{row_type}",
+    "mapping": "app_schema_fields.type"
+  },
+  {
+    "header": "row_unit",
+    "placeholder": "{row_unit}",
+    "mapping": "app_schema_fields.unit"
+  },
+  {
+    "header": "row_scale",
+    "placeholder": "{row_scale}",
+    "mapping": "app_schema_fields.scale"
+  },
+  {
+    "header": "row_desc_text",
+    "placeholder": "{row_desc_text}",
+    "mapping": "app_schema_fields.desc_text"
+  }
+]

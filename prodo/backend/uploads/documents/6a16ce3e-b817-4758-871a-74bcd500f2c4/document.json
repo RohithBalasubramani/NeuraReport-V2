@@ -1,0 +1,18 @@
+{
+  "id": "6a16ce3e-b817-4758-871a-74bcd500f2c4",
+  "name": "Q2 Revenue Report",
+  "content": {
+    "type": "doc",
+    "content": []
+  },
+  "content_type": "tiptap",
+  "version": 1,
+  "created_at": "2026-02-22T19:29:33.882910+00:00",
+  "updated_at": "2026-02-22T19:29:33.882910+00:00",
+  "owner_id": null,
+  "is_template": false,
+  "track_changes_enabled": false,
+  "collaboration_enabled": false,
+  "tags": [],
+  "metadata": {}
+}

@@ -1,0 +1,215 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "3de7f429b204f158852b1c1ab13a531241fb3c660564ad71432267730b6e5926",
+  "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771589210,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "print_date",
+        "print_time"
+      ],
+      "row_tokens": [
+        "row_flow_meter",
+        "row_fm_101",
+        "row_fm_102",
+        "row_fm_103",
+        "row_fm_104",
+        "row_fm_105",
+        "row_fm_106",
+        "row_fm_101_totalizer",
+        "row_fm_102_totalizer",
+        "row_fm_103_totalizer",
+        "row_fm_104_totalizer",
+        "row_fm_105_totalizer",
+        "row_fm_106_totalizer"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_flow_meter": "neuract__FM_TABLE.timestamp_utc",
+      "row_fm_101": "neuract__FM_TABLE.FM_101",
+      "row_fm_102": "neuract__FM_TABLE.FM_102",
+      "row_fm_103": "neuract__FM_TABLE.FM_103",
+      "row_fm_104": "neuract__FM_TABLE.FM_104",
+      "row_fm_105": "neuract__FM_TABLE.FM_105",
+      "row_fm_106": "neuract__FM_TABLE.FM_106",
+      "row_fm_101_totalizer": "neuract__FM_TABLE.FM_101_TOTALIZER",
+      "row_fm_102_totalizer": "neuract__FM_TABLE.FM_102_TOTALIZER",
+      "row_fm_103_totalizer": "neuract__FM_TABLE.FM_103_TOTALIZER",
+      "row_fm_104_totalizer": "neuract__FM_TABLE.FM_104_TOTALIZER",
+      "row_fm_105_totalizer": "neuract__FM_TABLE.FM_105_TOTALIZER",
+      "row_fm_106_totalizer": "neuract__FM_TABLE.FM_106_TOTALIZER",
+      "print_date": "PARAM:print_date",
+      "print_time": "PARAM:print_time"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "neuract__FM_TABLE",
+      "parent_key": "rowid",
+      "child_table": "neuract__FM_TABLE",
+      "child_key": "rowid"
+    },
+    "date_columns": {
+      "neuract__FM_TABLE": "timestamp_utc"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "neuract__FM_TABLE.timestamp_utc",
+        "date_to": "neuract__FM_TABLE.timestamp_utc"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_flow_meter",
+            "from": [
+              "neuract__FM_TABLE.timestamp_utc"
+            ]
+          },
+          {
+            "as": "row_fm_101",
+            "from": [
+              "neuract__FM_TABLE.FM_101"
+            ]
+          },
+          {
+            "as": "row_fm_102",
+            "from": [
+              "neuract__FM_TABLE.FM_102"
+            ]
+          },
+          {
+            "as": "row_fm_103",
+            "from": [
+              "neuract__FM_TABLE.FM_103"
+            ]
+          },
+          {
+            "as": "row_fm_104",
+            "from": [
+              "neuract__FM_TABLE.FM_104"
+            ]
+          },
+          {
+            "as": "row_fm_105",
+            "from": [
+              "neuract__FM_TABLE.FM_105"
+            ]
+          },
+          {
+            "as": "row_fm_106",
+            "from": [
+              "neuract__FM_TABLE.FM_106"
+            ]
+          },
+          {
+            "as": "row_fm_101_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_101_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_fm_102_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_102_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_fm_103_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_103_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_fm_104_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_104_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_fm_105_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_105_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_fm_106_totalizer",
+            "from": [
+              "neuract__FM_TABLE.FM_106_TOTALIZER"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {
+      "row_flow_meter": {
+        "op": "format_date",
+        "column": "timestamp_utc",
+        "format": "%d-%m-%Y %H:%M:%S"
+      }
+    },
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_fm_101": "number(2)",
+      "row_fm_102": "number(2)",
+      "row_fm_103": "number(2)",
+      "row_fm_104": "number(2)",
+      "row_fm_105": "number(2)",
+      "row_fm_106": "number(2)",
+      "row_fm_101_totalizer": "number(2)",
+      "row_fm_102_totalizer": "number(2)",
+      "row_fm_103_totalizer": "number(2)",
+      "row_fm_104_totalizer": "number(2)",
+      "row_fm_105_totalizer": "number(2)",
+      "row_fm_106_totalizer": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_flow_meter",
+      "row_fm_101",
+      "row_fm_102",
+      "row_fm_103",
+      "row_fm_104",
+      "row_fm_105",
+      "row_fm_106",
+      "row_fm_101_totalizer",
+      "row_fm_102_totalizer",
+      "row_fm_103_totalizer",
+      "row_fm_104_totalizer",
+      "row_fm_105_totalizer",
+      "row_fm_106_totalizer"
+    ],
+    "row_order": [
+      "timestamp_utc ASC"
+    ],
+    "literals": {},
+    "notes": "Flow meter report sourced entirely from neuract__FM_TABLE. Each row represents a single timestamped reading with 6 instantaneous flow values (FM-101 to FM-106) and 6 matching cumulative totalizer values. The FLOW METER column (row_flow_meter) is the formatted timestamp used as the row label. Optional date_from/date_to parameters narrow the result window."
+  },
+  "key_tokens": []
+}

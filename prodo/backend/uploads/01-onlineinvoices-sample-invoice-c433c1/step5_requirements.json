@@ -1,0 +1,58 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice header with company/vendor info, client details, invoice metadata, and remarks",
+      "columns": [
+        "company_name",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "invoice_date",
+        "invoice_number",
+        "payment_terms",
+        "client_name",
+        "client_company",
+        "client_address",
+        "client_phone",
+        "remarks_text"
+      ]
+    },
+    "rows": {
+      "description": "Line items with description, quantity, unit price, and total",
+      "columns": [
+        "row_description",
+        "row_qty",
+        "row_unit_price",
+        "row_total"
+      ],
+      "grouping": [],
+      "ordering": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Financial summary: subtotal, discount, tax, shipping, and balance due",
+      "columns": [
+        "subtotal",
+        "discount",
+        "subtotal_less_discount",
+        "tax_rate",
+        "total_tax",
+        "shipping",
+        "balance_due"
+      ]
+    }
+  },
+  "semantics": "No parameters required. Report displays invoice header, line items, and totals. Unresolved fields (company contact info, shipping) require data source updates or user input.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Compute subtotal_less_discount as subtotal minus discount",
+    "Compute tax_rate as (tax_amount / subtotal) * 100, formatted as percentage",
+    "Aggregate subtotal as SUM of line_total",
+    "Join invoices to customers via customer_id for client details",
+    "Join invoices to invoice_items via invoice_number for line items"
+  ]
+}

@@ -1,0 +1,139 @@
+[importlinter]
+root_packages =
+    backend
+include_external_packages = True
+
+# This file is a secondary, mechanical guardrail that complements
+# `scripts/architecture/enforce_backend_arch.py`.
+#
+# Target layering (plan.md):
+#   backend.app.api            (presentation)
+#   backend.app.application    (use-cases)
+#   backend.app.domain         (pure business logic)
+#   backend.app.repositories   (persistence adapters)
+#   backend.app.infrastructure (external adapters)
+#   backend.app.services       (orchestration helpers / legacy bridge)
+#   backend.app.schemas        (DTOs)
+#   backend.app.utils          (pure helpers)
+
+
+# =============================================================================
+# Contract 1: API boundaries
+# =============================================================================
+[importlinter:contract:api_boundaries]
+name = API layer must not import lower layers directly
+type = forbidden
+source_modules =
+    backend.app.api
+forbidden_modules =
+    backend.app.domain
+    backend.app.repositories
+    backend.app.infrastructure
+    backend.app.utils
+
+
+# =============================================================================
+# Contract 2: Application boundaries
+# =============================================================================
+[importlinter:contract:application_boundaries]
+name = Application layer must not import API layer
+type = forbidden
+source_modules =
+    backend.app.application
+forbidden_modules =
+    backend.app.api
+
+
+# =============================================================================
+# Contract 3: Services boundaries
+# =============================================================================
+[importlinter:contract:services_boundaries]
+name = Services layer must not import API/application/infrastructure
+type = forbidden
+source_modules =
+    backend.app.services
+forbidden_modules =
+    backend.app.api
+    backend.app.application
+    backend.app.infrastructure
+
+
+# =============================================================================
+# Contract 4: Repositories boundaries
+# =============================================================================
+[importlinter:contract:repositories_boundaries]
+name = Repositories must not depend on API/services/application/infrastructure/schemas
+type = forbidden
+source_modules =
+    backend.app.repositories
+forbidden_modules =
+    backend.app.api
+    backend.app.application
+    backend.app.infrastructure
+    backend.app.services
+    backend.app.schemas
+
+
+# =============================================================================
+# Contract 5: Infrastructure boundaries
+# =============================================================================
+[importlinter:contract:infrastructure_boundaries]
+name = Infrastructure must not import API/services
+type = forbidden
+source_modules =
+    backend.app.infrastructure
+forbidden_modules =
+    backend.app.api
+    backend.app.services
+
+
+# =============================================================================
+# Contract 6: Schemas purity
+# =============================================================================
+[importlinter:contract:schemas_purity]
+name = Schemas must not import business layers
+type = forbidden
+source_modules =
+    backend.app.schemas
+forbidden_modules =
+    backend.app.api
+    backend.app.application
+    backend.app.domain
+    backend.app.repositories
+    backend.app.infrastructure
+    backend.app.services
+
+
+# =============================================================================
+# Contract 7: Domain purity
+# =============================================================================
+[importlinter:contract:domain_purity]
+name = Domain must not import framework/adapters/DTO layers
+type = forbidden
+source_modules =
+    backend.app.domain
+forbidden_modules =
+    backend.app.api
+    backend.app.application
+    backend.app.schemas
+    backend.app.repositories
+    backend.app.infrastructure
+    backend.app.services
+
+
+# =============================================================================
+# Contract 8: No cycles between the core layers
+# =============================================================================
+[importlinter:contract:no_cycles]
+name = No cycles between backend.app layers
+type = independence
+modules =
+    backend.app.api
+    backend.app.application
+    backend.app.services
+    backend.app.repositories
+    backend.app.infrastructure
+    backend.app.domain
+    backend.app.schemas
+    backend.app.utils
+

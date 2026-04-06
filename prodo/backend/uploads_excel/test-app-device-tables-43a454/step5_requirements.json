@@ -1,0 +1,41 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required (no scalar tokens)",
+      "columns": []
+    },
+    "rows": {
+      "description": "All device table records with metadata",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_schema_id",
+        "row_db_target_id",
+        "row_status",
+        "row_last_migrated_at",
+        "row_schema_hash",
+        "row_mapping_health",
+        "row_device_id"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required (no totals tokens)",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column passthroughs. No user parameters required. No filtering beyond optional time-range on last_migrated_at.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load app_device_tables as DataFrame",
+    "Select all 9 columns directly",
+    "Order by ROWID (default) or by last_migrated_at DESC",
+    "Return complete dataset for rendering"
+  ]
+}

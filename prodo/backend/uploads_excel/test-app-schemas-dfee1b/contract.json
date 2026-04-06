@@ -1,0 +1,69 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_id",
+      "row_name"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_id": "app_schemas.id",
+    "row_name": "app_schemas.name"
+  },
+  "unresolved": [
+    "row_device_table_id",
+    "row_version",
+    "row_created_at"
+  ],
+  "join": {
+    "parent_table": "app_schemas",
+    "parent_key": "id",
+    "child_table": "app_schemas",
+    "child_key": "id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_id",
+          "from": [
+            "app_schemas.id"
+          ]
+        },
+        {
+          "as": "row_name",
+          "from": [
+            "app_schemas.name"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_id",
+    "row_name"
+  ],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {},
+  "notes": "Simple schema listing report. The app_schemas table contains only id and name columns. Three tokens (device_table_id, version, created_at) are marked UNRESOLVED as they do not exist in the available catalog."
+}

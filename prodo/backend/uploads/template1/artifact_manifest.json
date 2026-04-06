@@ -1,0 +1,40 @@
+{
+  "correlation_id": null,
+  "file_checksums": {
+    "constant_replacements.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "contract.json": "4a02131c6b121e01d1aa0fdd189d9b2ab27b9923fe7bfc41ff9221acba1b4cab",
+    "contract_v2_meta.json": "2b8863da0a58b4f95225cef31be3f7e366c6f19639dc3ebe2d86304200b4ebe1",
+    "mapping_keys.json": "4c10889df47093ea76be191a79cd3f17b525525ddab3a02e11c0830e8004c181",
+    "mapping_pdf_labels.json": "6385f60c8bf144fb8ac3253940f2b9f1f42dd2a23dcf483b7d6be08002e402db",
+    "mapping_step3.json": "4ddb263422f2689229b5cb9f9ecdfb40b2e0ea5c33a03aaacab8eb70c9d71879",
+    "overview.md": "9cc9dd2d38ebc20e0d803228b9823c56cb8e58edc55eb803a025110c1d6d60d4",
+    "step5_requirements.json": "d40cdb9c49132f1b7c55c0979133f235627c229848506ce9406f9ec00374f248",
+    "template_p1.html": "f93db52b352aa9e448ca9db262bd4a7b012fe10c7e04ba42d5c544bf25d4dffe"
+  },
+  "files": {
+    "constant_replacements.json": "constant_replacements.json",
+    "contract.json": "contract.json",
+    "contract_v2_meta.json": "contract_v2_meta.json",
+    "mapping_keys.json": "mapping_keys.json",
+    "mapping_pdf_labels.json": "mapping_pdf_labels.json",
+    "mapping_step3.json": "mapping_step3.json",
+    "overview.md": "overview.md",
+    "step5_requirements.json": "step5_requirements.json",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "cache_key=89d6adb2af08640b7ce1493073953d56385478b931028ad8ce48b2274f5a0e50",
+    "catalog_sha256=3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256=",
+    "html_pre_sha256=f93db52b352aa9e448ca9db262bd4a7b012fe10c7e04ba42d5c544bf25d4dffe",
+    "html_post_sha256=f93db52b352aa9e448ca9db262bd4a7b012fe10c7e04ba42d5c544bf25d4dffe",
+    "mapping_tokens=15",
+    "mapping_keys=0",
+    "contract_v2_input_signature=8aab269b453b7392e688eec2545b80e5ac29f7288928282dc752b39841974dd9",
+    "dialect_hint="
+  ],
+  "pid": 335812,
+  "produced_at": "2026-02-16T07:07:42.769454+00:00",
+  "schema_version": "1.0",
+  "step": "contract_build_v2"
+}

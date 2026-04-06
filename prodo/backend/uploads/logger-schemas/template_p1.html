@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Schema Registry Report</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; color: #1a1a2e; background: #f4f6fb; }
+.page { max-width: 1100px; margin: 0 auto; background: #fff; padding: 40px 48px 56px; min-height: 100vh; }
+.report-header { border-bottom: 3px solid #1565c0; padding-bottom: 20px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-end; }
+.report-header-left .report-title { font-size: 24px; font-weight: 700; color: #0d47a1; }
+.report-header-left .report-subtitle { font-size: 13px; color: #5c6bc0; margin-top: 4px; }
+.report-header-right { text-align: right; }
+.report-header-right .label { font-size: 11px; color: #90a4ae; text-transform: uppercase; }
+.report-header-right .value { font-size: 13px; font-weight: 600; color: #1a237e; margin-top: 2px; }
+.report-header-right .generated { font-size: 11px; color: #90a4ae; margin-top: 6px; }
+.section { margin-bottom: 36px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.section-number { background: #1565c0; color: #fff; font-size: 11px; font-weight: 700; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+.section-title { font-size: 16px; font-weight: 700; color: #0d47a1; }
+.section-line { flex: 1; height: 1px; background: #e3eaf7; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead tr { background: #1565c0; color: #fff; }
+thead th { padding: 10px 13px; text-align: left; font-weight: 600; font-size: 11.5px; white-space: nowrap; }
+tbody tr { border-bottom: 1px solid #e8edf5; }
+tbody tr:nth-child(even) { background: #f5f8ff; }
+tbody td { padding: 9px 13px; vertical-align: middle; }
+.td-num { text-align: right; font-variant-numeric: tabular-nums; }
+.td-mono { font-family: 'Courier New', monospace; font-size: 11.5px; color: #37474f; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; text-transform: capitalize; }
+.badge-connected, .badge-running, .badge-active, .badge-online, .badge-ok { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.badge-disconnected, .badge-error, .badge-failed, .badge-offline { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+.badge-idle, .badge-stopped, .badge-unknown, .badge-reconnecting { background: #eceff1; color: #546e7a; border: 1px solid #cfd8dc; }
+.report-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e3eaf7; display: flex; justify-content: space-between; font-size: 11px; color: #90a4ae; }</style>
+</head>
+<body>
+<div class="page">
+  <div class="report-header">
+    <div class="report-header-left">
+      <div class="report-title">Schema Registry Report</div>
+      <div class="report-subtitle">Registered data schemas</div>
+    </div>
+    <div class="report-header-right">
+      <div class="label">Reporting Period</div>
+      <div class="value">{date_from} &ndash; {date_to}</div>
+      <div class="generated">Generated: NOT_VISIBLE</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">Schema Registry Report</div>
+      <div class="section-line"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Schema ID</th>
+          <th>Schema Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- BEGIN:BLOCK_REPEAT schemas -->
+        <tr>
+          <td class="td-mono">{row_id}</td>
+          <td><strong>{row_name}</strong></td>
+        </tr>
+        <!-- END:BLOCK_REPEAT -->
+      </tbody>
+    </table>
+  </div>
+  <div class="report-footer">
+    <span>Schema Registry Report &mdash; Confidential</span>
+    <span>Period: {date_from} &ndash; {date_to} &nbsp;|&nbsp; Generated: NOT_VISIBLE</span>
+  </div>
+</div>
+</body>
+</html>

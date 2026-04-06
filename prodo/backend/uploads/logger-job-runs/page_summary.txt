@@ -1,0 +1,8 @@
+Template: Logger — Job Runs
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 11
+  Scalars: date_from, date_to, generated_at
+  Row tokens: row_duration_ms, row_error_pct, row_job_id, row_read_lat_avg, row_rows, row_started_at, row_stopped_at, row_write_lat_avg
+  Totals: (none)
+Has block repeat: True

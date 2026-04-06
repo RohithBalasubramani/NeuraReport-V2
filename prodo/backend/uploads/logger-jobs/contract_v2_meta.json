@@ -1,0 +1,137 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "6ee2e04e77cca9f156c656053bd17aa05e9d84925b92adbc3e52bd33d34becbb",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "2e02fef4fed63a71c83e9feccb32652502987741c72b62270612965dd64f205f",
+  "generated_at": 1771434190,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ],
+      "row_tokens": [
+        "row_name",
+        "row_type",
+        "row_status",
+        "row_enabled",
+        "row_interval_ms",
+        "row_cpu_budget"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "date_from": "PARAM:date_from",
+      "date_to": "PARAM:date_to",
+      "generated_at": "PARAM:generated_at",
+      "row_name": "app_jobs.name",
+      "row_type": "app_jobs.type",
+      "row_status": "app_jobs.status",
+      "row_enabled": "app_jobs.enabled",
+      "row_interval_ms": "app_jobs.interval_ms",
+      "row_cpu_budget": "app_jobs.cpu_budget"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_jobs",
+      "parent_key": "id",
+      "child_table": "app_jobs",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Direct projection of all job columns, no reshape needed",
+        "strategy": "NONE",
+        "columns": [
+          {
+            "as": "row_name",
+            "from": [
+              "app_jobs.name"
+            ]
+          },
+          {
+            "as": "row_type",
+            "from": [
+              "app_jobs.type"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_jobs.status"
+            ]
+          },
+          {
+            "as": "row_enabled",
+            "from": [
+              "app_jobs.enabled"
+            ]
+          },
+          {
+            "as": "row_interval_ms",
+            "from": [
+              "app_jobs.interval_ms"
+            ]
+          },
+          {
+            "as": "row_cpu_budget",
+            "from": [
+              "app_jobs.cpu_budget"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_interval_ms": "number(0)",
+      "row_enabled": "number(0)"
+    },
+    "order_by": {
+      "rows": [
+        "app_jobs.name ASC"
+      ]
+    },
+    "header_tokens": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_name",
+      "row_type",
+      "row_status",
+      "row_enabled",
+      "row_interval_ms",
+      "row_cpu_budget"
+    ],
+    "row_order": [
+      "app_jobs.name ASC"
+    ],
+    "literals": {},
+    "notes": "app_jobs is a configuration table listing all scheduled data collection jobs. date_from/date_to are header display parameters only and do not filter rows. generated_at is injected server-side as the current timestamp at report generation time."
+  },
+  "key_tokens": []
+}

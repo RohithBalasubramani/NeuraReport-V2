@@ -1,0 +1,54 @@
+{
+  "mapping": {
+    "row_job_id": "app_job_errors_minute.job_id",
+    "row_code": "app_job_errors_minute.code",
+    "row_minute_utc": "app_job_errors_minute.minute_utc",
+    "row_count": "app_job_errors_minute.count",
+    "row_last_message": "app_job_errors_minute.last_message"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "78a3f80087cf4a8ff50f1714b727bc96c438e60fbc3b4c87156de83abab51809",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "4099e592fac7e1a77dfd22093c6f5d0070f29e957761caecdfc6466648c2bd7b",
+    "pre_html_sha256": "ef56ded55c3fdc67e88c003c784c3c04a3983e4d0ec771ab9ad4c180f1962340",
+    "post_html_sha256": "ef56ded55c3fdc67e88c003c784c3c04a3983e4d0ec771ab9ad4c180f1962340",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_id": "app_job_errors_minute.job_id",
+      "row_code": "app_job_errors_minute.code",
+      "row_minute_utc": "app_job_errors_minute.minute_utc",
+      "row_count": "app_job_errors_minute.count",
+      "row_last_message": "app_job_errors_minute.last_message"
+    },
+    "token_samples": {
+      "row_job_id": "{row_job_id}",
+      "row_code": "{row_code}",
+      "row_minute_utc": "{row_minute_utc}",
+      "row_count": "{row_count}",
+      "row_last_message": "{row_last_message}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_id": "{row_job_id}",
+    "row_code": "{row_code}",
+    "row_minute_utc": "{row_minute_utc}",
+    "row_count": "{row_count}",
+    "row_last_message": "{row_last_message}"
+  }
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "header": "can_number",
+    "placeholder": "{can_number}",
+    "mapping": "consumers.can_number"
+  },
+  {
+    "header": "consumer_name",
+    "placeholder": "{consumer_name}",
+    "mapping": "key_value.consumer_name"
+  },
+  {
+    "header": "reference_number",
+    "placeholder": "{reference_number}",
+    "mapping": "transactions.transaction_ref_number"
+  },
+  {
+    "header": "transaction_date",
+    "placeholder": "{transaction_date}",
+    "mapping": "transactions.transaction_date"
+  },
+  {
+    "header": "transaction_time",
+    "placeholder": "{transaction_time}",
+    "mapping": "transactions.transaction_time"
+  },
+  {
+    "header": "transaction_status",
+    "placeholder": "{transaction_status}",
+    "mapping": "transactions.transaction_status"
+  },
+  {
+    "header": "bill_amount",
+    "placeholder": "{bill_amount}",
+    "mapping": "transactions.bill_amount"
+  },
+  {
+    "header": "bank_name",
+    "placeholder": "{bank_name}",
+    "mapping": "transactions.bank_name"
+  },
+  {
+    "header": "row_date",
+    "placeholder": "{row_date}",
+    "mapping": "transactions.transaction_date"
+  },
+  {
+    "header": "row_reference",
+    "placeholder": "{row_reference}",
+    "mapping": "transactions.transaction_ref_number"
+  },
+  {
+    "header": "row_amount",
+    "placeholder": "{row_amount}",
+    "mapping": "transactions.bill_amount"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "transactions.transaction_status"
+  },
+  {
+    "header": "row_bank",
+    "placeholder": "{row_bank}",
+    "mapping": "transactions.bank_name"
+  }
+]

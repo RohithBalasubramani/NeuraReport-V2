@@ -1,0 +1,50 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Scalar values for the report header. date_from and date_to come from user-supplied parameters. generated_at is injected by the report engine at generation time.",
+      "columns": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ]
+    },
+    "rows": {
+      "description": "One row per gateway from app_gateways. Each row carries name, host, protocol_hint, status, created_at, and updated_at. Optionally filtered by created_at within the reporting period.",
+      "columns": [
+        "row_name",
+        "row_host",
+        "row_protocol_hint",
+        "row_status",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_gateways.name ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "date_from and date_to are user-supplied filter parameters that define the reporting period displayed in the header and optionally used to filter rows by created_at. generated_at is a pass-through value injected by the report engine.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "No reshape needed — data comes from a single flat table (app_gateways) with no unpivoting.",
+    "Format row_created_at and row_updated_at as dd-MM-YYYY HH:mm:ss for display.",
+    "Order rows alphabetically by gateway name ascending."
+  ]
+}

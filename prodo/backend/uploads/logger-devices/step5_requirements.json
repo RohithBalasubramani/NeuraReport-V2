@@ -1,0 +1,55 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Three scalar tokens displayed in the report header: the reporting period dates (user-supplied parameters) and the generation timestamp (server-injected at run time).",
+      "columns": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ]
+    },
+    "rows": {
+      "description": "One row per device in app_devices. All seven row tokens map directly to columns in that table. No filtering, grouping, or aggregation — full inventory snapshot.",
+      "columns": [
+        "row_name",
+        "row_protocol",
+        "row_status",
+        "row_port",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_last_error"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_devices.name ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "date_from and date_to are pure display parameters passed through to the header; they do NOT filter the device rows. generated_at is a server-side run-time injection (current timestamp). All row data is drawn directly from app_devices with no filtering.",
+  "parameters": {
+    "required": [
+      {
+        "name": "date_from",
+        "type": "string"
+      },
+      {
+        "name": "date_to",
+        "type": "string"
+      },
+      {
+        "name": "generated_at",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape: data comes from a single flat table (app_devices) with no MELT or UNION_ALL needed.",
+    "row_latency_ms formatted to 1 decimal place for display.",
+    "row_auto_reconnect displayed as raw value (0/1 or boolean string) from the database."
+  ]
+}

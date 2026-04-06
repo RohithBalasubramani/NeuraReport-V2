@@ -1,0 +1,17 @@
+{
+  "sample_row": {
+    "row_fires": "0",
+    "row_read_err": "0",
+    "row_write_p50": "0",
+    "row_writes": "0",
+    "row_minute_utc": "2025-01-01 00:00",
+    "row_reads": "0",
+    "row_read_p95": "0",
+    "row_job_id": "job-001",
+    "row_write_p95": "0",
+    "row_write_err": "0",
+    "row_read_p50": "0",
+    "row_suppressed": "0",
+    "row_triggers": "0"
+  }
+}

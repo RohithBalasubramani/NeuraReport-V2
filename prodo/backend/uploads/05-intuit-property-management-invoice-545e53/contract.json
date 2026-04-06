@@ -1,0 +1,196 @@
+{
+  "tokens": {
+    "scalars": [
+      "logo_placeholder_text",
+      "logo_text",
+      "company_name",
+      "company_street_address",
+      "company_city_state_zipcode",
+      "company_phone",
+      "company_email",
+      "company_website",
+      "bill_to_client_name",
+      "bill_to_street_address",
+      "bill_to_city_state_zipcode",
+      "ship_to_client_name",
+      "ship_to_street_address",
+      "ship_to_city_state_zipcode",
+      "invoice_number",
+      "invoice_date",
+      "payment_terms",
+      "due_date",
+      "customer_message",
+      "total_subtotal",
+      "total_sales_tax",
+      "total_shipping"
+    ],
+    "row_tokens": [
+      "row_item_service",
+      "row_description",
+      "row_quantity_hrs",
+      "row_rate",
+      "row_amount"
+    ],
+    "totals": [
+      "total_amount"
+    ]
+  },
+  "mapping": {
+    "logo_placeholder_text": "LITERAL:Replace with",
+    "logo_text": "LITERAL:LOGO",
+    "company_name": "invoices.vendor_name",
+    "company_street_address": "PARAM:company_street_address",
+    "company_city_state_zipcode": "PARAM:company_city_state_zipcode",
+    "company_phone": "PARAM:company_phone",
+    "company_email": "PARAM:company_email",
+    "company_website": "PARAM:company_website",
+    "bill_to_client_name": "customers.customer_name",
+    "bill_to_street_address": "customers.billing_address",
+    "ship_to_client_name": "customers.customer_name",
+    "ship_to_street_address": "customers.billing_address",
+    "invoice_number": "invoices.invoice_number",
+    "invoice_date": "invoices.issue_date",
+    "payment_terms": "PARAM:payment_terms",
+    "due_date": "invoices.due_date",
+    "customer_message": "invoices.notes",
+    "total_subtotal": "invoices.subtotal",
+    "total_sales_tax": "invoices.tax_amount",
+    "total_shipping": "PARAM:shipping_amount",
+    "total_amount": "invoices.total_amount",
+    "row_item_service": "invoice_items.item_code",
+    "row_description": "invoice_items.description",
+    "row_quantity_hrs": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_amount": "invoice_items.line_total",
+    "bill_to_city_state_zipcode": "UNRESOLVED",
+    "ship_to_city_state_zipcode": "UNRESOLVED"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_item_service",
+          "from": [
+            "invoice_items.item_code"
+          ]
+        },
+        {
+          "as": "row_description",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_quantity_hrs",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_rate",
+          "from": [
+            "invoice_items.unit_price"
+          ]
+        },
+        {
+          "as": "row_amount",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "bill_to_city_state_zipcode": {
+      "op": "concat",
+      "columns": [
+        "customers.city",
+        "customers.state",
+        "customers.postal_code"
+      ],
+      "separator": ", "
+    },
+    "ship_to_city_state_zipcode": {
+      "op": "concat",
+      "columns": [
+        "customers.city",
+        "customers.state",
+        "customers.postal_code"
+      ],
+      "separator": ", "
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "invoice_date": "date(%m/%d/%Y)",
+    "due_date": "date(%m/%d/%Y)",
+    "row_rate": "number(2)",
+    "row_amount": "number(2)",
+    "total_subtotal": "number(2)",
+    "total_sales_tax": "number(2)",
+    "total_shipping": "number(2)",
+    "total_amount": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "logo_placeholder_text",
+    "logo_text",
+    "company_name",
+    "company_street_address",
+    "company_city_state_zipcode",
+    "company_phone",
+    "company_email",
+    "company_website",
+    "bill_to_client_name",
+    "bill_to_street_address",
+    "bill_to_city_state_zipcode",
+    "ship_to_client_name",
+    "ship_to_street_address",
+    "ship_to_city_state_zipcode",
+    "invoice_number",
+    "invoice_date",
+    "payment_terms",
+    "due_date",
+    "customer_message",
+    "total_subtotal",
+    "total_sales_tax",
+    "total_shipping"
+  ],
+  "row_tokens": [
+    "row_item_service",
+    "row_description",
+    "row_quantity_hrs",
+    "row_rate",
+    "row_amount"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {
+    "logo_placeholder_text": "Replace with",
+    "logo_text": "LOGO"
+  },
+  "notes": "Invoice report with vendor/customer details and itemized line items. Vendor contact information (address, phone, email, website) must be supplied as runtime parameters. Payment terms and shipping amount also provided as parameters. Customer addresses are concatenated from city/state/postal_code fields. Billing and shipping addresses use the same customer.billing_address field (no separate shipping address in catalog)."
+}

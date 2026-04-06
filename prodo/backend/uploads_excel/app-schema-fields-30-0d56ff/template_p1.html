@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Fields Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: 0;
+        }
+        
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            font-size: 12pt;
+            text-align: left;
+            margin: 0 0 8px 0;
+            padding: 0;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 700;
+            vertical-align: top;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        
+        /* Column widths for optimal layout */
+        #data-table colgroup col:nth-child(1) { width: 18%; } /* Schema ID */
+        #data-table colgroup col:nth-child(2) { width: 18%; } /* Field Key */
+        #data-table colgroup col:nth-child(3) { width: 10%; } /* Field Type */
+        #data-table colgroup col:nth-child(4) { width: 8%; }  /* Unit */
+        #data-table colgroup col:nth-child(5) { width: 8%; }  /* Scale */
+        #data-table colgroup col:nth-child(6) { width: 38%; } /* Description */
+        
+        /* Print optimization */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table id="data-table">
+        <caption>Schema Fields</caption>
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th data-label="schema_id">Schema ID</th>
+                <th data-label="field_key">Field Key</th>
+                <th data-label="field_type">Field Type</th>
+                <th data-label="unit">Unit</th>
+                <th data-label="scale">Scale</th>
+                <th data-label="description">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_schema_id}</td>
+                <td>{row_field_key}</td>
+                <td>{row_field_type}</td>
+                <td>{row_unit}</td>
+                <td>{row_scale}</td>
+                <td>{row_description}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

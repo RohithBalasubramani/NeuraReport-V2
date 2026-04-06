@@ -1,0 +1,87 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "5c63d269a64d3cf7d62a09cf24dad12efe9e965c88c1870cef2934bc8f3b1400",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771521673,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_name"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_schemas.id",
+      "row_name": "app_schemas.name"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_schemas",
+      "parent_key": "id",
+      "child_table": "app_schemas",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_schemas.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_schemas.name"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_name"
+    ],
+    "row_order": [
+      "ROWID"
+    ],
+    "literals": {},
+    "notes": "Simple two-column listing of all schemas in the system. No filtering, aggregation, or computation required."
+  },
+  "key_tokens": []
+}

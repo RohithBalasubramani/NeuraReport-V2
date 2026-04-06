@@ -1,0 +1,62 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_jobs.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_jobs.name"
+  },
+  {
+    "header": "row_type",
+    "placeholder": "{row_type}",
+    "mapping": "app_jobs.type"
+  },
+  {
+    "header": "row_tables_json",
+    "placeholder": "{row_tables_json}",
+    "mapping": "app_jobs.tables_json"
+  },
+  {
+    "header": "row_columns_json",
+    "placeholder": "{row_columns_json}",
+    "mapping": "app_jobs.columns_json"
+  },
+  {
+    "header": "row_interval_ms",
+    "placeholder": "{row_interval_ms}",
+    "mapping": "app_jobs.interval_ms"
+  },
+  {
+    "header": "row_enabled",
+    "placeholder": "{row_enabled}",
+    "mapping": "app_jobs.enabled"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_jobs.status"
+  },
+  {
+    "header": "row_batching_json",
+    "placeholder": "{row_batching_json}",
+    "mapping": "app_jobs.batching_json"
+  },
+  {
+    "header": "row_cpu_budget",
+    "placeholder": "{row_cpu_budget}",
+    "mapping": "app_jobs.cpu_budget"
+  },
+  {
+    "header": "row_triggers_json",
+    "placeholder": "{row_triggers_json}",
+    "mapping": "app_jobs.triggers_json"
+  },
+  {
+    "header": "row_metrics_json",
+    "placeholder": "{row_metrics_json}",
+    "mapping": "app_jobs.metrics_json"
+  }
+]

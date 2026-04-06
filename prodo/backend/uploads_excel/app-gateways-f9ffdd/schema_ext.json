@@ -1,0 +1,21 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_host",
+    "row_adapter_id",
+    "row_nic_hint",
+    "row_protocol_hint",
+    "row_status",
+    "row_created_at",
+    "row_updated_at",
+    "row_last_test_at"
+  ],
+  "totals": {},
+  "notes": {
+    "title": "Gateways",
+    "columns": 10,
+    "prototype_row_count": 1
+  }
+}

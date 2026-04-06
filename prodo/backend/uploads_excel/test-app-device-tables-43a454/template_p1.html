@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Tables</title>
+<style>
+@page {
+  size: A4;
+  margin: 24mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 10pt;
+  color: #222;
+  background: #fff;
+}
+
+#report-header {
+  margin-bottom: 16px;
+}
+
+#report-header h1 {
+  font-size: 16pt;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #000;
+}
+
+#data-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+#data-table thead th {
+  background-color: #f5f5f5;
+  border: 1px solid #999;
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 9pt;
+  vertical-align: top;
+}
+
+#data-table tbody td {
+  border: 1px solid #999;
+  padding: 6px 8px;
+  vertical-align: top;
+  font-size: 9pt;
+  word-wrap: break-word;
+}
+
+#data-table tbody td:empty::after {
+  content: '\00a0';
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+  
+  #data-table {
+    page-break-inside: auto;
+  }
+  
+  #data-table thead {
+    display: table-header-group;
+  }
+  
+  #data-table tbody tr {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="report-header">
+  <h1>Device Tables</h1>
+</div>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th data-label="id">Id</th>
+      <th data-label="name">Name</th>
+      <th data-label="schema_id">Schema Id</th>
+      <th data-label="db_target_id">Db Target Id</th>
+      <th data-label="status">Status</th>
+      <th data-label="last_migrated_at">Last Migrated At</th>
+      <th data-label="schema_hash">Schema Hash</th>
+      <th data-label="mapping_health">Mapping Health</th>
+      <th data-label="device_id">Device Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{row_id}</td>
+      <td>{row_name}</td>
+      <td>{row_schema_id}</td>
+      <td>{row_db_target_id}</td>
+      <td>{row_status}</td>
+      <td>{row_last_migrated_at}</td>
+      <td>{row_schema_hash}</td>
+      <td>{row_mapping_health}</td>
+      <td>{row_device_id}</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

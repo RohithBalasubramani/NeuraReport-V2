@@ -1,0 +1,54 @@
+{
+  "mapping": {
+    "row_id": "app_db_targets.id",
+    "row_provider": "app_db_targets.provider",
+    "row_connection": "app_db_targets.conn",
+    "row_status": "app_db_targets.status",
+    "row_last_message": "app_db_targets.last_msg"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "8478cdb474d7227d03aaa4d0abb9778ff7163259ae2aabbaa6d88add6ddc4c69",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "c6fdbe77aad27c3b089a6e32294f567273556bac77b30474af4490d99a324fe8",
+    "pre_html_sha256": "12769c30b282bc93b874f91cc6ec74d46549f903426d6e10bba0d2e1949809ad",
+    "post_html_sha256": "12769c30b282bc93b874f91cc6ec74d46549f903426d6e10bba0d2e1949809ad",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_db_targets.id",
+      "row_provider": "app_db_targets.provider",
+      "row_connection": "app_db_targets.conn",
+      "row_status": "app_db_targets.status",
+      "row_last_message": "app_db_targets.last_msg"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_provider": "{row_provider}",
+      "row_connection": "{row_connection}",
+      "row_status": "{row_status}",
+      "row_last_message": "{row_last_message}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_provider": "{row_provider}",
+    "row_connection": "{row_connection}",
+    "row_status": "{row_status}",
+    "row_last_message": "{row_last_message}"
+  }
+}

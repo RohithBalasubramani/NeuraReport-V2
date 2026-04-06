@@ -1,0 +1,78 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "9331c0ea92e38df496a2cac94ab950467f0ccf1670cc8a04b1466955e885514f",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771521523,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_type"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_type": "app_protocol_types.type"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_protocol_types",
+      "parent_key": "type",
+      "child_table": "app_protocol_types",
+      "child_key": "type"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_type",
+            "from": [
+              "app_protocol_types.type"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "app_protocol_types.type ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_type"
+    ],
+    "row_order": [
+      "app_protocol_types.type ASC"
+    ],
+    "literals": {},
+    "notes": "Simple single-column report listing all protocol types available in the system (e.g., modbus, opcua). No filtering, aggregation, or transformation logic."
+  },
+  "key_tokens": []
+}

@@ -1,0 +1,71 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header scalars — this report contains no title-area parameter fields outside the data table.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row from neuract__LT_TABLE represents one timestamp snapshot with readings from all available Level Transmitter sensors. The first column displays the formatted timestamp (LEVEL TRANSMITTER label); subsequent columns display numeric LT sensor readings. Three sensors (LT-122, LT-124, LT-133) are absent from the schema and will render empty.",
+      "columns": [
+        "row_level_transmitter",
+        "row_lt_105",
+        "row_lt_107",
+        "row_lt_109",
+        "row_lt_111",
+        "row_lt_114",
+        "row_lt_116",
+        "row_lt_118",
+        "row_lt_127",
+        "row_lt_128",
+        "row_lt_129",
+        "row_lt_130",
+        "row_lt_131",
+        "row_lt_120",
+        "row_lt_122",
+        "row_lt_124",
+        "row_lt_126",
+        "row_lt_133",
+        "row_lt_134",
+        "row_lt_135",
+        "row_lt_137",
+        "row_lt_138",
+        "row_lt_139",
+        "row_lt_140",
+        "row_lt_142",
+        "row_lt_143",
+        "row_lt_144",
+        "row_lt_146",
+        "row_lt_148",
+        "row_lt_149"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column pass-throughs from neuract__LT_TABLE. The timestamp column (row_level_transmitter) is formatted for display using format_date. Optional date_from/date_to parameters filter the queried time window before iteration. Unresolved tokens (row_lt_122, row_lt_124, row_lt_133) render as empty cells since the instruments are not present in the database schema.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "No reshape — neuract__LT_TABLE is natively wide; each database row is one timestamp with all sensor readings as columns.",
+    "Timestamp column (timestamp_utc) formatted to dd-mm-yyyy HH:MM:SS string via row_computed.format_date for display in the LEVEL TRANSMITTER column.",
+    "All 26 resolved numeric LT sensor columns formatted to 2 decimal places via formatters.",
+    "Optional date range filter applied to timestamp_utc before row iteration."
+  ]
+}

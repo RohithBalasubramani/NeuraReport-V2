@@ -1,0 +1,104 @@
+{
+  "mapping": {
+    "can_number": "consumers.can_number",
+    "consumer_name": "UNRESOLVED",
+    "reference_number": "transactions.transaction_ref_number",
+    "transaction_date": "transactions.transaction_date",
+    "transaction_time": "transactions.transaction_time",
+    "transaction_status": "transactions.transaction_status",
+    "bill_amount": "transactions.bill_amount",
+    "bank_name": "transactions.bank_name",
+    "row_date": "transactions.transaction_date",
+    "row_reference": "transactions.transaction_ref_number",
+    "row_amount": "transactions.bill_amount",
+    "row_status": "transactions.transaction_status",
+    "row_bank": "transactions.bank_name"
+  },
+  "meta": {
+    "unresolved": [
+      "consumer_name"
+    ],
+    "hints": {
+      "consumer_name": {
+        "op": "NOTE",
+        "over": [
+          "description:Consumer name is not present in the catalog. May need to be derived from external data source or added to consumers table."
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "7312748b3ba96f59e8c467c2b6266d7fb41c8b2cde9337c746950a08576a20ac",
+    "catalog_sha256": "191ef492d64f3b3f19bd2650de4a8fd2489f25597a3ffaa95b08fdbc417a977a",
+    "schema_sha256": "",
+    "cache_key": "ca9bad055c430dae84f3ac28c8ec8c476bb61bf8bc07fca1b4370a49720cc084",
+    "pre_html_sha256": "601738246b0059751a5778d47ad20d407ad8fafd75d4f7487b07034c8a6f4a50",
+    "post_html_sha256": "601738246b0059751a5778d47ad20d407ad8fafd75d4f7487b07034c8a6f4a50",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273"
+  },
+  "raw_payload": {
+    "mapping": {
+      "can_number": "consumers.can_number",
+      "consumer_name": "UNRESOLVED",
+      "reference_number": "transactions.transaction_ref_number",
+      "transaction_date": "transactions.transaction_date",
+      "transaction_time": "transactions.transaction_time",
+      "transaction_status": "transactions.transaction_status",
+      "bill_amount": "transactions.bill_amount",
+      "bank_name": "transactions.bank_name",
+      "row_date": "transactions.transaction_date",
+      "row_reference": "transactions.transaction_ref_number",
+      "row_amount": "transactions.bill_amount",
+      "row_status": "transactions.transaction_status",
+      "row_bank": "transactions.bank_name"
+    },
+    "token_samples": {
+      "can_number": "624140910",
+      "consumer_name": "NOT_VISIBLE",
+      "reference_number": "YAX62668702574",
+      "transaction_date": "2026-02-01",
+      "transaction_time": "02:53:29",
+      "transaction_status": "Success",
+      "bill_amount": "1510.0",
+      "bank_name": "NA",
+      "row_date": "2026-02-01",
+      "row_reference": "YAX62668702574",
+      "row_amount": "1510.0",
+      "row_status": "Success",
+      "row_bank": "NA"
+    },
+    "meta": {
+      "unresolved": [
+        "consumer_name"
+      ],
+      "hints": {
+        "consumer_name": {
+          "op": "NOTE",
+          "over": [
+            "description:Consumer name is not present in the catalog. May need to be derived from external data source or added to consumers table."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "can_number": "624140910",
+    "consumer_name": "NOT_VISIBLE",
+    "reference_number": "YAX62668702574",
+    "transaction_date": "2026-02-01",
+    "transaction_time": "02:53:29",
+    "transaction_status": "Success",
+    "bill_amount": "1510.0",
+    "bank_name": "NA",
+    "row_date": "2026-02-01",
+    "row_reference": "YAX62668702574",
+    "row_amount": "1510.0",
+    "row_status": "Success",
+    "row_bank": "NA"
+  }
+}

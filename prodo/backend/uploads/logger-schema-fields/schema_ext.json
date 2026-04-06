@@ -1,0 +1,16 @@
+{
+  "scalars": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_desc_text",
+    "row_key",
+    "row_scale",
+    "row_schema_id",
+    "row_type",
+    "row_unit"
+  ],
+  "totals": []
+}

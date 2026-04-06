@@ -1,0 +1,74 @@
+{
+  "mapping": {
+    "row_job_id": "app_metrics_jobs_minute.job_id",
+    "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+    "row_reads": "app_metrics_jobs_minute.reads",
+    "row_read_errors": "app_metrics_jobs_minute.read_err",
+    "row_writes": "app_metrics_jobs_minute.writes",
+    "row_write_errors": "app_metrics_jobs_minute.write_err",
+    "row_read_p50": "app_metrics_jobs_minute.read_p50",
+    "row_read_p95": "app_metrics_jobs_minute.read_p95",
+    "row_write_p50": "app_metrics_jobs_minute.write_p50",
+    "row_write_p95": "app_metrics_jobs_minute.write_p95"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "5feb8e40a0898196488aead41c616a52fd6d5f5aa97cb460cde4d390066d2ec1",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "dc9a3fe6267a58d97713cb8edd6b3c3eb4f33d65870bf58beea923903b162600",
+    "pre_html_sha256": "a9d60eb95df435f0e936faff3a3143abb578e4b8c7ec19fa56a8bc00f4da8313",
+    "post_html_sha256": "a9d60eb95df435f0e936faff3a3143abb578e4b8c7ec19fa56a8bc00f4da8313",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_id": "app_metrics_jobs_minute.job_id",
+      "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+      "row_reads": "app_metrics_jobs_minute.reads",
+      "row_read_errors": "app_metrics_jobs_minute.read_err",
+      "row_writes": "app_metrics_jobs_minute.writes",
+      "row_write_errors": "app_metrics_jobs_minute.write_err",
+      "row_read_p50": "app_metrics_jobs_minute.read_p50",
+      "row_read_p95": "app_metrics_jobs_minute.read_p95",
+      "row_write_p50": "app_metrics_jobs_minute.write_p50",
+      "row_write_p95": "app_metrics_jobs_minute.write_p95"
+    },
+    "token_samples": {
+      "row_job_id": "{row_job_id}",
+      "row_minute_utc": "{row_minute_utc}",
+      "row_reads": "{row_reads}",
+      "row_read_errors": "{row_read_errors}",
+      "row_writes": "{row_writes}",
+      "row_write_errors": "{row_write_errors}",
+      "row_read_p50": "{row_read_p50}",
+      "row_read_p95": "{row_read_p95}",
+      "row_write_p50": "{row_write_p50}",
+      "row_write_p95": "{row_write_p95}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_id": "{row_job_id}",
+    "row_minute_utc": "{row_minute_utc}",
+    "row_reads": "{row_reads}",
+    "row_read_errors": "{row_read_errors}",
+    "row_writes": "{row_writes}",
+    "row_write_errors": "{row_write_errors}",
+    "row_read_p50": "{row_read_p50}",
+    "row_read_p95": "{row_read_p95}",
+    "row_write_p50": "{row_write_p50}",
+    "row_write_p95": "{row_write_p95}"
+  }
+}

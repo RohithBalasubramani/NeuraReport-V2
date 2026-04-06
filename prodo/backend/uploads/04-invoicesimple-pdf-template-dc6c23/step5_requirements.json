@@ -1,0 +1,51 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata and vendor/client contact information for the document header",
+      "columns": [
+        "invoice_date",
+        "invoice_number",
+        "from_company_name",
+        "from_email",
+        "from_address_1",
+        "from_address_2",
+        "to_client_name",
+        "to_email",
+        "to_address_1",
+        "to_address_2",
+        "terms",
+        "due_date",
+        "notes"
+      ]
+    },
+    "rows": {
+      "description": "Itemized line items for the invoice table — one row per product/service",
+      "columns": [
+        "row_item_description",
+        "row_quantity",
+        "row_price",
+        "row_amount"
+      ],
+      "grouping": [],
+      "ordering": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Financial summary — subtotal, tax, and final balance due",
+      "columns": [
+        "subtotal",
+        "tax",
+        "balance_due"
+      ]
+    }
+  },
+  "semantics": "All data is sourced directly from tables with no user-supplied filter parameters. Tokens map to table columns or remain unresolved (vendor contact info not in catalog).",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping required — the schema is already in normalized form with a 1:N relationship between invoices and invoice_items."
+  ]
+}

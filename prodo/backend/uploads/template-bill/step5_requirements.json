@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Single transaction record with payment acknowledgment details and static branding elements",
+      "columns": [
+        "bank_name",
+        "bill_amount",
+        "billdesk_logo_url",
+        "can_no",
+        "logo_url",
+        "page_url",
+        "transaction_date",
+        "transaction_ref",
+        "transaction_status",
+        "transaction_time",
+        "update_note"
+      ]
+    },
+    "rows": {
+      "description": "No row iteration — single-record display only",
+      "columns": [],
+      "grouping": [],
+      "ordering": []
+    },
+    "totals": {
+      "description": "No totals — individual transaction report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are scalar pass-through values. No user-driven filtering is required; the application layer selects the specific transaction record to render. Static assets (logos, URLs, disclaimers) are unresolved and should be injected as runtime constants.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape transformations required — direct scalar mapping from transactions table",
+    "Date and time are stored as separate columns and displayed as-is (no formatting transformations in contract)",
+    "Currency amount (bill_amount) displayed with 'Rs.' prefix in template, no decimal formatting in contract"
+  ]
+}

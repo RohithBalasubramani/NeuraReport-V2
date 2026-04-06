@@ -1,0 +1,52 @@
+[
+  {
+    "header": "row_minute_utc",
+    "placeholder": "{row_minute_utc}",
+    "mapping": "app_metrics_system_minute.minute_utc"
+  },
+  {
+    "header": "row_cpu",
+    "placeholder": "{row_cpu}",
+    "mapping": "app_metrics_system_minute.cpu"
+  },
+  {
+    "header": "row_memory",
+    "placeholder": "{row_memory}",
+    "mapping": "app_metrics_system_minute.mem"
+  },
+  {
+    "header": "row_disk_r_s",
+    "placeholder": "{row_disk_r_s}",
+    "mapping": "app_metrics_system_minute.disk_rps"
+  },
+  {
+    "header": "row_disk_w_s",
+    "placeholder": "{row_disk_w_s}",
+    "mapping": "app_metrics_system_minute.disk_wps"
+  },
+  {
+    "header": "row_net_rx_s",
+    "placeholder": "{row_net_rx_s}",
+    "mapping": "app_metrics_system_minute.net_rxps"
+  },
+  {
+    "header": "row_net_tx_s",
+    "placeholder": "{row_net_tx_s}",
+    "mapping": "app_metrics_system_minute.net_txps"
+  },
+  {
+    "header": "row_proc_cpu",
+    "placeholder": "{row_proc_cpu}",
+    "mapping": "app_metrics_system_minute.proc_cpu"
+  },
+  {
+    "header": "row_proc_rss_mb",
+    "placeholder": "{row_proc_rss_mb}",
+    "mapping": "app_metrics_system_minute.proc_rss_mb"
+  },
+  {
+    "header": "row_proc_handles",
+    "placeholder": "{row_proc_handles}",
+    "mapping": "app_metrics_system_minute.proc_handles"
+  }
+]

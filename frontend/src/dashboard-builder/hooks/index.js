@@ -1,0 +1,1 @@
+export { useWidgetData } from './useWidgetData'

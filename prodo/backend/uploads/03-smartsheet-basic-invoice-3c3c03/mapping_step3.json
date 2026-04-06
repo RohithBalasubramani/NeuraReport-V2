@@ -1,0 +1,202 @@
+{
+  "mapping": {
+    "invoice_date": "invoices.issue_date",
+    "invoice_number": "invoices.invoice_number",
+    "bill_to": "UNRESOLVED",
+    "ship_to": "UNRESOLVED",
+    "row_description": "invoice_items.description",
+    "row_total": "invoice_items.line_total",
+    "remarks": "invoices.notes",
+    "subtotal": "invoices.subtotal",
+    "discount": "invoices.discount_amount",
+    "subtotal_less_discount": "UNRESOLVED",
+    "tax_rate": "UNRESOLVED",
+    "total_tax": "invoices.tax_amount",
+    "shipping_handling": "UNRESOLVED",
+    "other": "UNRESOLVED",
+    "total": "invoices.total_amount"
+  },
+  "meta": {
+    "unresolved": [
+      "bill_to",
+      "ship_to",
+      "subtotal_less_discount",
+      "tax_rate",
+      "shipping_handling",
+      "other"
+    ],
+    "hints": {
+      "bill_to": {
+        "op": "concat",
+        "over": [
+          "columns:customers.customer_name",
+          "columns:customers.billing_address",
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code"
+        ]
+      },
+      "ship_to": {
+        "op": "concat",
+        "over": [
+          "columns:customers.customer_name",
+          "columns:customers.billing_address",
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code"
+        ]
+      },
+      "subtotal_less_discount": {
+        "op": "subtract",
+        "over": [
+          "columns:invoices.subtotal",
+          "columns:invoices.discount_amount"
+        ]
+      },
+      "tax_rate": {
+        "op": "divide",
+        "over": [
+          "columns:invoices.tax_amount",
+          "columns:invoices.subtotal"
+        ]
+      },
+      "shipping_handling": {
+        "op": "constant",
+        "over": [
+          "note:Not present in catalog; likely user input or zero"
+        ]
+      },
+      "other": {
+        "op": "constant",
+        "over": [
+          "note:Not present in catalog; likely user input or zero"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "70149c7cebe798efdffbe27cf6edd87d693b4440b9ee03f0fe8269fbc3eefc7c",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "2e5119fef4f9dcb44649b9aaf47cd18ed97e55368a76e2187eb2187085ff154f",
+    "cache_key": "3ffecfb7f8b8ef84aeceec52e6e410d1c9513d8257eb8f382dcc5b6fc49eded5",
+    "pre_html_sha256": "6c58f70c4b3ccf731452e00e42583a50fa8d3d724c41b10529492a13e65ee416",
+    "post_html_sha256": "6c58f70c4b3ccf731452e00e42583a50fa8d3d724c41b10529492a13e65ee416",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "9a334d0a8fa4bbb97a06b50a564790cfd90b7a24f5ffd5758598bfb2450d3b71",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "invoice_date": "invoices.issue_date",
+      "invoice_number": "invoices.invoice_number",
+      "bill_to": "UNRESOLVED",
+      "ship_to": "UNRESOLVED",
+      "row_description": "invoice_items.description",
+      "row_total": "invoice_items.line_total",
+      "remarks": "invoices.notes",
+      "subtotal": "invoices.subtotal",
+      "discount": "invoices.discount_amount",
+      "subtotal_less_discount": "UNRESOLVED",
+      "tax_rate": "UNRESOLVED",
+      "total_tax": "invoices.tax_amount",
+      "shipping_handling": "UNRESOLVED",
+      "other": "UNRESOLVED",
+      "total": "invoices.total_amount"
+    },
+    "token_samples": {
+      "invoice_date": "DATE",
+      "invoice_number": "INVOICE NO.",
+      "bill_to": "BILL TO",
+      "ship_to": "SHIP TO",
+      "row_description": "DESCRIPTION",
+      "row_total": "TOTAL",
+      "remarks": "Remarks / Instructions:",
+      "subtotal": "SUBTOTAL",
+      "discount": "DISCOUNT",
+      "subtotal_less_discount": "SUBTOTAL LESS DISCOUNT",
+      "tax_rate": "TAX RATE",
+      "total_tax": "TOTAL TAX",
+      "shipping_handling": "SHIPPING/HANDLING",
+      "other": "OTHER",
+      "total": "TOTAL"
+    },
+    "meta": {
+      "unresolved": [
+        "bill_to",
+        "ship_to",
+        "subtotal_less_discount",
+        "tax_rate",
+        "shipping_handling",
+        "other"
+      ],
+      "hints": {
+        "bill_to": {
+          "op": "concat",
+          "over": [
+            "columns:customers.customer_name",
+            "columns:customers.billing_address",
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code"
+          ]
+        },
+        "ship_to": {
+          "op": "concat",
+          "over": [
+            "columns:customers.customer_name",
+            "columns:customers.billing_address",
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code"
+          ]
+        },
+        "subtotal_less_discount": {
+          "op": "subtract",
+          "over": [
+            "columns:invoices.subtotal",
+            "columns:invoices.discount_amount"
+          ]
+        },
+        "tax_rate": {
+          "op": "divide",
+          "over": [
+            "columns:invoices.tax_amount",
+            "columns:invoices.subtotal"
+          ]
+        },
+        "shipping_handling": {
+          "op": "constant",
+          "over": [
+            "note:Not present in catalog; likely user input or zero"
+          ]
+        },
+        "other": {
+          "op": "constant",
+          "over": [
+            "note:Not present in catalog; likely user input or zero"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "invoice_date": "DATE",
+    "invoice_number": "INVOICE NO.",
+    "bill_to": "BILL TO",
+    "ship_to": "SHIP TO",
+    "row_description": "DESCRIPTION",
+    "row_total": "TOTAL",
+    "remarks": "Remarks / Instructions:",
+    "subtotal": "SUBTOTAL",
+    "discount": "DISCOUNT",
+    "subtotal_less_discount": "SUBTOTAL LESS DISCOUNT",
+    "tax_rate": "TAX RATE",
+    "total_tax": "TOTAL TAX",
+    "shipping_handling": "SHIPPING/HANDLING",
+    "other": "OTHER",
+    "total": "TOTAL"
+  }
+}

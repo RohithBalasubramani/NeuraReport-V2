@@ -1,0 +1,32 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_notifications.id"
+  },
+  {
+    "header": "row_type",
+    "placeholder": "{row_type}",
+    "mapping": "app_notifications.type"
+  },
+  {
+    "header": "row_message",
+    "placeholder": "{row_message}",
+    "mapping": "app_notifications.message"
+  },
+  {
+    "header": "row_user",
+    "placeholder": "{row_user}",
+    "mapping": "app_notifications.user"
+  },
+  {
+    "header": "row_read",
+    "placeholder": "{row_read}",
+    "mapping": "app_notifications.read"
+  },
+  {
+    "header": "row_time",
+    "placeholder": "{row_time}",
+    "mapping": "app_notifications.time"
+  }
+]

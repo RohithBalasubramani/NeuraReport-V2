@@ -1,0 +1,35 @@
+{
+  "correlation_id": null,
+  "file_checksums": {
+    "constant_replacements.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "mapping_step3.json": "2c0012f222511d40e6fe5ead4e0980bd2a2e30c2412355a68135762af6fb1dcc",
+    "reference_p1.html": "82baef731e9da57a6fe41a4b88652ae0abe0b66ba4a5fd4c754204aaab25687d",
+    "reference_p1.png": "5eef9adde1ec2edaece1841b8799099b60e031865982d7428f1dbf32782c3588",
+    "report_final.png": "9b52c4a73133ae6e30f91fd923cba0b721b95a46a6e586439f845c3967d06d4f",
+    "sample_rows.json": "faf9f0cc31a2d3e97d9bc19980ef9e02d65058a037092a2513fb4051cecc7bbd",
+    "source.xlsx": "bfd625394cf38526e602d16bfe8df82c400500af4db68018956092b4d8e0ae38",
+    "template_p1.html": "42473312609d73bd0738e6babc89b974fe26b9356ced49a2b98b0e3611b6542c"
+  },
+  "files": {
+    "constant_replacements.json": "constant_replacements.json",
+    "mapping_step3.json": "mapping_step3.json",
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/ph-orp-tds-do-87028e/source.xlsx",
+    "cache_key=1d976118e557c7817df5b8d03d893eca0d014241b7a73a2ccc095b7bc450a37b",
+    "catalog_sha256=312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256=",
+    "html_pre_sha256=42473312609d73bd0738e6babc89b974fe26b9356ced49a2b98b0e3611b6542c",
+    "html_post_sha256=42473312609d73bd0738e6babc89b974fe26b9356ced49a2b98b0e3611b6542c"
+  ],
+  "pid": 1392806,
+  "produced_at": "2026-02-20T05:44:46.436810+00:00",
+  "schema_version": "1.0",
+  "step": "mapping_inline_llm_call_3"
+}

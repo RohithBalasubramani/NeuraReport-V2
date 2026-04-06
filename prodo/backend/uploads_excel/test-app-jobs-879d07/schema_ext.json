@@ -1,0 +1,25 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_type",
+    "row_tables_json",
+    "row_columns_json",
+    "row_interval_ms",
+    "row_enabled",
+    "row_status",
+    "row_batching_json",
+    "row_cpu_budget",
+    "row_triggers_json",
+    "row_metrics_json"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Jobs",
+    "column_count": 12,
+    "prototype_row_count": 1,
+    "has_preface": false,
+    "has_totals": false
+  }
+}

@@ -1,0 +1,340 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>HMWSSB Payment Receipt</title>
+<style>
+:root {
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --blue: #1a5490;
+  --red: #d32f2f;
+  --green: #2e7d32;
+  --gray: #666;
+}
+
+@page {
+  size: A4;
+  margin: 12mm 15mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+  line-height: 1.35;
+  color: #333;
+  position: relative;
+}
+
+.page-container {
+  width: 100%;
+  max-width: var(--page-w);
+  margin: 0 auto;
+  position: relative;
+  min-height: 260mm;
+}
+
+.timestamp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 8pt;
+  color: #333;
+  font-weight: normal;
+}
+
+.page-title {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 8pt;
+  color: #333;
+  text-align: right;
+  font-weight: normal;
+}
+
+#report-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 8mm;
+  margin-bottom: 6mm;
+  padding-bottom: 0;
+}
+
+.logo-section {
+  flex-shrink: 0;
+  width: 55mm;
+}
+
+.logo-section svg {
+  width: 52mm;
+  height: auto;
+  display: block;
+}
+
+.header-text {
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 0;
+}
+
+.org-name {
+  font-size: 16pt;
+  font-weight: bold;
+  color: var(--blue);
+  letter-spacing: 0.5pt;
+  line-height: 1.1;
+  margin-bottom: 0.5mm;
+}
+
+.org-subtitle {
+  font-size: 9pt;
+  color: var(--blue);
+  font-weight: bold;
+  line-height: 1.2;
+  letter-spacing: 0.2pt;
+}
+
+.header-title {
+  font-size: 9pt;
+  color: var(--gray);
+  margin-top: 3mm;
+  font-weight: normal;
+}
+
+.success-message {
+  margin: 5mm 0 6mm 0;
+  line-height: 1.4;
+}
+
+.success-message .thank-you {
+  color: var(--green);
+  font-weight: bold;
+  font-size: 10pt;
+  margin-bottom: 1.5mm;
+}
+
+.success-message .instruction {
+  color: #333;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  margin-bottom: 0.5mm;
+}
+
+#data-table {
+  width: 100%;
+  margin: 6mm 0 5mm 0;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+#data-table tr {
+  height: 7mm;
+}
+
+#data-table td {
+  padding: 1mm 0;
+  vertical-align: top;
+  line-height: 1.3;
+}
+
+#data-table td:first-child {
+  width: 52mm;
+  font-weight: bold;
+  color: #333;
+  padding-right: 3mm;
+}
+
+#data-table td:nth-child(2) {
+  width: 4mm;
+  text-align: center;
+  font-weight: normal;
+  color: #333;
+}
+
+#data-table td:last-child {
+  color: #333;
+  font-weight: normal;
+}
+
+.note-text {
+  color: var(--red);
+  font-weight: bold;
+  font-size: 8.5pt;
+  margin: 5mm 0 6mm 0;
+  line-height: 1.3;
+}
+
+.button-container {
+  text-align: center;
+  margin: 8mm 0;
+}
+
+.print-button {
+  display: inline-block;
+  padding: 2mm 8mm;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #999;
+  font-size: 9pt;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+.security-notice {
+  margin: 10mm 0 0 0;
+  padding: 3mm 4mm 3mm 3mm;
+  border-left: 4px solid var(--blue);
+  background: white;
+  font-size: 8pt;
+  color: var(--red);
+  line-height: 1.45;
+  position: relative;
+}
+
+.security-notice strong {
+  font-weight: bold;
+  color: var(--red);
+}
+
+.powered-by {
+  position: absolute;
+  right: 4mm;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8pt;
+  color: var(--gray);
+  text-align: right;
+  line-height: 1.3;
+}
+
+.powered-by-logo {
+  font-weight: bold;
+  color: #333;
+  margin-top: 0.5mm;
+}
+
+.footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 0;
+  right: 0;
+  font-size: 8pt;
+  color: var(--gray);
+  border-top: 1px solid #e0e0e0;
+  padding-top: 2mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-url {
+  flex-grow: 1;
+}
+
+.page-number {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+@media print {
+  .print-button {
+    display: none;
+  }
+}
+</style>
+
+
+
+<div class="page-container">
+  <div class="timestamp">{timestamp}</div>
+  <div class="page-title">Hyderabad Metropolitan Water Supply &amp; Sewerage Board - Online Bill Payment</div>
+  
+  <div id="report-header">
+    <div class="logo-section">
+      <svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+        
+        
+        
+        
+        
+      </svg>
+    </div>
+    <div class="header-text">
+      <div class="org-name">HMWSSB</div>
+      <div class="org-subtitle">HYDERABAD METROPOLITAN</div>
+      <div class="org-subtitle">WATER SUPPLY &amp; SEWERAGE BOARD</div>
+      <div class="header-title">Transaction Acknowledgement</div>
+    </div>
+  </div>
+
+  <div class="success-message">
+    <div class="thank-you">Thank you !</div>
+    <div class="instruction">Your payment has been successfully received with the following details.</div>
+    <div class="instruction">Please quote your Transaction reference number for any queries relating to this request.</div>
+  </div>
+
+  <table id="data-table">
+    <tbody>
+    <tr>
+      <td>Transaction Status</td>
+      <td>:</td>
+      <td>{transaction_status}</td>
+    </tr>
+    <tr>
+      <td>Transaction Reference Number</td>
+      <td>:</td>
+      <td>{transaction_reference_number}</td>
+    </tr>
+    <tr>
+      <td>Transaction Date and Time</td>
+      <td>:</td>
+      <td>{transaction_date_time}</td>
+    </tr>
+    <tr>
+      <td>Can No.</td>
+      <td>:</td>
+      <td>{can_no}</td>
+    </tr>
+    <tr>
+      <td>Bill Amount</td>
+      <td>:</td>
+      <td>{bill_amount}</td>
+    </tr>
+    <tr>
+      <td>Bank Name</td>
+      <td>:</td>
+      <td>{bank_name}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="note-text">Note: Payment made will be updated in the ledger in about 30 minutes.</div>
+
+  <div class="button-container">
+    <span class="print-button">Make Another Payment</span>
+  </div>
+
+  <div class="security-notice">
+    Your transaction is processed through a secure 128 bit https internet connection based on secure socket layer technology. For security purposes, Your IP address <strong>{ip_address}</strong> and access time <strong>{access_time}</strong> have been logged.
+    <div class="powered-by">
+      <div>Powered by</div>
+      <div class="powered-by-logo">BillDesk</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-url">https://cgr.billdesk.com/pgidsk/pgmerc/hmwssbNRResponse.jsp</span>
+    <span class="page-number">1/1</span>
+  </div>
+</div>
+
+

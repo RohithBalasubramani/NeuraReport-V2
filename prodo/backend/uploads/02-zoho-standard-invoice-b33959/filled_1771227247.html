@@ -1,0 +1,1400 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Invoice</title>
+<style>
+:root {
+  --col-num-w: 24mm;
+  --col-desc-w: 78mm;
+  --col-qty-w: 18mm;
+  --col-rate-w: 22mm;
+  --col-discount-w: 22mm;
+  --col-amount-w: 28mm;
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 9pt;
+  color: #333;
+  line-height: 1.35;
+}
+
+.page-container {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+
+.header-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60mm;
+  height: 30mm;
+  opacity: 0.15;
+}
+
+.header-decoration svg {
+  width: 100%;
+  height: 100%;
+}
+
+#report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18mm;
+  position: relative;
+}
+
+.logo-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 3mm;
+}
+
+.logo-circle {
+  width: 48px;
+  height: 48px;
+  background: #7FBA7A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.company-info {
+  font-size: 8pt;
+  color: #888;
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+.company-name {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1px;
+}
+
+.invoice-title-section {
+  text-align: right;
+  z-index: 1;
+}
+
+.invoice-title {
+  font-size: 32pt;
+  font-weight: 300;
+  color: #333;
+  margin-bottom: 1mm;
+  letter-spacing: -0.5px;
+}
+
+.invoice-number {
+  font-size: 8.5pt;
+  color: #666;
+  margin-bottom: 8mm;
+}
+
+.balance-due-label {
+  font-size: 8.5pt;
+  color: #666;
+  margin-bottom: 1mm;
+}
+
+.balance-due-amount {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #333;
+}
+
+.invoice-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12mm;
+}
+
+.bill-to-section {
+  font-size: 8.5pt;
+}
+
+.bill-to-label {
+  color: #888;
+  margin-bottom: 2mm;
+  font-weight: 400;
+}
+
+.bill-to-address {
+  color: #333;
+  line-height: 1.45;
+}
+
+.invoice-details {
+  text-align: right;
+  font-size: 8.5pt;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3mm;
+  margin-bottom: 1.5mm;
+}
+
+.detail-label {
+  color: #888;
+  min-width: 28mm;
+  text-align: right;
+}
+
+.detail-value {
+  color: #333;
+  min-width: 30mm;
+  text-align: left;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10mm;
+  table-layout: fixed;
+}
+
+#data-table thead {
+  background: #4A4A4A;
+  color: white;
+}
+
+#data-table th {
+  padding: 2.5mm 2mm;
+  text-align: left;
+  font-weight: 500;
+  font-size: 8.5pt;
+}
+
+#data-table th:first-child {
+  width: var(--col-num-w);
+  text-align: left;
+  color: transparent;
+  background: #4A4A4A;
+}
+
+#data-table th:nth-child(2) {
+  width: var(--col-desc-w);
+}
+
+#data-table th:nth-child(3) {
+  width: var(--col-qty-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(4) {
+  width: var(--col-rate-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(5) {
+  width: var(--col-discount-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(6) {
+  width: var(--col-amount-w);
+  text-align: right;
+}
+
+#data-table tbody tr {
+  border-bottom: 1px solid #ECECEC;
+}
+
+#data-table tbody td {
+  padding: 3mm 2mm;
+  vertical-align: top;
+  font-size: 8.5pt;
+}
+
+#data-table tbody td:first-child {
+  text-align: center;
+  color: #666;
+  font-size: 8pt;
+}
+
+#data-table tbody td:nth-child(3),
+#data-table tbody td:nth-child(4),
+#data-table tbody td:nth-child(5),
+#data-table tbody td:nth-child(6) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-description {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1mm;
+  font-size: 8.5pt;
+}
+
+.item-details {
+  color: #888;
+  font-size: 8pt;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+#report-totals {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12mm;
+}
+
+.totals-table {
+  width: 78mm;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.8mm 2mm;
+  font-size: 8.5pt;
+}
+
+.total-row.subtotal {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.total-row.tax {
+  color: #666;
+}
+
+.total-row.final {
+  background: #F8F8F8;
+  font-weight: 700;
+  font-size: 9pt;
+  margin-top: 1mm;
+  padding: 2mm;
+}
+
+.total-row.payment {
+  color: #E53935;
+  font-size: 8.5pt;
+  margin-top: 1mm;
+  font-weight: 400;
+}
+
+.total-row.balance-due {
+  background: #F8F8F8;
+  font-weight: 700;
+  font-size: 9pt;
+  margin-top: 1mm;
+  padding: 2mm;
+}
+
+.total-label {
+  text-align: right;
+}
+
+.total-value {
+  text-align: right;
+  min-width: 28mm;
+  font-variant-numeric: tabular-nums;
+}
+
+.notes-section {
+  margin-bottom: 5mm;
+}
+
+.notes-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 1.5mm;
+}
+
+.notes-content {
+  font-size: 8pt;
+  color: #666;
+  line-height: 1.4;
+}
+
+.payment-options {
+  margin-bottom: 5mm;
+}
+
+.payment-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 2mm;
+}
+
+.payment-icons {
+  display: flex;
+  gap: 2mm;
+  align-items: center;
+}
+
+.payment-icon {
+  border: 1px solid #D0D0D0;
+  padding: 1.5mm 3mm;
+  border-radius: 2px;
+  font-size: 8pt;
+  font-weight: 600;
+  background: white;
+  display: inline-block;
+}
+
+.payment-icon.paypal {
+  color: #003087;
+  border-color: #003087;
+}
+
+.payment-icon.card {
+  font-size: 10pt;
+  padding: 1.5mm 2.5mm;
+}
+
+.terms-section {
+  margin-bottom: 10mm;
+}
+
+.terms-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 1.5mm;
+}
+
+.terms-content {
+  font-size: 8pt;
+  color: #666;
+  line-height: 1.4;
+}
+
+.footer-note {
+  text-align: center;
+  font-size: 7.5pt;
+  color: #999;
+  padding-top: 8mm;
+  border-top: 1px solid #E8E8E8;
+}
+
+.footer-note .brand {
+  font-weight: 700;
+  background: linear-gradient(90deg, #FF6B35 0%, #F7B731 25%, #5BC0EB 50%, #9B59B6 75%, #E74C3C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+</style>
+
+
+
+<div class="page-container">
+  <div class="header-decoration">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      
+      
+      
+      
+      
+    </svg>
+  </div>
+
+  <div id="report-header">
+    <div class="logo-section">
+      <div class="logo-circle">Z</div>
+      <div class="company-info">
+        <div class="company-name">Zylker</div>
+        <div>4141 Hacienda Dr</div>
+        <div>Pleasanton, California 94588</div>
+        <div>U.S.A</div>
+      </div>
+    </div>
+    <div class="invoice-title-section">
+      <div class="invoice-title">Invoice</div>
+      <div class="invoice-number">Invoice INV-202-00001</div>
+      <div class="balance-due-label">Balance Due</div>
+      <div class="balance-due-amount">12978.36</div>
+    </div>
+  </div>
+
+  <div class="invoice-meta">
+    <div class="bill-to-section">
+      <div class="bill-to-label">Bill To</div>
+      <div class="bill-to-address">
+        <div>Customer 1 BluePeak</div>
+        <div>101 Market Street</div>
+        <div>New York</div>
+        <div>10001</div>
+        <div>US</div>
+      </div>
+    </div>
+    <div class="invoice-details">
+      <div class="detail-row">
+        <div class="detail-label">Invoice Date :</div>
+        <div class="detail-value">2025-08-04</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Terms :</div>
+        <div class="detail-value"></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Due Date :</div>
+        <div class="detail-value">2025-09-03</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">P.O.# :</div>
+        <div class="detail-value"></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Project Name :</div>
+        <div class="detail-value"></div>
+      </div>
+    </div>
+  </div>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th data-label="item_description">Item &amp; Description</th>
+        <th data-label="qty">Qty</th>
+        <th data-label="rate">Rate</th>
+        <th data-label="discount">Discount</th>
+        <th data-label="amount">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- BEGIN:BATCH (auto) --><tr>
+        <td>1</td>
+        <td>
+          <div class="item-description">ITM-204</div>
+          <div class="item-details">Line item 1 for invoice 1</div>
+        </td>
+        <td>8.09</td>
+        <td>395.070</td>
+        <td>8.09</td>
+        <td>3196.120</td>
+      </tr>
+<tr>
+        <td>2</td>
+        <td>
+          <div class="item-description">ITM-205</div>
+          <div class="item-details">Line item 2 for invoice 1</div>
+        </td>
+        <td>3.18</td>
+        <td>623.580</td>
+        <td>3.18</td>
+        <td>1982.980</td>
+      </tr>
+<tr>
+        <td>3</td>
+        <td>
+          <div class="item-description">ITM-206</div>
+          <div class="item-details">Line item 3 for invoice 1</div>
+        </td>
+        <td>11.66</td>
+        <td>410.720</td>
+        <td>11.66</td>
+        <td>4789.000</td>
+      </tr>
+<tr>
+        <td>4</td>
+        <td>
+          <div class="item-description">ITM-207</div>
+          <div class="item-details">Line item 4 for invoice 1</div>
+        </td>
+        <td>10.36</td>
+        <td>75.850</td>
+        <td>10.36</td>
+        <td>785.810</td>
+      </tr>
+<tr>
+        <td>5</td>
+        <td>
+          <div class="item-description">ITM-208</div>
+          <div class="item-details">Line item 5 for invoice 1</div>
+        </td>
+        <td>6.81</td>
+        <td>217.330</td>
+        <td>6.81</td>
+        <td>1480.020</td>
+      </tr>
+<tr>
+        <td>6</td>
+        <td>
+          <div class="item-description">ITM-205</div>
+          <div class="item-details">Line item 1 for invoice 2</div>
+        </td>
+        <td>4.59</td>
+        <td>154.790</td>
+        <td>4.59</td>
+        <td>710.490</td>
+      </tr>
+<tr>
+        <td>7</td>
+        <td>
+          <div class="item-description">ITM-206</div>
+          <div class="item-details">Line item 2 for invoice 2</div>
+        </td>
+        <td>6.11</td>
+        <td>656.540</td>
+        <td>6.11</td>
+        <td>4011.460</td>
+      </tr>
+<tr>
+        <td>8</td>
+        <td>
+          <div class="item-description">ITM-207</div>
+          <div class="item-details">Line item 3 for invoice 2</div>
+        </td>
+        <td>8.79</td>
+        <td>76.420</td>
+        <td>8.79</td>
+        <td>671.730</td>
+      </tr>
+<tr>
+        <td>9</td>
+        <td>
+          <div class="item-description">ITM-208</div>
+          <div class="item-details">Line item 4 for invoice 2</div>
+        </td>
+        <td>3.73</td>
+        <td>262.460</td>
+        <td>3.73</td>
+        <td>978.980</td>
+      </tr>
+<tr>
+        <td>10</td>
+        <td>
+          <div class="item-description">ITM-209</div>
+          <div class="item-details">Line item 5 for invoice 2</div>
+        </td>
+        <td>6.19</td>
+        <td>781.760</td>
+        <td>6.19</td>
+        <td>4839.090</td>
+      </tr>
+<tr>
+        <td>11</td>
+        <td>
+          <div class="item-description">ITM-206</div>
+          <div class="item-details">Line item 1 for invoice 3</div>
+        </td>
+        <td>10.56</td>
+        <td>703.950</td>
+        <td>10.56</td>
+        <td>7433.710</td>
+      </tr>
+<tr>
+        <td>12</td>
+        <td>
+          <div class="item-description">ITM-207</div>
+          <div class="item-details">Line item 2 for invoice 3</div>
+        </td>
+        <td>1.43</td>
+        <td>267.910</td>
+        <td>1.43</td>
+        <td>383.110</td>
+      </tr>
+<tr>
+        <td>13</td>
+        <td>
+          <div class="item-description">ITM-208</div>
+          <div class="item-details">Line item 3 for invoice 3</div>
+        </td>
+        <td>2.94</td>
+        <td>827.310</td>
+        <td>2.94</td>
+        <td>2432.290</td>
+      </tr>
+<tr>
+        <td>14</td>
+        <td>
+          <div class="item-description">ITM-207</div>
+          <div class="item-details">Line item 1 for invoice 4</div>
+        </td>
+        <td>10.66</td>
+        <td>634.310</td>
+        <td>10.66</td>
+        <td>6761.740</td>
+      </tr>
+<tr>
+        <td>15</td>
+        <td>
+          <div class="item-description">ITM-208</div>
+          <div class="item-details">Line item 2 for invoice 4</div>
+        </td>
+        <td>8.20</td>
+        <td>417.540</td>
+        <td>8.20</td>
+        <td>3423.830</td>
+      </tr>
+<tr>
+        <td>16</td>
+        <td>
+          <div class="item-description">ITM-209</div>
+          <div class="item-details">Line item 3 for invoice 4</div>
+        </td>
+        <td>3.62</td>
+        <td>810.310</td>
+        <td>3.62</td>
+        <td>2933.320</td>
+      </tr>
+<tr>
+        <td>17</td>
+        <td>
+          <div class="item-description">ITM-208</div>
+          <div class="item-details">Line item 1 for invoice 5</div>
+        </td>
+        <td>4.29</td>
+        <td>332.640</td>
+        <td>4.29</td>
+        <td>1427.030</td>
+      </tr>
+<tr>
+        <td>18</td>
+        <td>
+          <div class="item-description">ITM-209</div>
+          <div class="item-details">Line item 2 for invoice 5</div>
+        </td>
+        <td>6.06</td>
+        <td>699.850</td>
+        <td>6.06</td>
+        <td>4241.090</td>
+      </tr>
+<tr>
+        <td>19</td>
+        <td>
+          <div class="item-description">ITM-210</div>
+          <div class="item-details">Line item 3 for invoice 5</div>
+        </td>
+        <td>11.73</td>
+        <td>702.490</td>
+        <td>11.73</td>
+        <td>8240.210</td>
+      </tr>
+<tr>
+        <td>20</td>
+        <td>
+          <div class="item-description">ITM-209</div>
+          <div class="item-details">Line item 1 for invoice 6</div>
+        </td>
+        <td>5.31</td>
+        <td>696.920</td>
+        <td>5.31</td>
+        <td>3700.650</td>
+      </tr>
+<tr>
+        <td>21</td>
+        <td>
+          <div class="item-description">ITM-210</div>
+          <div class="item-details">Line item 2 for invoice 6</div>
+        </td>
+        <td>4.81</td>
+        <td>395.010</td>
+        <td>4.81</td>
+        <td>1900.000</td>
+      </tr>
+<tr>
+        <td>22</td>
+        <td>
+          <div class="item-description">ITM-211</div>
+          <div class="item-details">Line item 3 for invoice 6</div>
+        </td>
+        <td>3.65</td>
+        <td>796.070</td>
+        <td>3.65</td>
+        <td>2905.660</td>
+      </tr>
+<tr>
+        <td>23</td>
+        <td>
+          <div class="item-description">ITM-212</div>
+          <div class="item-details">Line item 4 for invoice 6</div>
+        </td>
+        <td>10.75</td>
+        <td>139.970</td>
+        <td>10.75</td>
+        <td>1504.680</td>
+      </tr>
+<tr>
+        <td>24</td>
+        <td>
+          <div class="item-description">ITM-213</div>
+          <div class="item-details">Line item 5 for invoice 6</div>
+        </td>
+        <td>3.18</td>
+        <td>322.340</td>
+        <td>3.18</td>
+        <td>1025.040</td>
+      </tr>
+<tr>
+        <td>25</td>
+        <td>
+          <div class="item-description">ITM-210</div>
+          <div class="item-details">Line item 1 for invoice 7</div>
+        </td>
+        <td>11.78</td>
+        <td>134.810</td>
+        <td>11.78</td>
+        <td>1588.060</td>
+      </tr>
+<tr>
+        <td>26</td>
+        <td>
+          <div class="item-description">ITM-211</div>
+          <div class="item-details">Line item 2 for invoice 7</div>
+        </td>
+        <td>11.11</td>
+        <td>189.380</td>
+        <td>11.11</td>
+        <td>2104.010</td>
+      </tr>
+<tr>
+        <td>27</td>
+        <td>
+          <div class="item-description">ITM-212</div>
+          <div class="item-details">Line item 3 for invoice 7</div>
+        </td>
+        <td>10.50</td>
+        <td>624.170</td>
+        <td>10.50</td>
+        <td>6553.780</td>
+      </tr>
+<tr>
+        <td>28</td>
+        <td>
+          <div class="item-description">ITM-213</div>
+          <div class="item-details">Line item 4 for invoice 7</div>
+        </td>
+        <td>11.54</td>
+        <td>303.450</td>
+        <td>11.54</td>
+        <td>3501.810</td>
+      </tr>
+<tr>
+        <td>29</td>
+        <td>
+          <div class="item-description">ITM-214</div>
+          <div class="item-details">Line item 5 for invoice 7</div>
+        </td>
+        <td>8.19</td>
+        <td>849.190</td>
+        <td>8.19</td>
+        <td>6954.870</td>
+      </tr>
+<tr>
+        <td>30</td>
+        <td>
+          <div class="item-description">ITM-215</div>
+          <div class="item-details">Line item 6 for invoice 7</div>
+        </td>
+        <td>2.42</td>
+        <td>203.260</td>
+        <td>2.42</td>
+        <td>491.890</td>
+      </tr>
+<tr>
+        <td>31</td>
+        <td>
+          <div class="item-description">ITM-211</div>
+          <div class="item-details">Line item 1 for invoice 8</div>
+        </td>
+        <td>5.84</td>
+        <td>795.210</td>
+        <td>5.84</td>
+        <td>4644.030</td>
+      </tr>
+<tr>
+        <td>32</td>
+        <td>
+          <div class="item-description">ITM-212</div>
+          <div class="item-details">Line item 2 for invoice 8</div>
+        </td>
+        <td>2.89</td>
+        <td>665.590</td>
+        <td>2.89</td>
+        <td>1923.560</td>
+      </tr>
+<tr>
+        <td>33</td>
+        <td>
+          <div class="item-description">ITM-213</div>
+          <div class="item-details">Line item 3 for invoice 8</div>
+        </td>
+        <td>5.89</td>
+        <td>684.060</td>
+        <td>5.89</td>
+        <td>4029.110</td>
+      </tr>
+<tr>
+        <td>34</td>
+        <td>
+          <div class="item-description">ITM-212</div>
+          <div class="item-details">Line item 1 for invoice 9</div>
+        </td>
+        <td>6.50</td>
+        <td>205.520</td>
+        <td>6.50</td>
+        <td>1335.880</td>
+      </tr>
+<tr>
+        <td>35</td>
+        <td>
+          <div class="item-description">ITM-213</div>
+          <div class="item-details">Line item 2 for invoice 9</div>
+        </td>
+        <td>9.86</td>
+        <td>589.690</td>
+        <td>9.86</td>
+        <td>5814.340</td>
+      </tr>
+<tr>
+        <td>36</td>
+        <td>
+          <div class="item-description">ITM-213</div>
+          <div class="item-details">Line item 1 for invoice 10</div>
+        </td>
+        <td>5.22</td>
+        <td>358.850</td>
+        <td>5.22</td>
+        <td>1873.200</td>
+      </tr>
+<tr>
+        <td>37</td>
+        <td>
+          <div class="item-description">ITM-214</div>
+          <div class="item-details">Line item 2 for invoice 10</div>
+        </td>
+        <td>6.75</td>
+        <td>622.060</td>
+        <td>6.75</td>
+        <td>4198.900</td>
+      </tr>
+<tr>
+        <td>38</td>
+        <td>
+          <div class="item-description">ITM-215</div>
+          <div class="item-details">Line item 3 for invoice 10</div>
+        </td>
+        <td>1.95</td>
+        <td>397.430</td>
+        <td>1.95</td>
+        <td>774.990</td>
+      </tr>
+<tr>
+        <td>39</td>
+        <td>
+          <div class="item-description">ITM-216</div>
+          <div class="item-details">Line item 4 for invoice 10</div>
+        </td>
+        <td>11.58</td>
+        <td>839.550</td>
+        <td>11.58</td>
+        <td>9721.990</td>
+      </tr>
+<tr>
+        <td>40</td>
+        <td>
+          <div class="item-description">ITM-217</div>
+          <div class="item-details">Line item 5 for invoice 10</div>
+        </td>
+        <td>3.80</td>
+        <td>410.480</td>
+        <td>3.80</td>
+        <td>1559.820</td>
+      </tr>
+<tr>
+        <td>41</td>
+        <td>
+          <div class="item-description">ITM-214</div>
+          <div class="item-details">Line item 1 for invoice 11</div>
+        </td>
+        <td>11.35</td>
+        <td>192.730</td>
+        <td>11.35</td>
+        <td>2187.490</td>
+      </tr>
+<tr>
+        <td>42</td>
+        <td>
+          <div class="item-description">ITM-215</div>
+          <div class="item-details">Line item 2 for invoice 11</div>
+        </td>
+        <td>3.47</td>
+        <td>446.650</td>
+        <td>3.47</td>
+        <td>1549.880</td>
+      </tr>
+<tr>
+        <td>43</td>
+        <td>
+          <div class="item-description">ITM-216</div>
+          <div class="item-details">Line item 3 for invoice 11</div>
+        </td>
+        <td>9.68</td>
+        <td>115.810</td>
+        <td>9.68</td>
+        <td>1121.040</td>
+      </tr>
+<tr>
+        <td>44</td>
+        <td>
+          <div class="item-description">ITM-217</div>
+          <div class="item-details">Line item 4 for invoice 11</div>
+        </td>
+        <td>3.28</td>
+        <td>81.200</td>
+        <td>3.28</td>
+        <td>266.340</td>
+      </tr>
+<tr>
+        <td>45</td>
+        <td>
+          <div class="item-description">ITM-218</div>
+          <div class="item-details">Line item 5 for invoice 11</div>
+        </td>
+        <td>11.63</td>
+        <td>96.360</td>
+        <td>11.63</td>
+        <td>1120.670</td>
+      </tr>
+<tr>
+        <td>46</td>
+        <td>
+          <div class="item-description">ITM-215</div>
+          <div class="item-details">Line item 1 for invoice 12</div>
+        </td>
+        <td>7.21</td>
+        <td>461.860</td>
+        <td>7.21</td>
+        <td>3330.010</td>
+      </tr>
+<tr>
+        <td>47</td>
+        <td>
+          <div class="item-description">ITM-216</div>
+          <div class="item-details">Line item 2 for invoice 12</div>
+        </td>
+        <td>5.09</td>
+        <td>175.620</td>
+        <td>5.09</td>
+        <td>893.910</td>
+      </tr>
+<tr>
+        <td>48</td>
+        <td>
+          <div class="item-description">ITM-217</div>
+          <div class="item-details">Line item 3 for invoice 12</div>
+        </td>
+        <td>3.10</td>
+        <td>560.160</td>
+        <td>3.10</td>
+        <td>1736.500</td>
+      </tr>
+<tr>
+        <td>49</td>
+        <td>
+          <div class="item-description">ITM-218</div>
+          <div class="item-details">Line item 4 for invoice 12</div>
+        </td>
+        <td>6.91</td>
+        <td>707.260</td>
+        <td>6.91</td>
+        <td>4887.170</td>
+      </tr>
+<tr>
+        <td>50</td>
+        <td>
+          <div class="item-description">ITM-219</div>
+          <div class="item-details">Line item 5 for invoice 12</div>
+        </td>
+        <td>5.94</td>
+        <td>373.750</td>
+        <td>5.94</td>
+        <td>2220.080</td>
+      </tr>
+<tr>
+        <td>51</td>
+        <td>
+          <div class="item-description">ITM-216</div>
+          <div class="item-details">Line item 1 for invoice 13</div>
+        </td>
+        <td>3.76</td>
+        <td>867.150</td>
+        <td>3.76</td>
+        <td>3260.480</td>
+      </tr>
+<tr>
+        <td>52</td>
+        <td>
+          <div class="item-description">ITM-217</div>
+          <div class="item-details">Line item 2 for invoice 13</div>
+        </td>
+        <td>7.99</td>
+        <td>302.130</td>
+        <td>7.99</td>
+        <td>2414.020</td>
+      </tr>
+<tr>
+        <td>53</td>
+        <td>
+          <div class="item-description">ITM-217</div>
+          <div class="item-details">Line item 1 for invoice 14</div>
+        </td>
+        <td>8.70</td>
+        <td>795.170</td>
+        <td>8.70</td>
+        <td>6917.980</td>
+      </tr>
+<tr>
+        <td>54</td>
+        <td>
+          <div class="item-description">ITM-218</div>
+          <div class="item-details">Line item 2 for invoice 14</div>
+        </td>
+        <td>9.87</td>
+        <td>359.070</td>
+        <td>9.87</td>
+        <td>3544.020</td>
+      </tr>
+<tr>
+        <td>55</td>
+        <td>
+          <div class="item-description">ITM-219</div>
+          <div class="item-details">Line item 3 for invoice 14</div>
+        </td>
+        <td>5.60</td>
+        <td>442.660</td>
+        <td>5.60</td>
+        <td>2478.900</td>
+      </tr>
+<tr>
+        <td>56</td>
+        <td>
+          <div class="item-description">ITM-220</div>
+          <div class="item-details">Line item 4 for invoice 14</div>
+        </td>
+        <td>1.57</td>
+        <td>550.710</td>
+        <td>1.57</td>
+        <td>864.610</td>
+      </tr>
+<tr>
+        <td>57</td>
+        <td>
+          <div class="item-description">ITM-221</div>
+          <div class="item-details">Line item 5 for invoice 14</div>
+        </td>
+        <td>7.08</td>
+        <td>717.960</td>
+        <td>7.08</td>
+        <td>5083.160</td>
+      </tr>
+<tr>
+        <td>58</td>
+        <td>
+          <div class="item-description">ITM-222</div>
+          <div class="item-details">Line item 6 for invoice 14</div>
+        </td>
+        <td>4.74</td>
+        <td>880.520</td>
+        <td>4.74</td>
+        <td>4173.660</td>
+      </tr>
+<tr>
+        <td>59</td>
+        <td>
+          <div class="item-description">ITM-218</div>
+          <div class="item-details">Line item 1 for invoice 15</div>
+        </td>
+        <td>1.91</td>
+        <td>363.320</td>
+        <td>1.91</td>
+        <td>693.940</td>
+      </tr>
+<tr>
+        <td>60</td>
+        <td>
+          <div class="item-description">ITM-219</div>
+          <div class="item-details">Line item 2 for invoice 15</div>
+        </td>
+        <td>3.82</td>
+        <td>819.800</td>
+        <td>3.82</td>
+        <td>3131.640</td>
+      </tr>
+<tr>
+        <td>61</td>
+        <td>
+          <div class="item-description">ITM-220</div>
+          <div class="item-details">Line item 3 for invoice 15</div>
+        </td>
+        <td>9.94</td>
+        <td>302.860</td>
+        <td>9.94</td>
+        <td>3010.430</td>
+      </tr>
+<tr>
+        <td>62</td>
+        <td>
+          <div class="item-description">ITM-219</div>
+          <div class="item-details">Line item 1 for invoice 16</div>
+        </td>
+        <td>8.71</td>
+        <td>636.440</td>
+        <td>8.71</td>
+        <td>5543.390</td>
+      </tr>
+<tr>
+        <td>63</td>
+        <td>
+          <div class="item-description">ITM-220</div>
+          <div class="item-details">Line item 2 for invoice 16</div>
+        </td>
+        <td>9.93</td>
+        <td>291.980</td>
+        <td>9.93</td>
+        <td>2899.360</td>
+      </tr>
+<tr>
+        <td>64</td>
+        <td>
+          <div class="item-description">ITM-220</div>
+          <div class="item-details">Line item 1 for invoice 17</div>
+        </td>
+        <td>11.59</td>
+        <td>165.330</td>
+        <td>11.59</td>
+        <td>1916.170</td>
+      </tr>
+<tr>
+        <td>65</td>
+        <td>
+          <div class="item-description">ITM-221</div>
+          <div class="item-details">Line item 2 for invoice 17</div>
+        </td>
+        <td>12.00</td>
+        <td>383.680</td>
+        <td>12.00</td>
+        <td>4604.160</td>
+      </tr>
+<tr>
+        <td>66</td>
+        <td>
+          <div class="item-description">ITM-222</div>
+          <div class="item-details">Line item 3 for invoice 17</div>
+        </td>
+        <td>1.24</td>
+        <td>302.320</td>
+        <td>1.24</td>
+        <td>374.880</td>
+      </tr>
+<tr>
+        <td>67</td>
+        <td>
+          <div class="item-description">ITM-221</div>
+          <div class="item-details">Line item 1 for invoice 18</div>
+        </td>
+        <td>2.53</td>
+        <td>111.360</td>
+        <td>2.53</td>
+        <td>281.740</td>
+      </tr>
+<tr>
+        <td>68</td>
+        <td>
+          <div class="item-description">ITM-222</div>
+          <div class="item-details">Line item 2 for invoice 18</div>
+        </td>
+        <td>1.54</td>
+        <td>533.940</td>
+        <td>1.54</td>
+        <td>822.270</td>
+      </tr>
+<tr>
+        <td>69</td>
+        <td>
+          <div class="item-description">ITM-223</div>
+          <div class="item-details">Line item 3 for invoice 18</div>
+        </td>
+        <td>5.03</td>
+        <td>624.590</td>
+        <td>5.03</td>
+        <td>3141.690</td>
+      </tr>
+<tr>
+        <td>70</td>
+        <td>
+          <div class="item-description">ITM-224</div>
+          <div class="item-details">Line item 4 for invoice 18</div>
+        </td>
+        <td>2.38</td>
+        <td>287.940</td>
+        <td>2.38</td>
+        <td>685.300</td>
+      </tr>
+<tr>
+        <td>71</td>
+        <td>
+          <div class="item-description">ITM-222</div>
+          <div class="item-details">Line item 1 for invoice 19</div>
+        </td>
+        <td>2.90</td>
+        <td>205.700</td>
+        <td>2.90</td>
+        <td>596.530</td>
+      </tr>
+<tr>
+        <td>72</td>
+        <td>
+          <div class="item-description">ITM-223</div>
+          <div class="item-details">Line item 2 for invoice 19</div>
+        </td>
+        <td>9.82</td>
+        <td>618.640</td>
+        <td>9.82</td>
+        <td>6075.040</td>
+      </tr>
+<tr>
+        <td>73</td>
+        <td>
+          <div class="item-description">ITM-224</div>
+          <div class="item-details">Line item 3 for invoice 19</div>
+        </td>
+        <td>3.35</td>
+        <td>611.710</td>
+        <td>3.35</td>
+        <td>2049.230</td>
+      </tr>
+<tr>
+        <td>74</td>
+        <td>
+          <div class="item-description">ITM-225</div>
+          <div class="item-details">Line item 4 for invoice 19</div>
+        </td>
+        <td>10.55</td>
+        <td>431.090</td>
+        <td>10.55</td>
+        <td>4548.000</td>
+      </tr>
+<tr>
+        <td>75</td>
+        <td>
+          <div class="item-description">ITM-223</div>
+          <div class="item-details">Line item 1 for invoice 20</div>
+        </td>
+        <td>3.22</td>
+        <td>63.520</td>
+        <td>3.22</td>
+        <td>204.530</td>
+      </tr>
+<tr>
+        <td>76</td>
+        <td>
+          <div class="item-description">ITM-224</div>
+          <div class="item-details">Line item 2 for invoice 20</div>
+        </td>
+        <td>6.70</td>
+        <td>430.680</td>
+        <td>6.70</td>
+        <td>2885.560</td>
+      </tr>
+<tr>
+        <td>77</td>
+        <td>
+          <div class="item-description">ITM-225</div>
+          <div class="item-details">Line item 3 for invoice 20</div>
+        </td>
+        <td>3.37</td>
+        <td>221.190</td>
+        <td>3.37</td>
+        <td>745.410</td>
+      </tr>
+<tr>
+        <td>78</td>
+        <td>
+          <div class="item-description">ITM-226</div>
+          <div class="item-details">Line item 4 for invoice 20</div>
+        </td>
+        <td>1.21</td>
+        <td>332.900</td>
+        <td>1.21</td>
+        <td>402.810</td>
+      </tr><!-- END:BATCH (auto) -->
+    </tbody>
+  </table>
+
+  <div id="report-totals">
+    <div class="totals-table">
+      <div class="total-row subtotal">
+        <div class="total-label">Sub Total</div>
+        <div class="total-value">12233.930</div>
+      </div>
+      <div class="total-row tax">
+        <div class="total-label"></div>
+        <div class="total-value">12233.930</div>
+      </div>
+      <div class="total-row tax">
+        <div class="total-label"></div>
+        <div class="total-value">12233.930</div>
+      </div>
+      <div class="total-row final">
+        <div class="total-label">Total</div>
+        <div class="total-value">12978.36</div>
+      </div>
+      <div class="total-row payment">
+        <div class="total-label">Payment Made</div>
+        <div class="total-value">12978.360</div>
+      </div>
+      <div class="total-row balance-due">
+        <div class="total-label">Balance Due</div>
+        <div class="total-value">12978.36</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-section">
+    <div class="notes-heading">Notes</div>
+    <div class="notes-content">Thank you for your business.</div>
+  </div>
+
+  <div class="payment-options">
+    <div class="payment-heading">Payment Options</div>
+    <div class="payment-icons">
+      <div class="payment-icon paypal">PayPal</div>
+      <div class="payment-icon card">💳</div>
+    </div>
+  </div>
+
+  <div class="terms-section">
+    <div class="terms-heading">Terms &amp; Conditions</div>
+    <div class="terms-content"></div>
+  </div>
+
+  <div class="footer-note">
+    This sample invoice template was created using <span class="brand">Zoho</span> Invoice
+  </div>
+</div>
+
+

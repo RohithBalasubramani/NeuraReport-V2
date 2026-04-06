@@ -1,0 +1,18 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_type",
+    "row_message",
+    "row_user",
+    "row_read",
+    "row_time"
+  ],
+  "totals": {},
+  "notes": {
+    "description": "Notifications report with ID, type, message, user, read status, and timestamp",
+    "sheet_title": "Notifications",
+    "columns": 6,
+    "prototype_row_count": 1
+  }
+}

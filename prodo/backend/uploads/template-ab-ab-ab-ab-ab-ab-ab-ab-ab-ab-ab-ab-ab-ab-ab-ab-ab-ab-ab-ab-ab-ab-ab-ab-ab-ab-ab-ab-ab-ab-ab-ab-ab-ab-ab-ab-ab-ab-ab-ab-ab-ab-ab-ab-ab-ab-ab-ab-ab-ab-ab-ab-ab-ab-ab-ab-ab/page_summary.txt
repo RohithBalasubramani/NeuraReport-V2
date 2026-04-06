@@ -1,0 +1,8 @@
+Template: Template Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab Ab
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 0
+  Scalars: (none)
+  Row tokens: (none)
+  Totals: (none)
+Has block repeat: False

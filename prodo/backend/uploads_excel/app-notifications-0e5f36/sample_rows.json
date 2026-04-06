@@ -1,0 +1,10 @@
+{
+  "sample_row": {
+    "row_read": "NOT_VISIBLE",
+    "row_id": "NOT_VISIBLE",
+    "row_time": "NOT_VISIBLE",
+    "row_type": "NOT_VISIBLE",
+    "row_user": "NOT_VISIBLE",
+    "row_message": "NOT_VISIBLE"
+  }
+}

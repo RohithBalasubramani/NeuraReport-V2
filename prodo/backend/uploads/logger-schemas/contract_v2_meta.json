@@ -1,0 +1,98 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "e700aa84ef55cd0ac685245e7e6b3e0e9e37e94583880694b6a1d66ac6755430",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "1fcc42445e9123d52ed328d9ae1a67d62ecdc16565909ec944197174f3270b35",
+  "generated_at": 1771434283,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ],
+      "row_tokens": [
+        "row_id",
+        "row_name"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "date_from": "PARAM:date_from",
+      "date_to": "PARAM:date_to",
+      "generated_at": "PARAM:generated_at",
+      "row_id": "app_schemas.id",
+      "row_name": "app_schemas.name"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_schemas",
+      "parent_key": "id",
+      "child_table": "app_schemas",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Direct projection of schema id and name, no reshape needed",
+        "strategy": "NONE",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_schemas.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_schemas.name"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "app_schemas.id ASC"
+      ]
+    },
+    "header_tokens": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_id",
+      "row_name"
+    ],
+    "row_order": [
+      "app_schemas.id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple schema listing report. app_schemas has no date column so no temporal filtering is possible. date_from/date_to/generated_at are purely display parameters supplied by the caller at report generation time."
+  },
+  "key_tokens": []
+}

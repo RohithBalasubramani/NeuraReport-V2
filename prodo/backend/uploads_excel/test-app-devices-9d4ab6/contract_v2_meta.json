@@ -1,0 +1,171 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "1235ddf60f27b071eb64b04618527e8a1cacb920e02b2ee5065a377fb6cab0cf",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771516639,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_name",
+        "row_protocol",
+        "row_status",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_unit_id",
+        "row_port",
+        "row_gateway_id",
+        "row_last_error",
+        "row_params_json"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_devices.id",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_unit_id": "app_devices.unit_id",
+      "row_port": "app_devices.port",
+      "row_gateway_id": "app_devices.gateway_id",
+      "row_last_error": "app_devices.last_error",
+      "row_params_json": "app_devices.params_json"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_devices",
+      "parent_key": "id",
+      "child_table": "app_devices",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_devices.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_devices.name"
+            ]
+          },
+          {
+            "as": "row_protocol",
+            "from": [
+              "app_devices.protocol"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_devices.status"
+            ]
+          },
+          {
+            "as": "row_latency_ms",
+            "from": [
+              "app_devices.latency_ms"
+            ]
+          },
+          {
+            "as": "row_auto_reconnect",
+            "from": [
+              "app_devices.auto_reconnect"
+            ]
+          },
+          {
+            "as": "row_unit_id",
+            "from": [
+              "app_devices.unit_id"
+            ]
+          },
+          {
+            "as": "row_port",
+            "from": [
+              "app_devices.port"
+            ]
+          },
+          {
+            "as": "row_gateway_id",
+            "from": [
+              "app_devices.gateway_id"
+            ]
+          },
+          {
+            "as": "row_last_error",
+            "from": [
+              "app_devices.last_error"
+            ]
+          },
+          {
+            "as": "row_params_json",
+            "from": [
+              "app_devices.params_json"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_latency_ms": "number(1)",
+      "row_auto_reconnect": "number(0)"
+    },
+    "order_by": {
+      "rows": [
+        "app_devices.id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_protocol",
+      "row_status",
+      "row_latency_ms",
+      "row_auto_reconnect",
+      "row_unit_id",
+      "row_port",
+      "row_gateway_id",
+      "row_last_error",
+      "row_params_json"
+    ],
+    "row_order": [
+      "app_devices.id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple device inventory report — no aggregations, joins, or parameters. All 11 row tokens map directly to app_devices columns."
+  },
+  "key_tokens": []
+}

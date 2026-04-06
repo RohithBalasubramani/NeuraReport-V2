@@ -1,0 +1,17 @@
+{
+  "scalars": [
+    "print_date",
+    "from_date",
+    "to_date"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [],
+  "notes": "Fixed values for the totals row are hardcoded in the HTML as per instructions."
+}

@@ -1,0 +1,52 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata (Print Date, Title, Sheet ID). No dynamic tokens required in header based on schema.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Time-series log of temperature sensor readings.",
+      "columns": [
+        "row_date_time",
+        "row_m1a_2_pt100",
+        "row_m1a_3_pt100",
+        "row_p3a_pt100",
+        "row_p4a_pt100",
+        "row_p5a_pt100",
+        "row_p6a_pt100",
+        "row_p8a_pt100",
+        "row_p8a_3_pt100",
+        "row_p8a_4_pt100",
+        "row_p8a_dryout_pt100",
+        "row_p9a_dryout_pt100",
+        "row_room_pt100"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_date_time ASC"
+      ]
+    },
+    "totals": {
+      "description": "No aggregate totals defined for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens represent direct sensor readings. The timestamp token represents the measurement time. No derived calculations (like averages or differences) are required per row.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Format the timestamp column to 'DD-MM-YYYY HH:MM:SS'.",
+    "Format all numeric sensor columns to 2 decimal places."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header data required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "All device table records with their metadata, schema associations, and health status",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_schema_id",
+        "row_db_target_id",
+        "row_status",
+        "row_last_migrated_at",
+        "row_schema_hash",
+        "row_mapping_health",
+        "row_device_id"
+      ],
+      "grouping": [],
+      "ordering": [
+        "id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no parameters or filters. All device table records are returned as-is from the app_device_tables table.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct column-to-token mapping from app_device_tables table",
+    "Default ordering by id ascending"
+  ]
+}

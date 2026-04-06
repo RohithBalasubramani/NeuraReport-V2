@@ -1,0 +1,8 @@
+Template: Template bill
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 11
+  Scalars: bank_name, bill_amount, billdesk_logo_url, can_no, logo_url, page_url, transaction_date, transaction_ref, transaction_status, transaction_time, update_note
+  Row tokens: (none)
+  Totals: (none)
+Has block repeat: False

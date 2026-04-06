@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level aggregates or constants required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job execution records from app_job_runs, showing ID, job reference, timestamps, duration, rows processed, and performance metrics.",
+      "columns": [
+        "row_id",
+        "row_job_id",
+        "row_status",
+        "row_started_at",
+        "row_finished_at",
+        "row_rows_written",
+        "row_duration_ms",
+        "row_error_message",
+        "row_run_type"
+      ],
+      "grouping": [],
+      "ordering": [
+        "started_at DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens map directly to app_job_runs columns. Three tokens (status, error_message, run_type) are unresolved as the columns do not exist in the current schema. These will render as empty cells unless the schema is extended.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping or unpivoting required — direct row iteration over app_job_runs.",
+    "Unresolved tokens will render empty unless schema is extended or joins are added."
+  ]
+}

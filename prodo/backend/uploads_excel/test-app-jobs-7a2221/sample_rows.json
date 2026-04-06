@@ -1,0 +1,17 @@
+{
+  "sample_row": {
+    "row_created_at": "NOT_VISIBLE",
+    "row_id": "job_1771159889406",
+    "row_device_table_id": "NOT_VISIBLE",
+    "row_enabled": "1",
+    "row_last_run_at": "NOT_VISIBLE",
+    "row_protocol": "NOT_VISIBLE",
+    "row_gateway_id": "NOT_VISIBLE",
+    "row_status": "stopped",
+    "row_name": "12test",
+    "row_interval_sec": "NOT_VISIBLE",
+    "row_error_count": "NOT_VISIBLE",
+    "row_schema_id": "NOT_VISIBLE",
+    "row_updated_at": "NOT_VISIBLE"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level scalar tokens; report has no top-level summary fields.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents a single gateway record from app_gateways table with all configuration and metadata fields.",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_host",
+        "row_adapter_id",
+        "row_nic_hint",
+        "row_ports_json",
+        "row_protocol_hint",
+        "row_tags_json",
+        "row_status",
+        "row_last_ping_json",
+        "row_last_tcp_json",
+        "row_created_at",
+        "row_updated_at",
+        "row_last_test_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_gateways.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals or aggregations required.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column pass-throughs from the app_gateways table. No parameter-based filtering is required; optional date-range filters may be applied using the created_at column.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping, melting, or unions required — all tokens map 1:1 to app_gateways columns."
+  ]
+}

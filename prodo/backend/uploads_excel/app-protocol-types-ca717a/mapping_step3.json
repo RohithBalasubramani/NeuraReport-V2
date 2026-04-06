@@ -1,0 +1,38 @@
+{
+  "mapping": {
+    "row_protocol_type": "app_protocol_types.type"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "38315ac8c3d7197add4225947668a1e221a51c0ce0d0a915d2ce6108c5535097",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "81a009a400ca31a4701fcd7a5560ac435030b5871c30a005d51d6c1a51dc9c44",
+    "pre_html_sha256": "b4fb04291f259132a9a6db4e0de090d22a88d53a2553f5699adfa43c318dae0d",
+    "post_html_sha256": "b4fb04291f259132a9a6db4e0de090d22a88d53a2553f5699adfa43c318dae0d",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_protocol_type": "app_protocol_types.type"
+    },
+    "token_samples": {
+      "row_protocol_type": "{row_protocol_type}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_protocol_type": "{row_protocol_type}"
+  }
+}

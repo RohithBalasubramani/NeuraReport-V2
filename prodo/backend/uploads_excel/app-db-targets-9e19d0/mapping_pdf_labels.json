@@ -1,0 +1,27 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_db_targets.id"
+  },
+  {
+    "header": "row_provider",
+    "placeholder": "{row_provider}",
+    "mapping": "app_db_targets.provider"
+  },
+  {
+    "header": "row_connection",
+    "placeholder": "{row_connection}",
+    "mapping": "app_db_targets.conn"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_db_targets.status"
+  },
+  {
+    "header": "row_last_message",
+    "placeholder": "{row_last_message}",
+    "mapping": "app_db_targets.last_msg"
+  }
+]

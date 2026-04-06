@@ -1,0 +1,206 @@
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+.history/
+.claude/
+.anima/
+.mcp.json
+nul
+
+# Environment files
+.env
+.env.*
+!.env.example
+frontend.env
+
+# Python binaries and caches
+.venv/
+venv/
+backend/.venv/
+backend/venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+backend/.pytest_cache/
+.mypy_cache/
+backend/.mypy_cache/
+.ruff_cache/
+backend/.ruff_cache/
+.hypothesis/
+
+# Coverage reports
+htmlcov/
+backend/htmlcov/
+.coverage
+coverage/
+coverage.xml
+*.coverage
+
+# Connection / credential dumps
+conns.json
+conns2.json
+
+# Logs and temp
+*.log
+.vitest-localstorage.*
+frontend/.vitest-localstorage.*
+*.tmp
+*.bak
+*.orig
+*.local
+.tmp_*.json
+.tmp_*.txt
+templates_check.json
+*temp_templates.json
+AUDIT_FINDINGS.md
+FORENSIC_AUDIT_REPORT.md
+MANUAL_TEST_LOG.md
+ENDPOINT_ANALYSIS.md
+FEATURES_VALIDATION.md
+FEATURE_TRACKER.md
+MagicMock/
+features_copy.md
+fix_tests.py
+
+# Node modules
+node_modules/
+
+# Frontend generated content
+frontend/dist/
+frontend/.vite/
+frontend/.eslintcache
+frontend/.cache/
+frontend/playwright-report/
+frontend/playwright-results/
+frontend/playwright-report-*/
+frontend/playwright-results-*/
+frontend/test-output.txt
+frontend/tests/e2e/screenshots/
+frontend/tests/e2e/evidence/
+frontend/tests/e2e/workflow-results/
+frontend/workflow-test-result.json
+test-results/
+test-screenshots/
+
+# Throwaway e2e audit/analysis scripts and docs
+frontend/tests/e2e/*.cjs
+frontend/tests/e2e/*.md
+frontend/tests/e2e/*.sh
+frontend/tests/e2e/*.ps1
+frontend/tests/e2e/audit-retest.spec.ts
+frontend/tests/e2e/audit-semantic-verification-improved.spec.ts
+frontend/tests/e2e/minimal-test.spec.ts
+frontend/tests/e2e/hsst-*.spec.ts
+frontend/tests/e2e/hsst-results/
+frontend/tests/e2e/workflow-*.spec.ts
+frontend/tests/e2e/playwright.config.ts
+
+# Generated runtime data
+uploads/*
+!uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/uploads_excel/*
+!backend/uploads_excel/.gitkeep
+NeuraReport-backup-no-venv.zip
+__tmp_*.py
+__tmp_*.pdf
+_latest_gen.txt
+*.sqlite3
+*.db
+*.sqlite3-wal
+*.sqlite3-shm
+*.db-wal
+*.db-shm
+test_all.*
+test_counter.html
+
+# Local state snapshots / diagnostics
+backend/state/state.json
+backend/state/.secret
+backend/state/backups/
+state/
+backend/llm_raw_outputs.md
+backend/docs/
+backend/tests/*VALIDATION_REPORT*.md
+
+# Deployment snapshot
+# prodo/
+
+# Orphaned directories (from path misconfiguration)
+backend/backend/
+
+# Build artifacts
+build/
+dist/
+tmp/
+temp/
+
+# Local tauri sync workspace
+NeuraReport-tauri-sync/
+_tauri_sync_pr/
+
+# Generated outputs / one-time artifacts
+generated-reports/
+audit-screenshots/
+screenshots/
+fix-verify/
+test_excel_samples/
+test_pdfs/
+
+# Sample data files at root
+/*.pdf
+/*.xlsx
+/*.zip
+
+# Large local artifacts / data
+*.fig
+*.ico
+*.map
+new reports/
+Coastal feeds/
+Neuract UI/
+backend/tools/ffmpeg_extracted/
+backend/tools/ffmpeg.zip
+samples/docai/
+samples/excel/
+samples/ingestion/
+samples/knowledge/
+samples/templates/
+samples/uploads/*
+!samples/uploads/.gitkeep
+uploads_excel/*
+!uploads_excel/.gitkeep
+debug_tmp_root/
+NeuraReport/
+prodo/frontend/assets/*.map
+prodo/frontend/neurareport/assets/*.map
+
+# Tests (removed from repo)
+backend/tests/
+tests/
+frontend/tests/
+frontend/src/api/__tests__/
+prodo/backend/tests/
+packages/
+qa-*.js
+qa-screenshots/
+pytest.ini
+.pre-commit-config.yaml
+backend/requirements-dev.txt
+
+# Docs (removed from repo)
+docs/
+MASTER_DOCUMENTATION.*
+FEATURES.md
+instructions.md
+*.pdf
+figma-design-assets.json
+samples/
+
+# CI (removed)
+.github/

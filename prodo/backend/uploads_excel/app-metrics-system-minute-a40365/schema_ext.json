@@ -1,0 +1,17 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_minute_utc",
+    "row_cpu",
+    "row_mem",
+    "row_disk_rps",
+    "row_disk_wps",
+    "row_net_rxps",
+    "row_net_txps",
+    "row_proc_cpu",
+    "row_proc_rss_mb",
+    "row_proc_handles"
+  ],
+  "totals": {},
+  "notes": "Simple metrics table with timestamp and numeric monitoring columns. All numeric columns right-aligned for readability."
+}

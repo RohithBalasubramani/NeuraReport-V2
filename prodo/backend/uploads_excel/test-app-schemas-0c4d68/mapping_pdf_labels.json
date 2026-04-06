@@ -1,0 +1,27 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_schemas.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_schemas.name"
+  },
+  {
+    "header": "row_device_table_id",
+    "placeholder": "{row_device_table_id}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_version",
+    "placeholder": "{row_version}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_created_at",
+    "placeholder": "{row_created_at}",
+    "mapping": "UNRESOLVED"
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "header": "date_from",
+    "placeholder": "{date_from}",
+    "mapping": "LATER_SELECTED"
+  },
+  {
+    "header": "date_to",
+    "placeholder": "{date_to}",
+    "mapping": "LATER_SELECTED"
+  },
+  {
+    "header": "generated_at",
+    "placeholder": "{generated_at}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_job_id",
+    "placeholder": "{row_job_id}",
+    "mapping": "app_metrics_jobs_minute.job_id"
+  },
+  {
+    "header": "row_minute_utc",
+    "placeholder": "{row_minute_utc}",
+    "mapping": "app_metrics_jobs_minute.minute_utc"
+  },
+  {
+    "header": "row_reads",
+    "placeholder": "{row_reads}",
+    "mapping": "app_metrics_jobs_minute.reads"
+  },
+  {
+    "header": "row_read_err",
+    "placeholder": "{row_read_err}",
+    "mapping": "app_metrics_jobs_minute.read_err"
+  },
+  {
+    "header": "row_writes",
+    "placeholder": "{row_writes}",
+    "mapping": "app_metrics_jobs_minute.writes"
+  },
+  {
+    "header": "row_write_err",
+    "placeholder": "{row_write_err}",
+    "mapping": "app_metrics_jobs_minute.write_err"
+  },
+  {
+    "header": "row_read_p50",
+    "placeholder": "{row_read_p50}",
+    "mapping": "app_metrics_jobs_minute.read_p50"
+  },
+  {
+    "header": "row_read_p95",
+    "placeholder": "{row_read_p95}",
+    "mapping": "app_metrics_jobs_minute.read_p95"
+  },
+  {
+    "header": "row_write_p50",
+    "placeholder": "{row_write_p50}",
+    "mapping": "app_metrics_jobs_minute.write_p50"
+  },
+  {
+    "header": "row_write_p95",
+    "placeholder": "{row_write_p95}",
+    "mapping": "app_metrics_jobs_minute.write_p95"
+  }
+]

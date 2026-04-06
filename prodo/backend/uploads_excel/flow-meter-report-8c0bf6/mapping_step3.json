@@ -1,0 +1,102 @@
+{
+  "mapping": {
+    "row_flow_meter": "neuract__FM_TABLE.timestamp_utc",
+    "row_fm_101": "neuract__FM_TABLE.FM_101",
+    "row_fm_102": "neuract__FM_TABLE.FM_102",
+    "row_fm_103": "neuract__FM_TABLE.FM_103",
+    "row_fm_104": "neuract__FM_TABLE.FM_104",
+    "row_fm_105": "neuract__FM_TABLE.FM_105",
+    "row_fm_106": "neuract__FM_TABLE.FM_106",
+    "row_fm_101_totalizer": "neuract__FM_TABLE.FM_101_TOTALIZER",
+    "row_fm_102_totalizer": "neuract__FM_TABLE.FM_102_TOTALIZER",
+    "row_fm_103_totalizer": "neuract__FM_TABLE.FM_103_TOTALIZER",
+    "row_fm_104_totalizer": "neuract__FM_TABLE.FM_104_TOTALIZER",
+    "row_fm_105_totalizer": "neuract__FM_TABLE.FM_105_TOTALIZER",
+    "row_fm_106_totalizer": "neuract__FM_TABLE.FM_106_TOTALIZER"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {
+      "row_flow_meter": {
+        "op": "FORMAT",
+        "over": [
+          "columns:neuract__FM_TABLE.timestamp_utc",
+          "note:FLOW METER column represents the timestamp of each reading row; timestamp_utc is the only text/identifier column in FM_TABLE and serves as the row key."
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "8a3cc2eca41841c2843ddc378c61b8a514fda019e66e551157aae326299fe95e",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "",
+    "cache_key": "d7f5d425f0c56512d9cbfd2aea26c919c67b5bfb50b85de3c241dd3e0ba00dd0",
+    "pre_html_sha256": "39fb90e1b2486bf5506eeb0c07256721907294df516981b0257531d557f9db96",
+    "post_html_sha256": "39fb90e1b2486bf5506eeb0c07256721907294df516981b0257531d557f9db96",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_flow_meter": "neuract__FM_TABLE.timestamp_utc",
+      "row_fm_101": "neuract__FM_TABLE.FM_101",
+      "row_fm_102": "neuract__FM_TABLE.FM_102",
+      "row_fm_103": "neuract__FM_TABLE.FM_103",
+      "row_fm_104": "neuract__FM_TABLE.FM_104",
+      "row_fm_105": "neuract__FM_TABLE.FM_105",
+      "row_fm_106": "neuract__FM_TABLE.FM_106",
+      "row_fm_101_totalizer": "neuract__FM_TABLE.FM_101_TOTALIZER",
+      "row_fm_102_totalizer": "neuract__FM_TABLE.FM_102_TOTALIZER",
+      "row_fm_103_totalizer": "neuract__FM_TABLE.FM_103_TOTALIZER",
+      "row_fm_104_totalizer": "neuract__FM_TABLE.FM_104_TOTALIZER",
+      "row_fm_105_totalizer": "neuract__FM_TABLE.FM_105_TOTALIZER",
+      "row_fm_106_totalizer": "neuract__FM_TABLE.FM_106_TOTALIZER"
+    },
+    "token_samples": {
+      "row_flow_meter": "{row_flow_meter}",
+      "row_fm_101": "{row_fm_101}",
+      "row_fm_102": "{row_fm_102}",
+      "row_fm_103": "{row_fm_103}",
+      "row_fm_104": "{row_fm_104}",
+      "row_fm_105": "{row_fm_105}",
+      "row_fm_106": "{row_fm_106}",
+      "row_fm_101_totalizer": "{row_fm_101_totalizer}",
+      "row_fm_102_totalizer": "{row_fm_102_totalizer}",
+      "row_fm_103_totalizer": "{row_fm_103_totalizer}",
+      "row_fm_104_totalizer": "{row_fm_104_totalizer}",
+      "row_fm_105_totalizer": "{row_fm_105_totalizer}",
+      "row_fm_106_totalizer": "{row_fm_106_totalizer}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {
+        "row_flow_meter": {
+          "op": "FORMAT",
+          "over": [
+            "columns:neuract__FM_TABLE.timestamp_utc",
+            "note:FLOW METER column represents the timestamp of each reading row; timestamp_utc is the only text/identifier column in FM_TABLE and serves as the row key."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_flow_meter": "{row_flow_meter}",
+    "row_fm_101": "{row_fm_101}",
+    "row_fm_102": "{row_fm_102}",
+    "row_fm_103": "{row_fm_103}",
+    "row_fm_104": "{row_fm_104}",
+    "row_fm_105": "{row_fm_105}",
+    "row_fm_106": "{row_fm_106}",
+    "row_fm_101_totalizer": "{row_fm_101_totalizer}",
+    "row_fm_102_totalizer": "{row_fm_102_totalizer}",
+    "row_fm_103_totalizer": "{row_fm_103_totalizer}",
+    "row_fm_104_totalizer": "{row_fm_104_totalizer}",
+    "row_fm_105_totalizer": "{row_fm_105_totalizer}",
+    "row_fm_106_totalizer": "{row_fm_106_totalizer}"
+  }
+}

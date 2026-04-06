@@ -1,0 +1,104 @@
+{
+  "mapping": {
+    "bank_name": "transactions.bank_name",
+    "bill_amount": "transactions.bill_amount",
+    "can_number": "transactions.can_number",
+    "generated_datetime": "UNRESOLVED",
+    "logo_url": "params.logo_url",
+    "transaction_datetime": "UNRESOLVED",
+    "transaction_reference": "transactions.transaction_ref_number",
+    "transaction_status": "transactions.transaction_status"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_datetime",
+      "transaction_datetime"
+    ],
+    "hints": {
+      "generated_datetime": {
+        "op": "FORMAT",
+        "over": [
+          "columns:transactions.created_at",
+          "note:Render as formatted datetime at generation time"
+        ]
+      },
+      "transaction_datetime": {
+        "op": "CONCAT",
+        "over": [
+          "columns:transactions.transaction_date",
+          "columns:transactions.transaction_time",
+          "note:Combine transaction_date and transaction_time with space separator"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "468b202394c6d510f4a55c6f50c304b249321e573ad52711833b507c275669bc",
+    "catalog_sha256": "191ef492d64f3b3f19bd2650de4a8fd2489f25597a3ffaa95b08fdbc417a977a",
+    "schema_sha256": "81847448f8462b7a9070b056e2797713fdaa1cf96349e125a8380dce64644bb4",
+    "cache_key": "73a3917ad6640a0a8101db39bbbb51b36862f7f790bbfec0e7159355e8470f0f",
+    "pre_html_sha256": "b68ad4f0d69a38c633320594f9effc816eacf62b9d17cb2759092537ca74530f",
+    "post_html_sha256": "b68ad4f0d69a38c633320594f9effc816eacf62b9d17cb2759092537ca74530f",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273"
+  },
+  "raw_payload": {
+    "mapping": {
+      "bank_name": "transactions.bank_name",
+      "bill_amount": "transactions.bill_amount",
+      "can_number": "transactions.can_number",
+      "generated_datetime": "UNRESOLVED",
+      "logo_url": "params.logo_url",
+      "transaction_datetime": "UNRESOLVED",
+      "transaction_reference": "transactions.transaction_ref_number",
+      "transaction_status": "transactions.transaction_status"
+    },
+    "token_samples": {
+      "bank_name": "NA",
+      "bill_amount": "1510.0",
+      "can_number": "624140910",
+      "generated_datetime": "2026-02-15 01:55:34",
+      "logo_url": "NOT_VISIBLE",
+      "transaction_datetime": "2026-02-01 02:53:29",
+      "transaction_reference": "YAX62668702574",
+      "transaction_status": "Success"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_datetime",
+        "transaction_datetime"
+      ],
+      "hints": {
+        "generated_datetime": {
+          "op": "FORMAT",
+          "over": [
+            "columns:transactions.created_at",
+            "note:Render as formatted datetime at generation time"
+          ]
+        },
+        "transaction_datetime": {
+          "op": "CONCAT",
+          "over": [
+            "columns:transactions.transaction_date",
+            "columns:transactions.transaction_time",
+            "note:Combine transaction_date and transaction_time with space separator"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "bank_name": "NA",
+    "bill_amount": "1510.0",
+    "can_number": "624140910",
+    "generated_datetime": "2026-02-15 01:55:34",
+    "logo_url": "NOT_VISIBLE",
+    "transaction_datetime": "2026-02-01 02:53:29",
+    "transaction_reference": "YAX62668702574",
+    "transaction_status": "Success"
+  }
+}

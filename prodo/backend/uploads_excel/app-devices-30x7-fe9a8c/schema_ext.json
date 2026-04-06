@@ -1,0 +1,14 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_device_name",
+    "row_protocol",
+    "row_status",
+    "row_port",
+    "row_latency_ms",
+    "row_auto_reconnect",
+    "row_last_error"
+  ],
+  "totals": {},
+  "notes": "Single repeating tbody row with 7 device attribute columns. Numeric fields (port, latency, auto_reconnect) aligned right. No footer or totals section."
+}

@@ -1,0 +1,162 @@
+{
+  "tokens": {
+    "scalars": [
+      "invoice_date",
+      "invoice_number",
+      "bill_to",
+      "ship_to",
+      "remarks",
+      "subtotal",
+      "discount",
+      "subtotal_less_discount",
+      "tax_rate",
+      "total_tax",
+      "shipping_handling",
+      "other",
+      "total"
+    ],
+    "row_tokens": [
+      "row_description",
+      "row_total"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "invoice_date": "invoices.issue_date",
+    "invoice_number": "invoices.invoice_number",
+    "bill_to": "customers.customer_name",
+    "ship_to": "customers.customer_name",
+    "row_description": "invoice_items.description",
+    "row_total": "invoice_items.line_total",
+    "remarks": "invoices.notes",
+    "subtotal": "invoices.subtotal",
+    "discount": "invoices.discount_amount",
+    "subtotal_less_discount": "invoices.subtotal",
+    "tax_rate": "invoices.tax_amount",
+    "total_tax": "invoices.tax_amount",
+    "shipping_handling": "invoices.invoice_number",
+    "other": "invoices.invoice_number",
+    "total": "invoices.total_amount"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_description",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_total",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "bill_to": {
+      "op": "concat",
+      "columns": [
+        "customers.customer_name",
+        "customers.billing_address",
+        "customers.city",
+        "customers.state",
+        "customers.postal_code"
+      ],
+      "separator": "\n"
+    },
+    "ship_to": {
+      "op": "concat",
+      "columns": [
+        "customers.customer_name",
+        "customers.billing_address",
+        "customers.city",
+        "customers.state",
+        "customers.postal_code"
+      ],
+      "separator": "\n"
+    },
+    "subtotal_less_discount": {
+      "op": "subtract",
+      "left": "invoices.subtotal",
+      "right": "invoices.discount_amount"
+    },
+    "tax_rate": {
+      "op": "divide",
+      "numerator": "invoices.tax_amount",
+      "denominator": "invoices.subtotal"
+    },
+    "shipping_handling": {
+      "op": "multiply",
+      "left": "invoices.invoice_number",
+      "right": 0
+    },
+    "other": {
+      "op": "multiply",
+      "left": "invoices.invoice_number",
+      "right": 0
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "invoice_date": "date(%Y-%m-%d)",
+    "row_total": "number(2)",
+    "subtotal": "number(2)",
+    "discount": "number(2)",
+    "subtotal_less_discount": "number(2)",
+    "tax_rate": "percent(2)",
+    "total_tax": "number(2)",
+    "shipping_handling": "number(2)",
+    "other": "number(2)",
+    "total": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "invoice_date",
+    "invoice_number",
+    "bill_to",
+    "ship_to",
+    "remarks",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping_handling",
+    "other",
+    "total"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {},
+  "notes": "Invoice template with customer billing/shipping addresses computed from customer table join. Shipping and other charges default to zero as they are not present in the database. Tax rate is computed as a percentage of subtotal."
+}

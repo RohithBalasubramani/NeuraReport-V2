@@ -1,0 +1,52 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_gateways.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_gateways.name"
+  },
+  {
+    "header": "row_host",
+    "placeholder": "{row_host}",
+    "mapping": "app_gateways.host"
+  },
+  {
+    "header": "row_adapter_id",
+    "placeholder": "{row_adapter_id}",
+    "mapping": "app_gateways.adapter_id"
+  },
+  {
+    "header": "row_nic_hint",
+    "placeholder": "{row_nic_hint}",
+    "mapping": "app_gateways.nic_hint"
+  },
+  {
+    "header": "row_protocol_hint",
+    "placeholder": "{row_protocol_hint}",
+    "mapping": "app_gateways.protocol_hint"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_gateways.status"
+  },
+  {
+    "header": "row_created_at",
+    "placeholder": "{row_created_at}",
+    "mapping": "app_gateways.created_at"
+  },
+  {
+    "header": "row_updated_at",
+    "placeholder": "{row_updated_at}",
+    "mapping": "app_gateways.updated_at"
+  },
+  {
+    "header": "row_last_test_at",
+    "placeholder": "{row_last_test_at}",
+    "mapping": "app_gateways.last_test_at"
+  }
+]

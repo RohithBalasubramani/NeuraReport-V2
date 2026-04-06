@@ -1,0 +1,95 @@
+{
+  "scalars": {
+    "print_date": {
+      "label": "Print Date",
+      "sample": "2/1/2026",
+      "notes": "Date the report was generated (MM/DD/YYYY)"
+    },
+    "print_time": {
+      "label": "Print Time",
+      "sample": "11:38 AM",
+      "notes": "Time the report was generated (HH:MM AM/PM)"
+    }
+  },
+  "row_tokens": {
+    "row_analysers": {
+      "header": "ANALYSERS",
+      "column_index": 0,
+      "sample": "2/1/2026, 11:38 AM",
+      "notes": "Timestamp / analyser identifier for each data row"
+    },
+    "row_orp_101": {
+      "header": "ORP-101",
+      "column_index": 1,
+      "sample": "",
+      "notes": "ORP reading for analyser 1 (unit: mV)"
+    },
+    "row_orp_102": {
+      "header": "ORP-102",
+      "column_index": 2,
+      "sample": "",
+      "notes": "ORP reading for analyser 2 (unit: mV)"
+    },
+    "row_ph_101": {
+      "header": "PH-101",
+      "column_index": 3,
+      "sample": "",
+      "notes": "PH reading for analyser 3"
+    },
+    "row_ph_102": {
+      "header": "PH-102",
+      "column_index": 4,
+      "sample": "",
+      "notes": "PH reading for analyser 4"
+    },
+    "row_orp_103": {
+      "header": "ORP-103",
+      "column_index": 5,
+      "sample": "",
+      "notes": "ORP reading for analyser 5 (unit: mV)"
+    },
+    "row_ph_103": {
+      "header": "PH-103",
+      "column_index": 6,
+      "sample": "",
+      "notes": "PH reading for analyser 6"
+    },
+    "row_tds_101": {
+      "header": "TDS-101",
+      "column_index": 7,
+      "sample": "",
+      "notes": "TDS reading for analyser 7 (unit: ppm)"
+    },
+    "row_ph_104": {
+      "header": "PH-104",
+      "column_index": 8,
+      "sample": "",
+      "notes": "PH reading for analyser 8"
+    },
+    "row_tds_102": {
+      "header": "TDS-102",
+      "column_index": 9,
+      "sample": "",
+      "notes": "TDS reading for analyser 9 (unit: ppm)"
+    },
+    "row_do_101": {
+      "header": "DO-101",
+      "column_index": 10,
+      "sample": "",
+      "notes": "Dissolved Oxygen reading for analyser 10 (unit: mg/l)"
+    }
+  },
+  "totals": {},
+  "notes": {
+    "conditions": [
+      "Day Wise Time Selection",
+      "Monthwise day Total level",
+      "ORP: Mv",
+      "TDS: ppm",
+      "DO: mg/l"
+    ],
+    "page_orientation": "landscape (A4)",
+    "data_row_count": 28,
+    "column_count": 11
+  }
+}

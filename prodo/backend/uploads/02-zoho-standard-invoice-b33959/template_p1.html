@@ -1,0 +1,553 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Invoice</title>
+<style>
+:root {
+  --col-num-w: 24mm;
+  --col-desc-w: 78mm;
+  --col-qty-w: 18mm;
+  --col-rate-w: 22mm;
+  --col-discount-w: 22mm;
+  --col-amount-w: 28mm;
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 9pt;
+  color: #333;
+  line-height: 1.35;
+}
+
+.page-container {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+
+.header-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60mm;
+  height: 30mm;
+  opacity: 0.15;
+}
+
+.header-decoration svg {
+  width: 100%;
+  height: 100%;
+}
+
+#report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18mm;
+  position: relative;
+}
+
+.logo-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 3mm;
+}
+
+.logo-circle {
+  width: 48px;
+  height: 48px;
+  background: #7FBA7A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.company-info {
+  font-size: 8pt;
+  color: #888;
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+.company-name {
+  font-size: 9pt;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1px;
+}
+
+.invoice-title-section {
+  text-align: right;
+  z-index: 1;
+}
+
+.invoice-title {
+  font-size: 32pt;
+  font-weight: 300;
+  color: #333;
+  margin-bottom: 1mm;
+  letter-spacing: -0.5px;
+}
+
+.invoice-number {
+  font-size: 8.5pt;
+  color: #666;
+  margin-bottom: 8mm;
+}
+
+.balance-due-label {
+  font-size: 8.5pt;
+  color: #666;
+  margin-bottom: 1mm;
+}
+
+.balance-due-amount {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #333;
+}
+
+.invoice-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12mm;
+}
+
+.bill-to-section {
+  font-size: 8.5pt;
+}
+
+.bill-to-label {
+  color: #888;
+  margin-bottom: 2mm;
+  font-weight: 400;
+}
+
+.bill-to-address {
+  color: #333;
+  line-height: 1.45;
+}
+
+.invoice-details {
+  text-align: right;
+  font-size: 8.5pt;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3mm;
+  margin-bottom: 1.5mm;
+}
+
+.detail-label {
+  color: #888;
+  min-width: 28mm;
+  text-align: right;
+}
+
+.detail-value {
+  color: #333;
+  min-width: 30mm;
+  text-align: left;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10mm;
+  table-layout: fixed;
+}
+
+#data-table thead {
+  background: #4A4A4A;
+  color: white;
+}
+
+#data-table th {
+  padding: 2.5mm 2mm;
+  text-align: left;
+  font-weight: 500;
+  font-size: 8.5pt;
+}
+
+#data-table th:first-child {
+  width: var(--col-num-w);
+  text-align: left;
+  color: transparent;
+  background: #4A4A4A;
+}
+
+#data-table th:nth-child(2) {
+  width: var(--col-desc-w);
+}
+
+#data-table th:nth-child(3) {
+  width: var(--col-qty-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(4) {
+  width: var(--col-rate-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(5) {
+  width: var(--col-discount-w);
+  text-align: right;
+}
+
+#data-table th:nth-child(6) {
+  width: var(--col-amount-w);
+  text-align: right;
+}
+
+#data-table tbody tr {
+  border-bottom: 1px solid #ECECEC;
+}
+
+#data-table tbody td {
+  padding: 3mm 2mm;
+  vertical-align: top;
+  font-size: 8.5pt;
+}
+
+#data-table tbody td:first-child {
+  text-align: center;
+  color: #666;
+  font-size: 8pt;
+}
+
+#data-table tbody td:nth-child(3),
+#data-table tbody td:nth-child(4),
+#data-table tbody td:nth-child(5),
+#data-table tbody td:nth-child(6) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-description {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1mm;
+  font-size: 8.5pt;
+}
+
+.item-details {
+  color: #888;
+  font-size: 8pt;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+#report-totals {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12mm;
+}
+
+.totals-table {
+  width: 78mm;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.8mm 2mm;
+  font-size: 8.5pt;
+}
+
+.total-row.subtotal {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.total-row.tax {
+  color: #666;
+}
+
+.total-row.final {
+  background: #F8F8F8;
+  font-weight: 700;
+  font-size: 9pt;
+  margin-top: 1mm;
+  padding: 2mm;
+}
+
+.total-row.payment {
+  color: #E53935;
+  font-size: 8.5pt;
+  margin-top: 1mm;
+  font-weight: 400;
+}
+
+.total-row.balance-due {
+  background: #F8F8F8;
+  font-weight: 700;
+  font-size: 9pt;
+  margin-top: 1mm;
+  padding: 2mm;
+}
+
+.total-label {
+  text-align: right;
+}
+
+.total-value {
+  text-align: right;
+  min-width: 28mm;
+  font-variant-numeric: tabular-nums;
+}
+
+.notes-section {
+  margin-bottom: 5mm;
+}
+
+.notes-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 1.5mm;
+}
+
+.notes-content {
+  font-size: 8pt;
+  color: #666;
+  line-height: 1.4;
+}
+
+.payment-options {
+  margin-bottom: 5mm;
+}
+
+.payment-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 2mm;
+}
+
+.payment-icons {
+  display: flex;
+  gap: 2mm;
+  align-items: center;
+}
+
+.payment-icon {
+  border: 1px solid #D0D0D0;
+  padding: 1.5mm 3mm;
+  border-radius: 2px;
+  font-size: 8pt;
+  font-weight: 600;
+  background: white;
+  display: inline-block;
+}
+
+.payment-icon.paypal {
+  color: #003087;
+  border-color: #003087;
+}
+
+.payment-icon.card {
+  font-size: 10pt;
+  padding: 1.5mm 2.5mm;
+}
+
+.terms-section {
+  margin-bottom: 10mm;
+}
+
+.terms-heading {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 1.5mm;
+}
+
+.terms-content {
+  font-size: 8pt;
+  color: #666;
+  line-height: 1.4;
+}
+
+.footer-note {
+  text-align: center;
+  font-size: 7.5pt;
+  color: #999;
+  padding-top: 8mm;
+  border-top: 1px solid #E8E8E8;
+}
+
+.footer-note .brand {
+  font-weight: 700;
+  background: linear-gradient(90deg, #FF6B35 0%, #F7B731 25%, #5BC0EB 50%, #9B59B6 75%, #E74C3C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+</style>
+
+
+
+<div class="page-container">
+  <div class="header-decoration">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      
+      
+      
+      
+      
+    </svg>
+  </div>
+
+  <div id="report-header">
+    <div class="logo-section">
+      <div class="logo-circle">Z</div>
+      <div class="company-info">
+        <div class="company-name">Zylker</div>
+        <div>4141 Hacienda Dr</div>
+        <div>Pleasanton, California 94588</div>
+        <div>U.S.A</div>
+      </div>
+    </div>
+    <div class="invoice-title-section">
+      <div class="invoice-title">Invoice</div>
+      <div class="invoice-number">Invoice {invoice_number}</div>
+      <div class="balance-due-label">Balance Due</div>
+      <div class="balance-due-amount">{balance_due}</div>
+    </div>
+  </div>
+
+  <div class="invoice-meta">
+    <div class="bill-to-section">
+      <div class="bill-to-label">Bill To</div>
+      <div class="bill-to-address">
+        <div>{bill_to_name}</div>
+        <div>{bill_to_address_line1}</div>
+        <div>{bill_to_address_line2}</div>
+        <div>{bill_to_address_line3}</div>
+        <div>{bill_to_country}</div>
+      </div>
+    </div>
+    <div class="invoice-details">
+      <div class="detail-row">
+        <div class="detail-label">Invoice Date :</div>
+        <div class="detail-value">{invoice_date}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Terms :</div>
+        <div class="detail-value">{terms}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Due Date :</div>
+        <div class="detail-value">{due_date}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">P.O.# :</div>
+        <div class="detail-value">{po_number}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Project Name :</div>
+        <div class="detail-value">{project_name}</div>
+      </div>
+    </div>
+  </div>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th data-label="item_description">Item &amp; Description</th>
+        <th data-label="qty">Qty</th>
+        <th data-label="rate">Rate</th>
+        <th data-label="discount">Discount</th>
+        <th data-label="amount">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{row_line_number}</td>
+        <td>
+          <div class="item-description">{row_item_name}</div>
+          <div class="item-details">{row_item_description}</div>
+        </td>
+        <td>{row_qty}</td>
+        <td>{row_rate}</td>
+        <td>{row_discount}</td>
+        <td>{row_amount}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="report-totals">
+    <div class="totals-table">
+      <div class="total-row subtotal">
+        <div class="total-label">Sub Total</div>
+        <div class="total-value">{subtotal}</div>
+      </div>
+      <div class="total-row tax">
+        <div class="total-label">{tax1_label}</div>
+        <div class="total-value">{tax1_amount}</div>
+      </div>
+      <div class="total-row tax">
+        <div class="total-label">{tax2_label}</div>
+        <div class="total-value">{tax2_amount}</div>
+      </div>
+      <div class="total-row final">
+        <div class="total-label">Total</div>
+        <div class="total-value">{total}</div>
+      </div>
+      <div class="total-row payment">
+        <div class="total-label">Payment Made</div>
+        <div class="total-value">{payment_made}</div>
+      </div>
+      <div class="total-row balance-due">
+        <div class="total-label">Balance Due</div>
+        <div class="total-value">{balance_due_final}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-section">
+    <div class="notes-heading">Notes</div>
+    <div class="notes-content">{notes}</div>
+  </div>
+
+  <div class="payment-options">
+    <div class="payment-heading">Payment Options</div>
+    <div class="payment-icons">
+      <div class="payment-icon paypal">PayPal</div>
+      <div class="payment-icon card">💳</div>
+    </div>
+  </div>
+
+  <div class="terms-section">
+    <div class="terms-heading">Terms &amp; Conditions</div>
+    <div class="terms-content">{terms_and_conditions}</div>
+  </div>
+
+  <div class="footer-note">
+    This sample invoice template was created using <span class="brand">Zoho</span> Invoice
+  </div>
+</div>
+
+

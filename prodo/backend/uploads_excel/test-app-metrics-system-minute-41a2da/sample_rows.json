@@ -1,0 +1,14 @@
+{
+  "sample_row": {
+    "row_disk_wps": "NOT_VISIBLE",
+    "row_mem": "NOT_VISIBLE",
+    "row_cpu": "NOT_VISIBLE",
+    "row_proc_handles": "NOT_VISIBLE",
+    "row_proc_cpu": "NOT_VISIBLE",
+    "row_minute_utc": "NOT_VISIBLE",
+    "row_net_txps": "NOT_VISIBLE",
+    "row_net_rxps": "NOT_VISIBLE",
+    "row_disk_rps": "NOT_VISIBLE",
+    "row_proc_rss_mb": "NOT_VISIBLE"
+  }
+}

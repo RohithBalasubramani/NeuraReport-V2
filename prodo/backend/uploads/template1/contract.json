@@ -1,0 +1,117 @@
+{
+  "tokens": {
+    "scalars": [
+      "timestamp",
+      "logo_url",
+      "organization_name",
+      "organization_subtitle",
+      "transaction_status",
+      "transaction_reference_number",
+      "transaction_date_time",
+      "can_number",
+      "bill_amount",
+      "bank_name",
+      "payment_note",
+      "security_warning_text",
+      "payment_url",
+      "payment_provider",
+      "page_number"
+    ],
+    "row_tokens": [],
+    "totals": []
+  },
+  "mapping": {
+    "timestamp": "payments.payment_date",
+    "logo_url": "LITERAL:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+    "organization_name": "LITERAL:Hyderabad Metropolitan Water Supply & Sewerage Board",
+    "organization_subtitle": "LITERAL:Online Bill Payment",
+    "transaction_status": "LITERAL:Success",
+    "transaction_reference_number": "payments.transaction_ref",
+    "transaction_date_time": "payments.payment_date",
+    "can_number": "customers.customer_id",
+    "bill_amount": "invoices.total_amount",
+    "bank_name": "LITERAL:State Bank of India",
+    "payment_note": "LITERAL:This is a computer-generated receipt and does not require a signature.",
+    "security_warning_text": "LITERAL:IMPORTANT: Please do not share your transaction details with anyone. HMWSSB will never ask for your payment information via email or phone.",
+    "payment_url": "LITERAL:https://payment.hmwssb.gov.in",
+    "payment_provider": "LITERAL:BillDesk",
+    "page_number": "LITERAL:Page 1 of 1"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "customer_id",
+    "child_table": "customers",
+    "child_key": "customer_id"
+  },
+  "date_columns": {
+    "payments": "payment_date"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [],
+  "row_computed": {
+    "timestamp": {
+      "op": "format_date",
+      "column": "payments.payment_date",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "transaction_date_time": {
+      "op": "format_date",
+      "column": "payments.payment_date",
+      "format": "%d/%m/%Y %H:%M:%S"
+    },
+    "bill_amount": {
+      "op": "format_number",
+      "column": "invoices.total_amount",
+      "decimals": 2
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "timestamp": "date(%Y-%m-%d %H:%M:%S)",
+    "transaction_date_time": "date(%d/%m/%Y %H:%M:%S)",
+    "bill_amount": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [
+    "timestamp",
+    "logo_url",
+    "organization_name",
+    "organization_subtitle",
+    "transaction_status",
+    "transaction_reference_number",
+    "transaction_date_time",
+    "can_number",
+    "bill_amount",
+    "bank_name",
+    "payment_note",
+    "security_warning_text",
+    "payment_url",
+    "payment_provider",
+    "page_number"
+  ],
+  "row_tokens": [],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {
+    "logo_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+    "organization_name": "Hyderabad Metropolitan Water Supply & Sewerage Board",
+    "organization_subtitle": "Online Bill Payment",
+    "transaction_status": "Success",
+    "bank_name": "State Bank of India",
+    "payment_note": "This is a computer-generated receipt and does not require a signature.",
+    "security_warning_text": "IMPORTANT: Please do not share your transaction details with anyone. HMWSSB will never ask for your payment information via email or phone.",
+    "payment_url": "https://payment.hmwssb.gov.in",
+    "payment_provider": "BillDesk",
+    "page_number": "Page 1 of 1"
+  },
+  "notes": "Transaction acknowledgment receipt for HMWSSB water bill payments. Single-page format with no repeating sections. Joins invoices to customers and payments tables to display transaction confirmation details."
+}

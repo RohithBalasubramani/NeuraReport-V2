@@ -1,0 +1,29 @@
+{
+  "scalars": [
+    "invoice_date",
+    "invoice_number",
+    "from_company_name",
+    "from_email",
+    "from_address_1",
+    "from_address_2",
+    "to_client_name",
+    "to_email",
+    "to_address_1",
+    "to_address_2",
+    "terms",
+    "due_date",
+    "notes"
+  ],
+  "row_tokens": [
+    "row_item_description",
+    "row_quantity",
+    "row_price",
+    "row_amount"
+  ],
+  "totals": [
+    "subtotal",
+    "tax",
+    "balance_due"
+  ],
+  "notes": "Standard invoice template with FROM/TO address blocks, line items table, and totals section. Footer contains branding link."
+}

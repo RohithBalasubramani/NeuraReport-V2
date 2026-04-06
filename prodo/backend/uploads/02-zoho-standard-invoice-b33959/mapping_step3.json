@@ -1,0 +1,278 @@
+{
+  "mapping": {
+    "invoice_number": "invoices.invoice_number",
+    "balance_due": "UNRESOLVED",
+    "bill_to_name": "customers.customer_name",
+    "bill_to_address_line1": "customers.billing_address",
+    "bill_to_address_line2": "UNRESOLVED",
+    "bill_to_address_line3": "UNRESOLVED",
+    "bill_to_country": "customers.country",
+    "invoice_date": "invoices.issue_date",
+    "terms": "params.terms",
+    "due_date": "invoices.due_date",
+    "po_number": "params.po_number",
+    "project_name": "params.project_name",
+    "row_line_number": "invoice_items.line_no",
+    "row_item_name": "invoice_items.item_code",
+    "row_item_description": "invoice_items.description",
+    "row_qty": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_discount": "UNRESOLVED",
+    "row_amount": "invoice_items.line_total",
+    "subtotal": "invoices.subtotal",
+    "tax1_label": "params.tax1_label",
+    "tax1_amount": "UNRESOLVED",
+    "tax2_label": "params.tax2_label",
+    "tax2_amount": "UNRESOLVED",
+    "total": "invoices.total_amount",
+    "payment_made": "payments.amount_paid",
+    "balance_due_final": "UNRESOLVED",
+    "notes": "invoices.notes",
+    "terms_and_conditions": "params.terms_and_conditions"
+  },
+  "meta": {
+    "unresolved": [
+      "balance_due",
+      "bill_to_address_line2",
+      "bill_to_address_line3",
+      "row_discount",
+      "tax1_amount",
+      "tax2_amount",
+      "balance_due_final"
+    ],
+    "hints": {
+      "balance_due": {
+        "op": "subtract",
+        "over": [
+          "columns:invoices.total_amount",
+          "columns:payments.amount_paid"
+        ]
+      },
+      "bill_to_address_line2": {
+        "op": "concat",
+        "over": [
+          "columns:customers.city",
+          "columns:customers.state"
+        ]
+      },
+      "bill_to_address_line3": {
+        "op": "format",
+        "over": [
+          "columns:customers.postal_code",
+          "columns:customers.state"
+        ]
+      },
+      "row_discount": {
+        "op": "subtract",
+        "over": [
+          "note:Not present in catalog; may need calculation from unit_price, quantity, and line_total"
+        ]
+      },
+      "tax1_amount": {
+        "op": "multiply",
+        "over": [
+          "note:Tax calculation: subtotal * tax_rate (4.70%)"
+        ]
+      },
+      "tax2_amount": {
+        "op": "multiply",
+        "over": [
+          "note:Tax calculation: subtotal * tax_rate (7.00%)"
+        ]
+      },
+      "balance_due_final": {
+        "op": "subtract",
+        "over": [
+          "columns:invoices.total_amount",
+          "columns:payments.amount_paid"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "66a8043017ec6442bcd77378cb2f62d81e736613ca6c0965703ebcd655bbd375",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "c8d44931f0920f4a00db8323ea1647b1de078149a9a288f8287fbd9b8db27256",
+    "cache_key": "d82d8208fb4faa539eda54b4aabac99a7eddb2f8db1610c62e886fc8c9a2f0f5",
+    "pre_html_sha256": "a4eca9905b98d74ecd3395c3d98ec4c26941c4221027db5ece2622ce992e9cb3",
+    "post_html_sha256": "b7aa11266c0bf3d2c6fa0b0ce249de2570d98e8df0a84f79a11e78da9d706453",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "e1dfdba7aa3feea1b6a64b475f2b1101b3fc7dc2c01d7aaba8a7f22604b4b0b4",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "invoice_number": "invoices.invoice_number",
+      "balance_due": "UNRESOLVED",
+      "bill_to_name": "customers.customer_name",
+      "bill_to_address_line1": "customers.billing_address",
+      "bill_to_address_line2": "UNRESOLVED",
+      "bill_to_address_line3": "UNRESOLVED",
+      "bill_to_country": "customers.country",
+      "invoice_date": "invoices.issue_date",
+      "terms": "params.terms",
+      "due_date": "invoices.due_date",
+      "po_number": "params.po_number",
+      "project_name": "params.project_name",
+      "row_line_number": "invoice_items.line_no",
+      "row_item_name": "invoice_items.item_code",
+      "row_item_description": "invoice_items.description",
+      "row_qty": "invoice_items.quantity",
+      "row_rate": "invoice_items.unit_price",
+      "row_discount": "UNRESOLVED",
+      "row_amount": "invoice_items.line_total",
+      "subtotal": "invoices.subtotal",
+      "tax1_label": "params.tax1_label",
+      "tax1_amount": "UNRESOLVED",
+      "tax2_label": "params.tax2_label",
+      "tax2_amount": "UNRESOLVED",
+      "total": "invoices.total_amount",
+      "payment_made": "payments.amount_paid",
+      "balance_due_final": "UNRESOLVED",
+      "notes": "invoices.notes",
+      "terms_and_conditions": "params.terms_and_conditions"
+    },
+    "token_samples": {
+      "company_name": "Zylker",
+      "company_address_line1": "4141 Hacienda Dr",
+      "company_address_line2": "Pleasanton, California 94588",
+      "company_country": "U.S.A",
+      "invoice_number": "INV-17",
+      "balance_due": "$562.750",
+      "bill_to_name": "Rob & Joe Traders",
+      "bill_to_address_line1": "2708 Southside Lane",
+      "bill_to_address_line2": "Fresno CA",
+      "bill_to_address_line3": "90018 CA",
+      "bill_to_country": "USA",
+      "invoice_date": "03 May 2018",
+      "terms": "Due On Receipt",
+      "due_date": "03 May 2018",
+      "po_number": "321014",
+      "project_name": "Design project",
+      "row_line_number": "1",
+      "row_item_name": "Brochure Design",
+      "row_item_description": "Brochure Design Single Sided Color",
+      "row_qty": "1.00",
+      "row_rate": "300.000",
+      "row_discount": "0.00",
+      "row_amount": "300.000",
+      "subtotal": "630.000",
+      "tax1_label": "Sample Tax1 (4.70%)",
+      "tax1_amount": "11.750",
+      "tax2_label": "Sample Tax2 (7.00%)",
+      "tax2_amount": "21.000",
+      "total": "$662.750",
+      "payment_made": "(-) 100.000",
+      "balance_due_final": "$562.750",
+      "notes": "Thanks for your business.",
+      "terms_and_conditions": "Please pay the invoice before the due date."
+    },
+    "meta": {
+      "unresolved": [
+        "balance_due",
+        "bill_to_address_line2",
+        "bill_to_address_line3",
+        "row_discount",
+        "tax1_amount",
+        "tax2_amount",
+        "balance_due_final"
+      ],
+      "hints": {
+        "balance_due": {
+          "op": "subtract",
+          "over": [
+            "columns:invoices.total_amount",
+            "columns:payments.amount_paid"
+          ]
+        },
+        "bill_to_address_line2": {
+          "op": "concat",
+          "over": [
+            "columns:customers.city",
+            "columns:customers.state"
+          ]
+        },
+        "bill_to_address_line3": {
+          "op": "format",
+          "over": [
+            "columns:customers.postal_code",
+            "columns:customers.state"
+          ]
+        },
+        "row_discount": {
+          "op": "subtract",
+          "over": [
+            "note:Not present in catalog; may need calculation from unit_price, quantity, and line_total"
+          ]
+        },
+        "tax1_amount": {
+          "op": "multiply",
+          "over": [
+            "note:Tax calculation: subtotal * tax_rate (4.70%)"
+          ]
+        },
+        "tax2_amount": {
+          "op": "multiply",
+          "over": [
+            "note:Tax calculation: subtotal * tax_rate (7.00%)"
+          ]
+        },
+        "balance_due_final": {
+          "op": "subtract",
+          "over": [
+            "columns:invoices.total_amount",
+            "columns:payments.amount_paid"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "company_address_line2": "Pleasanton, California 94588",
+      "company_country": "U.S.A",
+      "company_address_line1": "4141 Hacienda Dr",
+      "company_name": "Zylker"
+    }
+  },
+  "constant_replacements": {
+    "company_address_line2": "Pleasanton, California 94588",
+    "company_country": "U.S.A",
+    "company_address_line1": "4141 Hacienda Dr",
+    "company_name": "Zylker"
+  },
+  "token_samples": {
+    "company_name": "Zylker",
+    "company_address_line1": "4141 Hacienda Dr",
+    "company_address_line2": "Pleasanton, California 94588",
+    "company_country": "U.S.A",
+    "invoice_number": "INV-17",
+    "balance_due": "$562.750",
+    "bill_to_name": "Rob & Joe Traders",
+    "bill_to_address_line1": "2708 Southside Lane",
+    "bill_to_address_line2": "Fresno CA",
+    "bill_to_address_line3": "90018 CA",
+    "bill_to_country": "USA",
+    "invoice_date": "03 May 2018",
+    "terms": "Due On Receipt",
+    "due_date": "03 May 2018",
+    "po_number": "321014",
+    "project_name": "Design project",
+    "row_line_number": "1",
+    "row_item_name": "Brochure Design",
+    "row_item_description": "Brochure Design Single Sided Color",
+    "row_qty": "1.00",
+    "row_rate": "300.000",
+    "row_discount": "0.00",
+    "row_amount": "300.000",
+    "subtotal": "630.000",
+    "tax1_label": "Sample Tax1 (4.70%)",
+    "tax1_amount": "11.750",
+    "tax2_label": "Sample Tax2 (7.00%)",
+    "tax2_amount": "21.000",
+    "total": "$662.750",
+    "payment_made": "(-) 100.000",
+    "balance_due_final": "$562.750",
+    "notes": "Thanks for your business.",
+    "terms_and_conditions": "Please pay the invoice before the due date."
+  }
+}

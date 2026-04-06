@@ -1,0 +1,62 @@
+{
+  "mapping": {
+    "row_table_name": "app_device_tables.name",
+    "row_device_id": "app_device_tables.device_id",
+    "row_schema_id": "app_device_tables.schema_id",
+    "row_db_target_id": "app_device_tables.db_target_id",
+    "row_status": "app_device_tables.status",
+    "row_mapping_health": "app_device_tables.mapping_health",
+    "row_last_migrated_at": "app_device_tables.last_migrated_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "2f160608fda5030e7a9ef423f5153503c902e70aaaaf838a6caf7e02358cbc70",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "6db0887e83a6d1edd62543e816c06010c100f690f58888fb7cad2d592fd36e09",
+    "cache_key": "6fc9944994f290b8bb26b506399850baa330bd33f6816809afe68a9b0bbad88e",
+    "pre_html_sha256": "fa193a64fb257ec6614ec0d9d747315d35487f044f0361b8938b6cc3ab6afcea",
+    "post_html_sha256": "fa193a64fb257ec6614ec0d9d747315d35487f044f0361b8938b6cc3ab6afcea",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_table_name": "app_device_tables.name",
+      "row_device_id": "app_device_tables.device_id",
+      "row_schema_id": "app_device_tables.schema_id",
+      "row_db_target_id": "app_device_tables.db_target_id",
+      "row_status": "app_device_tables.status",
+      "row_mapping_health": "app_device_tables.mapping_health",
+      "row_last_migrated_at": "app_device_tables.last_migrated_at"
+    },
+    "token_samples": {
+      "row_table_name": "{row_table_name}",
+      "row_device_id": "{row_device_id}",
+      "row_schema_id": "{row_schema_id}",
+      "row_db_target_id": "{row_db_target_id}",
+      "row_status": "{row_status}",
+      "row_mapping_health": "{row_mapping_health}",
+      "row_last_migrated_at": "{row_last_migrated_at}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_table_name": "{row_table_name}",
+    "row_device_id": "{row_device_id}",
+    "row_schema_id": "{row_schema_id}",
+    "row_db_target_id": "{row_db_target_id}",
+    "row_status": "{row_status}",
+    "row_mapping_health": "{row_mapping_health}",
+    "row_last_migrated_at": "{row_last_migrated_at}"
+  }
+}

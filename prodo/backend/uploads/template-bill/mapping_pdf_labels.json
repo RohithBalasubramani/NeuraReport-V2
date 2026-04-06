@@ -1,0 +1,57 @@
+[
+  {
+    "header": "transaction_status",
+    "placeholder": "{transaction_status}",
+    "mapping": "transactions.transaction_status"
+  },
+  {
+    "header": "transaction_ref",
+    "placeholder": "{transaction_ref}",
+    "mapping": "transactions.transaction_ref_number"
+  },
+  {
+    "header": "transaction_date",
+    "placeholder": "{transaction_date}",
+    "mapping": "transactions.transaction_date"
+  },
+  {
+    "header": "transaction_time",
+    "placeholder": "{transaction_time}",
+    "mapping": "transactions.transaction_time"
+  },
+  {
+    "header": "can_no",
+    "placeholder": "{can_no}",
+    "mapping": "transactions.can_number"
+  },
+  {
+    "header": "bill_amount",
+    "placeholder": "{bill_amount}",
+    "mapping": "transactions.bill_amount"
+  },
+  {
+    "header": "bank_name",
+    "placeholder": "{bank_name}",
+    "mapping": "transactions.bank_name"
+  },
+  {
+    "header": "logo_url",
+    "placeholder": "{logo_url}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "billdesk_logo_url",
+    "placeholder": "{billdesk_logo_url}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "page_url",
+    "placeholder": "{page_url}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "update_note",
+    "placeholder": "{update_note}",
+    "mapping": "UNRESOLVED"
+  }
+]

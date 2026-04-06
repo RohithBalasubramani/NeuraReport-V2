@@ -1,0 +1,12 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_provider",
+    "row_conn",
+    "row_status",
+    "row_last_msg"
+  ],
+  "totals": {},
+  "notes": "Database connection targets report showing ID, provider type, connection string, status, and last message for each database target."
+}

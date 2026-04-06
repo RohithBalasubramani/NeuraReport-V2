@@ -1,0 +1,26 @@
+{
+  "correlation_id": "c09ad7ffda8b4b61a205d01687b31572",
+  "file_checksums": {
+    "reference_p1.html": "ec5080b584cf2339259f304d2c923600d0c5debba85dee004e550d8e5c351cbe",
+    "reference_p1.png": "4eae86e0390bfea403371754060866f67f0029549696fa8883866db7193c7613",
+    "report_final.png": "dfc6c79b96a7319b71798e2697231dde3b00833f13641520a1927ff77361a8dd",
+    "sample_rows.json": "bd50ee9a1e5314a681d3f9b4d41bee92bbf5f1d5eb56e9dc7f4ea0c71a628ae8",
+    "source.xlsx": "e35c377d49ad236bd50a66854f610019ddd74b7df78d50d42dd042e1a2a59e14",
+    "template_p1.html": "fbdf14afd8e6c15b8a65653a14457c61451d76d8020b52217d8c800ca9032e13"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/flow-meter-report-f4658b/source.xlsx"
+  ],
+  "pid": 1555247,
+  "produced_at": "2026-02-20T06:32:34.612257+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

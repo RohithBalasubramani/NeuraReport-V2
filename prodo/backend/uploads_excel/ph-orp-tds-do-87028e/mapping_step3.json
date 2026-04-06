@@ -1,0 +1,87 @@
+{
+  "mapping": {
+    "row_orp_101": "neuract__ANALYSER_TABLE.ORP_101",
+    "row_orp_102": "neuract__ANALYSER_TABLE.ORP_102",
+    "row_ph_101": "neuract__ANALYSER_TABLE.PH_101",
+    "row_ph_102": "neuract__ANALYSER_TABLE.PH_102",
+    "row_orp_103": "neuract__ANALYSER_TABLE.ORP_103",
+    "row_ph_103": "neuract__ANALYSER_TABLE.PH_103",
+    "row_tds_101": "neuract__ANALYSER_TABLE.TDS_101",
+    "row_ph_104": "neuract__ANALYSER_TABLE.PH_104",
+    "row_tds_102": "neuract__ANALYSER_TABLE.TDS_102",
+    "row_do_101": "neuract__ANALYSER_TABLE.D0_101"
+  },
+  "meta": {
+    "unresolved": [
+      "row_analysers"
+    ],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "3f7f41f46c60a2215429b72b71e4c1f9165b20237468c7d38faae43b45f4b012",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "",
+    "cache_key": "1d976118e557c7817df5b8d03d893eca0d014241b7a73a2ccc095b7bc450a37b",
+    "pre_html_sha256": "42473312609d73bd0738e6babc89b974fe26b9356ced49a2b98b0e3611b6542c",
+    "post_html_sha256": "42473312609d73bd0738e6babc89b974fe26b9356ced49a2b98b0e3611b6542c",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_orp_101": "neuract__ANALYSER_TABLE.ORP_101",
+      "row_orp_102": "neuract__ANALYSER_TABLE.ORP_102",
+      "row_ph_101": "neuract__ANALYSER_TABLE.PH_101",
+      "row_ph_102": "neuract__ANALYSER_TABLE.PH_102",
+      "row_orp_103": "neuract__ANALYSER_TABLE.ORP_103",
+      "row_ph_103": "neuract__ANALYSER_TABLE.PH_103",
+      "row_tds_101": "neuract__ANALYSER_TABLE.TDS_101",
+      "row_ph_104": "neuract__ANALYSER_TABLE.PH_104",
+      "row_tds_102": "neuract__ANALYSER_TABLE.TDS_102",
+      "row_do_101": "neuract__ANALYSER_TABLE.D0_101"
+    },
+    "token_samples": {
+      "row_analysers": "ANALYSERS",
+      "row_orp_101": "{row_orp_101}",
+      "row_orp_102": "{row_orp_102}",
+      "row_ph_101": "{row_ph_101}",
+      "row_ph_102": "{row_ph_102}",
+      "row_orp_103": "{row_orp_103}",
+      "row_ph_103": "{row_ph_103}",
+      "row_tds_101": "{row_tds_101}",
+      "row_ph_104": "{row_ph_104}",
+      "row_tds_102": "{row_tds_102}",
+      "row_do_101": "{row_do_101}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_analysers"
+      ],
+      "hints": {
+        "row_analysers": {
+          "op": "STATIC_LABEL",
+          "over": [
+            "note:This appears to be a row label column that should contain the analyzer names or a category label, but no matching column exists in the catalog"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_analysers": "ANALYSERS",
+    "row_orp_101": "{row_orp_101}",
+    "row_orp_102": "{row_orp_102}",
+    "row_ph_101": "{row_ph_101}",
+    "row_ph_102": "{row_ph_102}",
+    "row_orp_103": "{row_orp_103}",
+    "row_ph_103": "{row_ph_103}",
+    "row_tds_101": "{row_tds_101}",
+    "row_ph_104": "{row_ph_104}",
+    "row_tds_102": "{row_tds_102}",
+    "row_do_101": "{row_do_101}"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header parameters required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Notification records from app_notifications table with ID, type, message, user, read status, and timestamp",
+      "columns": [
+        "row_id",
+        "row_type",
+        "row_message",
+        "row_user",
+        "row_read",
+        "row_time"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_notifications.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report",
+      "columns": []
+    }
+  },
+  "semantics": "This report performs a straightforward SELECT of all columns from app_notifications with no filtering or parameter passthrough. All tokens are direct column mappings.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required — direct 1:1 column mapping from app_notifications table to row tokens"
+  ]
+}

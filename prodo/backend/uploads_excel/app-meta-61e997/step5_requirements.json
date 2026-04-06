@@ -1,0 +1,31 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — report has no scalar tokens",
+      "columns": []
+    },
+    "rows": {
+      "description": "All metadata key-value pairs from app_meta table",
+      "columns": [
+        "row_key",
+        "row_value"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required — report has no totals tokens",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no parameters — all data is displayed without filtering. The row dataset simply lists all metadata entries in insertion order.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required — direct column mapping from app_meta table"
+  ]
+}

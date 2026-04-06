@@ -1,0 +1,66 @@
+{
+  "id": "b509aa9b-c893-4461-b636-7947591d9ad1",
+  "name": "Patient Data",
+  "sheets": [
+    {
+      "id": "b5aad9bb-9bd9-441b-b716-280d8a7ebecb",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Ward",
+          "Admissions",
+          "Discharges",
+          "Avg Stay (days)",
+          "Satisfaction"
+        ],
+        [
+          "ICU",
+          45,
+          38,
+          8.2,
+          4.1
+        ],
+        [
+          "Cardiology",
+          120,
+          115,
+          4.5,
+          4.5
+        ],
+        [
+          "Orthopedics",
+          85,
+          82,
+          3.2,
+          4.7
+        ],
+        [
+          "Oncology",
+          65,
+          58,
+          12.1,
+          4.3
+        ],
+        [
+          "Emergency",
+          310,
+          305,
+          1.8,
+          3.9
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T18:11:59.625518+00:00",
+  "updated_at": "2026-02-22T18:11:59.625518+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

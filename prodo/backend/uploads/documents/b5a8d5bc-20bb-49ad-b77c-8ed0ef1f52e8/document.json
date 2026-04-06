@@ -1,0 +1,18 @@
+{
+  "id": "b5a8d5bc-20bb-49ad-b77c-8ed0ef1f52e8",
+  "name": "Q4 Sales Narrative",
+  "content": {
+    "type": "doc",
+    "content": []
+  },
+  "content_type": "tiptap",
+  "version": 1,
+  "created_at": "2026-02-22T19:29:24.185358+00:00",
+  "updated_at": "2026-02-22T19:29:24.185358+00:00",
+  "owner_id": null,
+  "is_template": false,
+  "track_changes_enabled": false,
+  "collaboration_enabled": false,
+  "tags": [],
+  "metadata": {}
+}

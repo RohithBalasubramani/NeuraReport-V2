@@ -1,0 +1,110 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "7a1911f45e28aa358a92e07dcbcc7893484b92de2bdc65a163ccad225c76b5a9",
+  "db_signature": "f1f6a4d420d8bda2f34f8b434d77f838720689208e1ed19ddee904d55d1849d6",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1775305452,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_date_time",
+        "row_m1a_2_pt100",
+        "row_m1a_3_pt100",
+        "row_p3a_pt100",
+        "row_p4a_pt100",
+        "row_p5a_pt100",
+        "row_p6a_pt100",
+        "row_p8a_pt100",
+        "row_p8a_3_pt100",
+        "row_p8a_4_pt100",
+        "row_p8a_dryout_pt100",
+        "row_p9a_dryout_pt100",
+        "row_room_pt100"
+      ],
+      "totals": []
+    },
+    "mapping": {},
+    "unresolved": [
+      "row_date_time",
+      "row_m1a_2_pt100",
+      "row_m1a_3_pt100",
+      "row_p3a_pt100",
+      "row_p4a_pt100",
+      "row_p5a_pt100",
+      "row_p6a_pt100",
+      "row_p8a_pt100",
+      "row_p8a_3_pt100",
+      "row_p8a_4_pt100",
+      "row_p8a_dryout_pt100",
+      "row_p9a_dryout_pt100",
+      "row_room_pt100"
+    ],
+    "join": {
+      "parent_table": "temperature_logs",
+      "parent_key": "id",
+      "child_table": "temperature_logs",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {
+        "date_from": "UNRESOLVED",
+        "date_to": "UNRESOLVED"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_m1a_2_pt100": "number(2)",
+      "row_m1a_3_pt100": "number(2)",
+      "row_p3a_pt100": "number(2)",
+      "row_p4a_pt100": "number(2)",
+      "row_p5a_pt100": "number(2)",
+      "row_p6a_pt100": "number(2)",
+      "row_p8a_pt100": "number(2)",
+      "row_p8a_3_pt100": "number(2)",
+      "row_p8a_4_pt100": "number(2)",
+      "row_p8a_dryout_pt100": "number(2)",
+      "row_p9a_dryout_pt100": "number(2)",
+      "row_room_pt100": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_date_time ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [],
+    "row_order": [
+      "row_date_time ASC"
+    ],
+    "literals": {},
+    "notes": "Catalog is empty. All mappings are UNRESOLVED. Date formatting and numeric precision rules are pre-configured for when the source columns are identified.",
+    "_schema_version": "2.1"
+  },
+  "key_tokens": []
+}

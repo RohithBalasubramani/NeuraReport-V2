@@ -1,0 +1,18 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_gateway_name",
+    "row_host",
+    "row_protocol_hint",
+    "row_status",
+    "row_created_at",
+    "row_updated_at"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Gateways",
+    "header_count": 6,
+    "data_row_count": 7,
+    "column_count": 6
+  }
+}

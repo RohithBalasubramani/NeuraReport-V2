@@ -1,0 +1,124 @@
+{
+  "tokens": {
+    "scalars": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_auto_reconnect",
+      "row_last_error",
+      "row_latency_ms",
+      "row_name",
+      "row_port",
+      "row_protocol",
+      "row_status"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date_from": "PARAM:date_from",
+    "date_to": "PARAM:date_to",
+    "generated_at": "PARAM:generated_at",
+    "row_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_port": "app_devices.port",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_last_error": "app_devices.last_error"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_devices",
+    "parent_key": "id",
+    "child_table": "app_devices",
+    "child_key": "id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_auto_reconnect",
+          "from": [
+            "app_devices.auto_reconnect"
+          ]
+        },
+        {
+          "as": "row_last_error",
+          "from": [
+            "app_devices.last_error"
+          ]
+        },
+        {
+          "as": "row_latency_ms",
+          "from": [
+            "app_devices.latency_ms"
+          ]
+        },
+        {
+          "as": "row_name",
+          "from": [
+            "app_devices.name"
+          ]
+        },
+        {
+          "as": "row_port",
+          "from": [
+            "app_devices.port"
+          ]
+        },
+        {
+          "as": "row_protocol",
+          "from": [
+            "app_devices.protocol"
+          ]
+        },
+        {
+          "as": "row_status",
+          "from": [
+            "app_devices.status"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_latency_ms": "number(1)",
+    "row_port": "number(0)"
+  },
+  "order_by": {
+    "rows": [
+      "app_devices.name ASC"
+    ]
+  },
+  "header_tokens": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_auto_reconnect",
+    "row_last_error",
+    "row_latency_ms",
+    "row_name",
+    "row_port",
+    "row_protocol",
+    "row_status"
+  ],
+  "row_order": [
+    "app_devices.name ASC"
+  ],
+  "literals": {},
+  "notes": "Full device inventory snapshot from app_devices. date_from/date_to/generated_at are all parameter pass-throughs — they do not filter rows. generated_at must be injected by the report runner as the current server timestamp. auto_reconnect is a boolean/integer flag stored in the DB and displayed as-is."
+}

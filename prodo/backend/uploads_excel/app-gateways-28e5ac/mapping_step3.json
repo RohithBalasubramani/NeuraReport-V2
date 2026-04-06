@@ -1,0 +1,58 @@
+{
+  "mapping": {
+    "row_gateway_name": "app_gateways.name",
+    "row_host": "app_gateways.host",
+    "row_protocol_hint": "app_gateways.protocol_hint",
+    "row_status": "app_gateways.status",
+    "row_created_at": "app_gateways.created_at",
+    "row_updated_at": "app_gateways.updated_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "96d39a1f33400ade4938c78cac013bb11009fb1a3ce6964766b651aa8caa92f2",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "4a60a3c2902487d36e8863c2af8f23c96bf701f239e62e27e9d74cbbcf31129c",
+    "cache_key": "e37d5b39b99e42680dd3678bf860dc030cab13ea71b540ce5a9d0c0a26dc19ad",
+    "pre_html_sha256": "e128498f5e96b2389e313cc73786db5c334f9429172c05ac6f3e5180ab584322",
+    "post_html_sha256": "e128498f5e96b2389e313cc73786db5c334f9429172c05ac6f3e5180ab584322",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_gateway_name": "app_gateways.name",
+      "row_host": "app_gateways.host",
+      "row_protocol_hint": "app_gateways.protocol_hint",
+      "row_status": "app_gateways.status",
+      "row_created_at": "app_gateways.created_at",
+      "row_updated_at": "app_gateways.updated_at"
+    },
+    "token_samples": {
+      "row_gateway_name": "{row_gateway_name}",
+      "row_host": "{row_host}",
+      "row_protocol_hint": "{row_protocol_hint}",
+      "row_status": "{row_status}",
+      "row_created_at": "{row_created_at}",
+      "row_updated_at": "{row_updated_at}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_gateway_name": "{row_gateway_name}",
+    "row_host": "{row_host}",
+    "row_protocol_hint": "{row_protocol_hint}",
+    "row_status": "{row_status}",
+    "row_created_at": "{row_created_at}",
+    "row_updated_at": "{row_updated_at}"
+  }
+}

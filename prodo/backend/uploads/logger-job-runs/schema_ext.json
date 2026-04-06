@@ -1,0 +1,18 @@
+{
+  "scalars": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_duration_ms",
+    "row_error_pct",
+    "row_job_id",
+    "row_read_lat_avg",
+    "row_rows",
+    "row_started_at",
+    "row_stopped_at",
+    "row_write_lat_avg"
+  ],
+  "totals": []
+}

@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required - report contains no scalar tokens",
+      "columns": []
+    },
+    "rows": {
+      "description": "Database target records from app_db_targets table",
+      "columns": [
+        "row_id",
+        "row_provider",
+        "row_conn",
+        "row_status",
+        "row_last_msg"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required - report contains no totals tokens",
+      "columns": []
+    }
+  },
+  "semantics": "Direct columnar passthrough with no filtering or parameters",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations needed - direct column mapping from app_db_targets table"
+  ]
+}

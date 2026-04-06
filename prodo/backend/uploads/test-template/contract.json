@@ -1,0 +1,83 @@
+{
+  "tokens": {
+    "scalars": [
+      "bank_name",
+      "bill_amount",
+      "can_number",
+      "generated_datetime",
+      "logo_url",
+      "transaction_datetime",
+      "transaction_reference",
+      "transaction_status"
+    ],
+    "row_tokens": [],
+    "totals": []
+  },
+  "mapping": {
+    "bank_name": "transactions.bank_name",
+    "bill_amount": "transactions.bill_amount",
+    "can_number": "transactions.can_number",
+    "generated_datetime": "transactions.created_at",
+    "logo_url": "PARAM:logo_url",
+    "transaction_datetime": "transactions.transaction_date",
+    "transaction_reference": "transactions.transaction_ref_number",
+    "transaction_status": "transactions.transaction_status"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "transactions",
+    "parent_key": "rowid",
+    "child_table": "transactions",
+    "child_key": "rowid"
+  },
+  "date_columns": {
+    "transactions": "created_at"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [],
+  "row_computed": {
+    "generated_datetime": {
+      "op": "format_date",
+      "column": "generated_datetime",
+      "format": "%d-%m-%Y %H:%M:%S"
+    },
+    "transaction_datetime": {
+      "op": "concat",
+      "columns": [
+        "transaction_datetime",
+        "transactions.transaction_time"
+      ],
+      "separator": " "
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "bill_amount": "number(2)",
+    "generated_datetime": "date(DD-MM-YYYY HH:MM:SS)",
+    "transaction_datetime": "date(DD-MM-YYYY HH:MM:SS)"
+  },
+  "order_by": {
+    "rows": [
+      "rowid ASC"
+    ]
+  },
+  "header_tokens": [
+    "bank_name",
+    "bill_amount",
+    "can_number",
+    "generated_datetime",
+    "logo_url",
+    "transaction_datetime",
+    "transaction_reference",
+    "transaction_status"
+  ],
+  "row_tokens": [],
+  "row_order": [
+    "rowid ASC"
+  ],
+  "literals": {},
+  "notes": "Single-transaction receipt display. The generated_datetime shows report creation time, while transaction_datetime shows when the payment was processed. All data sourced from transactions table with logo_url passed as parameter."
+}

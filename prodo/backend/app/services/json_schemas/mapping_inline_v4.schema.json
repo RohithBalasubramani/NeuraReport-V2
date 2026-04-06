@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mapping Inline v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mapping",
+    "token_samples",
+    "meta"
+  ],
+  "properties": {
+    "mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "token_samples": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["unresolved", "hints"],
+      "properties": {
+        "ambiguous": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["header", "candidates"],
+            "properties": {
+              "header": { "type": "string" },
+              "candidates": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "unresolved": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "hints": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["op", "over"],
+            "properties": {
+              "op": { "type": "string" },
+              "over": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "confidence": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          }
+        }
+      }
+    },
+    "prompt_meta": {
+      "type": "object"
+    }
+  }
+}

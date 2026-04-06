@@ -1,0 +1,14 @@
+{
+  "sample_row": {
+    "row_net_rxps": "0",
+    "row_net_txps": "0",
+    "row_proc_rss_mb": "0",
+    "row_proc_handles": "0",
+    "row_disk_rps": "0",
+    "row_cpu": "0",
+    "row_minute_utc": "2025-01-01 00:00",
+    "row_proc_cpu": "0",
+    "row_mem": "0",
+    "row_disk_wps": "0"
+  }
+}

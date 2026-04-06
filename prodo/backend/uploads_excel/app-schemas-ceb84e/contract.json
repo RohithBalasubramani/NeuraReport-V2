@@ -1,0 +1,45 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "{'token': 'row_schema_id', 'description': 'Schema ID', 'sample': 'sch_1771004322765'}",
+      "{'token': 'row_schema_name', 'description': 'Schema Name', 'sample': 'Test_123'}"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_schema_id": "app_schemas.id",
+    "row_schema_name": "app_schemas.name"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_schemas",
+    "parent_key": "id",
+    "child_table": "app_schemas",
+    "child_key": "id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "ROWID ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "{'token': 'row_schema_id', 'description': 'Schema ID', 'sample': 'sch_1771004322765'}",
+    "{'token': 'row_schema_name', 'description': 'Schema Name', 'sample': 'Test_123'}"
+  ],
+  "row_order": [
+    "ROWID ASC"
+  ],
+  "literals": {},
+  "notes": "Simple schemas listing report with no filters, parameters, or computations"
+}

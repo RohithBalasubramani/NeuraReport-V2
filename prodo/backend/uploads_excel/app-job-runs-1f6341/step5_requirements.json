@@ -1,0 +1,38 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this detail report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job run execution records with performance metrics",
+      "columns": [
+        "row_id",
+        "row_job_id",
+        "row_started_at",
+        "row_stopped_at",
+        "row_duration_ms",
+        "row_rows",
+        "row_read_lat_avg",
+        "row_write_lat_avg",
+        "row_error_pct"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_job_runs.started_at DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column pass-throughs from app_job_runs table. No filters or parameters required.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load all rows from app_job_runs table ordered by started_at descending"
+  ]
+}

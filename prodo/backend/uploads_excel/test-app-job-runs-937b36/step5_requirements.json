@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens — all data is row-level",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job run execution records with start/stop timestamps, duration, row counts, and error percentages",
+      "columns": [
+        "row_id",
+        "row_job_id",
+        "row_status",
+        "row_started_at",
+        "row_finished_at",
+        "row_rows_written",
+        "row_duration_ms",
+        "row_error_message",
+        "row_run_type"
+      ],
+      "grouping": [],
+      "ordering": [
+        "started_at DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row defined",
+      "columns": []
+    }
+  },
+  "semantics": "Direct passthrough — no filtering parameters required. All job runs from app_job_runs table ordered by start time descending.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No MELT/UNION_ALL reshaping required",
+    "Direct column mapping from app_job_runs table",
+    "Two tokens remain unresolved: row_status and row_run_type (no corresponding columns in database)"
+  ]
+}

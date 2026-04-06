@@ -1,0 +1,36 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens are present in this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents one device table entry with its attributes: name, associated device, schema, target database, operational status, mapping health indicator, and last migration timestamp",
+      "columns": [
+        "row_table_name",
+        "row_device_id",
+        "row_schema_id",
+        "row_db_target_id",
+        "row_status",
+        "row_mapping_health",
+        "row_last_migrated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_device_tables.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals are computed for this report",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no filter parameters. All device tables are returned in their natural order.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required - direct column mapping from app_device_tables"
+  ]
+}

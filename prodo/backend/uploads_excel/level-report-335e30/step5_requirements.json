@@ -1,0 +1,60 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No scalar header fields required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Time-series readings from level transmitter sensors, one row per timestamp with 30 sensor columns.",
+      "columns": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11",
+        "row_column_12",
+        "row_column_13",
+        "row_column_14",
+        "row_column_15",
+        "row_column_16",
+        "row_column_17",
+        "row_column_18",
+        "row_column_19",
+        "row_column_20",
+        "row_column_21",
+        "row_column_22",
+        "row_column_23",
+        "row_column_24",
+        "row_column_25",
+        "row_column_26",
+        "row_column_27",
+        "row_column_28",
+        "row_column_29",
+        "row_column_30"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All columns are direct pass-through from the database. No filter parameters are required. Optional time-range filtering can be applied via timestamp_utc.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping required — the source table is already in wide format matching the report structure.",
+    "Rows are ordered by timestamp_utc descending to show the most recent readings first."
+  ]
+}

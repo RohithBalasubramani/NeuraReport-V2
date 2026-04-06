@@ -1,0 +1,31 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — this report has no scalar tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents one schema from app_schemas table, displaying its ID and name.",
+      "columns": [
+        "row_id",
+        "row_name"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_schemas.name ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required — this report has no aggregate calculations.",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no parameters. All schemas are included without filtering.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct column mapping from app_schemas table — no reshaping, pivoting, or computed columns needed."
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "07e7ba47003a81e39cbf92432168bcd9797e2e96b511349d541a5e6916141eb6",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771511949,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_name",
+        "row_schema_id",
+        "row_db_target_id",
+        "row_status",
+        "row_last_migrated_at",
+        "row_schema_hash",
+        "row_mapping_health",
+        "row_device_id"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_device_tables.id",
+      "row_name": "app_device_tables.name",
+      "row_schema_id": "app_device_tables.schema_id",
+      "row_db_target_id": "app_device_tables.db_target_id",
+      "row_status": "app_device_tables.status",
+      "row_last_migrated_at": "app_device_tables.last_migrated_at",
+      "row_schema_hash": "app_device_tables.schema_hash",
+      "row_mapping_health": "app_device_tables.mapping_health",
+      "row_device_id": "app_device_tables.device_id"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_device_tables",
+      "parent_key": "id",
+      "child_table": "app_device_tables",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "app_device_tables": "last_migrated_at"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_device_tables.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_device_tables.name"
+            ]
+          },
+          {
+            "as": "row_schema_id",
+            "from": [
+              "app_device_tables.schema_id"
+            ]
+          },
+          {
+            "as": "row_db_target_id",
+            "from": [
+              "app_device_tables.db_target_id"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_device_tables.status"
+            ]
+          },
+          {
+            "as": "row_last_migrated_at",
+            "from": [
+              "app_device_tables.last_migrated_at"
+            ]
+          },
+          {
+            "as": "row_schema_hash",
+            "from": [
+              "app_device_tables.schema_hash"
+            ]
+          },
+          {
+            "as": "row_mapping_health",
+            "from": [
+              "app_device_tables.mapping_health"
+            ]
+          },
+          {
+            "as": "row_device_id",
+            "from": [
+              "app_device_tables.device_id"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_last_migrated_at": "date(YYYY-MM-DD HH:mm:ss)"
+    },
+    "order_by": {
+      "rows": [
+        "id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_schema_id",
+      "row_db_target_id",
+      "row_status",
+      "row_last_migrated_at",
+      "row_schema_hash",
+      "row_mapping_health",
+      "row_device_id"
+    ],
+    "row_order": [
+      "id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple device tables inventory report. All columns are direct mappings from app_device_tables. The last_migrated_at field is formatted as a timestamp. No filters, parameters, or aggregations are required."
+  },
+  "key_tokens": []
+}

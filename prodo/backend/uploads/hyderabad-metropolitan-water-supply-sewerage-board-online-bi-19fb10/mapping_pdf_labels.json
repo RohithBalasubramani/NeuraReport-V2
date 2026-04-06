@@ -1,0 +1,47 @@
+[
+  {
+    "header": "transaction_status",
+    "placeholder": "{transaction_status}",
+    "mapping": "transactions.transaction_status"
+  },
+  {
+    "header": "transaction_reference_number",
+    "placeholder": "{transaction_reference_number}",
+    "mapping": "transactions.transaction_ref_number"
+  },
+  {
+    "header": "transaction_date_time",
+    "placeholder": "{transaction_date_time}",
+    "mapping": "CONCAT(transactions.transaction_date, ' ', transactions.transaction_time)"
+  },
+  {
+    "header": "can_no",
+    "placeholder": "{can_no}",
+    "mapping": "transactions.can_number"
+  },
+  {
+    "header": "bill_amount",
+    "placeholder": "{bill_amount}",
+    "mapping": "transactions.bill_amount"
+  },
+  {
+    "header": "bank_name",
+    "placeholder": "{bank_name}",
+    "mapping": "transactions.bank_name"
+  },
+  {
+    "header": "ip_address",
+    "placeholder": "{ip_address}",
+    "mapping": "transactions.ip_address"
+  },
+  {
+    "header": "access_time",
+    "placeholder": "{access_time}",
+    "mapping": "transactions.access_timestamp"
+  },
+  {
+    "header": "timestamp",
+    "placeholder": "{timestamp}",
+    "mapping": "transactions.created_at"
+  }
+]

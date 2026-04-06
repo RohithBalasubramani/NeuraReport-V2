@@ -1,0 +1,37 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_jobs.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_jobs.name"
+  },
+  {
+    "header": "row_type",
+    "placeholder": "{row_type}",
+    "mapping": "app_jobs.type"
+  },
+  {
+    "header": "row_interval_ms",
+    "placeholder": "{row_interval_ms}",
+    "mapping": "app_jobs.interval_ms"
+  },
+  {
+    "header": "row_enabled",
+    "placeholder": "{row_enabled}",
+    "mapping": "app_jobs.enabled"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_jobs.status"
+  },
+  {
+    "header": "row_cpu_budget",
+    "placeholder": "{row_cpu_budget}",
+    "mapping": "app_jobs.cpu_budget"
+  }
+]

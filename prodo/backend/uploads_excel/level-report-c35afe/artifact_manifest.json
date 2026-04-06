@@ -1,0 +1,26 @@
+{
+  "correlation_id": "83bb0b2e690c4290b6a9b1fe9247d2e5",
+  "file_checksums": {
+    "reference_p1.html": "3f22c9577909a5481618cf42f021440dceb7017943890f8a5fec42c5dc3dcad3",
+    "reference_p1.png": "0d3e10723b22086c461d1db412779a724891cffc816fff50972a5bc03fcd052c",
+    "report_final.png": "dfc6c79b96a7319b71798e2697231dde3b00833f13641520a1927ff77361a8dd",
+    "sample_rows.json": "136d99e0cb8cc3290a4f537a8b8aa6fca1ac2d7b54d7075353d5129f81fe949f",
+    "source.xlsx": "3b1b01a7dcb0a3935b55e9c0095bb1ee8ff5117076b5484b3868bf5ab9a8260a",
+    "template_p1.html": "ac831c10905ab9cfdc983fddde23e0655606def65e2334af942249e685002b3d"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/level-report-c35afe/source.xlsx"
+  ],
+  "pid": 1555247,
+  "produced_at": "2026-02-20T06:33:06.607691+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

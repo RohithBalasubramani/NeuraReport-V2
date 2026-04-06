@@ -1,0 +1,59 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_type": "app_protocol_types.type"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "ec99fdfc221ad331e916d594735967f0999ab54fb1b04ac0b21f5f0047232e33",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "a71bacee102d7a18b6af5d8e3ce368ba0cb36577bf4ae9726e5f2f7b9ce6dfea",
+    "cache_key": "f3461166936d6da913cd34416c77d4c31e7520fb4ae993360fbb7179f6e4b7af",
+    "pre_html_sha256": "637876b12dc7b37b91fcc9d335a3bd051db897dc94d13050e684f4a311286866",
+    "post_html_sha256": "1ae83725187dde60cfefcfd5939f66a455108078e5c750844f1d4c19612eb066",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_type": "app_protocol_types.type"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 2026-02-18",
+      "row_type": "modbus"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Server-generated timestamp at report run time; not stored in any catalog column."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "Generated: 2026-02-18"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "Generated: 2026-02-18"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 2026-02-18",
+    "row_type": "modbus"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "correlation_id": "cba12c60bfc644768560bffef4747f4e",
+  "file_checksums": {
+    "reference_p1.html": "82baef731e9da57a6fe41a4b88652ae0abe0b66ba4a5fd4c754204aaab25687d",
+    "reference_p1.png": "5eef9adde1ec2edaece1841b8799099b60e031865982d7428f1dbf32782c3588",
+    "report_final.png": "1a231fc0444a2f3714ad851a4a2e3d4642a878aadd3c24b7b468ea0da8214e4f",
+    "sample_rows.json": "eab4ecfac6ce55a1a2efe3b2bd244d1bf10e088ad83a304606482d7a8dc388ba",
+    "schema_ext.json": "bb1a72cadb6f24c93ca4b2a9c8b82c7e3d008b6ce05215d186573b6c41601344",
+    "source.xlsx": "bfd625394cf38526e602d16bfe8df82c400500af4db68018956092b4d8e0ae38",
+    "template_p1.html": "47100c5b87df2a597922d734da54cce098cae6521f17e95ef3c3d70fe5ad7451"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "schema_ext.json": "schema_ext.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/ph-orp-tds-do-6c4157/source.xlsx"
+  ],
+  "pid": 1972364,
+  "produced_at": "2026-02-20T11:51:24.711316+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

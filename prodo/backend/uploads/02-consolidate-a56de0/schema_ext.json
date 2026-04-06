@@ -1,0 +1,25 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "recipe_code"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "Schema derived from PDF_PAGE_TEXT headers. 'Sl. No.' mapped to row_sl_no. Numeric columns mapped to right-aligned classes. Date fields in header treated as static literals in HTML except for the Print Date which is populated, but schema includes placeholders for all date fields for completeness."
+}

@@ -1,0 +1,57 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "All data acquisition jobs with device, schema, gateway, interval, status, and runtime metrics",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_schema_id",
+        "row_gateway_id",
+        "row_interval_sec",
+        "row_protocol",
+        "row_enabled",
+        "row_status",
+        "row_last_run_at",
+        "row_error_count",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are passthrough or computed. No user-provided filters required. Time-range filtering applies to app_job_runs.started_at and app_gateways.created_at if date parameters are provided at runtime.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "start_date",
+        "type": "date"
+      },
+      {
+        "name": "end_date",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Extract first device table ID from JSON array in app_jobs.tables_json",
+    "Convert polling interval from milliseconds to seconds (interval_ms ÷ 1000)",
+    "Aggregate MAX(started_at) from app_job_runs per job_id for last_run_at",
+    "Aggregate SUM(count) from app_job_errors_minute per job_id for error_count",
+    "LEFT JOIN app_device_tables on extracted device_table_id for schema_id",
+    "LEFT JOIN app_devices on device_id for protocol and gateway_id",
+    "LEFT JOIN app_gateways on gateway_id for created_at and updated_at timestamps"
+  ]
+}

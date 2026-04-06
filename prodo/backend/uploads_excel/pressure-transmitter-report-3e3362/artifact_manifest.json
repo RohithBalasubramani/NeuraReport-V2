@@ -1,0 +1,26 @@
+{
+  "correlation_id": "143894f274a84a79ba2f15a0f4abedfa",
+  "file_checksums": {
+    "reference_p1.html": "3748c7526570b3ae84d80ec25595f641d5d5df93d175c2af0f69b32e33b612a0",
+    "reference_p1.png": "2013509827118b7d51327c5371d4d02e9c52f1c02bef6aeceb69af21c08d79a4",
+    "report_final.png": "b2292cabb0e46bd9d484118ad3c148140d57c9294d62b5f4d48bb43e7b767e5b",
+    "sample_rows.json": "5045e72519b5e613ea96db9387f52545a7d0f514e9c5a16793858252107befd0",
+    "source.xlsx": "99fd334191849420d406f5b94410bd67a19057fecbd41829a54b86d0ab4a4d43",
+    "template_p1.html": "99725e3ca104d3c41d641407f96afe3dd364ab65c6bed04c003a5d437fc0d05f"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/pressure-transmitter-report-3e3362/source.xlsx"
+  ],
+  "pid": 1555247,
+  "produced_at": "2026-02-20T06:34:06.607085+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this tabular report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Gateway inventory with connection details, protocol configuration, and operational timestamps",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_host",
+        "row_adapter_id",
+        "row_nic_hint",
+        "row_protocol_hint",
+        "row_status",
+        "row_created_at",
+        "row_updated_at",
+        "row_last_test_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters required. Report displays all gateway records without filtering.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load all columns from app_gateways table directly without reshaping"
+  ]
+}

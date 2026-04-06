@@ -1,0 +1,54 @@
+{
+  "id": "a03cda02-6805-40bf-b116-2fadd1cd174a",
+  "name": "Patient Data",
+  "sheets": [
+    {
+      "id": "dff1a939-ffb2-4465-910f-1be74259ce53",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Ward",
+          "Admissions",
+          "Discharges",
+          "Avg Stay"
+        ],
+        [
+          "ICU",
+          45,
+          38,
+          8.2
+        ],
+        [
+          "Cardiology",
+          120,
+          115,
+          4.5
+        ],
+        [
+          "Oncology",
+          65,
+          58,
+          12.1
+        ],
+        [
+          "Emergency",
+          310,
+          305,
+          1.8
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T19:26:33.000228+00:00",
+  "updated_at": "2026-02-22T19:26:33.000228+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

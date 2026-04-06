@@ -1,0 +1,125 @@
+{
+  "tokens": {
+    "scalars": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_desc_text",
+      "row_key",
+      "row_scale",
+      "row_schema_id",
+      "row_type",
+      "row_unit"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date_from": "PARAM:date_from",
+    "date_to": "PARAM:date_to",
+    "generated_at": "UNRESOLVED",
+    "row_schema_id": "app_schema_fields.schema_id",
+    "row_key": "app_schema_fields.key",
+    "row_type": "app_schema_fields.type",
+    "row_unit": "app_schema_fields.unit",
+    "row_scale": "app_schema_fields.scale",
+    "row_desc_text": "app_schema_fields.desc_text"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_schema_fields",
+    "parent_key": "schema_id",
+    "child_table": "app_schema_fields",
+    "child_key": "schema_id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_desc_text",
+          "from": [
+            "app_schema_fields.desc_text"
+          ]
+        },
+        {
+          "as": "row_key",
+          "from": [
+            "app_schema_fields.key"
+          ]
+        },
+        {
+          "as": "row_scale",
+          "from": [
+            "app_schema_fields.scale"
+          ]
+        },
+        {
+          "as": "row_schema_id",
+          "from": [
+            "app_schema_fields.schema_id"
+          ]
+        },
+        {
+          "as": "row_type",
+          "from": [
+            "app_schema_fields.type"
+          ]
+        },
+        {
+          "as": "row_unit",
+          "from": [
+            "app_schema_fields.unit"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "row_scale": {
+      "op": "format_number",
+      "column": "scale",
+      "decimals": 4
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_scale": "number(4)",
+    "date_from": "date(DD/MM/YYYY)",
+    "date_to": "date(DD/MM/YYYY)",
+    "generated_at": "date(DD/MM/YYYY HH:MM:SS)"
+  },
+  "order_by": {
+    "rows": [
+      "schema_id ASC",
+      "key ASC"
+    ]
+  },
+  "header_tokens": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_desc_text",
+    "row_key",
+    "row_scale",
+    "row_schema_id",
+    "row_type",
+    "row_unit"
+  ],
+  "row_order": [
+    "schema_id ASC",
+    "key ASC"
+  ],
+  "literals": {},
+  "notes": "generated_at is not stored in the database. It must be injected by the report engine as the current timestamp at report generation time. date_from and date_to are display-only parameters that label the reporting period in the header and footer; they do not filter any rows since app_schema_fields contains no date column. row_scale raw values from the DB are strings (e.g. '1.0') and should be cast to float before formatting."
+}

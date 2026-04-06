@@ -1,0 +1,55 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No scalar header tokens defined in this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "One row per entry in neuract__FM_TABLE ordered by timestamp_utc ascending. Displays the formatted timestamp as the row label plus six instantaneous flow readings and six cumulative totalizer readings.",
+      "columns": [
+        "row_flow_meter",
+        "row_fm_101",
+        "row_fm_102",
+        "row_fm_103",
+        "row_fm_104",
+        "row_fm_105",
+        "row_fm_106",
+        "row_fm_101_totalizer",
+        "row_fm_102_totalizer",
+        "row_fm_103_totalizer",
+        "row_fm_104_totalizer",
+        "row_fm_105_totalizer",
+        "row_fm_106_totalizer"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals rows defined in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All data is sourced from neuract__FM_TABLE. Optional date_from and date_to parameters filter timestamp_utc to a specific time window. No required parameters — the full dataset is returned by default.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Format timestamp_utc as '%d-%m-%Y %H:%M:%S' for the FLOW METER label column (row_flow_meter).",
+    "Format all instantaneous flow readings (row_fm_101 through row_fm_106) to 2 decimal places.",
+    "Format all cumulative totalizer readings (row_fm_101_totalizer through row_fm_106_totalizer) to 2 decimal places.",
+    "Order all rows by timestamp_utc ascending.",
+    "No reshape (MELT/UNION_ALL) required — all columns come directly from a single table."
+  ]
+}

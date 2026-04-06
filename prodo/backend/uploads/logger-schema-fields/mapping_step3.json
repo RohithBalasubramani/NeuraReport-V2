@@ -1,0 +1,88 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "generated_at": "UNRESOLVED",
+    "row_schema_id": "app_schema_fields.schema_id",
+    "row_key": "app_schema_fields.key",
+    "row_type": "app_schema_fields.type",
+    "row_unit": "app_schema_fields.unit",
+    "row_scale": "app_schema_fields.scale",
+    "row_desc_text": "app_schema_fields.desc_text"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_at"
+    ],
+    "hints": {
+      "generated_at": {
+        "op": "FORMAT",
+        "over": [
+          "note:Current timestamp at report generation time — not a stored column; must be injected by the report engine at runtime."
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "095ccc04019fd4f49958c7bb032852f19ad165062b5dc9cac9531a0e3f63e2fc",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "213f5b66f375bcde89ecb751e1af4bd1202dd66bbfd6793448a2c1264f84a6a6",
+    "cache_key": "57ab2701e54ab09f520aacce3420d55ccea328ee773277666c71cc17424b4f76",
+    "pre_html_sha256": "50b320fd3f666156521f840b89ba4bfb6d1233ef3faa1dcf3b0f04f0b3164386",
+    "post_html_sha256": "50b320fd3f666156521f840b89ba4bfb6d1233ef3faa1dcf3b0f04f0b3164386",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "UNRESOLVED",
+      "row_schema_id": "app_schema_fields.schema_id",
+      "row_key": "app_schema_fields.key",
+      "row_type": "app_schema_fields.type",
+      "row_unit": "app_schema_fields.unit",
+      "row_scale": "app_schema_fields.scale",
+      "row_desc_text": "app_schema_fields.desc_text"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 18/02/2026",
+      "row_schema_id": "sch_1770993251278",
+      "row_key": "voltage_r_n",
+      "row_type": "REAL",
+      "row_unit": "V",
+      "row_scale": "1.0",
+      "row_desc_text": "Phase R to Neutral Voltage"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a stored column; must be injected by the report engine at runtime."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 18/02/2026",
+    "row_schema_id": "sch_1770993251278",
+    "row_key": "voltage_r_n",
+    "row_type": "REAL",
+    "row_unit": "V",
+    "row_scale": "1.0",
+    "row_desc_text": "Phase R to Neutral Voltage"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_name": "app_device_tables.name",
+    "row_device_id": "app_device_tables.device_id",
+    "row_schema_id": "app_device_tables.schema_id",
+    "row_db_target_id": "app_device_tables.db_target_id",
+    "row_status": "app_device_tables.status",
+    "row_mapping_health": "app_device_tables.mapping_health",
+    "row_last_migrated_at": "app_device_tables.last_migrated_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "326db108cb6eb87418177baa3732e6a9e0ef132bb48c1918e163b2c96a7f2c0b",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "806c15457889eba21a56c67616c905356dbb8c133defe857c9d4702d750fbe00",
+    "cache_key": "9587242e79b21b63a697f3b8027383673d0629eaf1183befd76bb82415ff3906",
+    "pre_html_sha256": "731474522923a6bcd79aab976ebba44723700a9557fea7dd89bb94e0e4c1e156",
+    "post_html_sha256": "c6a5e01d88e07eef591c614de41817eed30c5d943ca55bf946e3b13054387062",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_name": "app_device_tables.name",
+      "row_device_id": "app_device_tables.device_id",
+      "row_schema_id": "app_device_tables.schema_id",
+      "row_db_target_id": "app_device_tables.db_target_id",
+      "row_status": "app_device_tables.status",
+      "row_mapping_health": "app_device_tables.mapping_health",
+      "row_last_migrated_at": "app_device_tables.last_migrated_at"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_name": "lt_mcc_001_data2",
+      "row_device_id": "dev_1771012391586",
+      "row_schema_id": "sch_1770993251278",
+      "row_db_target_id": "db_1771013394981",
+      "row_status": "migrated",
+      "row_mapping_health": "Mapped",
+      "row_last_migrated_at": "2026-02-14T01:43:54+05:30"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "columns:CURRENT_TIMESTAMP"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "NOT_VISIBLE"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "NOT_VISIBLE"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_name": "lt_mcc_001_data2",
+    "row_device_id": "dev_1771012391586",
+    "row_schema_id": "sch_1770993251278",
+    "row_db_target_id": "db_1771013394981",
+    "row_status": "migrated",
+    "row_mapping_health": "Mapped",
+    "row_last_migrated_at": "2026-02-14T01:43:54+05:30"
+  }
+}

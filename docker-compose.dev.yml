@@ -1,0 +1,56 @@
+# docker-compose.dev.yml - Development with hot reload
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+services:
+  backend-dev:
+    image: python:3.11-slim
+    command: >
+      bash -c "pip install -r /app/backend/requirements.txt &&
+               uvicorn backend.api:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/backend"
+    working_dir: /app
+    volumes:
+      - .:/app
+      - backend-venv:/app/.venv
+    ports:
+      - "8000:8000"
+    environment:
+      NEURA_DEBUG: "true"
+      NEURA_JWT_SECRET: "dev-secret-not-for-production"
+      NEURA_DATABASE_URL: "postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport"
+      NEURA_REDIS_URL: "redis://redis:6379/0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  frontend-dev:
+    image: node:20-alpine
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend-modules:/app/frontend/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_PROXY_TARGET: "http://backend-dev:8000"
+    depends_on:
+      backend-dev:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5173"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  backend-venv:
+  frontend-modules:

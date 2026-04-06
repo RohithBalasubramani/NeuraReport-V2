@@ -1,0 +1,32 @@
+{
+  "id": "6c5f34f7-e5be-489d-b765-fd3276d08f9c",
+  "name": "VerifyInit",
+  "sheets": [
+    {
+      "id": "6488c1b7-495d-4afa-8e70-cda05a78a5dc",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Device",
+          "Reading"
+        ],
+        [
+          "FM-001",
+          "125.5"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T11:58:57.120941+00:00",
+  "updated_at": "2026-02-22T11:58:57.120941+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

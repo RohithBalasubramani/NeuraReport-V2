@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Db Targets Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 14pt;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            font-weight: 700;
+            text-align: left;
+            padding: 8px 10px;
+            border: 1px solid #999;
+            font-size: 9pt;
+            text-transform: none;
+        }
+        
+        #data-table tbody td {
+            padding: 6px 10px;
+            border: 1px solid #999;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific widths */
+        #data-table col.col-target-id {
+            width: 18%;
+        }
+        
+        #data-table col.col-provider {
+            width: 12%;
+        }
+        
+        #data-table col.col-connection-string {
+            width: 40%;
+        }
+        
+        #data-table col.col-status {
+            width: 12%;
+        }
+        
+        #data-table col.col-last-message {
+            width: 18%;
+        }
+        
+        /* Status cell styling */
+        .status-cell {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        
+        /* Print optimizations */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+            
+            #data-table tbody tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+        }
+        
+        /* Screen view helpers */
+        @media screen {
+            body {
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.97; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+    <header id="report-header">
+        <h1>Db Targets</h1>
+    </header>
+    
+    <table id="data-table">
+        <colgroup>
+            <col class="col-target-id">
+            <col class="col-provider">
+            <col class="col-connection-string">
+            <col class="col-status">
+            <col class="col-last-message">
+        </colgroup>
+        <thead>
+            <tr>
+                <th data-label="target_id">Target ID</th>
+                <th data-label="provider">Provider</th>
+                <th data-label="connection_string">Connection String</th>
+                <th data-label="status">Status</th>
+                <th data-label="last_message">Last Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>db_1771013394981</td>
+                <td>postgresql</td>
+                <td>postgresql://postgres@localhost:5432/fast_target</td>
+                <td class="status-cell">untested</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

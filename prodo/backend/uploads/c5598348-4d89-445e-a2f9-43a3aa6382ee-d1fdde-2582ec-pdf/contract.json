@@ -1,0 +1,268 @@
+{
+  "tokens": {
+    "scalars": [
+      "print_date",
+      "date_from",
+      "date_to",
+      "recipe_code"
+    ],
+    "row_tokens": [
+      "row_bin_no",
+      "row_material_name",
+      "row_set_wt",
+      "row_ach_wt",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "totals": [
+      "batch_total_set_wt",
+      "batch_total_ach_wt",
+      "batch_total_error_kg",
+      "batch_total_error_pct",
+      "total_set_wt",
+      "total_ach_wt",
+      "total_error_kg",
+      "total_error_pct"
+    ]
+  },
+  "mapping": {
+    "print_date": "PARAM:print_date",
+    "date_from": "PARAM:from_date",
+    "date_to": "PARAM:to_date",
+    "recipe_code": "PARAM:recipe_code",
+    "row_bin_no": "MELT",
+    "row_material_name": "COMPUTED",
+    "row_set_wt": "COMPUTED",
+    "row_ach_wt": "COMPUTED",
+    "row_error_kg": "COMPUTED",
+    "row_error_pct": "COMPUTED",
+    "batch_total_set_wt": "COMPUTED",
+    "batch_total_ach_wt": "COMPUTED",
+    "batch_total_error_kg": "COMPUTED",
+    "batch_total_error_pct": "COMPUTED",
+    "total_set_wt": "COMPUTED",
+    "total_ach_wt": "COMPUTED",
+    "total_error_kg": "COMPUTED",
+    "total_error_pct": "COMPUTED"
+  },
+  "join": {
+    "parent_table": "recipes",
+    "parent_key": "id",
+    "child_table": "recipes",
+    "child_key": "id"
+  },
+  "date_columns": {
+    "recipes": "start_time"
+  },
+  "filters": {
+    "optional": {
+      "recipe_code": "recipes.recipe_name",
+      "date_from": "recipes.start_time",
+      "date_to": "recipes.start_time"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Unpivot 12 bins into material rows per batch",
+      "strategy": "MELT",
+      "columns": [
+        {
+          "as": "row_bin_no",
+          "from": [
+            "INDEX"
+          ]
+        },
+        {
+          "as": "row_material_name",
+          "from": [
+            "recipes.bin1_content",
+            "recipes.bin2_content",
+            "recipes.bin3_content",
+            "recipes.bin4_content",
+            "recipes.bin5_content",
+            "recipes.bin6_content",
+            "recipes.bin7_content",
+            "recipes.bin8_content",
+            "recipes.bin9_content",
+            "recipes.bin10_content",
+            "recipes.bin11_content",
+            "recipes.bin12_content"
+          ]
+        },
+        {
+          "as": "row_set_wt",
+          "from": [
+            "recipes.bin1_sp",
+            "recipes.bin2_sp",
+            "recipes.bin3_sp",
+            "recipes.bin4_sp",
+            "recipes.bin5_sp",
+            "recipes.bin6_sp",
+            "recipes.bin7_sp",
+            "recipes.bin8_sp",
+            "recipes.bin9_sp",
+            "recipes.bin10_sp",
+            "recipes.bin11_sp",
+            "recipes.bin12_sp"
+          ]
+        },
+        {
+          "as": "row_ach_wt",
+          "from": [
+            "recipes.bin1_act",
+            "recipes.bin2_act",
+            "recipes.bin3_act",
+            "recipes.bin4_act",
+            "recipes.bin5_act",
+            "recipes.bin6_act",
+            "recipes.bin7_act",
+            "recipes.bin8_act",
+            "recipes.bin9_act",
+            "recipes.bin10_act",
+            "recipes.bin11_act",
+            "recipes.bin12_act"
+          ]
+        }
+      ]
+    }
+  ],
+  "row_computed": {
+    "row_error_kg": {
+      "op": "subtract",
+      "left": "row_ach_wt",
+      "right": "row_set_wt"
+    },
+    "row_error_pct": {
+      "op": "multiply",
+      "left": {
+        "op": "divide",
+        "numerator": {
+          "op": "subtract",
+          "left": "row_ach_wt",
+          "right": "row_set_wt"
+        },
+        "denominator": "row_set_wt"
+      },
+      "right": 100
+    }
+  },
+  "totals_math": {
+    "batch_total_set_wt": {
+      "op": "sum",
+      "column": "row_set_wt"
+    },
+    "batch_total_ach_wt": {
+      "op": "sum",
+      "column": "row_ach_wt"
+    },
+    "batch_total_error_kg": {
+      "op": "subtract",
+      "left": {
+        "op": "sum",
+        "column": "row_ach_wt"
+      },
+      "right": {
+        "op": "sum",
+        "column": "row_set_wt"
+      }
+    },
+    "batch_total_error_pct": {
+      "op": "multiply",
+      "left": {
+        "op": "divide",
+        "numerator": {
+          "op": "subtract",
+          "left": {
+            "op": "sum",
+            "column": "row_ach_wt"
+          },
+          "right": {
+            "op": "sum",
+            "column": "row_set_wt"
+          }
+        },
+        "denominator": {
+          "op": "sum",
+          "column": "row_set_wt"
+        }
+      },
+      "right": 100
+    },
+    "total_set_wt": {
+      "op": "sum",
+      "column": "row_set_wt"
+    },
+    "total_ach_wt": {
+      "op": "sum",
+      "column": "row_ach_wt"
+    },
+    "total_error_kg": {
+      "op": "subtract",
+      "left": {
+        "op": "sum",
+        "column": "row_ach_wt"
+      },
+      "right": {
+        "op": "sum",
+        "column": "row_set_wt"
+      }
+    },
+    "total_error_pct": {
+      "op": "multiply",
+      "left": {
+        "op": "divide",
+        "numerator": {
+          "op": "subtract",
+          "left": {
+            "op": "sum",
+            "column": "row_ach_wt"
+          },
+          "right": {
+            "op": "sum",
+            "column": "row_set_wt"
+          }
+        },
+        "denominator": {
+          "op": "sum",
+          "column": "row_set_wt"
+        }
+      },
+      "right": 100
+    }
+  },
+  "formatters": {
+    "row_set_wt": "number(2)",
+    "row_ach_wt": "number(2)",
+    "row_error_kg": "number(2)",
+    "row_error_pct": "number(3)"
+  },
+  "order_by": {
+    "rows": []
+  },
+  "header_tokens": [
+    "print_date",
+    "date_from",
+    "date_to",
+    "recipe_code"
+  ],
+  "row_tokens": [
+    "row_bin_no",
+    "row_material_name",
+    "row_set_wt",
+    "row_ach_wt",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": {
+    "batch_total_set_wt": "COMPUTED",
+    "batch_total_ach_wt": "COMPUTED",
+    "batch_total_error_kg": "COMPUTED",
+    "batch_total_error_pct": "COMPUTED",
+    "total_set_wt": "COMPUTED",
+    "total_ach_wt": "COMPUTED",
+    "total_error_kg": "COMPUTED",
+    "total_error_pct": "COMPUTED"
+  },
+  "row_order": [],
+  "literals": {}
+}

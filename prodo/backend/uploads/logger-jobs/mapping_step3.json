@@ -1,0 +1,88 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "generated_at": "UNRESOLVED",
+    "row_name": "app_jobs.name",
+    "row_type": "app_jobs.type",
+    "row_status": "app_jobs.status",
+    "row_enabled": "app_jobs.enabled",
+    "row_interval_ms": "app_jobs.interval_ms",
+    "row_cpu_budget": "app_jobs.cpu_budget"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_at"
+    ],
+    "hints": {
+      "generated_at": {
+        "op": "FORMAT",
+        "over": [
+          "note:Current timestamp at report generation time — not a catalog column; must be injected as a runtime parameter or computed server-side"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "c3152133e26c4b363a83db1c245e8b2f3e7c6f23284504fe3519dc84d5a18284",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "bbe4afb6b34b6a973fa4edeb8949b6e456ac61da3ffdffdfdeda2023ea8b3982",
+    "cache_key": "70186626d7a529e5f3c7272322ed6c5a32b723689bf65b225bf1389b5b94e2a3",
+    "pre_html_sha256": "f0f78d8463409217279db1b697fabe31909b77acc1daf481cd7ad88870356d96",
+    "post_html_sha256": "f0f78d8463409217279db1b697fabe31909b77acc1daf481cd7ad88870356d96",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "UNRESOLVED",
+      "row_name": "app_jobs.name",
+      "row_type": "app_jobs.type",
+      "row_status": "app_jobs.status",
+      "row_enabled": "app_jobs.enabled",
+      "row_interval_ms": "app_jobs.interval_ms",
+      "row_cpu_budget": "app_jobs.cpu_budget"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 2026-02-18",
+      "row_name": "12test",
+      "row_type": "continuous",
+      "row_status": "stopped",
+      "row_enabled": "1",
+      "row_interval_ms": "1000",
+      "row_cpu_budget": "balanced"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a catalog column; must be injected as a runtime parameter or computed server-side"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 2026-02-18",
+    "row_name": "12test",
+    "row_type": "continuous",
+    "row_status": "stopped",
+    "row_enabled": "1",
+    "row_interval_ms": "1000",
+    "row_cpu_budget": "balanced"
+  }
+}

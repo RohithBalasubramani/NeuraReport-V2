@@ -1,0 +1,60 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4; margin: 24mm; }
+      body { font-family: Arial, sans-serif; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 6px 8px; vertical-align: top; }
+    </style>
+    
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.97; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head><body><table id="data-table"><caption style='caption-side:top;font-weight:700;text-align:left;margin:6px 0'>Job Runs</caption><thead><tr><th data-label="job_id">Job ID</th><th data-label="started_at">Started At</th><th data-label="stopped_at">Stopped At</th><th data-label="duration_ms">Duration (ms)</th><th data-label="rows_written">Rows Written</th><th data-label="read_lat_avg">Read Lat Avg</th><th data-label="write_lat_avg">Write Lat Avg</th><th data-label="error">Error %</th></tr></thead><tbody><tr><td>job_1771013897364</td><td>2026-02-15T17:32:11+05:30</td><td>2026-02-15T17:32:29+05:30</td><td>18000</td><td>0</td><td>1.237</td><td>0</td><td>1900.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T17:32:11+05:30</td><td>2026-02-15T17:32:29+05:30</td><td>18000</td><td>19</td><td>2.443</td><td>3.824</td><td>0.00%</td></tr>
+<tr><td>job_1771013897364</td><td>2026-02-15T17:33:02+05:30</td><td>2026-02-15T17:33:07+05:30</td><td>5000</td><td>0</td><td>2.952</td><td>0</td><td>500.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T17:33:02+05:30</td><td>2026-02-15T17:33:07+05:30</td><td>5000</td><td>5</td><td>8.918</td><td>3.981</td><td>0.00%</td></tr>
+<tr><td>job_1771013897364</td><td>2026-02-15T17:55:54+05:30</td><td>2026-02-15T17:56:00+05:30</td><td>6000</td><td>0</td><td>2.389</td><td>0</td><td>700.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T17:55:54+05:30</td><td>2026-02-15T17:56:00+05:30</td><td>6000</td><td>7</td><td>7.979</td><td>3.706</td><td>0.00%</td></tr>
+<tr><td>job_1771013897364</td><td>2026-02-15T17:59:56+05:30</td><td>2026-02-15T18:00:03+05:30</td><td>7000</td><td>0</td><td>2.03</td><td>0</td><td>800.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T17:59:56+05:30</td><td>2026-02-15T18:00:03+05:30</td><td>7000</td><td>8</td><td>7.694</td><td>3.259</td><td>0.00%</td></tr>
+<tr><td>job_1771013897364</td><td>2026-02-15T18:02:16+05:30</td><td>2026-02-15T18:04:43+05:30</td><td>147000</td><td>0</td><td>0.653</td><td>0</td><td>14800.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T18:02:16+05:30</td><td>2026-02-15T18:04:43+05:30</td><td>147000</td><td>148</td><td>0.42</td><td>3.745</td><td>0.00%</td></tr>
+<tr><td>job_1771159889406</td><td>2026-02-15T18:23:35+05:30</td><td>2026-02-15T18:25:04+05:30</td><td>89000</td><td>0</td><td>1563.962</td><td>0</td><td>4300.00%</td></tr>
+<tr><td>job_1771159889406</td><td>2026-02-15T19:18:53+05:30</td><td>2026-02-15T19:19:04+05:30</td><td>11000</td><td>0</td><td>0</td><td>0</td><td>0.00%</td></tr>
+<tr><td>job_1771013897364</td><td>2026-02-15T19:18:53+05:30</td><td>2026-02-15T19:19:04+05:30</td><td>11000</td><td>0</td><td>4.08</td><td>0</td><td>1100.00%</td></tr>
+<tr><td>job_1771149226472</td><td>2026-02-15T19:18:53+05:30</td><td>2026-02-15T19:19:04+05:30</td><td>11000</td><td>11</td><td>463.844</td><td>10.718</td><td>0.00%</td></tr></tbody></table></body></html>

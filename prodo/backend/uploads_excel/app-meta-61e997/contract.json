@@ -1,0 +1,65 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_key",
+      "row_value"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_key": "app_meta.key",
+    "row_value": "app_meta.value"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_meta",
+    "parent_key": "key",
+    "child_table": "app_meta",
+    "child_key": "key"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_key",
+          "from": [
+            "app_meta.key"
+          ]
+        },
+        {
+          "as": "row_value",
+          "from": [
+            "app_meta.value"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "ROWID ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_key",
+    "row_value"
+  ],
+  "row_order": [
+    "ROWID ASC"
+  ],
+  "literals": {},
+  "notes": "Simple metadata listing report with no business logic, parameters, or aggregations. Displays all app_meta entries in insertion order."
+}

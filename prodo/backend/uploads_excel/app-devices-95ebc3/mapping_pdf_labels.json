@@ -1,0 +1,47 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_devices.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_devices.name"
+  },
+  {
+    "header": "row_protocol",
+    "placeholder": "{row_protocol}",
+    "mapping": "app_devices.protocol"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_devices.status"
+  },
+  {
+    "header": "row_latency_ms",
+    "placeholder": "{row_latency_ms}",
+    "mapping": "app_devices.latency_ms"
+  },
+  {
+    "header": "row_auto_reconnect",
+    "placeholder": "{row_auto_reconnect}",
+    "mapping": "app_devices.auto_reconnect"
+  },
+  {
+    "header": "row_unit_id",
+    "placeholder": "{row_unit_id}",
+    "mapping": "app_devices.unit_id"
+  },
+  {
+    "header": "row_port",
+    "placeholder": "{row_port}",
+    "mapping": "app_devices.port"
+  },
+  {
+    "header": "row_gateway_id",
+    "placeholder": "{row_gateway_id}",
+    "mapping": "app_devices.gateway_id"
+  }
+]

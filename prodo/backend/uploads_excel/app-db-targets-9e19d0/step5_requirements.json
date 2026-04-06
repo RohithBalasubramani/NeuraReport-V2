@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Database connection targets with their current status and metadata",
+      "columns": [
+        "row_id",
+        "row_provider",
+        "row_connection",
+        "row_status",
+        "row_last_message"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are pass-through values from the database. No filtering parameters are required.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct column mapping from app_db_targets table to row tokens with no reshaping or computation"
+  ]
+}

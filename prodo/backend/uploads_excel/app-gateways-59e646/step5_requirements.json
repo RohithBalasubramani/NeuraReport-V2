@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens defined for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents a gateway with its name, host, protocol, status, and timestamps.",
+      "columns": [
+        "row_gateway_name",
+        "row_host",
+        "row_protocol_hint",
+        "row_status",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals defined for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All columns are direct pass-through from the app_gateways table. No filtering or parameter-based selection is applied.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping required. All columns are sourced directly from app_gateways table."
+  ]
+}

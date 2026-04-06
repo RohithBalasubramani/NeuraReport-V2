@@ -1,0 +1,36 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "One row per device record from app_devices table.",
+      "columns": [
+        "row_device_name",
+        "row_protocol",
+        "row_status",
+        "row_port",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_last_error"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column mappings. No filtering or parameter passthrough logic.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct column selection from app_devices table."
+  ]
+}

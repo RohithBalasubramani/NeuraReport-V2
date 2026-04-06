@@ -1,0 +1,104 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "generated_at": "UNRESOLVED",
+    "row_job_id": "app_metrics_jobs_minute.job_id",
+    "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+    "row_reads": "app_metrics_jobs_minute.reads",
+    "row_read_err": "app_metrics_jobs_minute.read_err",
+    "row_writes": "app_metrics_jobs_minute.writes",
+    "row_write_err": "app_metrics_jobs_minute.write_err",
+    "row_read_p50": "app_metrics_jobs_minute.read_p50",
+    "row_read_p95": "app_metrics_jobs_minute.read_p95",
+    "row_write_p50": "app_metrics_jobs_minute.write_p50",
+    "row_write_p95": "app_metrics_jobs_minute.write_p95"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_at"
+    ],
+    "hints": {
+      "generated_at": {
+        "op": "FORMAT",
+        "over": [
+          "note:Current timestamp at report generation time — not a stored column; inject as runtime scalar (e.g. datetime.utcnow().isoformat())"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "60f7f174db2fafbf0de75f4911b1dfc0b438ac497b933a1cf5c657876fd859cd",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "3608b8914a1cdfc88a5e0398d659cf1017815325f9bdaa92948990c1d787eb13",
+    "cache_key": "6cabe2fee819c2709aaf234b4da3be84c42a2c8b44b2188ea8dc352e393fdb46",
+    "pre_html_sha256": "656355fa8a2c4e12e606cd2e4fa824c6f56a512fa6865d10d6a6875b75d273c8",
+    "post_html_sha256": "656355fa8a2c4e12e606cd2e4fa824c6f56a512fa6865d10d6a6875b75d273c8",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "UNRESOLVED",
+      "row_job_id": "app_metrics_jobs_minute.job_id",
+      "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+      "row_reads": "app_metrics_jobs_minute.reads",
+      "row_read_err": "app_metrics_jobs_minute.read_err",
+      "row_writes": "app_metrics_jobs_minute.writes",
+      "row_write_err": "app_metrics_jobs_minute.write_err",
+      "row_read_p50": "app_metrics_jobs_minute.read_p50",
+      "row_read_p95": "app_metrics_jobs_minute.read_p95",
+      "row_write_p50": "app_metrics_jobs_minute.write_p50",
+      "row_write_p95": "app_metrics_jobs_minute.write_p95"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_job_id": "job_1771013897364",
+      "row_minute_utc": "2026-02-15T17:32:00Z",
+      "row_reads": "42",
+      "row_read_err": "0",
+      "row_writes": "38",
+      "row_write_err": "1",
+      "row_read_p50": "1.2",
+      "row_read_p95": "3.5",
+      "row_write_p50": "0.8",
+      "row_write_p95": "2.1"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a stored column; inject as runtime scalar (e.g. datetime.utcnow().isoformat())"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_job_id": "job_1771013897364",
+    "row_minute_utc": "2026-02-15T17:32:00Z",
+    "row_reads": "42",
+    "row_read_err": "0",
+    "row_writes": "38",
+    "row_write_err": "1",
+    "row_read_p50": "1.2",
+    "row_read_p95": "3.5",
+    "row_write_p50": "0.8",
+    "row_write_p95": "2.1"
+  }
+}

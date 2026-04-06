@@ -1,0 +1,115 @@
+{
+  "tokens": {
+    "scalars": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_id",
+      "row_type",
+      "row_message",
+      "row_user",
+      "row_read",
+      "row_time"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date_from": "PARAM:date_from",
+    "date_to": "PARAM:date_to",
+    "generated_at": "PARAM:generated_at",
+    "row_id": "app_notifications.id",
+    "row_type": "app_notifications.type",
+    "row_message": "app_notifications.message",
+    "row_user": "app_notifications.user",
+    "row_read": "app_notifications.read",
+    "row_time": "app_notifications.time"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_notifications",
+    "parent_key": "id",
+    "child_table": "app_notifications",
+    "child_key": "id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_id",
+          "from": [
+            "app_notifications.id"
+          ]
+        },
+        {
+          "as": "row_type",
+          "from": [
+            "app_notifications.type"
+          ]
+        },
+        {
+          "as": "row_message",
+          "from": [
+            "app_notifications.message"
+          ]
+        },
+        {
+          "as": "row_user",
+          "from": [
+            "app_notifications.user"
+          ]
+        },
+        {
+          "as": "row_read",
+          "from": [
+            "app_notifications.read"
+          ]
+        },
+        {
+          "as": "row_time",
+          "from": [
+            "app_notifications.time"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_time": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_id": "number(0)"
+  },
+  "order_by": {
+    "rows": [
+      "app_notifications.time DESC"
+    ]
+  },
+  "header_tokens": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_id",
+    "row_type",
+    "row_message",
+    "row_user",
+    "row_read",
+    "row_time"
+  ],
+  "row_order": [
+    "app_notifications.time DESC"
+  ],
+  "literals": {},
+  "notes": "app_notifications is a self-contained table. The time column is used for date range filtering. generated_at is a runtime-injected scalar (e.g. datetime.now().isoformat()) and is not sourced from the database. The read column may be boolean or integer \u2014 the generator should render it as a human-readable value (e.g. Yes/No or True/False)."
+}

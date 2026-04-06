@@ -1,0 +1,36 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job execution records ordered by start time descending.",
+      "columns": [
+        "row_id",
+        "row_job_id",
+        "row_started_at",
+        "row_stopped_at",
+        "row_duration_ms",
+        "row_rows",
+        "row_read_lat_avg",
+        "row_write_lat_avg",
+        "row_error_pct"
+      ],
+      "grouping": [],
+      "ordering": [
+        "started_at DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters are used. All data is fetched directly from app_job_runs with optional date-range filtering on started_at.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": []
+}

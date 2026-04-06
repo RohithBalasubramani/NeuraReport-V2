@@ -1,0 +1,39 @@
+{
+  "scalars": [
+    "invoice_title",
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "invoice_date",
+    "invoice_number",
+    "payment_terms",
+    "client_name",
+    "client_company",
+    "client_address",
+    "client_phone",
+    "remarks_text",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping",
+    "balance_due"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_qty",
+    "row_unit_price",
+    "row_total"
+  ],
+  "totals": [
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "total_tax",
+    "shipping",
+    "balance_due"
+  ],
+  "notes": "Invoice template with company and client info, line items table, totals section, and payment instructions. Green branding throughout."
+}

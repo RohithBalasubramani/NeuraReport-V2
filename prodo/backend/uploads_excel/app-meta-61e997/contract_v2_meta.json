@@ -1,0 +1,87 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "adff18b539f2bfd69f637216e87f13d360447ff1dc2a2377b3910f8f9eb831bf",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771512290,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_key",
+        "row_value"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_key": "app_meta.key",
+      "row_value": "app_meta.value"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_meta",
+      "parent_key": "key",
+      "child_table": "app_meta",
+      "child_key": "key"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_key",
+            "from": [
+              "app_meta.key"
+            ]
+          },
+          {
+            "as": "row_value",
+            "from": [
+              "app_meta.value"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_key",
+      "row_value"
+    ],
+    "row_order": [
+      "ROWID ASC"
+    ],
+    "literals": {},
+    "notes": "Simple metadata listing report with no business logic, parameters, or aggregations. Displays all app_meta entries in insertion order."
+  },
+  "key_tokens": []
+}

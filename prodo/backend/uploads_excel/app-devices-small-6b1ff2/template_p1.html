@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devices Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        #report-header {
+            margin-bottom: 16px;
+        }
+
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+
+        #data-table thead th {
+            background-color: #f4f4f4;
+            border: 1px solid #999;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 10pt;
+            vertical-align: middle;
+        }
+
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 10px;
+            vertical-align: top;
+            font-size: 10pt;
+        }
+
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Column-specific alignment */
+        #data-table td:nth-child(4),
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(5),
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(6),
+        #data-table th:nth-child(6) {
+            text-align: right;
+        }
+
+        /* Status styling hints */
+        #data-table td:nth-child(3) {
+            font-weight: 500;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            #data-table {
+                page-break-inside: auto;
+            }
+
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+
+            #data-table thead {
+                display: table-header-group;
+            }
+
+            #data-table tfoot {
+                display: table-footer-group;
+            }
+        }
+
+        @media screen {
+            body {
+                padding: 20px;
+                background-color: #f9f9f9;
+            }
+
+            #data-table {
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Devices</h1>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="device_name">Device Name</th>
+                <th data-label="protocol">Protocol</th>
+                <th data-label="status">Status</th>
+                <th data-label="port">Port</th>
+                <th data-label="latency_ms">Latency (ms)</th>
+                <th data-label="auto_reconnect">Auto Reconnect</th>
+                <th data-label="last_error">Last Error</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_device_name}</td>
+                <td>{row_protocol}</td>
+                <td>{row_status}</td>
+                <td>{row_port}</td>
+                <td>{row_latency_ms}</td>
+                <td>{row_auto_reconnect}</td>
+                <td>{row_last_error}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata including print date and date range.",
+      "columns": [
+        "print_date",
+        "from_date",
+        "to_date"
+      ]
+    },
+    "rows": {
+      "description": "Consumption details per recipe batch for Bin 1.",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_sl_no"
+      ]
+    },
+    "totals": {
+      "description": "No aggregate totals defined.",
+      "columns": []
+    }
+  },
+  "semantics": "The report maps directly to the `recipes` table. `row_sl_no` maps to the primary key `rowid`. Computed columns `row_error_kg` and `row_error_pct` are derived from the difference between actual and set weights. Date parameters are passed through for header display but do not currently filter the row set in this specific contract configuration unless `date_columns` are utilized in a filter context.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Calculate error in Kg by subtracting Set Weight from Actual Weight.",
+    "Calculate error percentage by dividing Error Kg by Set Weight and multiplying by 100.",
+    "Format all weight and error columns to 2 decimal places."
+  ]
+}

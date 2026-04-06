@@ -1,0 +1,44 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level scalars required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Flow meter readings with timestamp, 6 flow rates (FM_101-FM_106), and 6 totalizers",
+      "columns": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11",
+        "row_column_12",
+        "row_column_13"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are pass-through row values. No filtering parameters required. Time-range filtering handled via date_columns mechanism.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Format timestamp_utc as DD-MM-YYYY HH:MM:SS for row_print_date_time",
+    "Format all flow rate columns (FM_101-FM_106) to 2 decimal places",
+    "Format all totalizer columns to 2 decimal places"
+  ]
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMWSSB Payment Receipt</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', 'Helvetica', sans-serif; font-size: 12pt; line-height: 1.6; color: #333; background: #fff; padding: 20px; }
+        .receipt-container { max-width: 800px; margin: 0 auto; border: 2px solid #1e3a8a; padding: 0; }
+        .header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 20px 30px; text-align: center; border-bottom: 4px solid #1e40af; }
+        .header .logo-area { display: inline-block; width: 80px; height: 80px; background: white; border-radius: 50%; margin-bottom: 10px; vertical-align: middle; line-height: 80px; text-align: center; font-weight: bold; color: #1e3a8a; font-size: 14pt; }
+        .header h1 { font-size: 20pt; font-weight: bold; margin: 10px 0 5px 0; letter-spacing: 1px; }
+        .header .subtitle { font-size: 11pt; opacity: 0.95; font-weight: normal; }
+        .receipt-title { background: #f0f9ff; border-left: 5px solid #1e3a8a; padding: 12px 30px; font-size: 14pt; font-weight: bold; color: #1e3a8a; text-align: center; margin: 0; }
+        .section { padding: 20px 30px; border-bottom: 1px solid #e5e7eb; }
+        .section:last-child { border-bottom: none; }
+        .section-title { font-size: 12pt; font-weight: bold; color: #1e3a8a; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #3b82f6; }
+        .info-grid { display: table; width: 100%; margin-bottom: 10px; }
+        .info-row { display: table-row; }
+        .info-label { display: table-cell; font-weight: 600; color: #4b5563; padding: 6px 20px 6px 0; width: 35%; vertical-align: top; }
+        .info-value { display: table-cell; color: #1f2937; padding: 6px 0; font-weight: 500; }
+        .status-badge { display: inline-block; padding: 4px 12px; background: #10b981; color: white; border-radius: 4px; font-size: 10pt; font-weight: bold; text-transform: uppercase; }
+        .amount-highlight { font-size: 14pt; font-weight: bold; color: #1e3a8a; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        thead { background: #1e3a8a; color: white; }
+        th { padding: 12px 10px; text-align: left; font-weight: 600; font-size: 11pt; border: 1px solid #1e40af; }
+        td { padding: 10px; border: 1px solid #d1d5db; font-size: 10.5pt; }
+        tbody tr:nth-child(even) { background: #f9fafb; }
+        tbody tr:hover { background: #eff6ff; }
+        .footer { background: #f8fafc; padding: 15px 30px; border-top: 2px solid #1e3a8a; text-align: center; font-size: 10pt; color: #6b7280; }
+        .footer strong { color: #1e3a8a; }
+        @media print { body { padding: 0; } .receipt-container { border: 1px solid #1e3a8a; } }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <div class="logo-area">LOGO</div>
+            <h1>HYDERABAD METROPOLITAN WATER SUPPLY &amp; SEWERAGE BOARD</h1>
+            <div class="subtitle">Government of Telangana</div>
+        </div>
+        <div class="receipt-title">WATER BILL PAYMENT RECEIPT</div>
+        <div class="section">
+            <div class="section-title">Consumer Information</div>
+            <div class="info-grid">
+                <div class="info-row">
+                    <div class="info-label">CAN Number:</div>
+                    <div class="info-value">{can_number}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Consumer Name:</div>
+                    <div class="info-value">{consumer_name}</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Transaction Details</div>
+            <div class="info-grid">
+                <div class="info-row">
+                    <div class="info-label">Reference Number:</div>
+                    <div class="info-value">{reference_number}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Transaction Date:</div>
+                    <div class="info-value">{transaction_date}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Transaction Time:</div>
+                    <div class="info-value">{transaction_time}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Status:</div>
+                    <div class="info-value"><span class="status-badge">{transaction_status}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Payment Details</div>
+            <div class="info-grid">
+                <div class="info-row">
+                    <div class="info-label">Bill Amount:</div>
+                    <div class="info-value"><span class="amount-highlight">₹ {bill_amount}</span></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Bank Name:</div>
+                    <div class="info-value">{bank_name}</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Payment History</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Reference Number</th>
+                        <th>Amount (₹)</th>
+                        <th>Status</th>
+                        <th>Bank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- BEGIN:BLOCK_REPEAT transactions -->
+                    <tr>
+                        <td>{row_date}</td>
+                        <td>{row_reference}</td>
+                        <td>{row_amount}</td>
+                        <td>{row_status}</td>
+                        <td>{row_bank}</td>
+                    </tr>
+                    <!-- END:BLOCK_REPEAT -->
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <strong>Note:</strong> This is a system-generated receipt. For online bill payments and inquiries, please visit the HMWSSB online payment portal at <strong>www.hyderabadwater.gov.in</strong>
+        </div>
+    </div>
+</body>
+</html>

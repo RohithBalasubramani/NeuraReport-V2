@@ -1,0 +1,9 @@
+{
+  "sample_row": {
+    "row_port": "502",
+    "row_protocol": "modbus",
+    "row_latency_ms": "NOT_VISIBLE",
+    "row_status": "reconnecting",
+    "row_device_name": "MFM 20"
+  }
+}

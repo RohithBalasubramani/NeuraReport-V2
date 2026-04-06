@@ -1,0 +1,58 @@
+{
+  "mapping": {
+    "row_schema_id": "app_schema_fields.schema_id",
+    "row_key": "app_schema_fields.key",
+    "row_type": "app_schema_fields.type",
+    "row_unit": "app_schema_fields.unit",
+    "row_scale": "app_schema_fields.scale",
+    "row_desc_text": "app_schema_fields.desc_text"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "ed78370615202b835d1513861f7da1b1befb2d1c50d7eda0c22e0bf86d52983e",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "4d738f4e648e64b1da207868be04f3f5135781d6574f493d81fe6a931e8f663f",
+    "cache_key": "e47628c1414f71d1ce278f3ddd0eeed9efd3fe4708f34b278f0f529135b2562b",
+    "pre_html_sha256": "b9a3fccc063a7e9d089046fc636ab0193ebc42516e3bd925cafa341ac5253828",
+    "post_html_sha256": "b9a3fccc063a7e9d089046fc636ab0193ebc42516e3bd925cafa341ac5253828",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_schema_id": "app_schema_fields.schema_id",
+      "row_key": "app_schema_fields.key",
+      "row_type": "app_schema_fields.type",
+      "row_unit": "app_schema_fields.unit",
+      "row_scale": "app_schema_fields.scale",
+      "row_desc_text": "app_schema_fields.desc_text"
+    },
+    "token_samples": {
+      "row_schema_id": "{row_schema_id}",
+      "row_key": "{row_key}",
+      "row_type": "{row_type}",
+      "row_unit": "{row_unit}",
+      "row_scale": "{row_scale}",
+      "row_desc_text": "{row_desc_text}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_schema_id": "{row_schema_id}",
+    "row_key": "{row_key}",
+    "row_type": "{row_type}",
+    "row_unit": "{row_unit}",
+    "row_scale": "{row_scale}",
+    "row_desc_text": "{row_desc_text}"
+  }
+}

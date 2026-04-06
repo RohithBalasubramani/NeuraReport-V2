@@ -1,0 +1,14 @@
+{
+  "scalars": [
+    "bank_name",
+    "bill_amount",
+    "can_number",
+    "generated_datetime",
+    "logo_url",
+    "transaction_datetime",
+    "transaction_reference",
+    "transaction_status"
+  ],
+  "row_tokens": [],
+  "totals": []
+}

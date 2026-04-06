@@ -1,0 +1,158 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "fca908c4e92afb06808dcb8bd1ee967dcb6ee3c56fa5b35c7241e1243d1152b3",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "1eecd95690b8f84bec8649e0eed12a98be1c81cef0164525565efffea8add3dd",
+  "generated_at": 1771423313,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ],
+      "row_tokens": [
+        "row_auto_reconnect",
+        "row_id",
+        "row_last_error",
+        "row_latency_ms",
+        "row_name",
+        "row_port",
+        "row_protocol",
+        "row_status"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "date_from": "PARAM:date_from",
+      "date_to": "PARAM:date_to",
+      "generated_at": "UNRESOLVED",
+      "row_id": "app_devices.id",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_port": "app_devices.port",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_last_error": "app_devices.last_error"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_devices",
+      "parent_key": "id",
+      "child_table": "app_devices",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "app_devices": "id"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Direct select from app_devices, no reshape needed",
+        "strategy": "NONE",
+        "columns": [
+          {
+            "as": "id",
+            "from": [
+              "app_devices.id"
+            ]
+          },
+          {
+            "as": "name",
+            "from": [
+              "app_devices.name"
+            ]
+          },
+          {
+            "as": "protocol",
+            "from": [
+              "app_devices.protocol"
+            ]
+          },
+          {
+            "as": "status",
+            "from": [
+              "app_devices.status"
+            ]
+          },
+          {
+            "as": "port",
+            "from": [
+              "app_devices.port"
+            ]
+          },
+          {
+            "as": "latency_ms",
+            "from": [
+              "app_devices.latency_ms"
+            ]
+          },
+          {
+            "as": "auto_reconnect",
+            "from": [
+              "app_devices.auto_reconnect"
+            ]
+          },
+          {
+            "as": "last_error",
+            "from": [
+              "app_devices.last_error"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_latency_ms": "number(1)",
+      "date_from": "date(YYYY-MM-DD)",
+      "date_to": "date(YYYY-MM-DD)"
+    },
+    "order_by": {
+      "rows": [
+        "app_devices.id ASC"
+      ]
+    },
+    "header_tokens": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_auto_reconnect",
+      "row_id",
+      "row_last_error",
+      "row_latency_ms",
+      "row_name",
+      "row_port",
+      "row_protocol",
+      "row_status"
+    ],
+    "row_order": [
+      "app_devices.id ASC"
+    ],
+    "literals": {},
+    "notes": "generated_at must be injected by the report engine at runtime as the current UTC timestamp formatted as a human-readable string (e.g. '2026-02-18 14:32:00'). date_from and date_to are display-only parameters shown in the report header and footer; they do not constrain which device rows are returned. auto_reconnect is stored as an integer (0/1) and may be rendered as Yes/No by the template engine. The badge CSS classes in the template are driven by row_status values (connected, disconnected, idle, warning, etc.) — no contract-level transformation needed, the value is passed through as-is."
+  },
+  "key_tokens": []
+}

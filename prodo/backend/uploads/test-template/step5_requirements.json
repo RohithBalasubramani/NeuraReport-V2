@@ -1,0 +1,41 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Single transaction record with formatted datetime fields and parameter-supplied logo",
+      "columns": [
+        "bank_name",
+        "bill_amount",
+        "can_number",
+        "generated_datetime",
+        "logo_url",
+        "transaction_datetime",
+        "transaction_reference",
+        "transaction_status"
+      ]
+    },
+    "rows": {
+      "description": "No row-level data (scalar-only report)",
+      "columns": [],
+      "grouping": [],
+      "ordering": []
+    },
+    "totals": {
+      "description": "No totals required",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are pass-through from a single transaction record. No filtering required as the report displays one pre-selected transaction. The logo_url is provided as a runtime parameter.",
+  "parameters": {
+    "required": [
+      {
+        "name": "logo_url",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "Format transactions.created_at as DD-MM-YYYY HH:MM:SS string for generated_datetime display",
+    "Concatenate transactions.transaction_date and transactions.transaction_time with space separator for transaction_datetime display"
+  ]
+}

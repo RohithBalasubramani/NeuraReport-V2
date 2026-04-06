@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Per-minute job metrics including read/write counts, error counts, latency percentiles (p50, p95), and trigger statistics.",
+      "columns": [
+        "row_job_id",
+        "row_minute_utc",
+        "row_reads",
+        "row_read_err",
+        "row_writes",
+        "row_write_err",
+        "row_read_p50",
+        "row_read_p95",
+        "row_write_p50",
+        "row_write_p95",
+        "row_triggers",
+        "row_fires",
+        "row_suppressed"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All columns are direct passthrough from the database. No filtering or parameter-based selection is configured.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": []
+}

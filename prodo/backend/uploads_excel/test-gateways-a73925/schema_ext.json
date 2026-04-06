@@ -1,0 +1,22 @@
+{
+  "scalar_tokens": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_host",
+    "row_adapter_id",
+    "row_nic_hint",
+    "row_protocol_hint",
+    "row_status",
+    "row_created_at",
+    "row_updated_at",
+    "row_last_test_at"
+  ],
+  "totals_tokens": [],
+  "notes": {
+    "sheet_title": "App Gateways",
+    "column_count": 10,
+    "repeating_row_structure": "tbody > tr with 10 cells",
+    "print_optimized": true
+  }
+}

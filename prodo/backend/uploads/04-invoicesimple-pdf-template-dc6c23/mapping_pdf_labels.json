@@ -1,0 +1,102 @@
+[
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices.issue_date"
+  },
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices.invoice_number"
+  },
+  {
+    "header": "from_company_name",
+    "placeholder": "{from_company_name}",
+    "mapping": "invoices.vendor_name"
+  },
+  {
+    "header": "from_email",
+    "placeholder": "{from_email}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "from_address_1",
+    "placeholder": "{from_address_1}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "from_address_2",
+    "placeholder": "{from_address_2}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "to_client_name",
+    "placeholder": "{to_client_name}",
+    "mapping": "customers.customer_name"
+  },
+  {
+    "header": "to_email",
+    "placeholder": "{to_email}",
+    "mapping": "customers.email"
+  },
+  {
+    "header": "to_address_1",
+    "placeholder": "{to_address_1}",
+    "mapping": "customers.billing_address"
+  },
+  {
+    "header": "to_address_2",
+    "placeholder": "{to_address_2}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "terms",
+    "placeholder": "{terms}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "due_date",
+    "placeholder": "{due_date}",
+    "mapping": "invoices.due_date"
+  },
+  {
+    "header": "row_item_description",
+    "placeholder": "{row_item_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_quantity",
+    "placeholder": "{row_quantity}",
+    "mapping": "invoice_items.quantity"
+  },
+  {
+    "header": "row_price",
+    "placeholder": "{row_price}",
+    "mapping": "invoice_items.unit_price"
+  },
+  {
+    "header": "row_amount",
+    "placeholder": "{row_amount}",
+    "mapping": "invoice_items.line_total"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "invoices.subtotal"
+  },
+  {
+    "header": "tax",
+    "placeholder": "{tax}",
+    "mapping": "invoices.tax_amount"
+  },
+  {
+    "header": "balance_due",
+    "placeholder": "{balance_due}",
+    "mapping": "invoices.total_amount"
+  },
+  {
+    "header": "notes",
+    "placeholder": "{notes}",
+    "mapping": "invoices.notes"
+  }
+]

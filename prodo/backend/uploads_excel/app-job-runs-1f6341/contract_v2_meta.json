@@ -1,0 +1,160 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "9a479a13b8349a807d0b107a15a40648ec56ba7292fbc6669805fd61c0dc7a60",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771511568,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_job_id",
+        "row_started_at",
+        "row_stopped_at",
+        "row_duration_ms",
+        "row_rows",
+        "row_read_lat_avg",
+        "row_write_lat_avg",
+        "row_error_pct"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_job_runs.id",
+      "row_job_id": "app_job_runs.job_id",
+      "row_started_at": "app_job_runs.started_at",
+      "row_stopped_at": "app_job_runs.stopped_at",
+      "row_duration_ms": "app_job_runs.duration_ms",
+      "row_rows": "app_job_runs.rows",
+      "row_read_lat_avg": "app_job_runs.read_lat_avg",
+      "row_write_lat_avg": "app_job_runs.write_lat_avg",
+      "row_error_pct": "app_job_runs.error_pct"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_job_runs",
+      "parent_key": "id",
+      "child_table": "app_job_runs",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "app_job_runs": "started_at"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_job_runs.id"
+            ]
+          },
+          {
+            "as": "row_job_id",
+            "from": [
+              "app_job_runs.job_id"
+            ]
+          },
+          {
+            "as": "row_started_at",
+            "from": [
+              "app_job_runs.started_at"
+            ]
+          },
+          {
+            "as": "row_stopped_at",
+            "from": [
+              "app_job_runs.stopped_at"
+            ]
+          },
+          {
+            "as": "row_duration_ms",
+            "from": [
+              "app_job_runs.duration_ms"
+            ]
+          },
+          {
+            "as": "row_rows",
+            "from": [
+              "app_job_runs.rows"
+            ]
+          },
+          {
+            "as": "row_read_lat_avg",
+            "from": [
+              "app_job_runs.read_lat_avg"
+            ]
+          },
+          {
+            "as": "row_write_lat_avg",
+            "from": [
+              "app_job_runs.write_lat_avg"
+            ]
+          },
+          {
+            "as": "row_error_pct",
+            "from": [
+              "app_job_runs.error_pct"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_started_at": "date(YYYY-MM-DD HH:mm:ss)",
+      "row_stopped_at": "date(YYYY-MM-DD HH:mm:ss)",
+      "row_duration_ms": "number(0)",
+      "row_rows": "number(0)",
+      "row_read_lat_avg": "number(2)",
+      "row_write_lat_avg": "number(2)",
+      "row_error_pct": "percent(2)"
+    },
+    "order_by": {
+      "rows": [
+        "app_job_runs.started_at DESC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_job_id",
+      "row_started_at",
+      "row_stopped_at",
+      "row_duration_ms",
+      "row_rows",
+      "row_read_lat_avg",
+      "row_write_lat_avg",
+      "row_error_pct"
+    ],
+    "row_order": [
+      "app_job_runs.started_at DESC"
+    ],
+    "literals": {},
+    "notes": "Flat job runs detail report with no computed fields or aggregations. All metrics are pre-calculated in the source table."
+  },
+  "key_tokens": []
+}

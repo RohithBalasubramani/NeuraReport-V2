@@ -1,0 +1,42 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset needed — this report has no scalar tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "All job records from app_jobs table with configuration, state, and timestamps.",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_schema_id",
+        "row_gateway_id",
+        "row_interval_sec",
+        "row_protocol",
+        "row_enabled",
+        "row_status",
+        "row_last_run_at",
+        "row_error_count",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset needed — this report has no totals tokens.",
+      "columns": []
+    }
+  },
+  "semantics": "No filters or parameters. This is a full-table dump of app_jobs.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations — all tokens map directly to app_jobs columns."
+  ]
+}

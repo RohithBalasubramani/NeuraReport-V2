@@ -1,0 +1,252 @@
+{
+  "prompt_version": "llm_call_4_v2",
+  "model": "gpt-5",
+  "input_signature": "fb62da9f66bfdcd91055e0d72263f29e8540c7f2b1872234cd5bd7dc47fc3560",
+  "db_signature": "9a6ca65e35134679d2e6985dc9358bf8d45afb3735857fe8ed9e1c051f35c967",
+  "page_summary_sha256": "2e6fc6bd13a628cac3338f45030ceefc9c8f523e07d10f2060ba33625c1d0577",
+  "generated_at": 1762928463,
+  "assumptions": [
+    "recipes.start_time is stored in local time and can be compared via DATE().",
+    "recipe_name uniquely identifies a recipe code for filtering within the selected date range.",
+    "Only bin1..bin12 columns contain material rows; empty bin labels should be suppressed."
+  ],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "print_date",
+        "date_from",
+        "date_to",
+        "recipe_code"
+      ],
+      "row_tokens": [
+        "row_recipe_code",
+        "row_batch_no",
+        "row_batch_start",
+        "row_batch_end",
+        "row_material_rows",
+        "batch_total_set_wt",
+        "batch_total_ach_wt",
+        "batch_total_error_kg",
+        "batch_total_error_pct"
+      ],
+      "totals": [
+        "total_set_wt",
+        "total_ach_wt",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "mapping": {
+      "print_date": "PARAM:print_date",
+      "date_from": "PARAM:from_date",
+      "date_to": "PARAM:to_date",
+      "recipe_code": "PARAM:recipe_code",
+      "row_recipe_code": "rows.row_recipe_code",
+      "row_batch_no": "rows.row_batch_no",
+      "row_batch_start": "rows.row_batch_start",
+      "row_batch_end": "rows.row_batch_end",
+      "row_material_rows": "rows.row_material_rows",
+      "batch_total_set_wt": "rows.batch_total_set_wt",
+      "batch_total_ach_wt": "rows.batch_total_ach_wt",
+      "batch_total_error_kg": "rows.batch_total_error_kg",
+      "batch_total_error_pct": "rows.batch_total_error_pct",
+      "total_set_wt": "totals.total_set_wt",
+      "total_ach_wt": "totals.total_ach_wt",
+      "total_error_kg": "totals.total_error_kg",
+      "total_error_pct": "totals.total_error_pct"
+    },
+    "join": {
+      "parent_table": "recipes",
+      "parent_key": "id",
+      "child_table": "recipes",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "recipes": "start_time"
+    },
+    "filters": {
+      "optional": {
+        "recipe_code": "recipes.recipe_name"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Unpivot each recipe row into bin-level material entries",
+        "strategy": "UNION_ALL",
+        "columns": [
+          {
+            "as": "batch_id",
+            "from": [
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id",
+              "recipes.id"
+            ]
+          },
+          {
+            "as": "recipe_name",
+            "from": [
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name",
+              "recipes.recipe_name"
+            ]
+          },
+          {
+            "as": "start_time",
+            "from": [
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time",
+              "recipes.start_time"
+            ]
+          },
+          {
+            "as": "bin_no",
+            "from": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12"
+            ]
+          },
+          {
+            "as": "material_name",
+            "from": [
+              "recipes.bin1_content",
+              "recipes.bin2_content",
+              "recipes.bin3_content",
+              "recipes.bin4_content",
+              "recipes.bin5_content",
+              "recipes.bin6_content",
+              "recipes.bin7_content",
+              "recipes.bin8_content",
+              "recipes.bin9_content",
+              "recipes.bin10_content",
+              "recipes.bin11_content",
+              "recipes.bin12_content"
+            ]
+          },
+          {
+            "as": "set_wt",
+            "from": [
+              "recipes.bin1_sp",
+              "recipes.bin2_sp",
+              "recipes.bin3_sp",
+              "recipes.bin4_sp",
+              "recipes.bin5_sp",
+              "recipes.bin6_sp",
+              "recipes.bin7_sp",
+              "recipes.bin8_sp",
+              "recipes.bin9_sp",
+              "recipes.bin10_sp",
+              "recipes.bin11_sp",
+              "recipes.bin12_sp"
+            ]
+          },
+          {
+            "as": "ach_wt",
+            "from": [
+              "recipes.bin1_act",
+              "recipes.bin2_act",
+              "recipes.bin3_act",
+              "recipes.bin4_act",
+              "recipes.bin5_act",
+              "recipes.bin6_act",
+              "recipes.bin7_act",
+              "recipes.bin8_act",
+              "recipes.bin9_act",
+              "recipes.bin10_act",
+              "recipes.bin11_act",
+              "recipes.bin12_act"
+            ]
+          }
+        ]
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "row_recipe_code ASC",
+        "row_batch_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "print_date",
+      "date_from",
+      "date_to",
+      "recipe_code"
+    ],
+    "row_tokens": [
+      "row_recipe_code",
+      "row_batch_no",
+      "row_batch_start",
+      "row_batch_end",
+      "row_material_rows",
+      "batch_total_set_wt",
+      "batch_total_ach_wt",
+      "batch_total_error_kg",
+      "batch_total_error_pct"
+    ],
+    "totals": {
+      "total_set_wt": "totals.total_set_wt",
+      "total_ach_wt": "totals.total_ach_wt",
+      "total_error_kg": "totals.total_error_kg",
+      "total_error_pct": "totals.total_error_pct"
+    },
+    "row_order": [
+      "row_recipe_code ASC",
+      "row_batch_no ASC"
+    ],
+    "literals": {}
+  },
+  "key_tokens": [
+    "row_recipe_code"
+  ]
+}

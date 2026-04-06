@@ -1,0 +1,54 @@
+{
+  "id": "973e317f-d19f-4182-b26f-4400c3ce02bf",
+  "name": "Sales Pipeline",
+  "sheets": [
+    {
+      "id": "59be5a43-d8ba-476b-a499-1b6c33ddde90",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Stage",
+          "Count",
+          "Value"
+        ],
+        [
+          "Lead",
+          150,
+          750000
+        ],
+        [
+          "Qualified",
+          80,
+          1200000
+        ],
+        [
+          "Proposal",
+          45,
+          2250000
+        ],
+        [
+          "Negotiation",
+          20,
+          1800000
+        ],
+        [
+          "Closed Won",
+          12,
+          1440000
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T18:08:07.252127+00:00",
+  "updated_at": "2026-02-22T18:08:07.252127+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

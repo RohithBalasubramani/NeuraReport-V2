@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Fields</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 24mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        .report-title {
+            font-size: 14pt;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        #data-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin: 0;
+        }
+        
+        #data-table thead {
+            background-color: #f5f5f5;
+        }
+        
+        #data-table th {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: left;
+            vertical-align: top;
+            font-weight: 700;
+            font-size: 9pt;
+        }
+        
+        #data-table td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific widths and alignment */
+        #data-table th:nth-child(1),
+        #data-table td:nth-child(1) {
+            width: 18%;
+        }
+        
+        #data-table th:nth-child(2),
+        #data-table td:nth-child(2) {
+            width: 18%;
+        }
+        
+        #data-table th:nth-child(3),
+        #data-table td:nth-child(3) {
+            width: 10%;
+        }
+        
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(4) {
+            width: 8%;
+            text-align: center;
+        }
+        
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(5) {
+            width: 8%;
+            text-align: center;
+        }
+        
+        #data-table th:nth-child(6),
+        #data-table td:nth-child(6) {
+            width: 38%;
+        }
+        
+        /* Print optimization */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <div class="report-title">Schema Fields</div>
+    </div>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="schema_id">Schema Id</th>
+                <th data-label="key">Key</th>
+                <th data-label="type">Type</th>
+                <th data-label="unit">Unit</th>
+                <th data-label="scale">Scale</th>
+                <th data-label="desc_text">Desc Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_schema_id}</td>
+                <td>{row_key}</td>
+                <td>{row_type}</td>
+                <td>{row_unit}</td>
+                <td>{row_scale}</td>
+                <td>{row_desc_text}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

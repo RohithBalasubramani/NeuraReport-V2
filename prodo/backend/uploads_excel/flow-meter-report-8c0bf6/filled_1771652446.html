@@ -1,0 +1,47 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4; margin: 24mm; }
+      body { font-family: Arial, sans-serif; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 6px 8px; vertical-align: top; }
+    </style>
+    
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.82; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head><body><table id="data-table"><caption style='caption-side:top;font-weight:700;text-align:left;margin:6px 0'>Sheet1</caption><thead><tr><td style="font-size:8pt;line-height:1.5;white-space:pre-line;text-align:left;width:120px;border:1px solid #999;padding:4px 6px;background:#ffff00;font-weight:700">PRINT DATE: 21/02/2026<br>TIME: 05:40 AM</td><td colspan="12" style="text-align:center;font-size:13pt;font-weight:700;letter-spacing:1px;background:#ffff00;border:1px solid #999;padding:6px">SOLID WASTE MANAGEMENT SYSTEM</td></tr><tr><td style="background:#e2efda;border:1px solid #999"></td><td style="text-align:center;background:#e2efda;border:1px solid #999">1</td><td style="text-align:center;background:#e2efda;border:1px solid #999">2</td><td style="text-align:center;background:#e2efda;border:1px solid #999">3</td><td style="text-align:center;background:#e2efda;border:1px solid #999">4</td><td style="text-align:center;background:#e2efda;border:1px solid #999">5</td><td style="text-align:center;background:#e2efda;border:1px solid #999">6</td><td style="text-align:center;background:#e2efda;border:1px solid #999">7</td><td style="text-align:center;background:#e2efda;border:1px solid #999">8</td><td style="text-align:center;background:#e2efda;border:1px solid #999">9</td><td style="text-align:center;background:#e2efda;border:1px solid #999">10</td><td style="text-align:center;background:#e2efda;border:1px solid #999">11</td><td style="text-align:center;background:#e2efda;border:1px solid #999">12</td></tr><tr><th data-label="flow_meter">FLOW METER</th><th data-label="fm_101">FM-101</th><th data-label="fm_102">FM-102</th><th data-label="fm_103">FM-103</th><th data-label="fm_104">FM-104</th><th data-label="fm_105">FM-105</th><th data-label="fm_106">FM-106</th><th data-label="fm_101_totalizer">FM-101 TOTALIZER</th><th data-label="fm_102_totalizer">FM-102 TOTALIZER</th><th data-label="fm_103_totalizer">FM-103 TOTALIZER</th><th data-label="fm_104_totalizer">FM-104 TOTALIZER</th><th data-label="fm_105_totalizer">FM-105 TOTALIZER</th><th data-label="fm_106_totalizer">FM-106 TOTALIZER</th></tr></thead><tbody></tbody></table></body></html>

@@ -1,0 +1,36 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents one job from app_jobs table with its configuration and status attributes",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_type",
+        "row_interval_ms",
+        "row_enabled",
+        "row_status",
+        "row_cpu_budget"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "No filtering or parameters. All rows from app_jobs are included.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape operations needed. Direct column selection from app_jobs table."
+  ]
+}

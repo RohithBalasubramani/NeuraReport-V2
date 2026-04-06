@@ -1,0 +1,8 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_type"
+  ],
+  "totals": {},
+  "notes": "Single-column table listing protocol types. The row_type token represents the protocol name (e.g., modbus, opcua)."
+}

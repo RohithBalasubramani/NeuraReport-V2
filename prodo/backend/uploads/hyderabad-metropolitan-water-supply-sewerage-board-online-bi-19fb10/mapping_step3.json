@@ -1,0 +1,70 @@
+{
+  "mapping": {
+    "transaction_status": "transactions.transaction_status",
+    "transaction_reference_number": "transactions.transaction_ref_number",
+    "transaction_date_time": "CONCAT(transactions.transaction_date, ' ', transactions.transaction_time)",
+    "can_no": "transactions.can_number",
+    "bill_amount": "transactions.bill_amount",
+    "bank_name": "transactions.bank_name",
+    "ip_address": "transactions.ip_address",
+    "access_time": "transactions.access_timestamp",
+    "timestamp": "transactions.created_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_v7",
+    "prompt_sha256": "f104812f839426928363ffb3adb4ac5f6fb1ec2a9fcf7aadc46c4026c0cdf659",
+    "catalog_sha256": "191ef492d64f3b3f19bd2650de4a8fd2489f25597a3ffaa95b08fdbc417a977a",
+    "schema_sha256": "7ba6d07cb7d477c4d9b04b335f0249d9b173c301a5a419d2a7d23987a0545a63",
+    "cache_key": "458b4a2cb34bbcd0af0f76ce5ed780c075442c38a5a0f601ea94433e3d8ebac0",
+    "pre_html_sha256": "5405488d8f05a7ac7051ac58922e20cb448e5270accb028f32982289b8e73764",
+    "post_html_sha256": "5405488d8f05a7ac7051ac58922e20cb448e5270accb028f32982289b8e73764",
+    "prompt_version": "llm_call_3_v7",
+    "pdf_sha256": "5472f36fc77f9dfe3c99e64c04595c397e77efe516408f7977798e6fb43d0c1d",
+    "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273"
+  },
+  "raw_payload": {
+    "mapping": {
+      "transaction_status": "transactions.transaction_status",
+      "transaction_reference_number": "transactions.transaction_ref_number",
+      "transaction_date_time": "CONCAT(transactions.transaction_date, ' ', transactions.transaction_time)",
+      "can_no": "transactions.can_number",
+      "bill_amount": "transactions.bill_amount",
+      "bank_name": "transactions.bank_name",
+      "ip_address": "transactions.ip_address",
+      "access_time": "transactions.access_timestamp",
+      "timestamp": "transactions.created_at"
+    },
+    "token_samples": {
+      "timestamp": "2/1/26, 2:53 AM",
+      "transaction_status": "Success",
+      "transaction_reference_number": "YA9826087Y02274",
+      "transaction_date_time": "01-02-2026 02:52:29",
+      "can_no": "624149010",
+      "bill_amount": "Rs. 1610.00",
+      "bank_name": "NA",
+      "ip_address": "2601:4900:1cbc:2180:cd38:0db8:2bb7:af85",
+      "access_time": "Feb 01 02:53:40 IST 2026"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "timestamp": "2/1/26, 2:53 AM",
+    "transaction_status": "Success",
+    "transaction_reference_number": "YA9826087Y02274",
+    "transaction_date_time": "01-02-2026 02:52:29",
+    "can_no": "624149010",
+    "bill_amount": "Rs. 1610.00",
+    "bank_name": "NA",
+    "ip_address": "2601:4900:1cbc:2180:cd38:0db8:2bb7:af85",
+    "access_time": "Feb 01 02:53:40 IST 2026"
+  }
+}

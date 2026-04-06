@@ -1,0 +1,10 @@
+{
+  "sample_row": {
+    "row_type": "REAL",
+    "row_unit": "V",
+    "row_key": "voltage_r_n",
+    "row_schema_id": "sch_1770993251278",
+    "row_desc_text": "Phase R to Neutral Voltage",
+    "row_scale": "NOT_VISIBLE"
+  }
+}

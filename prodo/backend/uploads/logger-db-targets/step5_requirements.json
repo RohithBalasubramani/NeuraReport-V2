@@ -1,0 +1,53 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Three scalar values rendered in the report header and footer: the reporting period start date, end date, and the timestamp when the report was generated. All three are supplied as parameters — none come from database columns.",
+      "columns": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ]
+    },
+    "rows": {
+      "description": "One row per database target from app_db_targets. Each row shows the target's unique ID, provider type, connection string, current status, and last message.",
+      "columns": [
+        "row_id",
+        "row_provider",
+        "row_conn",
+        "row_status",
+        "row_last_msg"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_db_targets.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "date_from and date_to are display-only parameters passed through to the header/footer — they do NOT filter the rows fetched from app_db_targets. generated_at is a system-supplied runtime value injected at generation time (current datetime). All row data is fetched unfiltered from app_db_targets.",
+  "parameters": {
+    "required": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      },
+      {
+        "name": "generated_at",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape required — all row tokens map directly to columns in the single app_db_targets table.",
+    "No computed row columns needed.",
+    "No totals or aggregate calculations needed."
+  ]
+}

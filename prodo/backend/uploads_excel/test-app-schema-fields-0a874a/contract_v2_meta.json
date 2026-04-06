@@ -1,0 +1,79 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "3f5450cae8c478e821b850e35440f9e6e09919ce6981525550e9c38cb1ec9a45",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771521608,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "{'token': 'row_schema_id', 'description': 'Schema identifier', 'type': 'string'}",
+        "{'token': 'row_key', 'description': 'Field key name', 'type': 'string'}",
+        "{'token': 'row_type', 'description': 'Data type (REAL, float, boolean, etc.)', 'type': 'string'}",
+        "{'token': 'row_unit', 'description': 'Measurement unit (V, A, °C, %, etc.)', 'type': 'string'}",
+        "{'token': 'row_scale', 'description': 'Scaling factor', 'type': 'string'}",
+        "{'token': 'row_desc_text', 'description': 'Field description text', 'type': 'string'}"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_schema_id": "app_schema_fields.schema_id",
+      "row_key": "app_schema_fields.key",
+      "row_type": "app_schema_fields.type",
+      "row_unit": "app_schema_fields.unit",
+      "row_scale": "app_schema_fields.scale",
+      "row_desc_text": "app_schema_fields.desc_text"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_schema_fields",
+      "parent_key": "schema_id",
+      "child_table": "app_schema_fields",
+      "child_key": "schema_id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "{'token': 'row_schema_id', 'description': 'Schema identifier', 'type': 'string'}",
+      "{'token': 'row_key', 'description': 'Field key name', 'type': 'string'}",
+      "{'token': 'row_type', 'description': 'Data type (REAL, float, boolean, etc.)', 'type': 'string'}",
+      "{'token': 'row_unit', 'description': 'Measurement unit (V, A, °C, %, etc.)', 'type': 'string'}",
+      "{'token': 'row_scale', 'description': 'Scaling factor', 'type': 'string'}",
+      "{'token': 'row_desc_text', 'description': 'Field description text', 'type': 'string'}"
+    ],
+    "row_order": [
+      "ROWID"
+    ],
+    "literals": {},
+    "notes": "Single-table report displaying all schema field definitions. No computations, joins, or parameters. Sorted by insertion order (ROWID)."
+  },
+  "key_tokens": []
+}

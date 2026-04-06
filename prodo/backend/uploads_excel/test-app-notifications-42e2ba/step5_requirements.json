@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required — report has no scalar summary fields",
+      "columns": []
+    },
+    "rows": {
+      "description": "Notification detail rows showing ID, type, message, user, read status, and timestamp",
+      "columns": [
+        "row_id",
+        "row_type",
+        "row_message",
+        "row_user",
+        "row_read",
+        "row_time"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_notifications.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required — simple detail report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column passthroughs from app_notifications. No filtering or parameterization required. The time column can optionally be used for date-range filtering at runtime.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct 1:1 mapping from app_notifications columns to row tokens — no reshape, no computed columns"
+  ]
+}

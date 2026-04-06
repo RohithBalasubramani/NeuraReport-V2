@@ -1,0 +1,47 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    {
+      "token": "row_job_id",
+      "label": "Job ID",
+      "sample": "job_1771013897364"
+    },
+    {
+      "token": "row_started_at",
+      "label": "Started At",
+      "sample": "2026-02-15T17:32:11+05:30"
+    },
+    {
+      "token": "row_stopped_at",
+      "label": "Stopped At",
+      "sample": "2026-02-15T17:32:29+05:30"
+    },
+    {
+      "token": "row_duration_ms",
+      "label": "Duration (ms)",
+      "sample": "18000"
+    },
+    {
+      "token": "row_rows_written",
+      "label": "Rows Written",
+      "sample": "0"
+    },
+    {
+      "token": "row_read_lat_avg",
+      "label": "Read Lat Avg",
+      "sample": "1.2366279"
+    },
+    {
+      "token": "row_write_lat_avg",
+      "label": "Write Lat Avg",
+      "sample": "0"
+    },
+    {
+      "token": "row_error",
+      "label": "Error %",
+      "sample": "1900"
+    }
+  ],
+  "totals": [],
+  "notes": "Job execution metrics including timing, throughput, and error rates. Numeric columns (duration, rows, latencies, errors) are right-aligned for readability."
+}

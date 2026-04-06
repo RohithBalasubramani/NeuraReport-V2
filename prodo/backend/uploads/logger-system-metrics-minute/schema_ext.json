@@ -1,0 +1,20 @@
+{
+  "scalars": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_cpu",
+    "row_disk_rps",
+    "row_disk_wps",
+    "row_mem",
+    "row_minute_utc",
+    "row_net_rxps",
+    "row_net_txps",
+    "row_proc_cpu",
+    "row_proc_handles",
+    "row_proc_rss_mb"
+  ],
+  "totals": []
+}

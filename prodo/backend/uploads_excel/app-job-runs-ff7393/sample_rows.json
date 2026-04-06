@@ -1,0 +1,12 @@
+{
+  "sample_row": {
+    "row_read_lat_avg": "1.2366279",
+    "row_write_lat_avg": "0",
+    "row_started_at": "2026-02-15T17:32:11+05:30",
+    "row_duration_ms": "18000",
+    "row_stopped_at": "2026-02-15T17:32:29+05:30",
+    "row_rows_written": "0",
+    "row_job_id": "job_1771013897364",
+    "row_error": "1900"
+  }
+}

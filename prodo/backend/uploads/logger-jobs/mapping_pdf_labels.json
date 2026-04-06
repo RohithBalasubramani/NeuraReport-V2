@@ -1,0 +1,47 @@
+[
+  {
+    "header": "date_from",
+    "placeholder": "{date_from}",
+    "mapping": "LATER_SELECTED"
+  },
+  {
+    "header": "date_to",
+    "placeholder": "{date_to}",
+    "mapping": "LATER_SELECTED"
+  },
+  {
+    "header": "generated_at",
+    "placeholder": "{generated_at}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_jobs.name"
+  },
+  {
+    "header": "row_type",
+    "placeholder": "{row_type}",
+    "mapping": "app_jobs.type"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_jobs.status"
+  },
+  {
+    "header": "row_enabled",
+    "placeholder": "{row_enabled}",
+    "mapping": "app_jobs.enabled"
+  },
+  {
+    "header": "row_interval_ms",
+    "placeholder": "{row_interval_ms}",
+    "mapping": "app_jobs.interval_ms"
+  },
+  {
+    "header": "row_cpu_budget",
+    "placeholder": "{row_cpu_budget}",
+    "mapping": "app_jobs.cpu_budget"
+  }
+]

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Acknowledgment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        
+        .timestamp {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .org-name {
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        .org-name .main {
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+        
+        .org-name .sub {
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .message-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 3px solid #0066cc;
+        }
+        
+        .message-box p {
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 13px;
+        }
+        
+        .transaction-details {
+            margin-bottom: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+            text-align: right;
+        }
+        
+        .note-box {
+            background-color: #fffbf0;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ffa500;
+        }
+        
+        .note-box p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .note-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #666;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: #f5f5f5;
+        }
+        
+        .footer-warning {
+            background-color: #fff5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 3px solid #cc0000;
+        }
+        
+        .footer-warning p {
+            color: #cc0000;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .footer-branding {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-url {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .powered-by {
+            text-align: right;
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .powered-by .brand {
+            color: #ff6600;
+            font-weight: bold;
+        }
+        
+        .page-number {
+            text-align: right;
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        @media print {
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="timestamp">{transaction_timestamp}</div>
+            <div class="page-title">Hyderabad Metropolitan Water Supply & Sewerage Board - Online Bill Payment</div>
+        </div>
+        
+        <div class="logo-section">
+            <img src="{logo_url}" alt="HMWSSB Logo" class="logo">
+            <div class="org-name">
+                <div class="main">HMWSSB</div>
+                <div class="sub">HYDERABAD METROPOLITAN<br>WATER SUPPLY & SEWERAGE BOARD</div>
+            </div>
+        </div>
+        
+        <div class="section-title">Transaction Acknowledgment</div>
+        
+        <div class="message-box">
+            <p><strong>Thank you!</strong> Your payment has been successfully received with the following details.</p>
+            <p>Please quote your transaction reference number for any queries relating to this request.</p>
+        </div>
+        
+        <div class="transaction-details">
+            <div class="detail-row">
+                <span class="detail-label">Transaction Status</span>
+                <span class="detail-value">{transaction_status}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Transaction Reference Number</span>
+                <span class="detail-value">{transaction_reference_number}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Transaction Date and Time</span>
+                <span class="detail-value">{transaction_date_time}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Can No.</span>
+                <span class="detail-value">{can_number}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Bill Amount</span>
+                <span class="detail-value">{bill_amount}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Bank Name</span>
+                <span class="detail-value">{bank_name}</span>
+            </div>
+        </div>
+        
+        <div class="note-box">
+            <p><span class="note-label">Note:</span> Payment made will be updated in the ledger in about 30 minutes.</p>
+        </div>
+        
+        <div class="button-row">
+            <button class="btn" onclick="window.print()">Print</button>
+            <a href="#" class="btn">Make Another Payment</a>
+        </div>
+        
+        <div class="footer-warning">
+            <p>Your transaction is processed through a secure 128 bit https internet connection based on secure socket layer technology. For security purposes, Your IP address 2601:6800:1c80:a6c:7c67:983c:94c7:35d7 and access time FRI 01 02 33:40 IST 2026 have been logged.</p>
+        </div>
+        
+        <div class="footer-branding">
+            <div class="footer-url">https://pgi.billdesk.com/pgidsk/pgmerchant/hmwssbhHMWSSBhResponse.jsp</div>
+            <div class="powered-by">Powered by<br><span class="brand">BillDesk</span></div>
+        </div>
+        
+        <div class="page-number">1/1</div>
+    </div>
+</body>
+</html>

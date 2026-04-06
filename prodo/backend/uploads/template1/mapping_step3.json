@@ -1,0 +1,272 @@
+{
+  "mapping": {
+    "timestamp": "UNRESOLVED",
+    "logo_url": "UNRESOLVED",
+    "organization_name": "UNRESOLVED",
+    "organization_subtitle": "UNRESOLVED",
+    "transaction_status": "UNRESOLVED",
+    "transaction_reference_number": "payments.transaction_ref",
+    "transaction_date_time": "UNRESOLVED",
+    "can_number": "UNRESOLVED",
+    "bill_amount": "invoices.total_amount",
+    "bank_name": "UNRESOLVED",
+    "payment_note": "UNRESOLVED",
+    "security_warning_text": "UNRESOLVED",
+    "payment_url": "UNRESOLVED",
+    "payment_provider": "UNRESOLVED",
+    "page_number": "LATER_SELECTED"
+  },
+  "meta": {
+    "unresolved": [
+      "timestamp",
+      "logo_url",
+      "organization_name",
+      "organization_subtitle",
+      "transaction_status",
+      "transaction_date_time",
+      "can_number",
+      "bank_name",
+      "payment_note",
+      "security_warning_text",
+      "payment_url",
+      "payment_provider"
+    ],
+    "hints": {
+      "timestamp": {
+        "op": "FORMAT",
+        "over": [
+          "columns:payments.payment_date",
+          "note:Requires date-time formatting with current timestamp"
+        ]
+      },
+      "logo_url": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static asset URL or base64-encoded image"
+        ]
+      },
+      "organization_name": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static organization branding - HMWSSB"
+        ]
+      },
+      "organization_subtitle": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static subtitle - Online Bill Payment"
+        ]
+      },
+      "transaction_status": {
+        "op": "DERIVED",
+        "over": [
+          "note:Payment success/failure status - not in catalog"
+        ]
+      },
+      "transaction_date_time": {
+        "op": "FORMAT",
+        "over": [
+          "columns:payments.payment_date",
+          "note:Requires date-time formatting DD/MM/YYYY HH:MM:SS"
+        ]
+      },
+      "can_number": {
+        "op": "ALIAS",
+        "over": [
+          "columns:customers.customer_id",
+          "note:CAN (Customer Account Number) likely maps to customer_id"
+        ]
+      },
+      "bank_name": {
+        "op": "DERIVED",
+        "over": [
+          "note:Bank name not in catalog - may need separate lookup or parameter"
+        ]
+      },
+      "payment_note": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static disclaimer text about computer-generated receipt"
+        ]
+      },
+      "security_warning_text": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static security warning message"
+        ]
+      },
+      "payment_url": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static payment portal URL"
+        ]
+      },
+      "payment_provider": {
+        "op": "CONSTANT",
+        "over": [
+          "note:Static payment gateway name - BillDesk"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "453039c90ca3274dd7c83a09bf01c5c862afb7e36bef4fbd1180b290fe6a6790",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "",
+    "cache_key": "89d6adb2af08640b7ce1493073953d56385478b931028ad8ce48b2274f5a0e50",
+    "pre_html_sha256": "f93db52b352aa9e448ca9db262bd4a7b012fe10c7e04ba42d5c544bf25d4dffe",
+    "post_html_sha256": "f93db52b352aa9e448ca9db262bd4a7b012fe10c7e04ba42d5c544bf25d4dffe",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "timestamp": "UNRESOLVED",
+      "logo_url": "UNRESOLVED",
+      "organization_name": "UNRESOLVED",
+      "organization_subtitle": "UNRESOLVED",
+      "transaction_status": "UNRESOLVED",
+      "transaction_reference_number": "payments.transaction_ref",
+      "transaction_date_time": "UNRESOLVED",
+      "can_number": "UNRESOLVED",
+      "bill_amount": "invoices.total_amount",
+      "bank_name": "UNRESOLVED",
+      "payment_note": "UNRESOLVED",
+      "security_warning_text": "UNRESOLVED",
+      "payment_url": "UNRESOLVED",
+      "payment_provider": "UNRESOLVED",
+      "page_number": "To Be Selected..."
+    },
+    "token_samples": {
+      "timestamp": "2025-08-13 14:23:45",
+      "logo_url": "data:image/png;base64,...",
+      "organization_name": "Hyderabad Metropolitan Water Supply & Sewerage Board",
+      "organization_subtitle": "Online Bill Payment",
+      "transaction_status": "Success",
+      "transaction_reference_number": "TXN-101-000001",
+      "transaction_date_time": "13/08/2025 14:23:45",
+      "can_number": "CUST-101-003",
+      "bill_amount": "₹25,919.32",
+      "bank_name": "State Bank of India",
+      "payment_note": "This is a computer-generated receipt and does not require a signature.",
+      "security_warning_text": "IMPORTANT: Please do not share your transaction details with anyone. HMWSSB will never ask for your payment information via email or phone.",
+      "payment_url": "https://payment.hmwssb.gov.in",
+      "payment_provider": "BillDesk",
+      "page_number": "Page 1 of 1"
+    },
+    "meta": {
+      "unresolved": [
+        "timestamp",
+        "logo_url",
+        "organization_name",
+        "organization_subtitle",
+        "transaction_status",
+        "transaction_date_time",
+        "can_number",
+        "bank_name",
+        "payment_note",
+        "security_warning_text",
+        "payment_url",
+        "payment_provider"
+      ],
+      "hints": {
+        "timestamp": {
+          "op": "FORMAT",
+          "over": [
+            "columns:payments.payment_date",
+            "note:Requires date-time formatting with current timestamp"
+          ]
+        },
+        "logo_url": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static asset URL or base64-encoded image"
+          ]
+        },
+        "organization_name": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static organization branding - HMWSSB"
+          ]
+        },
+        "organization_subtitle": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static subtitle - Online Bill Payment"
+          ]
+        },
+        "transaction_status": {
+          "op": "DERIVED",
+          "over": [
+            "note:Payment success/failure status - not in catalog"
+          ]
+        },
+        "transaction_date_time": {
+          "op": "FORMAT",
+          "over": [
+            "columns:payments.payment_date",
+            "note:Requires date-time formatting DD/MM/YYYY HH:MM:SS"
+          ]
+        },
+        "can_number": {
+          "op": "ALIAS",
+          "over": [
+            "columns:customers.customer_id",
+            "note:CAN (Customer Account Number) likely maps to customer_id"
+          ]
+        },
+        "bank_name": {
+          "op": "DERIVED",
+          "over": [
+            "note:Bank name not in catalog - may need separate lookup or parameter"
+          ]
+        },
+        "payment_note": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static disclaimer text about computer-generated receipt"
+          ]
+        },
+        "security_warning_text": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static security warning message"
+          ]
+        },
+        "payment_url": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static payment portal URL"
+          ]
+        },
+        "payment_provider": {
+          "op": "CONSTANT",
+          "over": [
+            "note:Static payment gateway name - BillDesk"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "timestamp": "2025-08-13 14:23:45",
+    "logo_url": "data:image/png;base64,...",
+    "organization_name": "Hyderabad Metropolitan Water Supply & Sewerage Board",
+    "organization_subtitle": "Online Bill Payment",
+    "transaction_status": "Success",
+    "transaction_reference_number": "TXN-101-000001",
+    "transaction_date_time": "13/08/2025 14:23:45",
+    "can_number": "CUST-101-003",
+    "bill_amount": "₹25,919.32",
+    "bank_name": "State Bank of India",
+    "payment_note": "This is a computer-generated receipt and does not require a signature.",
+    "security_warning_text": "IMPORTANT: Please do not share your transaction details with anyone. HMWSSB will never ask for your payment information via email or phone.",
+    "payment_url": "https://payment.hmwssb.gov.in",
+    "payment_provider": "BillDesk",
+    "page_number": "Page 1 of 1"
+  }
+}

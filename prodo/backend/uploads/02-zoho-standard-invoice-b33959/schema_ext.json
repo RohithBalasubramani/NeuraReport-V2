@@ -1,0 +1,41 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address_line1",
+    "company_address_line2",
+    "company_country",
+    "invoice_number",
+    "balance_due",
+    "bill_to_name",
+    "bill_to_address_line1",
+    "bill_to_address_line2",
+    "bill_to_address_line3",
+    "bill_to_country",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "po_number",
+    "project_name",
+    "subtotal",
+    "tax1_label",
+    "tax1_amount",
+    "tax2_label",
+    "tax2_amount",
+    "total",
+    "payment_made",
+    "balance_due_final",
+    "notes",
+    "terms_and_conditions"
+  ],
+  "row_tokens": [
+    "row_line_number",
+    "row_item_name",
+    "row_item_description",
+    "row_qty",
+    "row_rate",
+    "row_discount",
+    "row_amount"
+  ],
+  "totals": [],
+  "notes": "Invoice template with company logo, bill-to section, line items table with 6 columns, tax calculations, payment tracking, and footer sections for notes, payment options, and terms & conditions."
+}

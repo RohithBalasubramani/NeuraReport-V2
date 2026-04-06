@@ -1,0 +1,7 @@
+[
+  {
+    "header": "row_protocol_type",
+    "placeholder": "{row_protocol_type}",
+    "mapping": "app_protocol_types.type"
+  }
+]

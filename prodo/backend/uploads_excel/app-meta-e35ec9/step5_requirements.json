@@ -1,0 +1,31 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header data required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Application metadata key-value pairs from app_meta table",
+      "columns": [
+        "row_key",
+        "row_value"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_meta.key"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no filter parameters. All rows from app_meta are displayed as-is.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations needed - direct column mapping from app_meta table"
+  ]
+}

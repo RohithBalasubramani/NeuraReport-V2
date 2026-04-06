@@ -1,0 +1,114 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "d0e743f359b09d07176ee5ec5739f8ce2e4db89825566be87b9a8dac05c21471",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771516738,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 40,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_version",
+        "row_created_at"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_schemas.id",
+      "row_name": "app_schemas.name",
+      "row_device_table_id": "UNRESOLVED",
+      "row_version": "UNRESOLVED",
+      "row_created_at": "UNRESOLVED"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_schemas",
+      "parent_key": "id",
+      "child_table": "app_schemas",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_schemas.id"
+            ]
+          },
+          {
+            "as": "row_name",
+            "from": [
+              "app_schemas.name"
+            ]
+          },
+          {
+            "as": "row_device_table_id",
+            "from": [
+              "UNRESOLVED"
+            ]
+          },
+          {
+            "as": "row_version",
+            "from": [
+              "UNRESOLVED"
+            ]
+          },
+          {
+            "as": "row_created_at",
+            "from": [
+              "UNRESOLVED"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_device_table_id",
+      "row_version",
+      "row_created_at"
+    ],
+    "row_order": [
+      "id ASC"
+    ],
+    "literals": {},
+    "notes": "app_schemas table contains only 'id' and 'name' columns. Three tokens (device_table_id, version, created_at) cannot be resolved from available catalog."
+  },
+  "key_tokens": []
+}

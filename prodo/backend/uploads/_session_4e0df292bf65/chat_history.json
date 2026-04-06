@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "hello"
+  },
+  {
+    "role": "assistant",
+    "content": "Hello! I'm NeuraReport, your intelligent report-building assistant. I can help you convert PDF documents into automated database-driven reports.\n\nTo get started, please upload a PDF document that you'd like to convert into a report template. Once you upload it, I'll process it and guide you through the next steps."
+  }
+]

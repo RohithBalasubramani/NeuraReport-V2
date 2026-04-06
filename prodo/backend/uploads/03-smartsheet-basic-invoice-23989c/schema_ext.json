@@ -1,0 +1,23 @@
+{
+  "scalars": [
+    "invoice_date",
+    "invoice_number",
+    "bill_to_address",
+    "ship_to_address"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "totals": [
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping_handling",
+    "other",
+    "total"
+  ],
+  "notes": "Basic invoice template with simple two-column line items table. Totals section includes calculation steps from subtotal through final total."
+}

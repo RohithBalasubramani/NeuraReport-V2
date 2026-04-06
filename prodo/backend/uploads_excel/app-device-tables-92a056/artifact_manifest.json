@@ -1,0 +1,37 @@
+{
+  "correlation_id": null,
+  "file_checksums": {
+    "constant_replacements.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "mapping_step3.json": "6e3e4f5ec62ab2a7f9e44d020821ce0f26e5967ba9b7c56b999f1c834e14b39a",
+    "reference_p1.html": "6c5347a9dba1b9c140043b223111d6ccc615ab4c731d2d02644e923e9cd8b43e",
+    "reference_p1.png": "480709f90fc3e8a4ef773d1f16ba4f9cb57c6264dabd16b529847b5a57ab95b7",
+    "report_final.png": "be6bea3e421a36f933e44d0a10d80c89695cbf4ede866ca52ca32c2c63b0d1d8",
+    "sample_rows.json": "2f5be3b59cd7a0e82a693f48dcf7f81dc135e23dda278e2f5bb09587dbaa3f95",
+    "schema_ext.json": "58c6cf3f34764d4f28ccd069f8fda8de7cf242b9bd65ddda6ca7792426247c41",
+    "source.xlsx": "1b7d5999f0c89fed6a1ce7e41d99f961b6561b064fbdaf3f47b23e00ce30be1c",
+    "template_p1.html": "fa193a64fb257ec6614ec0d9d747315d35487f044f0361b8938b6cc3ab6afcea"
+  },
+  "files": {
+    "constant_replacements.json": "constant_replacements.json",
+    "mapping_step3.json": "mapping_step3.json",
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "schema_ext.json": "schema_ext.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/app-device-tables-92a056/source.xlsx",
+    "cache_key=6fc9944994f290b8bb26b506399850baa330bd33f6816809afe68a9b0bbad88e",
+    "catalog_sha256=c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256=6db0887e83a6d1edd62543e816c06010c100f690f58888fb7cad2d592fd36e09",
+    "html_pre_sha256=fa193a64fb257ec6614ec0d9d747315d35487f044f0361b8938b6cc3ab6afcea",
+    "html_post_sha256=fa193a64fb257ec6614ec0d9d747315d35487f044f0361b8938b6cc3ab6afcea"
+  ],
+  "pid": 3342082,
+  "produced_at": "2026-02-19T06:38:52.848721+00:00",
+  "schema_version": "1.0",
+  "step": "mapping_inline_llm_call_3"
+}

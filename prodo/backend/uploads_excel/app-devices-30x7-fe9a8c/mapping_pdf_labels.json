@@ -1,0 +1,37 @@
+[
+  {
+    "header": "row_device_name",
+    "placeholder": "{row_device_name}",
+    "mapping": "app_devices.name"
+  },
+  {
+    "header": "row_protocol",
+    "placeholder": "{row_protocol}",
+    "mapping": "app_devices.protocol"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_devices.status"
+  },
+  {
+    "header": "row_port",
+    "placeholder": "{row_port}",
+    "mapping": "app_devices.port"
+  },
+  {
+    "header": "row_latency_ms",
+    "placeholder": "{row_latency_ms}",
+    "mapping": "app_devices.latency_ms"
+  },
+  {
+    "header": "row_auto_reconnect",
+    "placeholder": "{row_auto_reconnect}",
+    "mapping": "app_devices.auto_reconnect"
+  },
+  {
+    "header": "row_last_error",
+    "placeholder": "{row_last_error}",
+    "mapping": "app_devices.last_error"
+  }
+]

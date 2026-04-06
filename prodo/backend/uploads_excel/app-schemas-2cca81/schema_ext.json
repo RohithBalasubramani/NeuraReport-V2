@@ -1,0 +1,21 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    {
+      "token": "row_schema_id",
+      "description": "Schema ID",
+      "sample": "sch_1771004322765"
+    },
+    {
+      "token": "row_schema_name",
+      "description": "Schema Name",
+      "sample": "Test_123"
+    }
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Schemas",
+    "data_columns": 2,
+    "repeating_row_count": 1
+  }
+}

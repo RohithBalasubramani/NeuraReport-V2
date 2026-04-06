@@ -1,0 +1,43 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Single-row header dataset containing all transaction details",
+      "columns": [
+        "timestamp",
+        "transaction_status",
+        "transaction_reference_number",
+        "transaction_date_time",
+        "can_no",
+        "bill_amount",
+        "bank_name",
+        "ip_address",
+        "access_time"
+      ]
+    },
+    "rows": {
+      "description": "No detail rows for this report",
+      "columns": [],
+      "grouping": [],
+      "ordering": []
+    },
+    "totals": {
+      "description": "No totals for this report",
+      "columns": []
+    }
+  },
+  "semantics": "The `transaction_status` parameter is a required key filter that restricts the query to transactions with a specific status (e.g., 'Success'). When provided, the SQL must apply an equality predicate `WHERE transactions.transaction_status = :transaction_status`. All scalar tokens are direct column references or simple concatenations from the `transactions` table. No optional filters exist.",
+  "parameters": {
+    "required": [
+      {
+        "name": "transaction_status",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "Concatenate `transactions.transaction_date` and `transactions.transaction_time` with a space separator to produce `transaction_date_time` using DuckDB SQL: `transactions.transaction_date || ' ' || transactions.transaction_time`.",
+    "No reshaping, grouping, or aggregation required — this is a single-record scalar report.",
+    "Filter to a single transaction using `WHERE transactions.transaction_status = :transaction_status` when the parameter is provided."
+  ]
+}

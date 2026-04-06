@@ -1,0 +1,152 @@
+[
+  {
+    "header": "row_level_transmitter",
+    "placeholder": "{row_level_transmitter}",
+    "mapping": "neuract__LT_TABLE.timestamp_utc"
+  },
+  {
+    "header": "row_lt_105",
+    "placeholder": "{row_lt_105}",
+    "mapping": "neuract__LT_TABLE.LT_105"
+  },
+  {
+    "header": "row_lt_107",
+    "placeholder": "{row_lt_107}",
+    "mapping": "neuract__LT_TABLE.LT_107"
+  },
+  {
+    "header": "row_lt_109",
+    "placeholder": "{row_lt_109}",
+    "mapping": "neuract__LT_TABLE.LT_109"
+  },
+  {
+    "header": "row_lt_111",
+    "placeholder": "{row_lt_111}",
+    "mapping": "neuract__LT_TABLE.LT_111"
+  },
+  {
+    "header": "row_lt_114",
+    "placeholder": "{row_lt_114}",
+    "mapping": "neuract__LT_TABLE.LT_114"
+  },
+  {
+    "header": "row_lt_116",
+    "placeholder": "{row_lt_116}",
+    "mapping": "neuract__LT_TABLE.LT_116"
+  },
+  {
+    "header": "row_lt_118",
+    "placeholder": "{row_lt_118}",
+    "mapping": "neuract__LT_TABLE.LT_118"
+  },
+  {
+    "header": "row_lt_127",
+    "placeholder": "{row_lt_127}",
+    "mapping": "neuract__LT_TABLE.LT_127"
+  },
+  {
+    "header": "row_lt_128",
+    "placeholder": "{row_lt_128}",
+    "mapping": "neuract__LT_TABLE.LT_128"
+  },
+  {
+    "header": "row_lt_129",
+    "placeholder": "{row_lt_129}",
+    "mapping": "neuract__LT_TABLE.LT_129"
+  },
+  {
+    "header": "row_lt_130",
+    "placeholder": "{row_lt_130}",
+    "mapping": "neuract__LT_TABLE.LT_130"
+  },
+  {
+    "header": "row_lt_131",
+    "placeholder": "{row_lt_131}",
+    "mapping": "neuract__LT_TABLE.LT_131"
+  },
+  {
+    "header": "row_lt_120",
+    "placeholder": "{row_lt_120}",
+    "mapping": "neuract__LT_TABLE.LT_120"
+  },
+  {
+    "header": "row_lt_122",
+    "placeholder": "{row_lt_122}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_lt_114_2",
+    "placeholder": "{row_lt_114_2}",
+    "mapping": "neuract__LT_TABLE.LT_114_2"
+  },
+  {
+    "header": "row_lt_126",
+    "placeholder": "{row_lt_126}",
+    "mapping": "neuract__LT_TABLE.LT_126"
+  },
+  {
+    "header": "row_lt_113",
+    "placeholder": "{row_lt_113}",
+    "mapping": "neuract__LT_TABLE.LT_113"
+  },
+  {
+    "header": "row_lt_134",
+    "placeholder": "{row_lt_134}",
+    "mapping": "neuract__LT_TABLE.LT_134"
+  },
+  {
+    "header": "row_lt_135",
+    "placeholder": "{row_lt_135}",
+    "mapping": "neuract__LT_TABLE.LT_135"
+  },
+  {
+    "header": "row_lt_137",
+    "placeholder": "{row_lt_137}",
+    "mapping": "neuract__LT_TABLE.LT_137"
+  },
+  {
+    "header": "row_lt_138",
+    "placeholder": "{row_lt_138}",
+    "mapping": "neuract__LT_TABLE.LT_138"
+  },
+  {
+    "header": "row_lt_139",
+    "placeholder": "{row_lt_139}",
+    "mapping": "neuract__LT_TABLE.LT_139"
+  },
+  {
+    "header": "row_lt_140",
+    "placeholder": "{row_lt_140}",
+    "mapping": "neuract__LT_TABLE.LT_140"
+  },
+  {
+    "header": "row_lt_142",
+    "placeholder": "{row_lt_142}",
+    "mapping": "neuract__LT_TABLE.LT_142"
+  },
+  {
+    "header": "row_lt_143",
+    "placeholder": "{row_lt_143}",
+    "mapping": "neuract__LT_TABLE.LT_143"
+  },
+  {
+    "header": "row_lt_144",
+    "placeholder": "{row_lt_144}",
+    "mapping": "neuract__LT_TABLE.LT_144"
+  },
+  {
+    "header": "row_lt_146",
+    "placeholder": "{row_lt_146}",
+    "mapping": "neuract__LT_TABLE.LT_146"
+  },
+  {
+    "header": "row_lt_148",
+    "placeholder": "{row_lt_148}",
+    "mapping": "neuract__LT_TABLE.LT_148"
+  },
+  {
+    "header": "row_lt_149",
+    "placeholder": "{row_lt_149}",
+    "mapping": "neuract__LT_TABLE.LT_149"
+  }
+]

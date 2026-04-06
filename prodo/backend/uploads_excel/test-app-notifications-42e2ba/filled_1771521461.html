@@ -1,0 +1,47 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4; margin: 24mm; }
+      body { font-family: Arial, sans-serif; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 6px 8px; vertical-align: top; }
+    </style>
+    
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.97; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head><body><table id="data-table"><caption style='caption-side:top;font-weight:700;text-align:left;margin:6px 0'>Notifications</caption><thead><tr><th data-label="id">Id</th><th data-label="type">Type</th><th data-label="message">Message</th><th data-label="user">User</th><th data-label="read">Read</th><th data-label="time">Time</th></tr></thead><tbody></tbody></table></body></html>

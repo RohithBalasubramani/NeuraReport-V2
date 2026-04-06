@@ -1,0 +1,31 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header/scalar tokens in this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "List all schemas with their ID and name.",
+      "columns": [
+        "row_schema_id",
+        "row_schema_name"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals/aggregations in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "No filter or pass-through semantics apply; this is a full-table read with no user-supplied parameters.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct column mapping from app_schemas table."
+  ]
+}

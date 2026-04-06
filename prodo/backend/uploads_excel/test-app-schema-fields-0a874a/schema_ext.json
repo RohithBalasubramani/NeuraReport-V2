@@ -1,0 +1,37 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    {
+      "token": "row_schema_id",
+      "description": "Schema identifier",
+      "type": "string"
+    },
+    {
+      "token": "row_key",
+      "description": "Field key name",
+      "type": "string"
+    },
+    {
+      "token": "row_type",
+      "description": "Data type (REAL, float, boolean, etc.)",
+      "type": "string"
+    },
+    {
+      "token": "row_unit",
+      "description": "Measurement unit (V, A, °C, %, etc.)",
+      "type": "string"
+    },
+    {
+      "token": "row_scale",
+      "description": "Scaling factor",
+      "type": "string"
+    },
+    {
+      "token": "row_desc_text",
+      "description": "Field description text",
+      "type": "string"
+    }
+  ],
+  "totals": {},
+  "notes": "This template displays schema field definitions with their properties including schema ID, key name, data type, unit of measurement, scale factor, and descriptive text."
+}

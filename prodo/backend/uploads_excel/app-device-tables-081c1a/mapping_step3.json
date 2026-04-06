@@ -1,0 +1,70 @@
+{
+  "mapping": {
+    "row_id": "app_device_tables.id",
+    "row_name": "app_device_tables.name",
+    "row_schema_id": "app_device_tables.schema_id",
+    "row_db_target_id": "app_device_tables.db_target_id",
+    "row_status": "app_device_tables.status",
+    "row_last_migrated_at": "app_device_tables.last_migrated_at",
+    "row_schema_hash": "app_device_tables.schema_hash",
+    "row_mapping_health": "app_device_tables.mapping_health",
+    "row_device_id": "app_device_tables.device_id"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "17dc387c18f7866333c748ccacd0b652727cd8c3050eb5c0295d56be2c08b1b0",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "859f6dd61ccc4b0635ef7c75b416bb83d31d96d94cd06140d01c72388ad787c4",
+    "cache_key": "cb06c3148f9a4bd38e8b7120f28218ddd252206dca6eddba553b6f5fe1868cde",
+    "pre_html_sha256": "dd18af7ca3e68adb2b882537696d1c326c998fa65d68fd3dacd6d262f415c869",
+    "post_html_sha256": "dd18af7ca3e68adb2b882537696d1c326c998fa65d68fd3dacd6d262f415c869",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_device_tables.id",
+      "row_name": "app_device_tables.name",
+      "row_schema_id": "app_device_tables.schema_id",
+      "row_db_target_id": "app_device_tables.db_target_id",
+      "row_status": "app_device_tables.status",
+      "row_last_migrated_at": "app_device_tables.last_migrated_at",
+      "row_schema_hash": "app_device_tables.schema_hash",
+      "row_mapping_health": "app_device_tables.mapping_health",
+      "row_device_id": "app_device_tables.device_id"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_schema_id": "{row_schema_id}",
+      "row_db_target_id": "{row_db_target_id}",
+      "row_status": "{Row_status}",
+      "row_last_migrated_at": "{row_last_migrated_at}",
+      "row_schema_hash": "{row_schema_hash}",
+      "row_mapping_health": "{row_mapping_health}",
+      "row_device_id": "{row_device_id}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_schema_id": "{row_schema_id}",
+    "row_db_target_id": "{row_db_target_id}",
+    "row_status": "{Row_status}",
+    "row_last_migrated_at": "{row_last_migrated_at}",
+    "row_schema_hash": "{row_schema_hash}",
+    "row_mapping_health": "{row_mapping_health}",
+    "row_device_id": "{row_device_id}"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "sample_row": {
+    "row_id": "1",
+    "row_run_type": "NOT_VISIBLE",
+    "row_duration_ms": "18000",
+    "row_job_id": "job_1771013897364",
+    "row_status": "NOT_VISIBLE",
+    "row_started_at": "2026-02-15T17:32:11+05:30",
+    "row_finished_at": "NOT_VISIBLE",
+    "row_error_message": "NOT_VISIBLE",
+    "row_rows_written": "NOT_VISIBLE"
+  }
+}

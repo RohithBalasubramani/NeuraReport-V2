@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics System Minute</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #fff;
+        }
+        
+        #report-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            font-size: 12pt;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        
+        #data-table thead th {
+            background-color: #f2f2f2;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 9pt;
+            vertical-align: middle;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+        
+        /* Numeric columns - right align */
+        #data-table tbody td:nth-child(2),
+        #data-table tbody td:nth-child(3),
+        #data-table tbody td:nth-child(4),
+        #data-table tbody td:nth-child(5),
+        #data-table tbody td:nth-child(6),
+        #data-table tbody td:nth-child(7),
+        #data-table tbody td:nth-child(8),
+        #data-table tbody td:nth-child(9),
+        #data-table tbody td:nth-child(10) {
+            text-align: right;
+        }
+        
+        #data-table thead th:nth-child(2),
+        #data-table thead th:nth-child(3),
+        #data-table thead th:nth-child(4),
+        #data-table thead th:nth-child(5),
+        #data-table thead th:nth-child(6),
+        #data-table thead th:nth-child(7),
+        #data-table thead th:nth-child(8),
+        #data-table thead th:nth-child(9),
+        #data-table thead th:nth-child(10) {
+            text-align: right;
+        }
+        
+        /* Column widths */
+        #data-table colgroup col:nth-child(1) { width: 12%; }
+        #data-table colgroup col:nth-child(2) { width: 8%; }
+        #data-table colgroup col:nth-child(3) { width: 8%; }
+        #data-table colgroup col:nth-child(4) { width: 9%; }
+        #data-table colgroup col:nth-child(5) { width: 9%; }
+        #data-table colgroup col:nth-child(6) { width: 10%; }
+        #data-table colgroup col:nth-child(7) { width: 10%; }
+        #data-table colgroup col:nth-child(8) { width: 10%; }
+        #data-table colgroup col:nth-child(9) { width: 12%; }
+        #data-table colgroup col:nth-child(10) { width: 12%; }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+    <div id="report-container">
+        <table id="data-table">
+            <caption>Metrics System Minute</caption>
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th data-label="minute_utc">Minute (UTC)</th>
+                    <th data-label="cpu">CPU</th>
+                    <th data-label="memory">Memory</th>
+                    <th data-label="disk_r_s">Disk R/s</th>
+                    <th data-label="disk_w_s">Disk W/s</th>
+                    <th data-label="net_rx_s">Net RX/s</th>
+                    <th data-label="net_tx_s">Net TX/s</th>
+                    <th data-label="proc_cpu">Proc CPU</th>
+                    <th data-label="proc_rss_mb">Proc RSS (MB)</th>
+                    <th data-label="proc_handles">Proc Handles</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

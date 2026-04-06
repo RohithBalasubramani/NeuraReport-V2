@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ContractV2",
+  "type": "object",
+  "required": [
+    "tokens",
+    "mapping",
+    "join",
+    "date_columns",
+    "reshape_rules",
+    "row_computed",
+    "totals_math",
+    "filters",
+    "formatters",
+    "order_by"
+  ],
+  "properties": {
+    "tokens": {
+      "type": "object",
+      "required": ["scalars", "row_tokens", "totals"],
+      "properties": {
+        "scalars": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "row_tokens": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "totals": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "mapping": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "join": {
+      "type": "object",
+      "required": ["parent_table", "parent_key", "child_table", "child_key"],
+      "properties": {
+        "parent_table": {"type": "string"},
+        "parent_key": {"type": "string"},
+        "child_table": {"type": "string"},
+        "child_key": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "date_columns": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "reshape_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["purpose", "strategy"],
+        "properties": {
+          "purpose": {"type": "string"},
+          "strategy": {"type": "string"},
+          "explain": {"type": "string"},
+          "where": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["as"],
+              "properties": {
+                "as": {"type": "string"},
+                "from": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "source": {"type": "string"},
+                "expression": {"type": "string"}
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "row_computed": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "totals_math": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "formatters": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "order_by": {
+      "type": "object",
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "string"},
+    "meta": {"type": "object"},
+    "header_tokens": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "row_tokens": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "totals": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "row_order": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "literals": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {"type": "string"}
+      },
+      "additionalProperties": {"type": "string"}
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "unknown_tokens": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "unknown_columns": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "token_coverage": {
+          "type": "object",
+          "properties": {
+            "scalars_mapped_pct": {"type": "number"},
+            "row_tokens_mapped_pct": {"type": "number"},
+            "totals_mapped_pct": {"type": "number"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

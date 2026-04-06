@@ -1,0 +1,77 @@
+[
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices.issue_date"
+  },
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices.invoice_number"
+  },
+  {
+    "header": "bill_to",
+    "placeholder": "{bill_to}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "ship_to",
+    "placeholder": "{ship_to}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_total",
+    "placeholder": "{row_total}",
+    "mapping": "invoice_items.line_total"
+  },
+  {
+    "header": "remarks",
+    "placeholder": "{remarks}",
+    "mapping": "invoices.notes"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "invoices.subtotal"
+  },
+  {
+    "header": "discount",
+    "placeholder": "{discount}",
+    "mapping": "invoices.discount_amount"
+  },
+  {
+    "header": "subtotal_less_discount",
+    "placeholder": "{subtotal_less_discount}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "tax_rate",
+    "placeholder": "{tax_rate}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "total_tax",
+    "placeholder": "{total_tax}",
+    "mapping": "invoices.tax_amount"
+  },
+  {
+    "header": "shipping_handling",
+    "placeholder": "{shipping_handling}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "other",
+    "placeholder": "{other}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "total",
+    "placeholder": "{total}",
+    "mapping": "invoices.total_amount"
+  }
+]

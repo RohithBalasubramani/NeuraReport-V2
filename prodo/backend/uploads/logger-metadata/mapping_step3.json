@@ -1,0 +1,64 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_key": "app_meta.key",
+    "row_value": "app_meta.value"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "308dd8563c21a48211b8e45b7d8391f8d57c61c405453ae135d979d81eb977f5",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "de51a4c626678ed7bd037d8c691d25b8e63951d2beb63a04f70f4f8911d50823",
+    "cache_key": "9733a5388d7a6f830d0d05c29de4c3c2579cea8ac8d0631c9e156f9e39b1580e",
+    "pre_html_sha256": "aa83357261868015b733a6acbd9b1621743f5c811fe88e3dfc6dbff73fbf1ed1",
+    "post_html_sha256": "1379bc466c4d728b138c6b5299bb230c490e488afffedff18e0318365f55bdc7",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_key": "app_meta.key",
+      "row_value": "app_meta.value"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 2026-02-18",
+      "row_key": "default_db_target",
+      "row_value": "db_1771013394981"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "columns:params.generated_at",
+            "note:Server-injected timestamp at report generation time; not a catalog column — treat as runtime constant injected by the report engine."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "Generated: 2026-02-18"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "Generated: 2026-02-18"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 2026-02-18",
+    "row_key": "default_db_target",
+    "row_value": "db_1771013394981"
+  }
+}

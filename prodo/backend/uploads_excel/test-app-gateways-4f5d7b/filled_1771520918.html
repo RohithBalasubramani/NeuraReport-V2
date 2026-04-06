@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateways Report</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 15mm 12mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #000;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #222;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 8pt;
+        }
+        
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            font-size: 14pt;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        #data-table thead th {
+            background-color: #f0f0f0;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 8pt;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #ccc;
+            padding: 6px 6px;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Column-specific widths for optimal layout */
+        #data-table col.col-id { width: 7%; }
+        #data-table col.col-name { width: 12%; }
+        #data-table col.col-host { width: 14%; }
+        #data-table col.col-adapter-id { width: 5%; }
+        #data-table col.col-nic-hint { width: 5%; }
+        #data-table col.col-ports-json { width: 6%; }
+        #data-table col.col-protocol-hint { width: 7%; }
+        #data-table col.col-tags-json { width: 6%; }
+        #data-table col.col-status { width: 7%; }
+        #data-table col.col-last-ping-json { width: 6%; }
+        #data-table col.col-last-tcp-json { width: 6%; }
+        #data-table col.col-created-at { width: 8%; }
+        #data-table col.col-updated-at { width: 8%; }
+        #data-table col.col-last-test-at { width: 7%; }
+        
+        /* Align date/time columns */
+        #data-table td.align-right,
+        #data-table td.col-created-at,
+        #data-table td.col-updated-at,
+        #data-table td.col-last-test-at {
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 7.5pt;
+        }
+        
+        /* Empty cell styling */
+        #data-table td:empty::after {
+            content: '\2014';
+            color: #ccc;
+        }
+        
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.82; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+    <section id="report-header">
+        <h1>Gateways</h1>
+    </section>
+    
+    <table id="data-table">
+        <caption>Gateway Configuration Overview</caption>
+        <colgroup>
+            <col class="col-id">
+            <col class="col-name">
+            <col class="col-host">
+            <col class="col-adapter-id">
+            <col class="col-nic-hint">
+            <col class="col-ports-json">
+            <col class="col-protocol-hint">
+            <col class="col-tags-json">
+            <col class="col-status">
+            <col class="col-last-ping-json">
+            <col class="col-last-tcp-json">
+            <col class="col-created-at">
+            <col class="col-updated-at">
+            <col class="col-last-test-at">
+        </colgroup>
+        <thead>
+            <tr>
+                <th data-label="id">Id</th>
+                <th data-label="name">Name</th>
+                <th data-label="host">Host</th>
+                <th data-label="adapter_id">Adapter Id</th>
+                <th data-label="nic_hint">Nic Hint</th>
+                <th data-label="ports_json">Ports Json</th>
+                <th data-label="protocol_hint">Protocol Hint</th>
+                <th data-label="tags_json">Tags Json</th>
+                <th data-label="status">Status</th>
+                <th data-label="last_ping_json">Last Ping Json</th>
+                <th data-label="last_tcp_json">Last Tcp Json</th>
+                <th data-label="created_at">Created At</th>
+                <th data-label="updated_at">Updated At</th>
+                <th data-label="last_test_at">Last Test At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-id">1</td>
+                <td class="col-name">Gateway-192.168.1.20</td>
+                <td class="col-host">opc.tcp://192.168.1.20:4840</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[4840]</td>
+                <td class="col-protocol-hint">opcua</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-13 17:35:31</td>
+                <td class="col-updated-at">2026-02-13 17:35:31</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">2</td>
+                <td class="col-name">Modbus Gateway Main</td>
+                <td class="col-host">192.168.1.20</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[5020]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-13 19:53:11</td>
+                <td class="col-updated-at">2026-02-13 19:53:11</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">3</td>
+                <td class="col-name">Server 1</td>
+                <td class="col-host">192.168.1.101</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[502]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-14 06:39:29</td>
+                <td class="col-updated-at">2026-02-14 06:39:29</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">4</td>
+                <td class="col-name">PLC 1</td>
+                <td class="col-host">192.168.1.121</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[502]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-14 06:39:29</td>
+                <td class="col-updated-at">2026-02-14 06:39:29</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">5</td>
+                <td class="col-name">MFM 19</td>
+                <td class="col-host">192.168.1.140</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[502]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-14 13:32:29</td>
+                <td class="col-updated-at">2026-02-14 13:32:29</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">6</td>
+                <td class="col-name">Modbus Simulator</td>
+                <td class="col-host">100.100.202.31</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[5020]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-15 09:43:46</td>
+                <td class="col-updated-at">2026-02-15 09:43:46</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+<tr>
+                <td class="col-id">7</td>
+                <td class="col-name">Modbus Simulator (192.168.1.211)</td>
+                <td class="col-host">192.168.1.211</td>
+                <td class="col-adapter-id"></td>
+                <td class="col-nic-hint"></td>
+                <td class="col-ports-json">[502]</td>
+                <td class="col-protocol-hint">modbus</td>
+                <td class="col-tags-json">[]</td>
+                <td class="col-status">unknown</td>
+                <td class="col-last-ping-json"></td>
+                <td class="col-last-tcp-json"></td>
+                <td class="col-created-at">2026-02-15 12:35:28</td>
+                <td class="col-updated-at">2026-02-15 12:35:28</td>
+                <td class="col-last-test-at"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

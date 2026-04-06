@@ -1,0 +1,88 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice header with vendor info, customer billing/shipping addresses, invoice metadata, and customer message",
+      "columns": [
+        "company_name",
+        "company_street_address",
+        "company_city_state_zipcode",
+        "company_phone",
+        "company_email",
+        "company_website",
+        "bill_to_client_name",
+        "bill_to_street_address",
+        "bill_to_city_state_zipcode",
+        "ship_to_client_name",
+        "ship_to_street_address",
+        "ship_to_city_state_zipcode",
+        "invoice_number",
+        "invoice_date",
+        "payment_terms",
+        "due_date",
+        "customer_message",
+        "total_subtotal",
+        "total_sales_tax",
+        "total_shipping"
+      ]
+    },
+    "rows": {
+      "description": "Line items for the invoice with item code, description, quantity, unit price, and line total",
+      "columns": [
+        "row_item_service",
+        "row_description",
+        "row_quantity_hrs",
+        "row_rate",
+        "row_amount"
+      ],
+      "grouping": [],
+      "ordering": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Invoice grand total (subtotal + tax + shipping)",
+      "columns": [
+        "total_amount"
+      ]
+    }
+  },
+  "semantics": "Vendor contact parameters (company_street_address, company_phone, company_email, company_website, company_city_state_zipcode) are pass-through values provided at runtime. Payment terms and shipping amount are also runtime parameters. All customer and invoice data are sourced from the database.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "company_street_address",
+        "type": "string"
+      },
+      {
+        "name": "company_city_state_zipcode",
+        "type": "string"
+      },
+      {
+        "name": "company_phone",
+        "type": "string"
+      },
+      {
+        "name": "company_email",
+        "type": "string"
+      },
+      {
+        "name": "company_website",
+        "type": "string"
+      },
+      {
+        "name": "payment_terms",
+        "type": "string"
+      },
+      {
+        "name": "shipping_amount",
+        "type": "string"
+      }
+    ]
+  },
+  "transformations": [
+    "Concatenate customers.city, customers.state, customers.postal_code with format 'City, State Zipcode' for bill_to_city_state_zipcode and ship_to_city_state_zipcode",
+    "Format invoices.issue_date and invoices.due_date as MM/DD/YYYY",
+    "Format all monetary values (invoice_items.unit_price, invoice_items.line_total, invoices.subtotal, invoices.tax_amount, invoices.total_amount, shipping_amount) with 2 decimal places"
+  ]
+}

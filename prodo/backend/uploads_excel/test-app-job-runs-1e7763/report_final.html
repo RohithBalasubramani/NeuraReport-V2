@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Runs Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #222;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9pt;
+            color: #333;
+            white-space: nowrap;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            font-size: 9pt;
+            vertical-align: middle;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific alignment */
+        #data-table td:nth-child(1),  /* Id */
+        #data-table td:nth-child(5),  /* Duration Ms */
+        #data-table td:nth-child(6),  /* Rows */
+        #data-table td:nth-child(7),  /* Read Lat Avg */
+        #data-table td:nth-child(8),  /* Write Lat Avg */
+        #data-table td:nth-child(9) { /* Error Pct */
+            text-align: right;
+        }
+        
+        #data-table td:nth-child(2),  /* Job Id */
+        #data-table td:nth-child(3),  /* Started At */
+        #data-table td:nth-child(4) { /* Stopped At */
+            text-align: left;
+        }
+        
+        /* Column widths */
+        #data-table th:nth-child(1),
+        #data-table td:nth-child(1) {
+            width: 5%;
+        }
+        
+        #data-table th:nth-child(2),
+        #data-table td:nth-child(2) {
+            width: 15%;
+        }
+        
+        #data-table th:nth-child(3),
+        #data-table td:nth-child(3),
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(4) {
+            width: 16%;
+        }
+        
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(5),
+        #data-table th:nth-child(6),
+        #data-table td:nth-child(6) {
+            width: 9%;
+        }
+        
+        #data-table th:nth-child(7),
+        #data-table td:nth-child(7),
+        #data-table th:nth-child(8),
+        #data-table td:nth-child(8),
+        #data-table th:nth-child(9),
+        #data-table td:nth-child(9) {
+            width: 10%;
+        }
+        
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Job Runs</h1>
+    </div>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="id">Id</th>
+                <th data-label="job_id">Job Id</th>
+                <th data-label="started_at">Started At</th>
+                <th data-label="stopped_at">Stopped At</th>
+                <th data-label="duration_ms">Duration Ms</th>
+                <th data-label="rows">Rows</th>
+                <th data-label="read_lat_avg">Read Lat Avg</th>
+                <th data-label="write_lat_avg">Write Lat Avg</th>
+                <th data-label="error_pct">Error Pct</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_id}</td>
+                <td>{row_job_id}</td>
+                <td>{row_started_at}</td>
+                <td>{row_stopped_at}</td>
+                <td>{row_duration_ms}</td>
+                <td>{row_rows}</td>
+                <td>{row_read_lat_avg}</td>
+                <td>{row_write_lat_avg}</td>
+                <td>{row_error_pct}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

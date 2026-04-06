@@ -1,0 +1,9 @@
+{
+  "sample_row": {
+    "row_id": "db_1771013394981",
+    "row_status": "untested",
+    "row_last_msg": "NOT_VISIBLE",
+    "row_conn": "postgresql://postgres@localhost:5432/fast_target",
+    "row_provider": "postgresql"
+  }
+}

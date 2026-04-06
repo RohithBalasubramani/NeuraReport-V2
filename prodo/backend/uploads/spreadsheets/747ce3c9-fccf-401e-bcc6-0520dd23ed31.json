@@ -1,0 +1,32 @@
+{
+  "id": "747ce3c9-fccf-401e-bcc6-0520dd23ed31",
+  "name": "TestData",
+  "sheets": [
+    {
+      "id": "c3638447-c9df-4f9e-ac89-b718c730f318",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Device",
+          "Reading"
+        ],
+        [
+          "FM-001",
+          "125.5"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T11:58:38.838055+00:00",
+  "updated_at": "2026-02-22T11:58:38.838055+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

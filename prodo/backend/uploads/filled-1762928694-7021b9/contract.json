@@ -1,0 +1,140 @@
+{
+  "tokens": {
+    "scalars": [
+      "print_date",
+      "from_date",
+      "to_date"
+    ],
+    "row_tokens": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "print_date": "PARAM:print_date",
+    "from_date": "PARAM:from_date",
+    "to_date": "PARAM:to_date",
+    "row_sl_no": "recipes.rowid",
+    "row_material_name": "recipes.bin1_content",
+    "row_set_wt_kg": "recipes.bin1_sp",
+    "row_ach_wt_kg": "recipes.bin1_act",
+    "row_error_kg": "COMPUTED",
+    "row_error_pct": "COMPUTED"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "recipes",
+    "parent_key": "rowid",
+    "child_table": "recipes",
+    "child_key": "rowid"
+  },
+  "date_columns": {
+    "recipes": "start_time"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "recipes.start_time",
+      "date_to": "recipes.end_time"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_sl_no",
+          "from": [
+            "recipes.rowid"
+          ]
+        },
+        {
+          "as": "row_material_name",
+          "from": [
+            "recipes.bin1_content"
+          ]
+        },
+        {
+          "as": "row_set_wt_kg",
+          "from": [
+            "recipes.bin1_sp"
+          ]
+        },
+        {
+          "as": "row_ach_wt_kg",
+          "from": [
+            "recipes.bin1_act"
+          ]
+        },
+        {
+          "as": "row_error_kg",
+          "from": [
+            "COMPUTED"
+          ]
+        },
+        {
+          "as": "row_error_pct",
+          "from": [
+            "COMPUTED"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "row_error_kg": {
+      "op": "subtract",
+      "left": "bin1_act",
+      "right": "bin1_sp"
+    },
+    "row_error_pct": {
+      "op": "multiply",
+      "left": {
+        "op": "divide",
+        "numerator": "row_error_kg",
+        "denominator": "bin1_sp"
+      },
+      "right": 100
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_sl_no": "number(0)",
+    "row_set_wt_kg": "number(2)",
+    "row_ach_wt_kg": "number(2)",
+    "row_error_kg": "number(2)",
+    "row_error_pct": "number(2)",
+    "row_material_name": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "row_sl_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "print_date",
+    "from_date",
+    "to_date"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "row_order": [
+    "row_sl_no ASC"
+  ],
+  "literals": {},
+  "notes": "Report focuses on Bin 1 data. Error calculations assume non-zero set weights; division by zero handling should be managed by the pandas pipeline (e.g., replace inf with 0 or NaN).",
+  "_schema_version": "2.1"
+}

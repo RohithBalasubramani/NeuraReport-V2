@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Single-table analyser data with timestamp and 10 sensor readings",
+      "columns": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All data is sourced directly from neuract__ANALYSER_TABLE. No parameters required. Time-range filtering available via timestamp_utc.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required - direct column mapping from ANALYSER_TABLE"
+  ]
+}

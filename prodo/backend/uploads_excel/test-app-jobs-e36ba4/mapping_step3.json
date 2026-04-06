@@ -1,0 +1,234 @@
+{
+  "mapping": {
+    "row_id": "app_jobs.id",
+    "row_name": "app_jobs.name",
+    "row_device_table_id": "UNRESOLVED",
+    "row_schema_id": "UNRESOLVED",
+    "row_gateway_id": "UNRESOLVED",
+    "row_interval_sec": "UNRESOLVED",
+    "row_protocol": "UNRESOLVED",
+    "row_enabled": "app_jobs.enabled",
+    "row_status": "app_jobs.status",
+    "row_last_run_at": "UNRESOLVED",
+    "row_error_count": "UNRESOLVED",
+    "row_created_at": "UNRESOLVED",
+    "row_updated_at": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_device_table_id",
+      "row_schema_id",
+      "row_gateway_id",
+      "row_interval_sec",
+      "row_protocol",
+      "row_last_run_at",
+      "row_error_count",
+      "row_created_at",
+      "row_updated_at"
+    ],
+    "hints": {
+      "row_device_table_id": {
+        "op": "lookup",
+        "over": [
+          "columns:app_device_tables.id",
+          "note:app_jobs.tables_json contains array of table IDs; requires JSON extraction and join"
+        ]
+      },
+      "row_schema_id": {
+        "op": "lookup",
+        "over": [
+          "columns:app_device_tables.schema_id",
+          "note:Requires join through app_jobs.tables_json → app_device_tables → schema_id"
+        ]
+      },
+      "row_gateway_id": {
+        "op": "lookup",
+        "over": [
+          "columns:app_devices.gateway_id",
+          "note:Requires join through device_tables → devices → gateway_id"
+        ]
+      },
+      "row_interval_sec": {
+        "op": "convert",
+        "over": [
+          "columns:app_jobs.interval_ms",
+          "note:app_jobs.interval_ms is in milliseconds; requires division by 1000"
+        ]
+      },
+      "row_protocol": {
+        "op": "lookup",
+        "over": [
+          "columns:app_devices.protocol",
+          "note:Requires join through device_tables → devices → protocol"
+        ]
+      },
+      "row_last_run_at": {
+        "op": "aggregate",
+        "over": [
+          "columns:app_job_runs.started_at",
+          "note:Requires MAX aggregation from app_job_runs grouped by job_id"
+        ]
+      },
+      "row_error_count": {
+        "op": "aggregate",
+        "over": [
+          "columns:app_job_errors_minute.count",
+          "note:Requires SUM aggregation from app_job_errors_minute grouped by job_id"
+        ]
+      },
+      "row_created_at": {
+        "op": "lookup",
+        "over": [
+          "columns:app_gateways.created_at",
+          "note:No created_at in app_jobs; may need app_gateways.created_at via join or separate timestamp source"
+        ]
+      },
+      "row_updated_at": {
+        "op": "lookup",
+        "over": [
+          "columns:app_gateways.updated_at",
+          "note:No updated_at in app_jobs; may need app_gateways.updated_at via join or separate timestamp source"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "38fe54dea9a1749949b0ae4ed0edb2595c5e743f3963d93b3614bf8f8fff6a56",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "bd91aa12f6f9228c2abd0d29a23fa2cee3023b743bebf1d02107fcba8db3724b",
+    "cache_key": "4b56d55914241b1503a561ea33e9d24a6ad8911485726fd10823b1adc9cdd39e",
+    "pre_html_sha256": "87afab09e2b7eb4d024ccc38e4d5966bb002966a6537535a4ea3a1cfd12569f3",
+    "post_html_sha256": "87afab09e2b7eb4d024ccc38e4d5966bb002966a6537535a4ea3a1cfd12569f3",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_jobs.id",
+      "row_name": "app_jobs.name",
+      "row_device_table_id": "UNRESOLVED",
+      "row_schema_id": "UNRESOLVED",
+      "row_gateway_id": "UNRESOLVED",
+      "row_interval_sec": "UNRESOLVED",
+      "row_protocol": "UNRESOLVED",
+      "row_enabled": "app_jobs.enabled",
+      "row_status": "app_jobs.status",
+      "row_last_run_at": "UNRESOLVED",
+      "row_error_count": "UNRESOLVED",
+      "row_created_at": "UNRESOLVED",
+      "row_updated_at": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_device_table_id": "{row_device_table_id}",
+      "row_schema_id": "{row_schema_id}",
+      "row_gateway_id": "{row_gateway_id}",
+      "row_interval_sec": "{row_interval_sec}",
+      "row_protocol": "{row_protocol}",
+      "row_enabled": "{row_enabled}",
+      "row_status": "{row_status}",
+      "row_last_run_at": "{row_last_run_at}",
+      "row_error_count": "{row_error_count}",
+      "row_created_at": "{row_created_at}",
+      "row_updated_at": "{row_updated_at}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_device_table_id",
+        "row_schema_id",
+        "row_gateway_id",
+        "row_interval_sec",
+        "row_protocol",
+        "row_last_run_at",
+        "row_error_count",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "hints": {
+        "row_device_table_id": {
+          "op": "lookup",
+          "over": [
+            "columns:app_device_tables.id",
+            "note:app_jobs.tables_json contains array of table IDs; requires JSON extraction and join"
+          ]
+        },
+        "row_schema_id": {
+          "op": "lookup",
+          "over": [
+            "columns:app_device_tables.schema_id",
+            "note:Requires join through app_jobs.tables_json → app_device_tables → schema_id"
+          ]
+        },
+        "row_gateway_id": {
+          "op": "lookup",
+          "over": [
+            "columns:app_devices.gateway_id",
+            "note:Requires join through device_tables → devices → gateway_id"
+          ]
+        },
+        "row_interval_sec": {
+          "op": "convert",
+          "over": [
+            "columns:app_jobs.interval_ms",
+            "note:app_jobs.interval_ms is in milliseconds; requires division by 1000"
+          ]
+        },
+        "row_protocol": {
+          "op": "lookup",
+          "over": [
+            "columns:app_devices.protocol",
+            "note:Requires join through device_tables → devices → protocol"
+          ]
+        },
+        "row_last_run_at": {
+          "op": "aggregate",
+          "over": [
+            "columns:app_job_runs.started_at",
+            "note:Requires MAX aggregation from app_job_runs grouped by job_id"
+          ]
+        },
+        "row_error_count": {
+          "op": "aggregate",
+          "over": [
+            "columns:app_job_errors_minute.count",
+            "note:Requires SUM aggregation from app_job_errors_minute grouped by job_id"
+          ]
+        },
+        "row_created_at": {
+          "op": "lookup",
+          "over": [
+            "columns:app_gateways.created_at",
+            "note:No created_at in app_jobs; may need app_gateways.created_at via join or separate timestamp source"
+          ]
+        },
+        "row_updated_at": {
+          "op": "lookup",
+          "over": [
+            "columns:app_gateways.updated_at",
+            "note:No updated_at in app_jobs; may need app_gateways.updated_at via join or separate timestamp source"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_device_table_id": "{row_device_table_id}",
+    "row_schema_id": "{row_schema_id}",
+    "row_gateway_id": "{row_gateway_id}",
+    "row_interval_sec": "{row_interval_sec}",
+    "row_protocol": "{row_protocol}",
+    "row_enabled": "{row_enabled}",
+    "row_status": "{row_status}",
+    "row_last_run_at": "{row_last_run_at}",
+    "row_error_count": "{row_error_count}",
+    "row_created_at": "{row_created_at}",
+    "row_updated_at": "{row_updated_at}"
+  }
+}

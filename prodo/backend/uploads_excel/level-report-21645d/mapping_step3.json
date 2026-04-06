@@ -1,0 +1,172 @@
+{
+  "mapping": {
+    "row_level_transmitter": "neuract__LT_TABLE.timestamp_utc",
+    "row_lt_105": "neuract__LT_TABLE.LT_105",
+    "row_lt_107": "neuract__LT_TABLE.LT_107",
+    "row_lt_109": "neuract__LT_TABLE.LT_109",
+    "row_lt_111": "neuract__LT_TABLE.LT_111",
+    "row_lt_114": "neuract__LT_TABLE.LT_114",
+    "row_lt_116": "neuract__LT_TABLE.LT_116",
+    "row_lt_118": "neuract__LT_TABLE.LT_118",
+    "row_lt_127": "neuract__LT_TABLE.LT_127",
+    "row_lt_128": "neuract__LT_TABLE.LT_128",
+    "row_lt_129": "neuract__LT_TABLE.LT_129",
+    "row_lt_130": "neuract__LT_TABLE.LT_130",
+    "row_lt_131": "neuract__LT_TABLE.LT_131",
+    "row_lt_120": "neuract__LT_TABLE.LT_120",
+    "row_lt_122": "UNRESOLVED",
+    "row_lt_114_2": "neuract__LT_TABLE.LT_114_2",
+    "row_lt_126": "neuract__LT_TABLE.LT_126",
+    "row_lt_113": "neuract__LT_TABLE.LT_113",
+    "row_lt_134": "neuract__LT_TABLE.LT_134",
+    "row_lt_135": "neuract__LT_TABLE.LT_135",
+    "row_lt_137": "neuract__LT_TABLE.LT_137",
+    "row_lt_138": "neuract__LT_TABLE.LT_138",
+    "row_lt_139": "neuract__LT_TABLE.LT_139",
+    "row_lt_140": "neuract__LT_TABLE.LT_140",
+    "row_lt_142": "neuract__LT_TABLE.LT_142",
+    "row_lt_143": "neuract__LT_TABLE.LT_143",
+    "row_lt_144": "neuract__LT_TABLE.LT_144",
+    "row_lt_146": "neuract__LT_TABLE.LT_146",
+    "row_lt_148": "neuract__LT_TABLE.LT_148",
+    "row_lt_149": "neuract__LT_TABLE.LT_149"
+  },
+  "meta": {
+    "unresolved": [
+      "row_lt_122"
+    ],
+    "hints": {
+      "row_lt_122": {
+        "op": "LOOKUP",
+        "over": [
+          "note:LT_122 column is absent from neuract__LT_TABLE in the catalog (columns jump from LT_120 to LT_126); verify whether LT_122 exists under a different name or was never ingested into the DB"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "23d8b27f24e32aba3c289766359507b2356a12868e2f47132a2764998e0d8781",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "",
+    "cache_key": "7af9a3ed50b63ad1adb76cff1a9a8a70b38d11181767665c808cf9520d02f445",
+    "pre_html_sha256": "977056b8720fa007a1f6660e186d9bb8eb297cd94ebf96063bbd931c348f5626",
+    "post_html_sha256": "977056b8720fa007a1f6660e186d9bb8eb297cd94ebf96063bbd931c348f5626",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_level_transmitter": "neuract__LT_TABLE.timestamp_utc",
+      "row_lt_105": "neuract__LT_TABLE.LT_105",
+      "row_lt_107": "neuract__LT_TABLE.LT_107",
+      "row_lt_109": "neuract__LT_TABLE.LT_109",
+      "row_lt_111": "neuract__LT_TABLE.LT_111",
+      "row_lt_114": "neuract__LT_TABLE.LT_114",
+      "row_lt_116": "neuract__LT_TABLE.LT_116",
+      "row_lt_118": "neuract__LT_TABLE.LT_118",
+      "row_lt_127": "neuract__LT_TABLE.LT_127",
+      "row_lt_128": "neuract__LT_TABLE.LT_128",
+      "row_lt_129": "neuract__LT_TABLE.LT_129",
+      "row_lt_130": "neuract__LT_TABLE.LT_130",
+      "row_lt_131": "neuract__LT_TABLE.LT_131",
+      "row_lt_120": "neuract__LT_TABLE.LT_120",
+      "row_lt_122": "UNRESOLVED",
+      "row_lt_114_2": "neuract__LT_TABLE.LT_114_2",
+      "row_lt_126": "neuract__LT_TABLE.LT_126",
+      "row_lt_113": "neuract__LT_TABLE.LT_113",
+      "row_lt_134": "neuract__LT_TABLE.LT_134",
+      "row_lt_135": "neuract__LT_TABLE.LT_135",
+      "row_lt_137": "neuract__LT_TABLE.LT_137",
+      "row_lt_138": "neuract__LT_TABLE.LT_138",
+      "row_lt_139": "neuract__LT_TABLE.LT_139",
+      "row_lt_140": "neuract__LT_TABLE.LT_140",
+      "row_lt_142": "neuract__LT_TABLE.LT_142",
+      "row_lt_143": "neuract__LT_TABLE.LT_143",
+      "row_lt_144": "neuract__LT_TABLE.LT_144",
+      "row_lt_146": "neuract__LT_TABLE.LT_146",
+      "row_lt_148": "neuract__LT_TABLE.LT_148",
+      "row_lt_149": "neuract__LT_TABLE.LT_149"
+    },
+    "token_samples": {
+      "row_level_transmitter": "{row_level_transmitter}",
+      "row_lt_105": "{row_lt_105}",
+      "row_lt_107": "{row_lt_107}",
+      "row_lt_109": "{row_lt_109}",
+      "row_lt_111": "{row_lt_111}",
+      "row_lt_114": "{row_lt_114}",
+      "row_lt_116": "{row_lt_116}",
+      "row_lt_118": "{row_lt_118}",
+      "row_lt_127": "{row_lt_127}",
+      "row_lt_128": "{row_lt_128}",
+      "row_lt_129": "{row_lt_129}",
+      "row_lt_130": "{row_lt_130}",
+      "row_lt_131": "{row_lt_131}",
+      "row_lt_120": "{row_lt_120}",
+      "row_lt_122": "{row_lt_122}",
+      "row_lt_114_2": "{row_lt_114_2}",
+      "row_lt_126": "{row_lt_126}",
+      "row_lt_113": "{row_lt_113}",
+      "row_lt_134": "{row_lt_134}",
+      "row_lt_135": "{row_lt_135}",
+      "row_lt_137": "{row_lt_137}",
+      "row_lt_138": "{row_lt_138}",
+      "row_lt_139": "{row_lt_139}",
+      "row_lt_140": "{row_lt_140}",
+      "row_lt_142": "{row_lt_142}",
+      "row_lt_143": "{row_lt_143}",
+      "row_lt_144": "{row_lt_144}",
+      "row_lt_146": "{row_lt_146}",
+      "row_lt_148": "{row_lt_148}",
+      "row_lt_149": "{row_lt_149}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_lt_122"
+      ],
+      "hints": {
+        "row_lt_122": {
+          "op": "LOOKUP",
+          "over": [
+            "note:LT_122 column is absent from neuract__LT_TABLE in the catalog (columns jump from LT_120 to LT_126); verify whether LT_122 exists under a different name or was never ingested into the DB"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_level_transmitter": "{row_level_transmitter}",
+    "row_lt_105": "{row_lt_105}",
+    "row_lt_107": "{row_lt_107}",
+    "row_lt_109": "{row_lt_109}",
+    "row_lt_111": "{row_lt_111}",
+    "row_lt_114": "{row_lt_114}",
+    "row_lt_116": "{row_lt_116}",
+    "row_lt_118": "{row_lt_118}",
+    "row_lt_127": "{row_lt_127}",
+    "row_lt_128": "{row_lt_128}",
+    "row_lt_129": "{row_lt_129}",
+    "row_lt_130": "{row_lt_130}",
+    "row_lt_131": "{row_lt_131}",
+    "row_lt_120": "{row_lt_120}",
+    "row_lt_122": "{row_lt_122}",
+    "row_lt_114_2": "{row_lt_114_2}",
+    "row_lt_126": "{row_lt_126}",
+    "row_lt_113": "{row_lt_113}",
+    "row_lt_134": "{row_lt_134}",
+    "row_lt_135": "{row_lt_135}",
+    "row_lt_137": "{row_lt_137}",
+    "row_lt_138": "{row_lt_138}",
+    "row_lt_139": "{row_lt_139}",
+    "row_lt_140": "{row_lt_140}",
+    "row_lt_142": "{row_lt_142}",
+    "row_lt_143": "{row_lt_143}",
+    "row_lt_144": "{row_lt_144}",
+    "row_lt_146": "{row_lt_146}",
+    "row_lt_148": "{row_lt_148}",
+    "row_lt_149": "{row_lt_149}"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "mapping": {
+    "row_job_id": "app_job_runs.job_id",
+    "row_started_at": "app_job_runs.started_at",
+    "row_stopped_at": "app_job_runs.stopped_at",
+    "row_duration_ms": "app_job_runs.duration_ms",
+    "row_rows_written": "app_job_runs.rows",
+    "row_read_lat_avg": "app_job_runs.read_lat_avg",
+    "row_write_lat_avg": "app_job_runs.write_lat_avg",
+    "row_error": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_error"
+    ],
+    "hints": {
+      "row_error": {
+        "op": "FORMAT",
+        "over": [
+          "columns:app_job_runs.error_pct",
+          "note:error_pct is stored as numeric (e.g., 1900.0) but header shows 'Error %' suggesting percentage formatting may be needed"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "b2a2827090b86a66137252efb3df0d4557513546c4d4fcd738839042ffdb6c6e",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "de0e33534f9d7dad727ab35cc34e894ae9ed85ca9ea737bb171750a3330c223a",
+    "pre_html_sha256": "cca6aa102c351a75b38ef572a87b6445a3033e29c6fe6902d3331f2bec104498",
+    "post_html_sha256": "cca6aa102c351a75b38ef572a87b6445a3033e29c6fe6902d3331f2bec104498",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_id": "app_job_runs.job_id",
+      "row_started_at": "app_job_runs.started_at",
+      "row_stopped_at": "app_job_runs.stopped_at",
+      "row_duration_ms": "app_job_runs.duration_ms",
+      "row_rows_written": "app_job_runs.rows",
+      "row_read_lat_avg": "app_job_runs.read_lat_avg",
+      "row_write_lat_avg": "app_job_runs.write_lat_avg",
+      "row_error": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_job_id": "{row_job_id}",
+      "row_started_at": "{row_started_at}",
+      "row_stopped_at": "{row_stopped_at}",
+      "row_duration_ms": "{row_duration_ms}",
+      "row_rows_written": "{row_rows_written}",
+      "row_read_lat_avg": "{row_read_lat_avg}",
+      "row_write_lat_avg": "{row_write_lat_avg}",
+      "row_error": "{row_error}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_error"
+      ],
+      "hints": {
+        "row_error": {
+          "op": "FORMAT",
+          "over": [
+            "columns:app_job_runs.error_pct",
+            "note:error_pct is stored as numeric (e.g., 1900.0) but header shows 'Error %' suggesting percentage formatting may be needed"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_id": "{row_job_id}",
+    "row_started_at": "{row_started_at}",
+    "row_stopped_at": "{row_stopped_at}",
+    "row_duration_ms": "{row_duration_ms}",
+    "row_rows_written": "{row_rows_written}",
+    "row_read_lat_avg": "{row_read_lat_avg}",
+    "row_write_lat_avg": "{row_write_lat_avg}",
+    "row_error": "{row_error}"
+  }
+}

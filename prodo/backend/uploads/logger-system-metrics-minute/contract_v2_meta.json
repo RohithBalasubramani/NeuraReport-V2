@@ -1,0 +1,183 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "f3b604e2c6fa051711c8ed5343d95fb29bd8e550b082969e1993b620cf55da05",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "7bb4d1e55eb1261470ed832d1029538fa6a8d13091bd5e91b0afefdfac0368b5",
+  "generated_at": 1771434718,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ],
+      "row_tokens": [
+        "row_minute_utc",
+        "row_cpu",
+        "row_mem",
+        "row_disk_rps",
+        "row_disk_wps",
+        "row_net_rxps",
+        "row_net_txps",
+        "row_proc_cpu",
+        "row_proc_rss_mb",
+        "row_proc_handles"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "date_from": "PARAM:date_from",
+      "date_to": "PARAM:date_to",
+      "generated_at": "PARAM:generated_at",
+      "row_minute_utc": "app_metrics_system_minute.minute_utc",
+      "row_cpu": "app_metrics_system_minute.cpu",
+      "row_mem": "app_metrics_system_minute.mem",
+      "row_disk_rps": "app_metrics_system_minute.disk_rps",
+      "row_disk_wps": "app_metrics_system_minute.disk_wps",
+      "row_net_rxps": "app_metrics_system_minute.net_rxps",
+      "row_net_txps": "app_metrics_system_minute.net_txps",
+      "row_proc_cpu": "app_metrics_system_minute.proc_cpu",
+      "row_proc_rss_mb": "app_metrics_system_minute.proc_rss_mb",
+      "row_proc_handles": "app_metrics_system_minute.proc_handles"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_metrics_system_minute",
+      "parent_key": "minute_utc",
+      "child_table": "app_metrics_system_minute",
+      "child_key": "minute_utc"
+    },
+    "date_columns": {
+      "app_metrics_system_minute": "minute_utc"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Direct column mapping, no unpivoting needed",
+        "strategy": "NONE",
+        "columns": [
+          {
+            "as": "minute_utc",
+            "from": [
+              "app_metrics_system_minute.minute_utc"
+            ]
+          },
+          {
+            "as": "cpu",
+            "from": [
+              "app_metrics_system_minute.cpu"
+            ]
+          },
+          {
+            "as": "mem",
+            "from": [
+              "app_metrics_system_minute.mem"
+            ]
+          },
+          {
+            "as": "disk_rps",
+            "from": [
+              "app_metrics_system_minute.disk_rps"
+            ]
+          },
+          {
+            "as": "disk_wps",
+            "from": [
+              "app_metrics_system_minute.disk_wps"
+            ]
+          },
+          {
+            "as": "net_rxps",
+            "from": [
+              "app_metrics_system_minute.net_rxps"
+            ]
+          },
+          {
+            "as": "net_txps",
+            "from": [
+              "app_metrics_system_minute.net_txps"
+            ]
+          },
+          {
+            "as": "proc_cpu",
+            "from": [
+              "app_metrics_system_minute.proc_cpu"
+            ]
+          },
+          {
+            "as": "proc_rss_mb",
+            "from": [
+              "app_metrics_system_minute.proc_rss_mb"
+            ]
+          },
+          {
+            "as": "proc_handles",
+            "from": [
+              "app_metrics_system_minute.proc_handles"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_minute_utc": "date(YYYY-MM-DD HH:mm)",
+      "row_cpu": "number(1)",
+      "row_mem": "number(1)",
+      "row_disk_rps": "number(1)",
+      "row_disk_wps": "number(1)",
+      "row_net_rxps": "number(0)",
+      "row_net_txps": "number(0)",
+      "row_proc_cpu": "number(1)",
+      "row_proc_rss_mb": "number(0)",
+      "row_proc_handles": "number(0)"
+    },
+    "order_by": {
+      "rows": [
+        "minute_utc ASC"
+      ]
+    },
+    "header_tokens": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_minute_utc",
+      "row_cpu",
+      "row_mem",
+      "row_disk_rps",
+      "row_disk_wps",
+      "row_net_rxps",
+      "row_net_txps",
+      "row_proc_cpu",
+      "row_proc_rss_mb",
+      "row_proc_handles"
+    ],
+    "row_order": [
+      "minute_utc ASC"
+    ],
+    "literals": {},
+    "notes": "app_metrics_system_minute stores per-minute system telemetry. All numeric columns are raw floats/ints. generated_at is a runtime scalar injected by the report runner at generation time — it does not exist in the database and must be passed as a PARAM. date_from and date_to bound the minute_utc range filter."
+  },
+  "key_tokens": []
+}

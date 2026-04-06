@@ -1,0 +1,26 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_device_name",
+    "row_protocol",
+    "row_status",
+    "row_port",
+    "row_latency_ms",
+    "row_auto_reconnect",
+    "row_last_error"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Devices",
+    "column_count": 7,
+    "data_columns": [
+      "Device Name",
+      "Protocol",
+      "Status",
+      "Port",
+      "Latency (ms)",
+      "Auto Reconnect",
+      "Last Error"
+    ]
+  }
+}

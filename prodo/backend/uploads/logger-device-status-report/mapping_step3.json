@@ -1,0 +1,96 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "generated_at": "UNRESOLVED",
+    "row_id": "app_devices.id",
+    "row_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_port": "app_devices.port",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_last_error": "app_devices.last_error"
+  },
+  "meta": {
+    "unresolved": [
+      "generated_at"
+    ],
+    "hints": {
+      "generated_at": {
+        "op": "FORMAT",
+        "over": [
+          "note:Current report generation timestamp — inject at runtime, not sourced from catalog"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "a42957e449bc2b4538b134b233d394111718c588ab783a2cc176ab6f521c8f1a",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "fe4caa093435d5c8bb8bc845b6c8e2511fddacd3f4254fdae20ce8b9e31d2133",
+    "cache_key": "7b3ca099be795e53f4ba541b94065d8a96b74f45b82a21cecf6377484fc720f4",
+    "pre_html_sha256": "22ef915793de8dc5ed978769ca986610b0d56a9643ba428de642160b7778e57e",
+    "post_html_sha256": "22ef915793de8dc5ed978769ca986610b0d56a9643ba428de642160b7778e57e",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "UNRESOLVED",
+      "row_id": "app_devices.id",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_port": "app_devices.port",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_last_error": "app_devices.last_error"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 2026-02-14",
+      "row_id": "1",
+      "row_name": "MFM 20",
+      "row_protocol": "modbus",
+      "row_status": "reconnecting",
+      "row_port": "502",
+      "row_latency_ms": "21.0",
+      "row_auto_reconnect": "1",
+      "row_last_error": "TCP_CONNECT_FAILED"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current report generation timestamp — inject at runtime, not sourced from catalog"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 2026-02-14",
+    "row_id": "1",
+    "row_name": "MFM 20",
+    "row_protocol": "modbus",
+    "row_status": "reconnecting",
+    "row_port": "502",
+    "row_latency_ms": "21.0",
+    "row_auto_reconnect": "1",
+    "row_last_error": "TCP_CONNECT_FAILED"
+  }
+}

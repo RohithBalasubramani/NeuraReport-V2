@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens in this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Gateway listing with connection details and status",
+      "columns": [
+        "row_gateway_name",
+        "row_host",
+        "row_protocol_hint",
+        "row_status",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals in this report",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters required. This report lists all gateways without filtering.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape rules needed — all tokens map directly to app_gateways columns"
+  ]
+}

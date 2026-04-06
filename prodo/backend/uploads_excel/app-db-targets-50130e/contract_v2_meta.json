@@ -1,0 +1,114 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "8c60d33a93f07616d1df071e16d725f8f117850362bddd13b85d324e7f51e96c",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771483988,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_target_id",
+        "row_provider",
+        "row_connection_string",
+        "row_status",
+        "row_last_message"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_target_id": "app_db_targets.id",
+      "row_provider": "app_db_targets.provider",
+      "row_connection_string": "app_db_targets.conn",
+      "row_status": "app_db_targets.status",
+      "row_last_message": "app_db_targets.last_msg"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_db_targets",
+      "parent_key": "id",
+      "child_table": "app_db_targets",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_target_id",
+            "from": [
+              "app_db_targets.id"
+            ]
+          },
+          {
+            "as": "row_provider",
+            "from": [
+              "app_db_targets.provider"
+            ]
+          },
+          {
+            "as": "row_connection_string",
+            "from": [
+              "app_db_targets.conn"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_db_targets.status"
+            ]
+          },
+          {
+            "as": "row_last_message",
+            "from": [
+              "app_db_targets.last_msg"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_target_id",
+      "row_provider",
+      "row_connection_string",
+      "row_status",
+      "row_last_message"
+    ],
+    "row_order": [
+      "ROWID ASC"
+    ],
+    "literals": {},
+    "notes": "Simple administrative report listing all registered database connection targets. No business logic, no aggregations, no date filtering—just a straight read of the app_db_targets table for monitoring and diagnostic purposes."
+  },
+  "key_tokens": []
+}

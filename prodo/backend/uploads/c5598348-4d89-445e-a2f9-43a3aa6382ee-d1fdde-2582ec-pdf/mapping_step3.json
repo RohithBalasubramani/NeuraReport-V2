@@ -1,0 +1,266 @@
+{
+  "mapping": {
+    "from_datetime": "params.from_datetime",
+    "to_datetime": "params.to_datetime",
+    "print_date": "params.print_date",
+    "recipe_code": "params.recipe_code",
+    "recipe_name": "params.recipe_name",
+    "batch_no": "params.batch_no",
+    "start_time": "LATER_SELECTED",
+    "end_time": "LATER_SELECTED",
+    "row_bin_no": "UNRESOLVED",
+    "row_material_name": "UNRESOLVED",
+    "row_set_wt": "UNRESOLVED",
+    "row_ach_wt": "UNRESOLVED",
+    "row_error_kg": "UNRESOLVED",
+    "row_error_pct": "UNRESOLVED",
+    "batch_total_set_wt": "UNRESOLVED",
+    "batch_total_ach_wt": "UNRESOLVED",
+    "batch_total_error_kg": "UNRESOLVED",
+    "batch_total_error_pct": "UNRESOLVED",
+    "total_set_wt": "UNRESOLVED",
+    "total_ach_wt": "UNRESOLVED",
+    "total_error_kg": "UNRESOLVED",
+    "total_error_pct": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_bin_no",
+      "row_material_name",
+      "row_set_wt",
+      "row_ach_wt",
+      "row_error_kg",
+      "row_error_pct",
+      "batch_total_set_wt",
+      "batch_total_ach_wt",
+      "batch_total_error_kg",
+      "batch_total_error_pct",
+      "total_set_wt",
+      "total_ach_wt",
+      "total_error_kg",
+      "total_error_pct"
+    ],
+    "hints": {
+      "row_bin_no": {
+        "op": "SELECT",
+        "over": []
+      },
+      "row_material_name": {
+        "op": "SELECT",
+        "over": []
+      },
+      "row_set_wt": {
+        "op": "SELECT",
+        "over": []
+      },
+      "row_ach_wt": {
+        "op": "SELECT",
+        "over": []
+      },
+      "row_error_kg": {
+        "op": "SELECT",
+        "over": []
+      },
+      "row_error_pct": {
+        "op": "SELECT",
+        "over": []
+      },
+      "batch_total_set_wt": {
+        "op": "SUM",
+        "over": []
+      },
+      "batch_total_ach_wt": {
+        "op": "SUM",
+        "over": []
+      },
+      "batch_total_error_kg": {
+        "op": "SUM",
+        "over": []
+      },
+      "batch_total_error_pct": {
+        "op": "AVG",
+        "over": []
+      },
+      "total_set_wt": {
+        "op": "SUM",
+        "over": []
+      },
+      "total_ach_wt": {
+        "op": "SUM",
+        "over": []
+      },
+      "total_error_kg": {
+        "op": "SUM",
+        "over": []
+      },
+      "total_error_pct": {
+        "op": "AVG",
+        "over": []
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "b4121cc5e78f0a12b0c3eca4c44ae59860e32597a28335a96d1c96d70b76a794",
+    "catalog_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "schema_sha256": "",
+    "cache_key": "8c0a0bb5365184d38fd24fdd001d88e183d37ef2e605687c1d28e829ff28ea8e",
+    "pre_html_sha256": "6c76e266df10971b9aa7d10ce993d0d4ccfd89c2645f092c2a3d9d627a4dad5d",
+    "post_html_sha256": "6c76e266df10971b9aa7d10ce993d0d4ccfd89c2645f092c2a3d9d627a4dad5d",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "a1ae35033b0127c7eb5947b164605076fecec7d6e107fe858a84d9dcce409ae9"
+  },
+  "raw_payload": {
+    "mapping": {
+      "from_datetime": "params.from_datetime",
+      "to_datetime": "params.to_datetime",
+      "print_date": "params.print_date",
+      "recipe_code": "params.recipe_code",
+      "recipe_name": "params.recipe_name",
+      "batch_no": "params.batch_no",
+      "start_time": "params.start_time",
+      "end_time": "params.end_time",
+      "row_bin_no": "UNRESOLVED",
+      "row_material_name": "UNRESOLVED",
+      "row_set_wt": "UNRESOLVED",
+      "row_ach_wt": "UNRESOLVED",
+      "row_error_kg": "UNRESOLVED",
+      "row_error_pct": "UNRESOLVED",
+      "batch_total_set_wt": "UNRESOLVED",
+      "batch_total_ach_wt": "UNRESOLVED",
+      "batch_total_error_kg": "UNRESOLVED",
+      "batch_total_error_pct": "UNRESOLVED",
+      "total_set_wt": "UNRESOLVED",
+      "total_ach_wt": "UNRESOLVED",
+      "total_error_kg": "UNRESOLVED",
+      "total_error_pct": "UNRESOLVED"
+    },
+    "token_samples": {
+      "from_datetime": "2023-10-27 08:00:00",
+      "to_datetime": "2023-10-27 16:30:00",
+      "print_date": "2023-10-27",
+      "recipe_code": "RCP-9921",
+      "recipe_name": "Premium Blend A",
+      "batch_no": "B-2023-1027-01",
+      "start_time": "08:00:00",
+      "end_time": "16:30:00",
+      "row_bin_no": "1",
+      "row_material_name": "Wheat Flour",
+      "row_set_wt": "100.00",
+      "row_ach_wt": "99.50",
+      "row_error_kg": "-0.50",
+      "row_error_pct": "-0.50",
+      "batch_total_set_wt": "100.00",
+      "batch_total_ach_wt": "99.50",
+      "batch_total_error_kg": "-0.50",
+      "batch_total_error_pct": "-0.50",
+      "total_set_wt": "100.00",
+      "total_ach_wt": "99.50",
+      "total_error_kg": "-0.50",
+      "total_error_pct": "-0.50"
+    },
+    "meta": {
+      "unresolved": [
+        "row_bin_no",
+        "row_material_name",
+        "row_set_wt",
+        "row_ach_wt",
+        "row_error_kg",
+        "row_error_pct",
+        "batch_total_set_wt",
+        "batch_total_ach_wt",
+        "batch_total_error_kg",
+        "batch_total_error_pct",
+        "total_set_wt",
+        "total_ach_wt",
+        "total_error_kg",
+        "total_error_pct"
+      ],
+      "hints": {
+        "row_bin_no": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "row_material_name": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "row_set_wt": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "row_ach_wt": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "row_error_kg": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "row_error_pct": {
+          "op": "SELECT",
+          "columns": []
+        },
+        "batch_total_set_wt": {
+          "op": "SUM",
+          "columns": []
+        },
+        "batch_total_ach_wt": {
+          "op": "SUM",
+          "columns": []
+        },
+        "batch_total_error_kg": {
+          "op": "SUM",
+          "columns": []
+        },
+        "batch_total_error_pct": {
+          "op": "AVG",
+          "columns": []
+        },
+        "total_set_wt": {
+          "op": "SUM",
+          "columns": []
+        },
+        "total_ach_wt": {
+          "op": "SUM",
+          "columns": []
+        },
+        "total_error_kg": {
+          "op": "SUM",
+          "columns": []
+        },
+        "total_error_pct": {
+          "op": "AVG",
+          "columns": []
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "from_datetime": "2023-10-27 08:00:00",
+    "to_datetime": "2023-10-27 16:30:00",
+    "print_date": "2023-10-27",
+    "recipe_code": "RCP-9921",
+    "recipe_name": "Premium Blend A",
+    "batch_no": "B-2023-1027-01",
+    "start_time": "08:00:00",
+    "end_time": "16:30:00",
+    "row_bin_no": "1",
+    "row_material_name": "Wheat Flour",
+    "row_set_wt": "100.00",
+    "row_ach_wt": "99.50",
+    "row_error_kg": "-0.50",
+    "row_error_pct": "-0.50",
+    "batch_total_set_wt": "100.00",
+    "batch_total_ach_wt": "99.50",
+    "batch_total_error_kg": "-0.50",
+    "batch_total_error_pct": "-0.50",
+    "total_set_wt": "100.00",
+    "total_ach_wt": "99.50",
+    "total_error_kg": "-0.50",
+    "total_error_pct": "-0.50"
+  }
+}

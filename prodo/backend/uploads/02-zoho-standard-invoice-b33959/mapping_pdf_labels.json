@@ -1,0 +1,147 @@
+[
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices.invoice_number"
+  },
+  {
+    "header": "balance_due",
+    "placeholder": "{balance_due}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "bill_to_name",
+    "placeholder": "{bill_to_name}",
+    "mapping": "customers.customer_name"
+  },
+  {
+    "header": "bill_to_address_line1",
+    "placeholder": "{bill_to_address_line1}",
+    "mapping": "customers.billing_address"
+  },
+  {
+    "header": "bill_to_address_line2",
+    "placeholder": "{bill_to_address_line2}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "bill_to_address_line3",
+    "placeholder": "{bill_to_address_line3}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "bill_to_country",
+    "placeholder": "{bill_to_country}",
+    "mapping": "customers.country"
+  },
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices.issue_date"
+  },
+  {
+    "header": "terms",
+    "placeholder": "{terms}",
+    "mapping": "params.terms"
+  },
+  {
+    "header": "due_date",
+    "placeholder": "{due_date}",
+    "mapping": "invoices.due_date"
+  },
+  {
+    "header": "po_number",
+    "placeholder": "{po_number}",
+    "mapping": "params.po_number"
+  },
+  {
+    "header": "project_name",
+    "placeholder": "{project_name}",
+    "mapping": "params.project_name"
+  },
+  {
+    "header": "row_line_number",
+    "placeholder": "{row_line_number}",
+    "mapping": "invoice_items.line_no"
+  },
+  {
+    "header": "row_item_name",
+    "placeholder": "{row_item_name}",
+    "mapping": "invoice_items.item_code"
+  },
+  {
+    "header": "row_item_description",
+    "placeholder": "{row_item_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_qty",
+    "placeholder": "{row_qty}",
+    "mapping": "invoice_items.quantity"
+  },
+  {
+    "header": "row_rate",
+    "placeholder": "{row_rate}",
+    "mapping": "invoice_items.unit_price"
+  },
+  {
+    "header": "row_discount",
+    "placeholder": "{row_discount}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_amount",
+    "placeholder": "{row_amount}",
+    "mapping": "invoice_items.line_total"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "invoices.subtotal"
+  },
+  {
+    "header": "tax1_label",
+    "placeholder": "{tax1_label}",
+    "mapping": "params.tax1_label"
+  },
+  {
+    "header": "tax1_amount",
+    "placeholder": "{tax1_amount}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "tax2_label",
+    "placeholder": "{tax2_label}",
+    "mapping": "params.tax2_label"
+  },
+  {
+    "header": "tax2_amount",
+    "placeholder": "{tax2_amount}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "total",
+    "placeholder": "{total}",
+    "mapping": "invoices.total_amount"
+  },
+  {
+    "header": "payment_made",
+    "placeholder": "{payment_made}",
+    "mapping": "payments.amount_paid"
+  },
+  {
+    "header": "balance_due_final",
+    "placeholder": "{balance_due_final}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "notes",
+    "placeholder": "{notes}",
+    "mapping": "invoices.notes"
+  },
+  {
+    "header": "terms_and_conditions",
+    "placeholder": "{terms_and_conditions}",
+    "mapping": "params.terms_and_conditions"
+  }
+]

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Acknowledgment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1f2937;
+            line-height: 1.6;
+            padding: 40px;
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        
+        .timestamp {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header img {
+            max-width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .header h1 {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .header .subtitle {
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .content {
+            background: #ffffff;
+            padding: 40px 30px;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1e40af;
+        }
+        
+        .thank-you {
+            background: #f0f9ff;
+            padding: 20px;
+            border-left: 4px solid #1e40af;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .thank-you p {
+            color: #1e40af;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f9fafb;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .detail-row:hover {
+            background: #f3f4f6;
+            border-color: #cbd5e1;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+            flex: 0 0 40%;
+        }
+        
+        .detail-value {
+            color: #1f2937;
+            font-size: 14px;
+            text-align: right;
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            color: #16a34a !important;
+            font-weight: 700 !important;
+        }
+        
+        .amount {
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            color: #1e3a8a !important;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .security-note {
+            background: #fffbeb;
+            padding: 15px 20px;
+            border-left: 4px solid #f59e0b;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .security-note p {
+            font-size: 12px;
+            color: #92400e;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .branding {
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+            padding-top: 15px;
+        }
+        
+        .branding strong {
+            color: #1e40af;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .detail-row:hover {
+                background: #f9fafb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timestamp">
+        Generated on: 2026-02-15
+    </div>
+    
+    <div class="header">
+        <img src="" alt="HMWSSB Logo">
+        <h1>Hyderabad Metropolitan Water Supply & Sewerage Board</h1>
+        <div class="subtitle">Official Transaction Receipt</div>
+    </div>
+    
+    <div class="content">
+        <h2 class="page-title">Transaction Acknowledgment</h2>
+        
+        <div class="thank-you">
+            <p>Thank you for your payment. Your transaction has been processed successfully.</p>
+        </div>
+        
+        <div class="details-grid">
+            <div class="detail-row">
+                <span class="detail-label">Transaction Status:</span>
+                <span class="detail-value status-success">Success</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Transaction Reference Number:</span>
+                <span class="detail-value">YAX62668702574</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Transaction Date and Time:</span>
+                <span class="detail-value">2026-02-01</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">CAN No.:</span>
+                <span class="detail-value">624140910</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Bill Amount:</span>
+                <span class="detail-value amount">1510.00</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Bank Name:</span>
+                <span class="detail-value">NA</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="security-note">
+                <p><strong>Note:</strong> This is a system-generated receipt. Please save this acknowledgment for your records. If you have any questions regarding this transaction, please contact customer support with your transaction reference number.</p>
+            </div>
+            
+            <div class="branding">
+                Powered by <strong>NeuraReport</strong> • Intelligent Reporting Platform
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Basic Invoice Template</title>
+<style>
+:root {
+  --page-w: 215.9mm;
+  --page-h: 279.4mm;
+  --logo-w: 85mm;
+  --logo-h: 50mm;
+  --field-w: 60mm;
+  --desc-col-w: 75%;
+  --total-col-w: 25%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@page {
+  size: A4;
+  margin: 15mm 20mm;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 9pt;
+  line-height: 1.35;
+  color: #333;
+  background: #fff;
+}
+
+.page {
+  max-width: var(--page-w);
+  margin: 0 auto;
+  padding: 10mm 12mm;
+  background: #fff;
+}
+
+#report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10mm;
+}
+
+.header-left {
+  flex: 0 0 52%;
+}
+
+.header-right {
+  flex: 0 0 46%;
+  text-align: right;
+}
+
+.template-title {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.3px;
+  margin-bottom: 5mm;
+  line-height: 1.2;
+}
+
+.logo-box {
+  width: var(--logo-w);
+  height: var(--logo-h);
+  border: 1.5px solid #666;
+  background: #fff;
+}
+
+.invoice-label {
+  font-size: 20pt;
+  font-weight: 300;
+  color: #aaa;
+  letter-spacing: 5px;
+  margin-bottom: 8mm;
+}
+
+.invoice-field {
+  margin-bottom: 4mm;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.invoice-field-label {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+  margin-right: 8mm;
+  min-width: 28mm;
+  text-align: right;
+}
+
+.invoice-field-value {
+  border-bottom: 1px solid #666;
+  min-width: var(--field-w);
+  padding: 1mm 0;
+  text-align: center;
+  font-size: 9pt;
+}
+
+.payment-note {
+  font-size: 8pt;
+  font-style: italic;
+  color: #666;
+  text-align: right;
+  margin-top: 2mm;
+}
+
+.address-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12mm;
+}
+
+.address-block {
+  flex: 0 0 48%;
+}
+
+.address-label {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 1mm;
+  padding-bottom: 1mm;
+  border-bottom: 1px solid #666;
+}
+
+.address-content {
+  min-height: 35mm;
+  padding: 2mm 0;
+  font-size: 9pt;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8mm;
+  table-layout: fixed;
+}
+
+#data-table thead th {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+  padding: 2mm 3mm;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+#data-table thead th:last-child {
+  text-align: right;
+  width: var(--total-col-w);
+}
+
+#data-table tbody tr {
+  border-bottom: 1px solid #ccc;
+}
+
+#data-table tbody td {
+  padding: 4mm 3mm;
+  vertical-align: top;
+  font-size: 9pt;
+}
+
+#data-table tbody td:last-child {
+  text-align: right;
+}
+
+.footer-section {
+  margin-top: 3mm;
+}
+
+.remarks-section {
+  margin-bottom: 6mm;
+}
+
+.remarks-label {
+  font-size: 8.5pt;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 1mm;
+}
+
+#report-totals {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.totals-left {
+  flex: 0 0 48%;
+}
+
+.totals-right {
+  flex: 0 0 50%;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2mm 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.totals-row.subtotal {
+  border-bottom: 1px solid #666;
+}
+
+.totals-row.final {
+  background: #ddd;
+  border-bottom: 2px solid #333;
+  font-weight: 700;
+  padding: 3mm 3mm;
+  margin-top: 1mm;
+}
+
+.totals-label {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2mm;
+}
+
+.totals-value {
+  min-width: 45mm;
+  text-align: right;
+  font-size: 9pt;
+  border-bottom: 1px solid #666;
+  padding: 1mm 3mm;
+}
+
+.totals-row.final .totals-value {
+  border-bottom: none;
+  font-weight: 700;
+}
+
+.totals-hint {
+  font-size: 7pt;
+  font-style: italic;
+  color: #999;
+  font-weight: 400;
+  text-transform: lowercase;
+}
+
+.thank-you {
+  text-align: center;
+  margin: 6mm 0 4mm 0;
+}
+
+.thank-you-note {
+  font-size: 8pt;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 2mm;
+}
+
+.thank-you-text {
+  font-size: 16pt;
+  font-weight: 300;
+  letter-spacing: 5px;
+  color: #333;
+}
+
+.footer-note {
+  font-size: 8pt;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  margin-top: 6mm;
+}
+</style>
+
+
+<div class="page">
+  <div id="report-header">
+    <div class="header-left">
+      <div class="template-title">BASIC INVOICE TEMPLATE</div>
+      <div class="logo-box"></div>
+    </div>
+    <div class="header-right">
+      <div class="invoice-label">INVOICE</div>
+      <div class="invoice-field">
+        <span class="invoice-field-label">DATE</span>
+        <span class="invoice-field-value">{invoice_date}</span>
+      </div>
+      <div class="invoice-field">
+        <span class="invoice-field-label">INVOICE NO.</span>
+        <span class="invoice-field-value">{invoice_number}</span>
+      </div>
+      <div class="payment-note">Payment due upon receipt.</div>
+    </div>
+  </div>
+
+  <div class="address-section">
+    <div class="address-block">
+      <div class="address-label">BILL TO</div>
+      <div class="address-content">{bill_to_address}</div>
+    </div>
+    <div class="address-block">
+      <div class="address-label">SHIP TO</div>
+      <div class="address-content">{ship_to_address}</div>
+    </div>
+  </div>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th data-label="description">DESCRIPTION</th>
+        <th data-label="total">TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{row_description}</td>
+        <td>{row_total}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-section">
+    <div class="remarks-section">
+      <div class="remarks-label">Remarks / Instructions:</div>
+    </div>
+
+    <div id="report-totals">
+      <div class="totals-left">
+        <div class="thank-you">
+          <div class="thank-you-note">Please make check payable to</div>
+          <div class="thank-you-text">THANK YOU</div>
+        </div>
+      </div>
+      <div class="totals-right">
+        <div class="totals-row subtotal">
+          <span class="totals-label">SUBTOTAL</span>
+          <span class="totals-value">{subtotal}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label"><span class="totals-hint">enter total amount</span>DISCOUNT</span>
+          <span class="totals-value">{discount}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">SUBTOTAL LESS DISCOUNT</span>
+          <span class="totals-value">{subtotal_less_discount}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label"><span class="totals-hint">enter percentage</span>TAX RATE</span>
+          <span class="totals-value">{tax_rate}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">TOTAL TAX</span>
+          <span class="totals-value">{total_tax}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">SHIPPING/HANDLING</span>
+          <span class="totals-value">{shipping_handling}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">OTHER</span>
+          <span class="totals-value">{other}</span>
+        </div>
+        <div class="totals-row final">
+          <span class="totals-label">TOTAL</span>
+          <span class="totals-value">{total}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">For questions concerning this invoice, please contact</div>
+  </div>
+</div>
+

@@ -1,0 +1,13 @@
+{
+  "row_tokens": [
+    "row_gateway_name",
+    "row_host",
+    "row_protocol_hint",
+    "row_status",
+    "row_created_at",
+    "row_updated_at"
+  ],
+  "scalars": {},
+  "totals": {},
+  "notes": "Print-ready Gateways worksheet with headers: Gateway Name, Host, Protocol Hint, Status, Created At, Updated At. Single prototype row for repeating data."
+}

@@ -1,0 +1,114 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "27ef3a6073d5298cfc5032f3ac666a9aa058fe572fe964bf90f8a74d42c5936f",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771512064,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_id",
+        "row_provider",
+        "row_connection",
+        "row_status",
+        "row_last_message"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_id": "app_db_targets.id",
+      "row_provider": "app_db_targets.provider",
+      "row_connection": "app_db_targets.conn",
+      "row_status": "app_db_targets.status",
+      "row_last_message": "app_db_targets.last_msg"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_db_targets",
+      "parent_key": "id",
+      "child_table": "app_db_targets",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_id",
+            "from": [
+              "app_db_targets.id"
+            ]
+          },
+          {
+            "as": "row_provider",
+            "from": [
+              "app_db_targets.provider"
+            ]
+          },
+          {
+            "as": "row_connection",
+            "from": [
+              "app_db_targets.conn"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_db_targets.status"
+            ]
+          },
+          {
+            "as": "row_last_message",
+            "from": [
+              "app_db_targets.last_msg"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "row_id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_id",
+      "row_provider",
+      "row_connection",
+      "row_status",
+      "row_last_message"
+    ],
+    "row_order": [
+      "row_id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple tabular report listing database connection targets from app_db_targets table. All columns are direct mappings with no computation or aggregation required."
+  },
+  "key_tokens": []
+}

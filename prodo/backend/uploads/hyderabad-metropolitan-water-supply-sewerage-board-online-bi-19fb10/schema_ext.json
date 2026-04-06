@@ -1,0 +1,16 @@
+{
+  "scalars": [
+    "timestamp",
+    "transaction_status",
+    "transaction_reference_number",
+    "transaction_date_time",
+    "can_no",
+    "bill_amount",
+    "bank_name",
+    "ip_address",
+    "access_time"
+  ],
+  "row_tokens": [],
+  "totals": [],
+  "notes": "Payment receipt page with transaction details; no repeating table rows"
+}

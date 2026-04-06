@@ -1,0 +1,70 @@
+{
+  "tokens": {
+    "scalars": [
+      "timestamp",
+      "transaction_status",
+      "transaction_reference_number",
+      "transaction_date_time",
+      "can_no",
+      "bill_amount",
+      "bank_name",
+      "ip_address",
+      "access_time"
+    ],
+    "row_tokens": [],
+    "totals": []
+  },
+  "mapping": {
+    "timestamp": "transactions.created_at",
+    "transaction_status": "PARAM:transaction_status",
+    "transaction_reference_number": "transactions.transaction_ref_number",
+    "transaction_date_time": "transactions.transaction_date || ' ' || transactions.transaction_time",
+    "can_no": "transactions.can_number",
+    "bill_amount": "transactions.bill_amount",
+    "bank_name": "transactions.bank_name",
+    "ip_address": "transactions.ip_address",
+    "access_time": "transactions.access_timestamp"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "transactions",
+    "parent_key": "",
+    "child_table": "",
+    "child_key": ""
+  },
+  "date_columns": {
+    "transactions": "transaction_date"
+  },
+  "filters": {
+    "required": {
+      "transaction_status": "transactions.transaction_status"
+    },
+    "optional": {}
+  },
+  "reshape_rules": [],
+  "row_computed": {},
+  "totals_math": {},
+  "totals_mapping": {},
+  "formatters": {},
+  "order_by": {
+    "rows": []
+  },
+  "row_order": [
+    "ROWID"
+  ],
+  "notes": "This is a single-transaction receipt report with no detail rows or totals. The `transaction_status` parameter acts as both a display field (via PARAM:transaction_status) and a required filter (WHERE clause on transactions.transaction_status). The `transaction_date_time` field is computed by concatenating date and time columns using DuckDB SQL string concatenation.",
+  "header_tokens": [
+    "timestamp",
+    "transaction_status",
+    "transaction_reference_number",
+    "transaction_date_time",
+    "can_no",
+    "bill_amount",
+    "bank_name",
+    "ip_address",
+    "access_time"
+  ],
+  "row_tokens": [],
+  "totals": {},
+  "literals": {}
+}

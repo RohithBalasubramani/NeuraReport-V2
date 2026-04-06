@@ -1,0 +1,76 @@
+{
+  "tokens": {
+    "scalars": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_key",
+      "row_value"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date_from": "PARAM:date_from",
+    "date_to": "PARAM:date_to",
+    "generated_at": "PARAM:generated_at",
+    "row_key": "app_meta.key",
+    "row_value": "app_meta.value"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_meta",
+    "parent_key": "key",
+    "child_table": "app_meta",
+    "child_key": "key"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Direct projection of all app_meta key-value rows, no reshape needed",
+      "strategy": "NONE",
+      "columns": [
+        {
+          "as": "row_key",
+          "from": [
+            "app_meta.key"
+          ]
+        },
+        {
+          "as": "row_value",
+          "from": [
+            "app_meta.value"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "ROWID ASC"
+    ]
+  },
+  "header_tokens": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_key",
+    "row_value"
+  ],
+  "row_order": [
+    "ROWID ASC"
+  ],
+  "literals": {},
+  "notes": "app_meta is a simple flat key-value store with no date column and no relationships to other tables. date_from and date_to are display-only parameters injected into the header; they do not filter rows. generated_at is a server-injected timestamp constant."
+}

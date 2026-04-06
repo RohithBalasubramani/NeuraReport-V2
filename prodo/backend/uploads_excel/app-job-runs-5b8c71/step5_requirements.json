@@ -1,0 +1,37 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No scalar header fields required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job run detail rows with timing, throughput, and latency metrics",
+      "columns": [
+        "row_job_id",
+        "row_started_at",
+        "row_stopped_at",
+        "row_duration_ms",
+        "row_rows_written",
+        "row_read_lat_avg",
+        "row_write_lat_avg",
+        "row_error"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID ASC"
+      ]
+    },
+    "totals": {
+      "description": "No aggregate totals required",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens are direct column mappings except `row_error`, which formats the `error_pct` numeric column as a percentage display value.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Format `app_job_runs.error_pct` numeric value as percentage with 2 decimal places for display as `row_error`"
+  ]
+}

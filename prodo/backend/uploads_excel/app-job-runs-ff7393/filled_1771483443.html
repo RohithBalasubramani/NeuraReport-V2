@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Runs Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: #333;
+            background: #fff;
+        }
+
+        #report-header {
+            margin-bottom: 16px;
+        }
+
+        #report-header h1 {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin: 0;
+        }
+
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            font-size: 12pt;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 9pt;
+            vertical-align: middle;
+        }
+
+        #data-table thead th[data-label="duration_ms"],
+        #data-table thead th[data-label="rows_written"],
+        #data-table thead th[data-label="read_lat_avg"],
+        #data-table thead th[data-label="write_lat_avg"],
+        #data-table thead th[data-label="error"] {
+            text-align: right;
+        }
+
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+
+        #data-table tbody td:nth-child(1) {
+            text-align: left;
+            font-family: 'Courier New', monospace;
+        }
+
+        #data-table tbody td:nth-child(2),
+        #data-table tbody td:nth-child(3) {
+            text-align: left;
+            font-size: 8.5pt;
+        }
+
+        #data-table tbody td:nth-child(4),
+        #data-table tbody td:nth-child(5),
+        #data-table tbody td:nth-child(6),
+        #data-table tbody td:nth-child(7),
+        #data-table tbody td:nth-child(8) {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.97; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Job Runs</h1>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="job_id">Job ID</th>
+                <th data-label="started_at">Started At</th>
+                <th data-label="stopped_at">Stopped At</th>
+                <th data-label="duration_ms">Duration (ms)</th>
+                <th data-label="rows_written">Rows Written</th>
+                <th data-label="read_lat_avg">Read Lat Avg</th>
+                <th data-label="write_lat_avg">Write Lat Avg</th>
+                <th data-label="error">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>18000</td>
+                <td>0</td>
+                <td>1.24</td>
+                <td>0.00</td>
+                <td>1900</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>18000</td>
+                <td>19</td>
+                <td>2.44</td>
+                <td>3.82</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>5000</td>
+                <td>0</td>
+                <td>2.95</td>
+                <td>0.00</td>
+                <td>500</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>5000</td>
+                <td>5</td>
+                <td>8.92</td>
+                <td>3.98</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>6000</td>
+                <td>0</td>
+                <td>2.39</td>
+                <td>0.00</td>
+                <td>700</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>6000</td>
+                <td>7</td>
+                <td>7.98</td>
+                <td>3.71</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>7000</td>
+                <td>0</td>
+                <td>2.03</td>
+                <td>0.00</td>
+                <td>800</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>7000</td>
+                <td>8</td>
+                <td>7.69</td>
+                <td>3.26</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>147000</td>
+                <td>0</td>
+                <td>0.65</td>
+                <td>0.00</td>
+                <td>14800</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>147000</td>
+                <td>148</td>
+                <td>0.42</td>
+                <td>3.74</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771159889406</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>89000</td>
+                <td>0</td>
+                <td>1563.96</td>
+                <td>0.00</td>
+                <td>4300</td>
+            </tr>
+<tr>
+                <td>job_1771159889406</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>11000</td>
+                <td>0</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0</td>
+            </tr>
+<tr>
+                <td>job_1771013897364</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>11000</td>
+                <td>0</td>
+                <td>4.08</td>
+                <td>0.00</td>
+                <td>1100</td>
+            </tr>
+<tr>
+                <td>job_1771149226472</td>
+                <td>2026-02-15</td>
+                <td>2026-02-15</td>
+                <td>11000</td>
+                <td>11</td>
+                <td>463.84</td>
+                <td>10.72</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

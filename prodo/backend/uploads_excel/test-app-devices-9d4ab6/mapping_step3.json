@@ -1,0 +1,78 @@
+{
+  "mapping": {
+    "row_id": "app_devices.id",
+    "row_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_unit_id": "app_devices.unit_id",
+    "row_port": "app_devices.port",
+    "row_gateway_id": "app_devices.gateway_id",
+    "row_last_error": "app_devices.last_error",
+    "row_params_json": "app_devices.params_json"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "b6a349b41ae5f72985dad83c6b0b2ec5811123020f99d53f19cc94f232ec5153",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "4dd631793096286fa1286ed6f461cf527e600f9e10a061106ffda2fd4f6d80dc",
+    "pre_html_sha256": "d26aa586684a7754058de13108e2c05bea00ea80c64147f369bfdc0ee1c26ec4",
+    "post_html_sha256": "d26aa586684a7754058de13108e2c05bea00ea80c64147f369bfdc0ee1c26ec4",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_devices.id",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_unit_id": "app_devices.unit_id",
+      "row_port": "app_devices.port",
+      "row_gateway_id": "app_devices.gateway_id",
+      "row_last_error": "app_devices.last_error",
+      "row_params_json": "app_devices.params_json"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_protocol": "{row_protocol}",
+      "row_status": "{row_status}",
+      "row_latency_ms": "{row_latency_ms}",
+      "row_auto_reconnect": "{row_auto_reconnect}",
+      "row_unit_id": "{row_unit_id}",
+      "row_port": "{row_port}",
+      "row_gateway_id": "{row_gateway_id}",
+      "row_last_error": "{row_last_error}",
+      "row_params_json": "{row_params_json}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_protocol": "{row_protocol}",
+    "row_status": "{row_status}",
+    "row_latency_ms": "{row_latency_ms}",
+    "row_auto_reconnect": "{row_auto_reconnect}",
+    "row_unit_id": "{row_unit_id}",
+    "row_port": "{row_port}",
+    "row_gateway_id": "{row_gateway_id}",
+    "row_last_error": "{row_last_error}",
+    "row_params_json": "{row_params_json}"
+  }
+}

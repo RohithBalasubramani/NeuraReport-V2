@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level constants or scalars",
+      "columns": []
+    },
+    "rows": {
+      "description": "Time-series system metrics sampled per minute, including CPU, memory, disk I/O, network I/O, and process-level resource counters",
+      "columns": [
+        "row_minute_utc",
+        "row_cpu",
+        "row_mem",
+        "row_disk_rps",
+        "row_disk_wps",
+        "row_net_rxps",
+        "row_net_txps",
+        "row_proc_cpu",
+        "row_proc_rss_mb",
+        "row_proc_handles"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens are direct column pass-through values. No user parameters required. Time filtering is implicit via the date_columns mechanism.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshape, aggregation, or computation required — single-table direct mapping"
+  ]
+}

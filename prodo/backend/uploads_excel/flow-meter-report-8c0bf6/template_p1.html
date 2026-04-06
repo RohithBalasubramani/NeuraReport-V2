@@ -1,0 +1,55 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4 landscape; margin: 15mm 12mm; }
+      body { font-family: Arial, sans-serif; font-size: 9pt; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 4px 6px; vertical-align: middle; }
+      .header-meta { font-size: 8pt; line-height: 1.5; white-space: pre-line; text-align: left; width: 120px; }
+      .header-title { text-align: center; font-size: 13pt; font-weight: 700; letter-spacing: 1px; background: #ffff00; }
+      .col-num td { text-align: center; font-size: 8pt; font-weight: 600; background: #e2efda; }
+      thead th { background: #dce6f1; text-align: center; font-size: 8.5pt; font-weight: 700; }
+      thead th:first-child { text-align: left; }
+      tbody td { font-size: 8.5pt; }
+      tbody td:first-child { text-align: left; white-space: nowrap; }
+      tbody td:not(:first-child) { text-align: right; }
+      tbody tr:nth-child(even) { background: #f9f9f9; }
+    </style>
+    </head><body>
+<table id="data-table">
+  <thead>
+    <tr>
+      <td class="header-meta">PRINT DATE: {print_date}<br>TIME: {print_time}</td>
+      <td class="header-title" colspan="12">SOLID WASTE MANAGEMENT SYSTEM</td>
+    </tr>
+    <tr class="col-num">
+      <td></td>
+      <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+      <td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+    </tr>
+    <tr>
+      <th data-label="flow_meter">FLOW METER</th>
+      <th data-label="fm_101">FM-101</th>
+      <th data-label="fm_102">FM-102</th>
+      <th data-label="fm_103">FM-103</th>
+      <th data-label="fm_104">FM-104</th>
+      <th data-label="fm_105">FM-105</th>
+      <th data-label="fm_106">FM-106</th>
+      <th data-label="fm_101_totalizer">FM-101 TOTALIZER</th>
+      <th data-label="fm_102_totalizer">FM-102 TOTALIZER</th>
+      <th data-label="fm_103_totalizer">FM-103 TOTALIZER</th>
+      <th data-label="fm_104_totalizer">FM-104 TOTALIZER</th>
+      <th data-label="fm_105_totalizer">FM-105 TOTALIZER</th>
+      <th data-label="fm_106_totalizer">FM-106 TOTALIZER</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{row_flow_meter}</td>
+      <td>{row_fm_101}</td><td>{row_fm_102}</td><td>{row_fm_103}</td>
+      <td>{row_fm_104}</td><td>{row_fm_105}</td><td>{row_fm_106}</td>
+      <td>{row_fm_101_totalizer}</td><td>{row_fm_102_totalizer}</td><td>{row_fm_103_totalizer}</td>
+      <td>{row_fm_104_totalizer}</td><td>{row_fm_105_totalizer}</td><td>{row_fm_106_totalizer}</td>
+    </tr>
+  </tbody>
+</table>
+</body></html>

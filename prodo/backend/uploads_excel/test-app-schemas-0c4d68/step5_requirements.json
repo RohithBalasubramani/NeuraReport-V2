@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header/scalar tokens in this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "All schema records from app_schemas table",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_device_table_id",
+        "row_version",
+        "row_created_at"
+      ],
+      "grouping": [],
+      "ordering": [
+        "id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals in this report",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters — all data fetched from app_schemas table. Three tokens remain unresolved as corresponding columns do not exist in the catalog.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations — direct column mapping from app_schemas table"
+  ]
+}

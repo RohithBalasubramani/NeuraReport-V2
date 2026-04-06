@@ -1,0 +1,95 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_job_id",
+      "row_code",
+      "row_minute_utc",
+      "row_count",
+      "row_last_message"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_job_id": "app_job_errors_minute.job_id",
+    "row_code": "app_job_errors_minute.code",
+    "row_minute_utc": "app_job_errors_minute.minute_utc",
+    "row_count": "app_job_errors_minute.count",
+    "row_last_message": "app_job_errors_minute.last_message"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_job_errors_minute",
+    "parent_key": "job_id",
+    "child_table": "app_job_errors_minute",
+    "child_key": "job_id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_job_id",
+          "from": [
+            "app_job_errors_minute.job_id"
+          ]
+        },
+        {
+          "as": "row_code",
+          "from": [
+            "app_job_errors_minute.code"
+          ]
+        },
+        {
+          "as": "row_minute_utc",
+          "from": [
+            "app_job_errors_minute.minute_utc"
+          ]
+        },
+        {
+          "as": "row_count",
+          "from": [
+            "app_job_errors_minute.count"
+          ]
+        },
+        {
+          "as": "row_last_message",
+          "from": [
+            "app_job_errors_minute.last_message"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_minute_utc": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_count": "number(0)"
+  },
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_job_id",
+    "row_code",
+    "row_minute_utc",
+    "row_count",
+    "row_last_message"
+  ],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {},
+  "notes": "Simple error logging report with direct column mappings, no aggregations or transformations"
+}

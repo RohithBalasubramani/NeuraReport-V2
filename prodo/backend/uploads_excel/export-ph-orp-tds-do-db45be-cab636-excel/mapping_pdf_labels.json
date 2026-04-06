@@ -1,0 +1,67 @@
+[
+  {
+    "header": "print_date",
+    "placeholder": "{print_date}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "print_time",
+    "placeholder": "{print_time}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_analysers",
+    "placeholder": "{row_analysers}",
+    "mapping": "neuract__ANALYSER_TABLE.timestamp_utc"
+  },
+  {
+    "header": "row_orp_101",
+    "placeholder": "{row_orp_101}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_101"
+  },
+  {
+    "header": "row_orp_102",
+    "placeholder": "{row_orp_102}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_102"
+  },
+  {
+    "header": "row_ph_101",
+    "placeholder": "{row_ph_101}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_101"
+  },
+  {
+    "header": "row_ph_102",
+    "placeholder": "{row_ph_102}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_102"
+  },
+  {
+    "header": "row_orp_103",
+    "placeholder": "{row_orp_103}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_103"
+  },
+  {
+    "header": "row_ph_103",
+    "placeholder": "{row_ph_103}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_103"
+  },
+  {
+    "header": "row_tds_101",
+    "placeholder": "{row_tds_101}",
+    "mapping": "neuract__ANALYSER_TABLE.TDS_101"
+  },
+  {
+    "header": "row_ph_104",
+    "placeholder": "{row_ph_104}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_104"
+  },
+  {
+    "header": "row_tds_102",
+    "placeholder": "{row_tds_102}",
+    "mapping": "neuract__ANALYSER_TABLE.TDS_102"
+  },
+  {
+    "header": "row_do_101",
+    "placeholder": "{row_do_101}",
+    "mapping": "neuract__ANALYSER_TABLE.D0_101"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: 02_consolidate.pdf] Create a template from this Consolidate Report PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "Perfect! I've successfully created a template from your Consolidate Report PDF.\n\n**Template Details:**\n- **Template ID:** 02-consolidate-a56de0\n- **Tokens found:** 9 placeholder tokens that will be filled with database data\n- **Status:** Ready for database connection\n\nThe template is now in HTML format with 9 tokens that need to be mapped to your database columns. \n\n**Next step:** Please connect your database so I can inspect the schema and map these tokens to the appropriate columns. Once connected, I'll show you what data is available and how it maps to your report."
+  }
+]

@@ -1,0 +1,132 @@
+[
+  {
+    "header": "company_name",
+    "placeholder": "{company_name}",
+    "mapping": "invoices.vendor_name"
+  },
+  {
+    "header": "company_street_address",
+    "placeholder": "{company_street_address}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_city_state_zipcode",
+    "placeholder": "{company_city_state_zipcode}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_phone",
+    "placeholder": "{company_phone}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_email",
+    "placeholder": "{company_email}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "company_website",
+    "placeholder": "{company_website}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "bill_to_client_name",
+    "placeholder": "{bill_to_client_name}",
+    "mapping": "customers.customer_name"
+  },
+  {
+    "header": "bill_to_street_address",
+    "placeholder": "{bill_to_street_address}",
+    "mapping": "customers.billing_address"
+  },
+  {
+    "header": "bill_to_city_state_zipcode",
+    "placeholder": "{bill_to_city_state_zipcode}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "ship_to_client_name",
+    "placeholder": "{ship_to_client_name}",
+    "mapping": "customers.customer_name"
+  },
+  {
+    "header": "ship_to_street_address",
+    "placeholder": "{ship_to_street_address}",
+    "mapping": "customers.billing_address"
+  },
+  {
+    "header": "ship_to_city_state_zipcode",
+    "placeholder": "{ship_to_city_state_zipcode}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices.invoice_number"
+  },
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices.issue_date"
+  },
+  {
+    "header": "payment_terms",
+    "placeholder": "{payment_terms}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "due_date",
+    "placeholder": "{due_date}",
+    "mapping": "invoices.due_date"
+  },
+  {
+    "header": "row_item_service",
+    "placeholder": "{row_item_service}",
+    "mapping": "invoice_items.item_code"
+  },
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_quantity_hrs",
+    "placeholder": "{row_quantity_hrs}",
+    "mapping": "invoice_items.quantity"
+  },
+  {
+    "header": "row_rate",
+    "placeholder": "{row_rate}",
+    "mapping": "invoice_items.unit_price"
+  },
+  {
+    "header": "row_amount",
+    "placeholder": "{row_amount}",
+    "mapping": "invoice_items.line_total"
+  },
+  {
+    "header": "customer_message",
+    "placeholder": "{customer_message}",
+    "mapping": "invoices.notes"
+  },
+  {
+    "header": "total_subtotal",
+    "placeholder": "{total_subtotal}",
+    "mapping": "invoices.subtotal"
+  },
+  {
+    "header": "total_sales_tax",
+    "placeholder": "{total_sales_tax}",
+    "mapping": "invoices.tax_amount"
+  },
+  {
+    "header": "total_shipping",
+    "placeholder": "{total_shipping}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "total_amount",
+    "placeholder": "{total_amount}",
+    "mapping": "invoices.total_amount"
+  }
+]

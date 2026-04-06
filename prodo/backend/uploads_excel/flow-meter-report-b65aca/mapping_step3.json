@@ -1,0 +1,274 @@
+{
+  "mapping": {
+    "row_print_date_time": "UNRESOLVED",
+    "row_solid_waste_management_system": "UNRESOLVED",
+    "row_column_3": "UNRESOLVED",
+    "row_column_4": "UNRESOLVED",
+    "row_column_5": "UNRESOLVED",
+    "row_column_6": "UNRESOLVED",
+    "row_column_7": "UNRESOLVED",
+    "row_column_8": "UNRESOLVED",
+    "row_column_9": "UNRESOLVED",
+    "row_column_10": "UNRESOLVED",
+    "row_column_11": "UNRESOLVED",
+    "row_column_12": "UNRESOLVED",
+    "row_column_13": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_print_date_time",
+      "row_solid_waste_management_system",
+      "row_column_3",
+      "row_column_4",
+      "row_column_5",
+      "row_column_6",
+      "row_column_7",
+      "row_column_8",
+      "row_column_9",
+      "row_column_10",
+      "row_column_11",
+      "row_column_12",
+      "row_column_13"
+    ],
+    "hints": {
+      "row_print_date_time": {
+        "op": "FORMAT",
+        "over": [
+          "columns:neuract__ANALYSER_TABLE.timestamp_utc",
+          "note:Timestamp needs date+time formatting"
+        ]
+      },
+      "row_solid_waste_management_system": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Appears to be a constant title 'SOLID WASTE MANAGEMENT SYSTEM' - may not need mapping"
+        ]
+      },
+      "row_column_3": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_4": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_5": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_6": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_7": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_8": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_9": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_10": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_11": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_12": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      },
+      "row_column_13": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:Generic column header - needs user clarification on semantic meaning"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "1c7a231f9cac3ea22f36ef3b12c0887f6df7e28690944e92cbcd429ce8fae44a",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "",
+    "cache_key": "8a4c90d8bebd31ab2c3dc2cf4de8e6954f1949d9b109597832bbc8e97797d84b",
+    "pre_html_sha256": "fbdf14afd8e6c15b8a65653a14457c61451d76d8020b52217d8c800ca9032e13",
+    "post_html_sha256": "fbdf14afd8e6c15b8a65653a14457c61451d76d8020b52217d8c800ca9032e13",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_print_date_time": "UNRESOLVED",
+      "row_solid_waste_management_system": "UNRESOLVED",
+      "row_column_3": "UNRESOLVED",
+      "row_column_4": "UNRESOLVED",
+      "row_column_5": "UNRESOLVED",
+      "row_column_6": "UNRESOLVED",
+      "row_column_7": "UNRESOLVED",
+      "row_column_8": "UNRESOLVED",
+      "row_column_9": "UNRESOLVED",
+      "row_column_10": "UNRESOLVED",
+      "row_column_11": "UNRESOLVED",
+      "row_column_12": "UNRESOLVED",
+      "row_column_13": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_print_date_time": "{row_print_date_time}",
+      "row_solid_waste_management_system": "SOLID WASTE MANAGEMENT SYSTEM",
+      "row_column_3": "{row_column_3}",
+      "row_column_4": "{row_column_4}",
+      "row_column_5": "{row_column_5}",
+      "row_column_6": "{row_column_6}",
+      "row_column_7": "{row_column_7}",
+      "row_column_8": "{row_column_8}",
+      "row_column_9": "{row_column_9}",
+      "row_column_10": "{row_column_10}",
+      "row_column_11": "{row_column_11}",
+      "row_column_12": "{row_column_12}",
+      "row_column_13": "{row_column_13}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11",
+        "row_column_12",
+        "row_column_13"
+      ],
+      "hints": {
+        "row_print_date_time": {
+          "op": "FORMAT",
+          "over": [
+            "columns:neuract__ANALYSER_TABLE.timestamp_utc",
+            "note:Timestamp needs date+time formatting"
+          ]
+        },
+        "row_solid_waste_management_system": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Appears to be a constant title 'SOLID WASTE MANAGEMENT SYSTEM' - may not need mapping"
+          ]
+        },
+        "row_column_3": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_4": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_5": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_6": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_7": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_8": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_9": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_10": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_11": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_12": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        },
+        "row_column_13": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:Generic column header - needs user clarification on semantic meaning"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_print_date_time": "{row_print_date_time}",
+    "row_solid_waste_management_system": "SOLID WASTE MANAGEMENT SYSTEM",
+    "row_column_3": "{row_column_3}",
+    "row_column_4": "{row_column_4}",
+    "row_column_5": "{row_column_5}",
+    "row_column_6": "{row_column_6}",
+    "row_column_7": "{row_column_7}",
+    "row_column_8": "{row_column_8}",
+    "row_column_9": "{row_column_9}",
+    "row_column_10": "{row_column_10}",
+    "row_column_11": "{row_column_11}",
+    "row_column_12": "{row_column_12}",
+    "row_column_13": "{row_column_13}"
+  }
+}

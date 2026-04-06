@@ -1,0 +1,17 @@
+{
+  "sample_row": {
+    "row_read_p50": "NOT_VISIBLE",
+    "row_write_err": "NOT_VISIBLE",
+    "row_read_p95": "NOT_VISIBLE",
+    "row_triggers": "NOT_VISIBLE",
+    "row_write_p95": "NOT_VISIBLE",
+    "row_minute_utc": "NOT_VISIBLE",
+    "row_writes": "NOT_VISIBLE",
+    "row_fires": "NOT_VISIBLE",
+    "row_suppressed": "NOT_VISIBLE",
+    "row_write_p50": "NOT_VISIBLE",
+    "row_job_id": "NOT_VISIBLE",
+    "row_read_err": "NOT_VISIBLE",
+    "row_reads": "NOT_VISIBLE"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "event": "mapping_key_options",
+  "timestamp": "20251113-234008",
+  "template_id": "c5598348-4d89-445e-a2f9-43a3aa6382ee-d1fdde",
+  "template_kind": "pdf",
+  "connection_id": "b6d7cd71-cc02-4c04-9c8c-829e9e7cf76e",
+  "db_path": "C:\\Users\\alfre\\Downloads\\topcon.db",
+  "tokens_available": [
+    "row_recipe_code"
+  ],
+  "token_details": {
+    "row_recipe_code": {
+      "table": "recipes",
+      "column": "recipe_name",
+      "date_column": "start_time",
+      "applied_date_filters": true,
+      "sql": "\"recipe_name\" IS NOT NULL AND TRIM(CAST(\"recipe_name\" AS TEXT)) <> '' AND \"start_time\" BETWEEN ? AND ?",
+      "params": [
+        "2025-10-01 00:00:00",
+        "2025-10-02 00:00:00"
+      ],
+      "fallback_used": true,
+      "error": "no such table: recipes",
+      "row_count": 0,
+      "fallback_sql": "\"recipe_name\" IS NOT NULL AND TRIM(CAST(\"recipe_name\" AS TEXT)) <> ''",
+      "fallback_error": "no such table: recipes",
+      "binding_source": "mapping"
+    }
+  }
+}

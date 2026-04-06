@@ -1,0 +1,94 @@
+{
+  "prompt_version": "v2",
+  "model": "sonnet",
+  "input_signature": "b76103cb648ba9a1bfa88f92383c6c73ea7073ba64bde23192405e747a7b5e41",
+  "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771204137,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "timestamp",
+        "transaction_status",
+        "transaction_reference_number",
+        "transaction_date_time",
+        "can_no",
+        "bill_amount",
+        "bank_name",
+        "ip_address",
+        "access_time"
+      ],
+      "row_tokens": [],
+      "totals": []
+    },
+    "mapping": {
+      "timestamp": "transactions.created_at",
+      "transaction_status": "PARAM:transaction_status",
+      "transaction_reference_number": "transactions.transaction_ref_number",
+      "transaction_date_time": "transactions.transaction_date || ' ' || transactions.transaction_time",
+      "can_no": "transactions.can_number",
+      "bill_amount": "transactions.bill_amount",
+      "bank_name": "transactions.bank_name",
+      "ip_address": "transactions.ip_address",
+      "access_time": "transactions.access_timestamp"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "transactions",
+      "parent_key": "",
+      "child_table": "",
+      "child_key": ""
+    },
+    "date_columns": {
+      "transactions": "transaction_date"
+    },
+    "filters": {
+      "required": {
+        "transaction_status": "transactions.transaction_status"
+      },
+      "optional": {}
+    },
+    "reshape_rules": [],
+    "row_computed": {},
+    "totals_math": {},
+    "totals_mapping": {},
+    "formatters": {},
+    "order_by": {
+      "rows": []
+    },
+    "row_order": [
+      "ROWID"
+    ],
+    "notes": "This is a single-transaction receipt report with no detail rows or totals. The `transaction_status` parameter acts as both a display field (via PARAM:transaction_status) and a required filter (WHERE clause on transactions.transaction_status). The `transaction_date_time` field is computed by concatenating date and time columns using DuckDB SQL string concatenation.",
+    "header_tokens": [
+      "timestamp",
+      "transaction_status",
+      "transaction_reference_number",
+      "transaction_date_time",
+      "can_no",
+      "bill_amount",
+      "bank_name",
+      "ip_address",
+      "access_time"
+    ],
+    "row_tokens": [],
+    "totals": {},
+    "literals": {}
+  },
+  "key_tokens": [
+    "transaction_status"
+  ]
+}

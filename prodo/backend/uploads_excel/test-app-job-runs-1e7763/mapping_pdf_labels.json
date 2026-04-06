@@ -1,0 +1,47 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_job_runs.id"
+  },
+  {
+    "header": "row_job_id",
+    "placeholder": "{row_job_id}",
+    "mapping": "app_job_runs.job_id"
+  },
+  {
+    "header": "row_started_at",
+    "placeholder": "{row_started_at}",
+    "mapping": "app_job_runs.started_at"
+  },
+  {
+    "header": "row_stopped_at",
+    "placeholder": "{row_stopped_at}",
+    "mapping": "app_job_runs.stopped_at"
+  },
+  {
+    "header": "row_duration_ms",
+    "placeholder": "{row_duration_ms}",
+    "mapping": "app_job_runs.duration_ms"
+  },
+  {
+    "header": "row_rows",
+    "placeholder": "{row_rows}",
+    "mapping": "app_job_runs.rows"
+  },
+  {
+    "header": "row_read_lat_avg",
+    "placeholder": "{row_read_lat_avg}",
+    "mapping": "app_job_runs.read_lat_avg"
+  },
+  {
+    "header": "row_write_lat_avg",
+    "placeholder": "{row_write_lat_avg}",
+    "mapping": "app_job_runs.write_lat_avg"
+  },
+  {
+    "header": "row_error_pct",
+    "placeholder": "{row_error_pct}",
+    "mapping": "app_job_runs.error_pct"
+  }
+]

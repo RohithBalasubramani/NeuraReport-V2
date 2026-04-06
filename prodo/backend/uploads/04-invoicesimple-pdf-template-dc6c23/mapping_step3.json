@@ -1,0 +1,196 @@
+{
+  "mapping": {
+    "invoice_date": "invoices.issue_date",
+    "invoice_number": "invoices.invoice_number",
+    "from_company_name": "invoices.vendor_name",
+    "from_email": "UNRESOLVED",
+    "from_address_1": "UNRESOLVED",
+    "from_address_2": "UNRESOLVED",
+    "to_client_name": "customers.customer_name",
+    "to_email": "customers.email",
+    "to_address_1": "customers.billing_address",
+    "to_address_2": "UNRESOLVED",
+    "terms": "UNRESOLVED",
+    "due_date": "invoices.due_date",
+    "row_item_description": "invoice_items.description",
+    "row_quantity": "invoice_items.quantity",
+    "row_price": "invoice_items.unit_price",
+    "row_amount": "invoice_items.line_total",
+    "subtotal": "invoices.subtotal",
+    "tax": "invoices.tax_amount",
+    "balance_due": "invoices.total_amount",
+    "notes": "invoices.notes"
+  },
+  "meta": {
+    "unresolved": [
+      "from_email",
+      "from_address_1",
+      "from_address_2",
+      "to_address_2",
+      "terms"
+    ],
+    "hints": {
+      "from_email": {
+        "op": "MISSING",
+        "over": [
+          "note:Vendor email not present in catalog; may need to be added to vendors/invoices table or passed as parameter"
+        ]
+      },
+      "from_address_1": {
+        "op": "MISSING",
+        "over": [
+          "note:Vendor address not present in catalog; may need to be added to vendors table or passed as parameter"
+        ]
+      },
+      "from_address_2": {
+        "op": "MISSING",
+        "over": [
+          "note:Vendor address line 2 not present in catalog; may need to be added to vendors table or passed as parameter"
+        ]
+      },
+      "to_address_2": {
+        "op": "CONCAT",
+        "over": [
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code",
+          "columns:customers.country",
+          "note:Address line 2 should combine city, state, postal_code, country with appropriate formatting"
+        ]
+      },
+      "terms": {
+        "op": "MISSING",
+        "over": [
+          "note:Payment terms not present in catalog; may need to be added to invoices table or passed as parameter"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "3564b3cb7543e3648ec0cabf05db1b8e821db5dbe1eac58363073e102d38217e",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "819ad62e137c0e010ec52ab4b8e35e94f3e2072db7c74f0c18fada18e9c19df9",
+    "cache_key": "6c6860ceca23817d28b47e54120b0d4328053f1b4b428842d0107f70ae2a4baa",
+    "pre_html_sha256": "c2431f007b4796ac16f6e87f13a882cdead9894b0b7434bdfd7d8778039d34d0",
+    "post_html_sha256": "c2431f007b4796ac16f6e87f13a882cdead9894b0b7434bdfd7d8778039d34d0",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "adc8711303caa7a8e119556bf9ab6599bd4a547a67512df4e2c6271374f4fdf4",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "invoice_date": "invoices.issue_date",
+      "invoice_number": "invoices.invoice_number",
+      "from_company_name": "invoices.vendor_name",
+      "from_email": "UNRESOLVED",
+      "from_address_1": "UNRESOLVED",
+      "from_address_2": "UNRESOLVED",
+      "to_client_name": "customers.customer_name",
+      "to_email": "customers.email",
+      "to_address_1": "customers.billing_address",
+      "to_address_2": "UNRESOLVED",
+      "terms": "UNRESOLVED",
+      "due_date": "invoices.due_date",
+      "row_item_description": "invoice_items.description",
+      "row_quantity": "invoice_items.quantity",
+      "row_price": "invoice_items.unit_price",
+      "row_amount": "invoice_items.line_total",
+      "subtotal": "invoices.subtotal",
+      "tax": "invoices.tax_amount",
+      "balance_due": "invoices.total_amount",
+      "notes": "invoices.notes"
+    },
+    "token_samples": {
+      "invoice_date": "[Date",
+      "invoice_number": "Invoice Number",
+      "from_company_name": "Company Name",
+      "from_email": "Client Email Address",
+      "from_address_1": "Address 1",
+      "from_address_2": "Address 2",
+      "to_client_name": "Client Name",
+      "to_email": "Client Email Address",
+      "to_address_1": "Client Address 1",
+      "to_address_2": "Client Address 2",
+      "terms": "Terms",
+      "due_date": "Due Date",
+      "row_item_description": "NOT_VISIBLE",
+      "row_quantity": "NOT_VISIBLE",
+      "row_price": "NOT_VISIBLE",
+      "row_amount": "$ 0.00",
+      "subtotal": "$ 0.00",
+      "tax": "NOT_VISIBLE",
+      "balance_due": "$ 0.00",
+      "notes": "Enter notes and other special considerations here"
+    },
+    "meta": {
+      "unresolved": [
+        "from_email",
+        "from_address_1",
+        "from_address_2",
+        "to_address_2",
+        "terms"
+      ],
+      "hints": {
+        "from_email": {
+          "op": "MISSING",
+          "over": [
+            "note:Vendor email not present in catalog; may need to be added to vendors/invoices table or passed as parameter"
+          ]
+        },
+        "from_address_1": {
+          "op": "MISSING",
+          "over": [
+            "note:Vendor address not present in catalog; may need to be added to vendors table or passed as parameter"
+          ]
+        },
+        "from_address_2": {
+          "op": "MISSING",
+          "over": [
+            "note:Vendor address line 2 not present in catalog; may need to be added to vendors table or passed as parameter"
+          ]
+        },
+        "to_address_2": {
+          "op": "CONCAT",
+          "over": [
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code",
+            "columns:customers.country",
+            "note:Address line 2 should combine city, state, postal_code, country with appropriate formatting"
+          ]
+        },
+        "terms": {
+          "op": "MISSING",
+          "over": [
+            "note:Payment terms not present in catalog; may need to be added to invoices table or passed as parameter"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "invoice_date": "[Date",
+    "invoice_number": "Invoice Number",
+    "from_company_name": "Company Name",
+    "from_email": "Client Email Address",
+    "from_address_1": "Address 1",
+    "from_address_2": "Address 2",
+    "to_client_name": "Client Name",
+    "to_email": "Client Email Address",
+    "to_address_1": "Client Address 1",
+    "to_address_2": "Client Address 2",
+    "terms": "Terms",
+    "due_date": "Due Date",
+    "row_item_description": "NOT_VISIBLE",
+    "row_quantity": "NOT_VISIBLE",
+    "row_price": "NOT_VISIBLE",
+    "row_amount": "$ 0.00",
+    "subtotal": "$ 0.00",
+    "tax": "NOT_VISIBLE",
+    "balance_due": "$ 0.00",
+    "notes": "Enter notes and other special considerations here"
+  }
+}

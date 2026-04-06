@@ -1,0 +1,12 @@
+[
+  {
+    "header": "row_key",
+    "placeholder": "{row_key}",
+    "mapping": "app_meta.key"
+  },
+  {
+    "header": "row_value",
+    "placeholder": "{row_value}",
+    "mapping": "app_meta.value"
+  }
+]

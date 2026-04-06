@@ -1,0 +1,81 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_id": "app_notifications.id",
+    "row_type": "app_notifications.type",
+    "row_message": "app_notifications.message",
+    "row_user": "app_notifications.user",
+    "row_read": "app_notifications.read",
+    "row_time": "app_notifications.time"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "4718182de0492221d50a4173deb7baf4a640643a8dbdd6128844b913e24dcb4f",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "d2d636b1922681d8bb5f60ce08f3fa581ef0df0d06c95c5c1ed50698863cc4f5",
+    "cache_key": "1de47794208a196e8ab6c81e7b7a2a7a7cbb5ec8008467ae54240d22175eb116",
+    "pre_html_sha256": "29285704212f1bbb01f98533bcedfcc050d1501597e0bdf7bc711e80b3a9d90b",
+    "post_html_sha256": "b662bf0603b774cbffb2197d9a280055ac2b8c7e4f27ac984366fbf98282fa1d",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_id": "app_notifications.id",
+      "row_type": "app_notifications.type",
+      "row_message": "app_notifications.message",
+      "row_user": "app_notifications.user",
+      "row_read": "app_notifications.read",
+      "row_time": "app_notifications.time"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_id": "NOT_VISIBLE",
+      "row_type": "NOT_VISIBLE",
+      "row_message": "NOT_VISIBLE",
+      "row_user": "NOT_VISIBLE",
+      "row_read": "NOT_VISIBLE",
+      "row_time": "NOT_VISIBLE"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a catalog column; should be injected as a runtime scalar (e.g. datetime.now().isoformat())"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "NOT_VISIBLE"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "NOT_VISIBLE"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_id": "NOT_VISIBLE",
+    "row_type": "NOT_VISIBLE",
+    "row_message": "NOT_VISIBLE",
+    "row_user": "NOT_VISIBLE",
+    "row_read": "NOT_VISIBLE",
+    "row_time": "NOT_VISIBLE"
+  }
+}

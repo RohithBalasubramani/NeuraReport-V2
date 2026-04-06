@@ -1,0 +1,77 @@
+[
+  {
+    "header": "timestamp",
+    "placeholder": "{timestamp}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "logo_url",
+    "placeholder": "{logo_url}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "organization_name",
+    "placeholder": "{organization_name}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "organization_subtitle",
+    "placeholder": "{organization_subtitle}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "transaction_status",
+    "placeholder": "{transaction_status}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "transaction_reference_number",
+    "placeholder": "{transaction_reference_number}",
+    "mapping": "payments.transaction_ref"
+  },
+  {
+    "header": "transaction_date_time",
+    "placeholder": "{transaction_date_time}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "can_number",
+    "placeholder": "{can_number}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "bill_amount",
+    "placeholder": "{bill_amount}",
+    "mapping": "invoices.total_amount"
+  },
+  {
+    "header": "bank_name",
+    "placeholder": "{bank_name}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "payment_note",
+    "placeholder": "{payment_note}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "security_warning_text",
+    "placeholder": "{security_warning_text}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "payment_url",
+    "placeholder": "{payment_url}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "payment_provider",
+    "placeholder": "{payment_provider}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "page_number",
+    "placeholder": "{page_number}",
+    "mapping": "LATER_SELECTED"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "correlation_id": "3359d158adde4f6a9d3c7259bca9637c",
+  "file_checksums": {
+    "fix_metrics.json": "64f1ab85c2f00c7c0cc55037b28599dc01500615908a0ee185a0851a3ed9d756",
+    "reference_p1.png": "24c684169c6474084b7494b77ed0279affb1ed1a3c35611400ba516fecbaa369",
+    "render_p1.png": "3eafd5ca90f71e5bcf211901a52e981e412f4b561ba3163310e2c80040b5e378",
+    "render_p1_after.png": "f14858fe369a0317af3f0c707f3b2c21309cabf1f9645e2435ad261444285f92",
+    "render_p1_after_full.png": "b196356ff30205370a6de0a26586dc05ea0b9d5c533a3bb461972ba938a65371",
+    "render_p1_llm.png": "4d6218548131aad0cee5bcabe6bd3f161277ff9f27f4ec54b52afaa292e07c69",
+    "schema_ext.json": "6f4ae1cc19e7c358ae4dbff107434143bc4d93c02371cd058babd1efd4587ace",
+    "source.pdf": "d0042e55d72d8f13cbedb0ab7cf1afec382056bbb7e043b5f261ed987c815c1e",
+    "template_p1.html": "1131580973815b45a1ab31df1d4d306f0a68b9a3e7bb7e6ee963b9969573e19a"
+  },
+  "files": {
+    "fix_metrics.json": "fix_metrics.json",
+    "reference_p1.png": "reference_p1.png",
+    "render_p1.png": "render_p1.png",
+    "render_p1_after.png": "render_p1_after.png",
+    "render_p1_after_full.png": "render_p1_after_full.png",
+    "render_p1_llm.png": "render_p1_llm.png",
+    "schema_ext.json": "schema_ext.json",
+    "source.pdf": "source.pdf",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads/crystalreportviewer1-6-38ac66/source.pdf"
+  ],
+  "pid": 3121720,
+  "produced_at": "2026-02-15T22:57:29.452306+00:00",
+  "schema_version": "1.0",
+  "step": "templates_verify"
+}

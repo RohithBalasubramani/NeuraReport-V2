@@ -1,0 +1,41 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — report contains only repeating rows",
+      "columns": []
+    },
+    "rows": {
+      "description": "All job records with full configuration details",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_type",
+        "row_tables_json",
+        "row_columns_json",
+        "row_interval_ms",
+        "row_enabled",
+        "row_status",
+        "row_batching_json",
+        "row_cpu_budget",
+        "row_triggers_json",
+        "row_metrics_json"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required",
+      "columns": []
+    }
+  },
+  "semantics": "No filters or parameters. Direct table read with all columns.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load all rows from app_jobs table without filtering or aggregation"
+  ]
+}

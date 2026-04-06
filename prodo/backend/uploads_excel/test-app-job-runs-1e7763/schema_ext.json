@@ -1,0 +1,20 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_job_id",
+    "row_started_at",
+    "row_stopped_at",
+    "row_duration_ms",
+    "row_rows",
+    "row_read_lat_avg",
+    "row_write_lat_avg",
+    "row_error_pct"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Job Runs",
+    "column_count": 9,
+    "data_row_count": 14
+  }
+}

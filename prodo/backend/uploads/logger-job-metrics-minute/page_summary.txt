@@ -1,0 +1,8 @@
+Template: Logger — Job Metrics (Minute)
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 13
+  Scalars: date_from, date_to, generated_at
+  Row tokens: row_job_id, row_minute_utc, row_read_err, row_read_p50, row_read_p95, row_reads, row_write_err, row_write_p50, row_write_p95, row_writes
+  Totals: (none)
+Has block repeat: True

@@ -1,0 +1,25 @@
+{
+  "event": "mapping_key_options",
+  "timestamp": "20251113-145422",
+  "template_id": "c5598348-4d89-445e-a2f9-43a3aa6382ee-d1fdde",
+  "template_kind": "pdf",
+  "connection_id": "fe18debd-3acd-4567-9ff6-405c774f2eb4",
+  "db_path": "C:\\Users\\alfre\\Downloads\\NeuraReport\\Coastal feeds\\test - Copy.db",
+  "tokens_available": [
+    "row_recipe_code"
+  ],
+  "token_details": {
+    "row_recipe_code": {
+      "table": "rows",
+      "column": "row_recipe_code",
+      "date_column": null,
+      "applied_date_filters": false,
+      "sql": "\"row_recipe_code\" IS NOT NULL AND TRIM(CAST(\"row_recipe_code\" AS TEXT)) <> ''",
+      "params": [],
+      "fallback_used": false,
+      "error": "no such table: rows",
+      "row_count": 0,
+      "binding_source": "mapping"
+    }
+  }
+}

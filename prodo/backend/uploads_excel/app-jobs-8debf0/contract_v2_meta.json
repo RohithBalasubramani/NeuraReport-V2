@@ -1,0 +1,123 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "3893a7af48bb884f2bc474c3004726926b5a38a38e26acb325dbc8b5f0052326",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771482504,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_job_name",
+        "row_type",
+        "row_status",
+        "row_enabled",
+        "row_interval_ms",
+        "row_cpu_budget"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_job_name": "app_jobs.name",
+      "row_type": "app_jobs.type",
+      "row_status": "app_jobs.status",
+      "row_enabled": "app_jobs.enabled",
+      "row_interval_ms": "app_jobs.interval_ms",
+      "row_cpu_budget": "app_jobs.cpu_budget"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_jobs",
+      "parent_key": "id",
+      "child_table": "app_jobs",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_job_name",
+            "from": [
+              "app_jobs.name"
+            ]
+          },
+          {
+            "as": "row_type",
+            "from": [
+              "app_jobs.type"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_jobs.status"
+            ]
+          },
+          {
+            "as": "row_enabled",
+            "from": [
+              "app_jobs.enabled"
+            ]
+          },
+          {
+            "as": "row_interval_ms",
+            "from": [
+              "app_jobs.interval_ms"
+            ]
+          },
+          {
+            "as": "row_cpu_budget",
+            "from": [
+              "app_jobs.cpu_budget"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_job_name",
+      "row_type",
+      "row_status",
+      "row_enabled",
+      "row_interval_ms",
+      "row_cpu_budget"
+    ],
+    "row_order": [
+      "app_jobs.id ASC"
+    ],
+    "literals": {},
+    "notes": "Simple jobs listing report with no filters, computations, or aggregations. Displays all jobs from app_jobs table."
+  },
+  "key_tokens": []
+}

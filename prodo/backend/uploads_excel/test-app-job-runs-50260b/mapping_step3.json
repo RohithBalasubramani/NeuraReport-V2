@@ -1,0 +1,116 @@
+{
+  "mapping": {
+    "row_id": "app_job_runs.id",
+    "row_job_id": "app_job_runs.job_id",
+    "row_status": "UNRESOLVED",
+    "row_started_at": "app_job_runs.started_at",
+    "row_finished_at": "app_job_runs.stopped_at",
+    "row_rows_written": "app_job_runs.rows",
+    "row_duration_ms": "app_job_runs.duration_ms",
+    "row_error_message": "UNRESOLVED",
+    "row_run_type": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_status",
+      "row_error_message",
+      "row_run_type"
+    ],
+    "hints": {
+      "row_status": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No status column in app_job_runs table - may need to derive from job status or add to schema"
+        ]
+      },
+      "row_error_message": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No error_message column in app_job_runs - may need to join with app_job_errors_minute or add to schema"
+        ]
+      },
+      "row_run_type": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:No run_type column in app_job_runs - may need to derive from app_jobs.type or add to schema"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "60b008732a8ce3e19a558561f29aa5ba6cb1b0fee52d21dd629122e544220d93",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "6094cbe9596f78f144b0b58d08b173e0402183f089705d2a6e10f458ffe72125",
+    "pre_html_sha256": "375aa9f578ea851aea9a5dda6f5ce9e778dd526abf200e0933ff22c0e8f26c3e",
+    "post_html_sha256": "375aa9f578ea851aea9a5dda6f5ce9e778dd526abf200e0933ff22c0e8f26c3e",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_job_runs.id",
+      "row_job_id": "app_job_runs.job_id",
+      "row_status": "UNRESOLVED",
+      "row_started_at": "app_job_runs.started_at",
+      "row_finished_at": "app_job_runs.stopped_at",
+      "row_rows_written": "app_job_runs.rows",
+      "row_duration_ms": "app_job_runs.duration_ms",
+      "row_error_message": "UNRESOLVED",
+      "row_run_type": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_job_id": "{row_job_id}",
+      "row_status": "{row_status}",
+      "row_started_at": "{row_started_at}",
+      "row_finished_at": "{row_finished_at}",
+      "row_rows_written": "{row_rows_written}",
+      "row_duration_ms": "{row_duration_ms}",
+      "row_error_message": "{row_error_message}",
+      "row_run_type": "{row_run_type}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_status",
+        "row_error_message",
+        "row_run_type"
+      ],
+      "hints": {
+        "row_status": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No status column in app_job_runs table - may need to derive from job status or add to schema"
+          ]
+        },
+        "row_error_message": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No error_message column in app_job_runs - may need to join with app_job_errors_minute or add to schema"
+          ]
+        },
+        "row_run_type": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:No run_type column in app_job_runs - may need to derive from app_jobs.type or add to schema"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_job_id": "{row_job_id}",
+    "row_status": "{row_status}",
+    "row_started_at": "{row_started_at}",
+    "row_finished_at": "{row_finished_at}",
+    "row_rows_written": "{row_rows_written}",
+    "row_duration_ms": "{row_duration_ms}",
+    "row_error_message": "{row_error_message}",
+    "row_run_type": "{row_run_type}"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "sample_row": {
+    "row_id": "tbl_1771013480714_1",
+    "row_status": "migrated",
+    "row_mapping_health": "Mapped",
+    "row_schema_id": "sch_1770993251278",
+    "row_db_target_id": "db_1771013394981",
+    "row_last_migrated_at": "2026-02-14T01:43:54+05:30",
+    "row_name": "lt_mcc_001_data2",
+    "row_schema_hash": "NOT_VISIBLE",
+    "row_device_id": "dev_1771012391586"
+  }
+}

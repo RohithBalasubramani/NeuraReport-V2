@@ -1,0 +1,18 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_table_name",
+    "row_device_id",
+    "row_schema_id",
+    "row_db_target_id",
+    "row_status",
+    "row_mapping_health",
+    "row_last_migrated_at"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Device Tables",
+    "columns": 7,
+    "repeating_row_structure": "Single tbody>tr prototype for device table records"
+  }
+}

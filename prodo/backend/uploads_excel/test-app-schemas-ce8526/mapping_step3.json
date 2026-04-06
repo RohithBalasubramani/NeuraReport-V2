@@ -1,0 +1,42 @@
+{
+  "mapping": {
+    "row_id": "app_schemas.id",
+    "row_name": "app_schemas.name"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "6a22988d56667c9b830f7737084adf2d3fa0e6a47418c65d2c778b8547e8a4b6",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "7f4595191292f592004b561063f07edf2e34eaafae282bc924f23ad101e8808f",
+    "pre_html_sha256": "7d8797b4796cd50f34990b9eca90dce7ef3627a34067bcbbf88d5d186f38b2f9",
+    "post_html_sha256": "7d8797b4796cd50f34990b9eca90dce7ef3627a34067bcbbf88d5d186f38b2f9",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_schemas.id",
+      "row_name": "app_schemas.name"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}"
+  }
+}

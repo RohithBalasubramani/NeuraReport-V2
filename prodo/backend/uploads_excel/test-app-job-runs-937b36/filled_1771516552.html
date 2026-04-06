@@ -1,0 +1,60 @@
+<html><head><meta charset='utf-8'>
+    <style>
+      @page { size: A4; margin: 24mm; }
+      body { font-family: Arial, sans-serif; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border: 1px solid #999; padding: 6px 8px; vertical-align: top; }
+    </style>
+    
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head><body><table id="data-table"><caption style='caption-side:top;font-weight:700;text-align:left;margin:6px 0'>Job Runs</caption><thead><tr><th data-label="id">ID</th><th data-label="job_id">Job ID</th><th data-label="status">Status</th><th data-label="started_at">Started At</th><th data-label="finished_at">Finished At</th><th data-label="rows_written">Rows Written</th><th data-label="duration_ms">Duration MS</th><th data-label="error_message">Error Message</th><th data-label="run_type">Run Type</th></tr></thead><tbody><tr><td>1</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>18000</td><td>1900.00</td><td></td></tr>
+<tr><td>2</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>19</td><td>18000</td><td>0.00</td><td></td></tr>
+<tr><td>3</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>5000</td><td>500.00</td><td></td></tr>
+<tr><td>4</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>5</td><td>5000</td><td>0.00</td><td></td></tr>
+<tr><td>5</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>6000</td><td>700.00</td><td></td></tr>
+<tr><td>6</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>7</td><td>6000</td><td>0.00</td><td></td></tr>
+<tr><td>7</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>7000</td><td>800.00</td><td></td></tr>
+<tr><td>8</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>8</td><td>7000</td><td>0.00</td><td></td></tr>
+<tr><td>9</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>147000</td><td>14800.00</td><td></td></tr>
+<tr><td>10</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>148</td><td>147000</td><td>0.00</td><td></td></tr>
+<tr><td>11</td><td>job_1771159889406</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>89000</td><td>4300.00</td><td></td></tr>
+<tr><td>12</td><td>job_1771159889406</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>11000</td><td>0.00</td><td></td></tr>
+<tr><td>13</td><td>job_1771013897364</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>0</td><td>11000</td><td>1100.00</td><td></td></tr>
+<tr><td>14</td><td>job_1771149226472</td><td></td><td>2026-02-15</td><td>2026-02-15</td><td>11</td><td>11000</td><td>0.00</td><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,17 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Schemas",
+    "column_count": 2,
+    "data_row_count": 4,
+    "headers": [
+      "ID",
+      "Name"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "header": "row_date_time",
+    "placeholder": "{row_date_time}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_m1a_2_pt100",
+    "placeholder": "{row_m1a_2_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_m1a_3_pt100",
+    "placeholder": "{row_m1a_3_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p3a_pt100",
+    "placeholder": "{row_p3a_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p4a_pt100",
+    "placeholder": "{row_p4a_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p5a_pt100",
+    "placeholder": "{row_p5a_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p6a_pt100",
+    "placeholder": "{row_p6a_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p8a_pt100",
+    "placeholder": "{row_p8a_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p8a_3_pt100",
+    "placeholder": "{row_p8a_3_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p8a_4_pt100",
+    "placeholder": "{row_p8a_4_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p8a_dryout_pt100",
+    "placeholder": "{row_p8a_dryout_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_p9a_dryout_pt100",
+    "placeholder": "{row_p9a_dryout_pt100}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "row_room_pt100",
+    "placeholder": "{row_room_pt100}",
+    "mapping": "UNRESOLVED"
+  }
+]

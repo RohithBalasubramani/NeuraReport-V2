@@ -1,0 +1,8 @@
+Template: Logger — Gateways
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 9
+  Scalars: date_from, date_to, generated_at
+  Row tokens: row_created_at, row_host, row_name, row_protocol_hint, row_status, row_updated_at
+  Totals: (none)
+Has block repeat: True

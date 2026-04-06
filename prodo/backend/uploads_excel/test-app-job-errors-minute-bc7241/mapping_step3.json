@@ -1,0 +1,54 @@
+{
+  "mapping": {
+    "row_job_id": "app_job_errors_minute.job_id",
+    "row_code": "app_job_errors_minute.code",
+    "row_minute_utc": "app_job_errors_minute.minute_utc",
+    "row_count": "app_job_errors_minute.count",
+    "row_last_message": "app_job_errors_minute.last_message"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "4a9687461348f6a46c042ee21e3644e03badf2484f0c919b0aa145e061c24125",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "b41115c3797ed56ae28d426c25ca7ebcec38b138c8b7c01e72a9ff719cdcbb1a",
+    "pre_html_sha256": "1c5bc13bf6cde2e11048f43b7e785c2b98f05ca8888234b36b9942c85c8c6c0e",
+    "post_html_sha256": "1c5bc13bf6cde2e11048f43b7e785c2b98f05ca8888234b36b9942c85c8c6c0e",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_id": "app_job_errors_minute.job_id",
+      "row_code": "app_job_errors_minute.code",
+      "row_minute_utc": "app_job_errors_minute.minute_utc",
+      "row_count": "app_job_errors_minute.count",
+      "row_last_message": "app_job_errors_minute.last_message"
+    },
+    "token_samples": {
+      "row_job_id": "{row_job_id}",
+      "row_code": "{row_code}",
+      "row_minute_utc": "{row_minute_utc}",
+      "row_count": "{row_count}",
+      "row_last_message": "{row_last_message}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_id": "{row_job_id}",
+    "row_code": "{row_code}",
+    "row_minute_utc": "{row_minute_utc}",
+    "row_count": "{row_count}",
+    "row_last_message": "{row_last_message}"
+  }
+}

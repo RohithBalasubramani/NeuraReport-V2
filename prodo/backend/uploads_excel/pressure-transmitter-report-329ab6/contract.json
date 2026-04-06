@@ -1,0 +1,370 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_print_date_time",
+      "row_solid_waste_management_system",
+      "row_column_3",
+      "row_column_4",
+      "row_column_5",
+      "row_column_6",
+      "row_column_7",
+      "row_column_8",
+      "row_column_9",
+      "row_column_10",
+      "row_column_11",
+      "row_column_12",
+      "row_column_13",
+      "row_column_14",
+      "row_column_15",
+      "row_column_16",
+      "row_column_17",
+      "row_column_18",
+      "row_column_19",
+      "row_column_20",
+      "row_column_21",
+      "row_column_22",
+      "row_column_23",
+      "row_column_24",
+      "row_column_25",
+      "row_column_26",
+      "row_column_27",
+      "row_column_28",
+      "row_column_29",
+      "row_column_30",
+      "row_column_31",
+      "row_column_32"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_print_date_time": "neuract__PT_TABLE.timestamp_utc",
+    "row_solid_waste_management_system": "neuract__PT_TABLE.PT_105",
+    "row_column_3": "neuract__PT_TABLE.PT_107",
+    "row_column_4": "neuract__PT_TABLE.PT_109",
+    "row_column_5": "neuract__PT_TABLE.PT_111",
+    "row_column_6": "neuract__PT_TABLE.PT_114",
+    "row_column_7": "neuract__PT_TABLE.PT_115",
+    "row_column_8": "neuract__PT_TABLE.PT_117",
+    "row_column_9": "neuract__PT_TABLE.PT_125",
+    "row_column_10": "neuract__PT_TABLE.PT_121",
+    "row_column_11": "neuract__PT_TABLE.PT_119",
+    "row_column_12": "neuract__PT_TABLE.PT_123",
+    "row_column_13": "neuract__PT_TABLE.PT_127",
+    "row_column_14": "neuract__PT_TABLE.PT_129",
+    "row_column_15": "neuract__PT_TABLE.PT_131",
+    "row_column_16": "neuract__PT_TABLE.PT_132",
+    "row_column_17": "neuract__PT_TABLE.PT_133",
+    "row_column_18": "neuract__PT_TABLE.PT_135",
+    "row_column_19": "neuract__PT_TABLE.PT_136",
+    "row_column_20": "neuract__PT_TABLE.PT_140",
+    "row_column_21": "neuract__PT_TABLE.PT_141",
+    "row_column_22": "neuract__PT_TABLE.PT_142",
+    "row_column_23": "neuract__PT_TABLE.PT_138",
+    "row_column_24": "neuract__PT_TABLE.PT_139",
+    "row_column_25": "neuract__PT_TABLE.PT_147",
+    "row_column_26": "neuract__PT_TABLE.PT_148",
+    "row_column_27": "neuract__PT_TABLE.PT_143",
+    "row_column_28": "neuract__PT_TABLE.PT_145",
+    "row_column_29": "neuract__PT_TABLE.PT_146",
+    "row_column_30": "neuract__PT_TABLE.PT_149",
+    "row_column_31": "neuract__PT_TABLE.PT_151",
+    "row_column_32": "neuract__PT_TABLE.PT_154"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "neuract__PT_TABLE",
+    "parent_key": "rowid",
+    "child_table": "neuract__PT_TABLE",
+    "child_key": "rowid"
+  },
+  "date_columns": {
+    "neuract__PT_TABLE": "timestamp_utc"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_print_date_time",
+          "from": [
+            "neuract__PT_TABLE.timestamp_utc"
+          ]
+        },
+        {
+          "as": "row_solid_waste_management_system",
+          "from": [
+            "neuract__PT_TABLE.PT_105"
+          ]
+        },
+        {
+          "as": "row_column_3",
+          "from": [
+            "neuract__PT_TABLE.PT_107"
+          ]
+        },
+        {
+          "as": "row_column_4",
+          "from": [
+            "neuract__PT_TABLE.PT_109"
+          ]
+        },
+        {
+          "as": "row_column_5",
+          "from": [
+            "neuract__PT_TABLE.PT_111"
+          ]
+        },
+        {
+          "as": "row_column_6",
+          "from": [
+            "neuract__PT_TABLE.PT_114"
+          ]
+        },
+        {
+          "as": "row_column_7",
+          "from": [
+            "neuract__PT_TABLE.PT_115"
+          ]
+        },
+        {
+          "as": "row_column_8",
+          "from": [
+            "neuract__PT_TABLE.PT_117"
+          ]
+        },
+        {
+          "as": "row_column_9",
+          "from": [
+            "neuract__PT_TABLE.PT_125"
+          ]
+        },
+        {
+          "as": "row_column_10",
+          "from": [
+            "neuract__PT_TABLE.PT_121"
+          ]
+        },
+        {
+          "as": "row_column_11",
+          "from": [
+            "neuract__PT_TABLE.PT_119"
+          ]
+        },
+        {
+          "as": "row_column_12",
+          "from": [
+            "neuract__PT_TABLE.PT_123"
+          ]
+        },
+        {
+          "as": "row_column_13",
+          "from": [
+            "neuract__PT_TABLE.PT_127"
+          ]
+        },
+        {
+          "as": "row_column_14",
+          "from": [
+            "neuract__PT_TABLE.PT_129"
+          ]
+        },
+        {
+          "as": "row_column_15",
+          "from": [
+            "neuract__PT_TABLE.PT_131"
+          ]
+        },
+        {
+          "as": "row_column_16",
+          "from": [
+            "neuract__PT_TABLE.PT_132"
+          ]
+        },
+        {
+          "as": "row_column_17",
+          "from": [
+            "neuract__PT_TABLE.PT_133"
+          ]
+        },
+        {
+          "as": "row_column_18",
+          "from": [
+            "neuract__PT_TABLE.PT_135"
+          ]
+        },
+        {
+          "as": "row_column_19",
+          "from": [
+            "neuract__PT_TABLE.PT_136"
+          ]
+        },
+        {
+          "as": "row_column_20",
+          "from": [
+            "neuract__PT_TABLE.PT_140"
+          ]
+        },
+        {
+          "as": "row_column_21",
+          "from": [
+            "neuract__PT_TABLE.PT_141"
+          ]
+        },
+        {
+          "as": "row_column_22",
+          "from": [
+            "neuract__PT_TABLE.PT_142"
+          ]
+        },
+        {
+          "as": "row_column_23",
+          "from": [
+            "neuract__PT_TABLE.PT_138"
+          ]
+        },
+        {
+          "as": "row_column_24",
+          "from": [
+            "neuract__PT_TABLE.PT_139"
+          ]
+        },
+        {
+          "as": "row_column_25",
+          "from": [
+            "neuract__PT_TABLE.PT_147"
+          ]
+        },
+        {
+          "as": "row_column_26",
+          "from": [
+            "neuract__PT_TABLE.PT_148"
+          ]
+        },
+        {
+          "as": "row_column_27",
+          "from": [
+            "neuract__PT_TABLE.PT_143"
+          ]
+        },
+        {
+          "as": "row_column_28",
+          "from": [
+            "neuract__PT_TABLE.PT_145"
+          ]
+        },
+        {
+          "as": "row_column_29",
+          "from": [
+            "neuract__PT_TABLE.PT_146"
+          ]
+        },
+        {
+          "as": "row_column_30",
+          "from": [
+            "neuract__PT_TABLE.PT_149"
+          ]
+        },
+        {
+          "as": "row_column_31",
+          "from": [
+            "neuract__PT_TABLE.PT_151"
+          ]
+        },
+        {
+          "as": "row_column_32",
+          "from": [
+            "neuract__PT_TABLE.PT_154"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_print_date_time": "date(DD-MM-YYYY HH:mm:ss)",
+    "row_solid_waste_management_system": "number(2)",
+    "row_column_3": "number(2)",
+    "row_column_4": "number(2)",
+    "row_column_5": "number(2)",
+    "row_column_6": "number(2)",
+    "row_column_7": "number(2)",
+    "row_column_8": "number(2)",
+    "row_column_9": "number(2)",
+    "row_column_10": "number(2)",
+    "row_column_11": "number(2)",
+    "row_column_12": "number(2)",
+    "row_column_13": "number(2)",
+    "row_column_14": "number(2)",
+    "row_column_15": "number(2)",
+    "row_column_16": "number(2)",
+    "row_column_17": "number(2)",
+    "row_column_18": "number(2)",
+    "row_column_19": "number(2)",
+    "row_column_20": "number(2)",
+    "row_column_21": "number(2)",
+    "row_column_22": "number(2)",
+    "row_column_23": "number(2)",
+    "row_column_24": "number(2)",
+    "row_column_25": "number(2)",
+    "row_column_26": "number(2)",
+    "row_column_27": "number(2)",
+    "row_column_28": "number(2)",
+    "row_column_29": "number(2)",
+    "row_column_30": "number(2)",
+    "row_column_31": "number(2)",
+    "row_column_32": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "timestamp_utc DESC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_print_date_time",
+    "row_solid_waste_management_system",
+    "row_column_3",
+    "row_column_4",
+    "row_column_5",
+    "row_column_6",
+    "row_column_7",
+    "row_column_8",
+    "row_column_9",
+    "row_column_10",
+    "row_column_11",
+    "row_column_12",
+    "row_column_13",
+    "row_column_14",
+    "row_column_15",
+    "row_column_16",
+    "row_column_17",
+    "row_column_18",
+    "row_column_19",
+    "row_column_20",
+    "row_column_21",
+    "row_column_22",
+    "row_column_23",
+    "row_column_24",
+    "row_column_25",
+    "row_column_26",
+    "row_column_27",
+    "row_column_28",
+    "row_column_29",
+    "row_column_30",
+    "row_column_31",
+    "row_column_32"
+  ],
+  "row_order": [
+    "timestamp_utc DESC"
+  ],
+  "literals": {},
+  "notes": "Pressure transmitter monitoring report for solid waste management system. All PT sensors numbered PT_105 through PT_154 capture real-time pressure values. The timestamp enables historical snapshots and trend analysis. No aggregation or computation required — direct sensor reading passthrough."
+}

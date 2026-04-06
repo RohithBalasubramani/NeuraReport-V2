@@ -1,0 +1,36 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header scalars — this report has no static header tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents one schema field definition with its key, type, unit, scale, and description.",
+      "columns": [
+        "row_schema_id",
+        "row_key",
+        "row_type",
+        "row_unit",
+        "row_scale",
+        "row_desc_text"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_schema_fields.schema_id ASC",
+        "app_schema_fields.key ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals — this report is a simple field listing.",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters or filters are required. The report displays all schema fields from the `app_schema_fields` table in a flat list.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No reshaping or computed columns. All tokens map 1:1 to source columns."
+  ]
+}

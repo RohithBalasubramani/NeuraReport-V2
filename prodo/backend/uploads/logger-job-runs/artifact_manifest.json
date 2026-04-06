@@ -1,0 +1,51 @@
+{
+  "correlation_id": "job-eb7e51db9d",
+  "file_checksums": {
+    "constant_replacements.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "contract.json": "eb2d536afdb8e26f49ebc23f833f6f1e72c341228c85c4112bb960a10a998fe3",
+    "contract_v2_meta.json": "3e94099e1e1710f150e2838ff7a101ecb4a0d5e48053ee661c460d5db645134f",
+    "filled_1771434244.html": "6f8cb01c36d878700ad4363e0490b7153dd0ce26705c43ce5b7a7fad97581e8b",
+    "filled_1771434244.pdf": "dbe4b052f53958b40806cdb8e4df1319f0f135ec00eac9efc553696adebc055b",
+    "mapping_keys.json": "130e2ae7edb62db936e608ac455d491ff73d108fe878f07ec83b898a9c4c0281",
+    "mapping_pdf_labels.json": "1a1fbded7c3b75d970a3fd1672bbb26a85154e8069915d53f0f516dde810f141",
+    "mapping_step3.json": "b8f5352113c28da10ff64f8e0aafd32b901a109a59e25505aa162f1d2a310107",
+    "overview.md": "b68004e43c999863464bbbed577d84d8052f15311b6ef56121e3b1ca45ea5de9",
+    "report_final.html": "265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09",
+    "report_final.png": "4b6bd75474f4bd83d0f9e4a3e4f7f062e11444422e5c91933de6ffa89ed73978",
+    "step5_requirements.json": "03103f088c3e9391b4feac51ff84bcde90f7bc896282b933c962ddc980497580",
+    "template_p1.html": "265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09"
+  },
+  "files": {
+    "constant_replacements.json": "constant_replacements.json",
+    "contract.json": "contract.json",
+    "contract_v2_meta.json": "contract_v2_meta.json",
+    "filled_1771434244.html": "filled_1771434244.html",
+    "filled_1771434244.pdf": "filled_1771434244.pdf",
+    "mapping_keys.json": "mapping_keys.json",
+    "mapping_pdf_labels.json": "mapping_pdf_labels.json",
+    "mapping_step3.json": "mapping_step3.json",
+    "overview.md": "overview.md",
+    "report_final.html": "report_final.html",
+    "report_final.png": "report_final.png",
+    "step5_requirements.json": "step5_requirements.json",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "cache_key=9a50d7f8fa9b8617ffec840177feef06a897e94d32963da827959e55119ecede",
+    "catalog_sha256=c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256=9d9404dc9c5269930668e95fb57217ec5a2565d1b90881c116a62713aabcfb66",
+    "html_pre_sha256=265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09",
+    "html_post_sha256=265661b5862b8778316cde39a9f6dfa3d48da87e86bf432ac0516918e6a5da09",
+    "mapping_tokens=11",
+    "mapping_keys=0",
+    "contract_v2_input_signature=58b7d24ea19c9b04628303037359bf91a378a446627b6b39c9e943ac5d31bc82",
+    "dialect_hint=",
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads/logger-job-runs/mapping_pdf_labels.json",
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads/logger-job-runs/contract.json",
+    "postgresql://postgres@localhost:5432/meta_data_fast"
+  ],
+  "pid": 3342082,
+  "produced_at": "2026-02-18T17:04:05.784626+00:00",
+  "schema_version": "1.0",
+  "step": "reports_run"
+}

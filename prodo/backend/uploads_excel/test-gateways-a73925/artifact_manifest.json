@@ -1,0 +1,28 @@
+{
+  "correlation_id": "185bd52d58e24046b07146acc7353ed8",
+  "file_checksums": {
+    "reference_p1.html": "8a9e67fcae19547cbd9f7c61bb4afc610394a1b00d899f9ab9320267e0be89e0",
+    "reference_p1.png": "9efa023b286e30ced8444636993a46575747bc5016fcb7ddbd88c0ee9dd15a2d",
+    "report_final.png": "651c9207a47968a8928da987b008171380aa5c6191ee10fe9f5a108c9076f1f4",
+    "sample_rows.json": "d86cbadf93b78cf098d86bf85fc461f4ec907e64f488fd36b442e1d968e2d0d5",
+    "schema_ext.json": "6ada32d884ba08dcd3217357e7eb9ae1cbd3a7ce968f954ed6458227198880e8",
+    "source.xlsx": "56b43691567d5a2c703ee6752d8c0bc703b525eb497830286b519ee187bfd2e2",
+    "template_p1.html": "ca1af4ae89edc82bc530c87d82dd819ef82b412aaaf42a0db7e45ebd8fec8a86"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "schema_ext.json": "schema_ext.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/test-gateways-a73925/source.xlsx"
+  ],
+  "pid": 161239,
+  "produced_at": "2026-02-19T15:32:26.804570+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

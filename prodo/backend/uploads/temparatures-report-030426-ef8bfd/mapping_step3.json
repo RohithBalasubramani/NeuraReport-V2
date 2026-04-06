@@ -1,0 +1,220 @@
+{
+  "mapping": {
+    "row_date_time": "UNRESOLVED",
+    "row_m1a_2_pt100": "UNRESOLVED",
+    "row_m1a_3_pt100": "UNRESOLVED",
+    "row_p3a_pt100": "UNRESOLVED",
+    "row_p4a_pt100": "UNRESOLVED",
+    "row_p5a_pt100": "UNRESOLVED",
+    "row_p6a_pt100": "UNRESOLVED",
+    "row_p8a_pt100": "UNRESOLVED",
+    "row_p8a_3_pt100": "UNRESOLVED",
+    "row_p8a_4_pt100": "UNRESOLVED",
+    "row_p8a_dryout_pt100": "UNRESOLVED",
+    "row_p9a_dryout_pt100": "UNRESOLVED",
+    "row_room_pt100": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_date_time",
+      "row_m1a_2_pt100",
+      "row_m1a_3_pt100",
+      "row_p3a_pt100",
+      "row_p4a_pt100",
+      "row_p5a_pt100",
+      "row_p6a_pt100",
+      "row_p8a_pt100",
+      "row_p8a_3_pt100",
+      "row_p8a_4_pt100",
+      "row_p8a_dryout_pt100",
+      "row_p9a_dryout_pt100",
+      "row_room_pt100"
+    ],
+    "hints": {
+      "row_date_time": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_m1a_2_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_m1a_3_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p3a_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p4a_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p5a_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p6a_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p8a_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p8a_3_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p8a_4_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p8a_dryout_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_p9a_dryout_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      },
+      "row_room_pt100": {
+        "op": "MISSING_SOURCE",
+        "over": []
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "0613287c4991dbc359f65299aade1c96a4aad3263a86df56628c75d0004aa0ba",
+    "catalog_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "schema_sha256": "673d80e2b81d26c67f6e0bbd6d4ff9618118f84b8e38e24753a12a8e91152228",
+    "cache_key": "9320b7eead4b69ca833b9bc36ce6f7b685176e1470bc15e8722641472e5412dd",
+    "pre_html_sha256": "8632190d7a2c1bf5ba27c45d93c5913ab83eba2a5b0e9ef7317d841a2d0df4ce",
+    "post_html_sha256": "8632190d7a2c1bf5ba27c45d93c5913ab83eba2a5b0e9ef7317d841a2d0df4ce",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "36a53db06bb3de4b6b4778106430457d3dadfcb145503184f673a01715de53d0",
+    "db_signature": "f1f6a4d420d8bda2f34f8b434d77f838720689208e1ed19ddee904d55d1849d6"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_date_time": "UNRESOLVED",
+      "row_m1a_2_pt100": "UNRESOLVED",
+      "row_m1a_3_pt100": "UNRESOLVED",
+      "row_p3a_pt100": "UNRESOLVED",
+      "row_p4a_pt100": "UNRESOLVED",
+      "row_p5a_pt100": "UNRESOLVED",
+      "row_p6a_pt100": "UNRESOLVED",
+      "row_p8a_pt100": "UNRESOLVED",
+      "row_p8a_3_pt100": "UNRESOLVED",
+      "row_p8a_4_pt100": "UNRESOLVED",
+      "row_p8a_dryout_pt100": "UNRESOLVED",
+      "row_p9a_dryout_pt100": "UNRESOLVED",
+      "row_room_pt100": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_date_time": "NOT_VISIBLE",
+      "row_m1a_2_pt100": "NOT_VISIBLE",
+      "row_m1a_3_pt100": "NOT_VISIBLE",
+      "row_p3a_pt100": "NOT_VISIBLE",
+      "row_p4a_pt100": "NOT_VISIBLE",
+      "row_p5a_pt100": "NOT_VISIBLE",
+      "row_p6a_pt100": "NOT_VISIBLE",
+      "row_p8a_pt100": "NOT_VISIBLE",
+      "row_p8a_3_pt100": "NOT_VISIBLE",
+      "row_p8a_4_pt100": "NOT_VISIBLE",
+      "row_p8a_dryout_pt100": "NOT_VISIBLE",
+      "row_p9a_dryout_pt100": "NOT_VISIBLE",
+      "row_room_pt100": "NOT_VISIBLE"
+    },
+    "meta": {
+      "unresolved": [
+        "row_date_time",
+        "row_m1a_2_pt100",
+        "row_m1a_3_pt100",
+        "row_p3a_pt100",
+        "row_p4a_pt100",
+        "row_p5a_pt100",
+        "row_p6a_pt100",
+        "row_p8a_pt100",
+        "row_p8a_3_pt100",
+        "row_p8a_4_pt100",
+        "row_p8a_dryout_pt100",
+        "row_p9a_dryout_pt100",
+        "row_room_pt100"
+      ],
+      "hints": {
+        "row_date_time": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_m1a_2_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_m1a_3_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p3a_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p4a_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p5a_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p6a_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p8a_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p8a_3_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p8a_4_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p8a_dryout_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_p9a_dryout_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        },
+        "row_room_pt100": {
+          "op": "MISSING_SOURCE",
+          "columns": []
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_date_time": "NOT_VISIBLE",
+    "row_m1a_2_pt100": "NOT_VISIBLE",
+    "row_m1a_3_pt100": "NOT_VISIBLE",
+    "row_p3a_pt100": "NOT_VISIBLE",
+    "row_p4a_pt100": "NOT_VISIBLE",
+    "row_p5a_pt100": "NOT_VISIBLE",
+    "row_p6a_pt100": "NOT_VISIBLE",
+    "row_p8a_pt100": "NOT_VISIBLE",
+    "row_p8a_3_pt100": "NOT_VISIBLE",
+    "row_p8a_4_pt100": "NOT_VISIBLE",
+    "row_p8a_dryout_pt100": "NOT_VISIBLE",
+    "row_p9a_dryout_pt100": "NOT_VISIBLE",
+    "row_room_pt100": "NOT_VISIBLE"
+  }
+}

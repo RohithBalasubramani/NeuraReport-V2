@@ -1,0 +1,152 @@
+{
+  "mapping": {
+    "row_sl_no": "INDEX",
+    "row_material_name": "RESHAPE:bin_content",
+    "row_set_wt_kg": "RESHAPE:bin_sp",
+    "row_ach_wt_kg": "RESHAPE:bin_act",
+    "row_error_kg": "COMPUTED:(bin_sp-bin_act)",
+    "row_error_pct": "COMPUTED:((bin_sp-bin_act)/bin_sp)*100"
+  },
+  "meta": {
+    "unresolved": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "hints": {
+      "row_sl_no": {
+        "op": "SEQUENCE",
+        "over": []
+      },
+      "row_material_name": {
+        "op": "Pivot/Mapping",
+        "over": [
+          "columns:recipes.bin1_content",
+          "columns:recipes.bin2_content"
+        ]
+      },
+      "row_set_wt_kg": {
+        "op": "Pivot/Mapping",
+        "over": [
+          "columns:recipes.bin1_sp",
+          "columns:recipes.bin2_sp"
+        ]
+      },
+      "row_ach_wt_kg": {
+        "op": "Pivot/Mapping",
+        "over": [
+          "columns:recipes.bin1_act",
+          "columns:recipes.bin2_act"
+        ]
+      },
+      "row_error_kg": {
+        "op": "SUBTRACT",
+        "over": [
+          "columns:row_ach_wt_kg",
+          "columns:row_set_wt_kg"
+        ]
+      },
+      "row_error_pct": {
+        "op": "DIVIDE",
+        "over": [
+          "columns:row_error_kg",
+          "columns:row_set_wt_kg"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "c98baa41ccd1cbbe8805a7ffe838c38feca04cb7b10ca84eb4ef479308e8e4ce",
+    "catalog_sha256": "5f54426a773e5291fa8721077c848268d9216dbe4339e377c1b4cf13b319a33b",
+    "schema_sha256": "3df0547c63113dc07c13084d86984bc4bc380b266ca48f995f58e053f89e40e4",
+    "cache_key": "1c53793b553378ea23eb5aa41d21df130e9f36310b6b091277a5644b1fd0d00e",
+    "pre_html_sha256": "a33e10c693aba6925359b862763dfbcbd0a50310e27264bffac1171aaed2a2dc",
+    "post_html_sha256": "a33e10c693aba6925359b862763dfbcbd0a50310e27264bffac1171aaed2a2dc",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "4b76f5d48c859487316e5ef6cdf829d88225da701c54e83097e0df8eaf4c601f",
+    "db_signature": "f154627861ac19ddcd6242b474662f6f47cf0edbe1ff5d8ccea61190d17edd44"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_sl_no": "UNRESOLVED",
+      "row_material_name": "UNRESOLVED",
+      "row_set_wt_kg": "UNRESOLVED",
+      "row_ach_wt_kg": "UNRESOLVED",
+      "row_error_kg": "UNRESOLVED",
+      "row_error_pct": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_sl_no": "1",
+      "row_material_name": "SOYA",
+      "row_set_wt_kg": "300",
+      "row_ach_wt_kg": "300",
+      "row_error_kg": "0",
+      "row_error_pct": "0"
+    },
+    "meta": {
+      "unresolved": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "hints": {
+        "row_sl_no": {
+          "op": "SEQUENCE",
+          "columns": []
+        },
+        "row_material_name": {
+          "op": "Pivot/Mapping",
+          "columns": [
+            "recipes.bin1_content",
+            "recipes.bin2_content"
+          ]
+        },
+        "row_set_wt_kg": {
+          "op": "Pivot/Mapping",
+          "columns": [
+            "recipes.bin1_sp",
+            "recipes.bin2_sp"
+          ]
+        },
+        "row_ach_wt_kg": {
+          "op": "Pivot/Mapping",
+          "columns": [
+            "recipes.bin1_act",
+            "recipes.bin2_act"
+          ]
+        },
+        "row_error_kg": {
+          "op": "SUBTRACT",
+          "columns": [
+            "row_ach_wt_kg",
+            "row_set_wt_kg"
+          ]
+        },
+        "row_error_pct": {
+          "op": "DIVIDE",
+          "columns": [
+            "row_error_kg",
+            "row_set_wt_kg"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_sl_no": "1",
+    "row_material_name": "SOYA",
+    "row_set_wt_kg": "300",
+    "row_ach_wt_kg": "300",
+    "row_error_kg": "0",
+    "row_error_pct": "0"
+  }
+}

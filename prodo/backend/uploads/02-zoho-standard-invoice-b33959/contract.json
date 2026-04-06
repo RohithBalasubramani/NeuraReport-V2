@@ -1,0 +1,240 @@
+{
+  "tokens": {
+    "scalars": [
+      "invoice_number",
+      "balance_due",
+      "bill_to_name",
+      "bill_to_address_line1",
+      "bill_to_address_line2",
+      "bill_to_address_line3",
+      "bill_to_country",
+      "invoice_date",
+      "terms",
+      "due_date",
+      "po_number",
+      "project_name",
+      "subtotal",
+      "tax1_label",
+      "tax1_amount",
+      "tax2_label",
+      "tax2_amount",
+      "total",
+      "payment_made",
+      "balance_due_final",
+      "notes",
+      "terms_and_conditions"
+    ],
+    "row_tokens": [
+      "row_line_number",
+      "row_item_name",
+      "row_item_description",
+      "row_qty",
+      "row_rate",
+      "row_discount",
+      "row_amount"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "invoice_number": "invoices.invoice_number",
+    "balance_due": "invoices.total_amount",
+    "bill_to_name": "customers.customer_name",
+    "bill_to_address_line1": "customers.billing_address",
+    "bill_to_address_line2": "customers.city",
+    "bill_to_address_line3": "customers.postal_code",
+    "bill_to_country": "customers.country",
+    "invoice_date": "invoices.issue_date",
+    "terms": "PARAM:terms",
+    "due_date": "invoices.due_date",
+    "po_number": "PARAM:po_number",
+    "project_name": "PARAM:project_name",
+    "row_line_number": "invoice_items.line_no",
+    "row_item_name": "invoice_items.item_code",
+    "row_item_description": "invoice_items.description",
+    "row_qty": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_discount": "invoice_items.quantity",
+    "row_amount": "invoice_items.line_total",
+    "subtotal": "invoices.subtotal",
+    "tax1_label": "PARAM:tax1_label",
+    "tax1_amount": "invoices.subtotal",
+    "tax2_label": "PARAM:tax2_label",
+    "tax2_amount": "invoices.subtotal",
+    "total": "invoices.total_amount",
+    "payment_made": "payments.amount_paid",
+    "balance_due_final": "invoices.total_amount",
+    "notes": "invoices.notes",
+    "terms_and_conditions": "PARAM:terms_and_conditions"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_line_number",
+          "from": [
+            "invoice_items.line_no"
+          ]
+        },
+        {
+          "as": "row_item_name",
+          "from": [
+            "invoice_items.item_code"
+          ]
+        },
+        {
+          "as": "row_item_description",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_qty",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_rate",
+          "from": [
+            "invoice_items.unit_price"
+          ]
+        },
+        {
+          "as": "row_discount",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_amount",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "bill_to_address_line2": {
+      "op": "concat",
+      "columns": [
+        "customers.city",
+        "customers.state"
+      ],
+      "separator": " "
+    },
+    "bill_to_address_line3": {
+      "op": "concat",
+      "columns": [
+        "customers.postal_code",
+        "customers.state"
+      ],
+      "separator": " "
+    },
+    "row_discount": {
+      "op": "subtract",
+      "left": {
+        "op": "multiply",
+        "left": "invoice_items.quantity",
+        "right": "invoice_items.unit_price"
+      },
+      "right": "invoice_items.line_total"
+    },
+    "tax1_amount": {
+      "op": "multiply",
+      "left": "invoices.subtotal",
+      "right": 0.047
+    },
+    "tax2_amount": {
+      "op": "multiply",
+      "left": "invoices.subtotal",
+      "right": 0.07
+    },
+    "balance_due": {
+      "op": "subtract",
+      "left": "invoices.total_amount",
+      "right": "payments.amount_paid"
+    },
+    "balance_due_final": {
+      "op": "subtract",
+      "left": "invoices.total_amount",
+      "right": "payments.amount_paid"
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "invoice_date": "date(DD MMM YYYY)",
+    "due_date": "date(DD MMM YYYY)",
+    "row_qty": "number(2)",
+    "row_rate": "number(3)",
+    "row_discount": "number(2)",
+    "row_amount": "number(3)",
+    "subtotal": "number(3)",
+    "tax1_amount": "number(3)",
+    "tax2_amount": "number(3)",
+    "total": "currency(3)",
+    "payment_made": "number(3)",
+    "balance_due": "currency(3)",
+    "balance_due_final": "currency(3)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "invoice_number",
+    "balance_due",
+    "bill_to_name",
+    "bill_to_address_line1",
+    "bill_to_address_line2",
+    "bill_to_address_line3",
+    "bill_to_country",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "po_number",
+    "project_name",
+    "subtotal",
+    "tax1_label",
+    "tax1_amount",
+    "tax2_label",
+    "tax2_amount",
+    "total",
+    "payment_made",
+    "balance_due_final",
+    "notes",
+    "terms_and_conditions"
+  ],
+  "row_tokens": [
+    "row_line_number",
+    "row_item_name",
+    "row_item_description",
+    "row_qty",
+    "row_rate",
+    "row_discount",
+    "row_amount"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {},
+  "notes": "Invoice template with customer billing details, line items, dual tax calculation (4.70% and 7.00%), and balance tracking. Company information (Zylker) is hardcoded as constants. The balance_due appears in both header and footer sections (balance_due_final). Address lines 2 and 3 are computed from city/state and postal_code/state concatenations. Row discount is derived by calculating (qty × rate) - line_total."
+}

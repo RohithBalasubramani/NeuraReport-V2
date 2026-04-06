@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contract",
+  "type": "object",
+  "required": [
+    "mapping",
+    "join",
+    "date_columns",
+    "header_tokens",
+    "row_tokens",
+    "totals",
+    "row_order",
+    "literals"
+  ],
+  "properties": {
+    "mapping": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "join": {
+      "type": "object",
+      "required": ["parent_table", "parent_key", "child_table", "child_key"],
+      "properties": {
+        "parent_table": { "type": "string" },
+        "parent_key": { "type": "string" },
+        "child_table": { "type": "string" },
+        "child_key": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "date_columns": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "header_tokens": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "row_tokens": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "row_order": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "literals": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

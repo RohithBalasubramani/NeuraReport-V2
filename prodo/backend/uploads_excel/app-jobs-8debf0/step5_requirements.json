@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header/scalar tokens in this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "All jobs from app_jobs table with their configuration and status",
+      "columns": [
+        "row_job_name",
+        "row_type",
+        "row_status",
+        "row_enabled",
+        "row_interval_ms",
+        "row_cpu_budget"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_jobs.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report",
+      "columns": []
+    }
+  },
+  "semantics": "No filters or parameters. All jobs are displayed as-is from the app_jobs table.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations needed. Direct column mapping from app_jobs table to row tokens."
+  ]
+}

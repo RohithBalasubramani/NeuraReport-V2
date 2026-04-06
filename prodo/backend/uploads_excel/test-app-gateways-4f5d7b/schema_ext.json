@@ -1,0 +1,77 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    {
+      "token": "row_id",
+      "description": "Gateway unique identifier",
+      "sample": "gw_1771004131086"
+    },
+    {
+      "token": "row_name",
+      "description": "Gateway name",
+      "sample": "Gateway-192.168.1.20"
+    },
+    {
+      "token": "row_host",
+      "description": "Gateway host address",
+      "sample": "opc.tcp://192.168.1.20:4840"
+    },
+    {
+      "token": "row_adapter_id",
+      "description": "Adapter identifier",
+      "sample": ""
+    },
+    {
+      "token": "row_nic_hint",
+      "description": "Network interface hint",
+      "sample": ""
+    },
+    {
+      "token": "row_ports_json",
+      "description": "Ports configuration JSON",
+      "sample": "[4840]"
+    },
+    {
+      "token": "row_protocol_hint",
+      "description": "Protocol hint",
+      "sample": "opcua"
+    },
+    {
+      "token": "row_tags_json",
+      "description": "Tags JSON array",
+      "sample": "[]"
+    },
+    {
+      "token": "row_status",
+      "description": "Gateway status",
+      "sample": "unknown"
+    },
+    {
+      "token": "row_last_ping_json",
+      "description": "Last ping result JSON",
+      "sample": ""
+    },
+    {
+      "token": "row_last_tcp_json",
+      "description": "Last TCP test result JSON",
+      "sample": ""
+    },
+    {
+      "token": "row_created_at",
+      "description": "Creation timestamp",
+      "sample": "2026-02-13T17:35:31Z"
+    },
+    {
+      "token": "row_updated_at",
+      "description": "Last update timestamp",
+      "sample": "2026-02-13T17:35:31Z"
+    },
+    {
+      "token": "row_last_test_at",
+      "description": "Last test timestamp",
+      "sample": ""
+    }
+  ],
+  "totals": {},
+  "notes": "Gateway configuration report with 14 columns tracking gateway identifiers, network settings, protocol information, and lifecycle timestamps."
+}

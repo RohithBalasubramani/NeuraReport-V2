@@ -1,0 +1,21 @@
+{
+  "title": "Jobs",
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_device_table_id",
+    "row_schema_id",
+    "row_gateway_id",
+    "row_interval_sec",
+    "row_protocol",
+    "row_enabled",
+    "row_status",
+    "row_last_run_at",
+    "row_error_count",
+    "row_created_at",
+    "row_updated_at"
+  ],
+  "totals": {},
+  "notes": "Print-ready Jobs table with 13 columns. Single prototype row for repeating data."
+}

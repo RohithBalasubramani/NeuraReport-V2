@@ -1,0 +1,25 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_schema_id",
+    "row_key",
+    "row_type",
+    "row_unit",
+    "row_scale",
+    "row_desc_text"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Schema Fields",
+    "column_count": 6,
+    "prototype_row_count": 1,
+    "headers": [
+      "Schema Id",
+      "Key",
+      "Type",
+      "Unit",
+      "Scale",
+      "Desc Text"
+    ]
+  }
+}

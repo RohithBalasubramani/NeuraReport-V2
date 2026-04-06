@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gateways Report</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      color: #000;
+      line-height: 1.4;
+    }
+
+    #report-header {
+      margin-bottom: 16px;
+    }
+
+    #report-title {
+      font-size: 16pt;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    #data-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-bottom: 16px;
+    }
+
+    #data-table thead th {
+      background-color: #f0f0f0;
+      font-weight: 700;
+      text-align: left;
+      border: 1px solid #999;
+      padding: 8px;
+      font-size: 10pt;
+    }
+
+    #data-table tbody td {
+      border: 1px solid #999;
+      padding: 6px 8px;
+      vertical-align: top;
+      font-size: 10pt;
+    }
+
+    #data-table tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    /* Column-specific alignment */
+    #data-table tbody td:nth-child(1),
+    #data-table tbody td:nth-child(2),
+    #data-table tbody td:nth-child(3) {
+      text-align: left;
+    }
+
+    #data-table tbody td:nth-child(4) {
+      text-align: center;
+    }
+
+    #data-table tbody td:nth-child(5),
+    #data-table tbody td:nth-child(6) {
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 9pt;
+    }
+
+    @media print {
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="report-header">
+    <h1 id="report-title">Gateways</h1>
+  </header>
+
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th data-label="gateway_name">Gateway Name</th>
+        <th data-label="host">Host</th>
+        <th data-label="protocol_hint">Protocol Hint</th>
+        <th data-label="status">Status</th>
+        <th data-label="created_at">Created At</th>
+        <th data-label="updated_at">Updated At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{row_gateway_name}</td>
+        <td>{row_host}</td>
+        <td>{row_protocol_hint}</td>
+        <td>{row_status}</td>
+        <td>{row_created_at}</td>
+        <td>{row_updated_at}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications</title>
+<style>
+@page {
+  size: A4;
+  margin: 24mm;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.4;
+  color: #333;
+  background: #fff;
+}
+
+#report-header {
+  margin-bottom: 16px;
+}
+
+.report-title {
+  font-size: 16pt;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#data-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+#data-table thead th {
+  background-color: #f5f5f5;
+  font-weight: 700;
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid #999;
+  vertical-align: middle;
+}
+
+#data-table tbody tr {
+  page-break-inside: avoid;
+}
+
+#data-table tbody td {
+  padding: 6px 10px;
+  border: 1px solid #999;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+/* Column-specific alignment */
+#data-table tbody td:nth-child(1) {
+  text-align: left;
+}
+
+#data-table tbody td:nth-child(2) {
+  text-align: left;
+}
+
+#data-table tbody td:nth-child(3) {
+  text-align: left;
+}
+
+#data-table tbody td:nth-child(4) {
+  text-align: left;
+}
+
+#data-table tbody td:nth-child(5) {
+  text-align: center;
+}
+
+#data-table tbody td:nth-child(6) {
+  text-align: left;
+}
+
+@media print {
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  #data-table thead {
+    display: table-header-group;
+  }
+  
+  #data-table tbody tr {
+    page-break-inside: avoid;
+  }
+}
+</style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.97; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+
+<header id="report-header">
+  <h1 class="report-title">Notifications</h1>
+</header>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th data-label="id">ID</th>
+      <th data-label="type">Type</th>
+      <th data-label="message">Message</th>
+      <th data-label="user">User</th>
+      <th data-label="read">Read</th>
+      <th data-label="time">Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+
+</body>
+</html>

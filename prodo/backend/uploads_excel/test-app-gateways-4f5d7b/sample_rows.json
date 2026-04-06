@@ -1,0 +1,18 @@
+{
+  "sample_row": {
+    "row_last_test_at": "NOT_VISIBLE",
+    "row_id": "gw_1771004131086",
+    "row_protocol_hint": "opcua",
+    "row_tags_json": "[]",
+    "row_status": "unknown",
+    "row_last_ping_json": "NOT_VISIBLE",
+    "row_last_tcp_json": "NOT_VISIBLE",
+    "row_host": "opc.tcp://192.168.1.20:4840",
+    "row_name": "Gateway-192.168.1.20",
+    "row_nic_hint": "NOT_VISIBLE",
+    "row_created_at": "2026-02-13T17:35:31Z",
+    "row_ports_json": "[4840]",
+    "row_adapter_id": "NOT_VISIBLE",
+    "row_updated_at": "2026-02-13T17:35:31Z"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "mapping": {
+    "row_job_name": "app_jobs.name",
+    "row_type": "app_jobs.type",
+    "row_status": "app_jobs.status",
+    "row_enabled": "app_jobs.enabled",
+    "row_interval_ms": "app_jobs.interval_ms",
+    "row_cpu_budget": "app_jobs.cpu_budget"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "20f320d84fb36a95486dff6ad61b28beb98eed32ce7314e9a80cea52ded0cd80",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "30c6892561425bf496e2a5d9589f1b30a2009abcbfc335836c4b988ee0426dc1",
+    "pre_html_sha256": "560165f0380fbd53bb41ba1a76666450503bf300880d7485dc839bddef57a90b",
+    "post_html_sha256": "560165f0380fbd53bb41ba1a76666450503bf300880d7485dc839bddef57a90b",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_name": "app_jobs.name",
+      "row_type": "app_jobs.type",
+      "row_status": "app_jobs.status",
+      "row_enabled": "app_jobs.enabled",
+      "row_interval_ms": "app_jobs.interval_ms",
+      "row_cpu_budget": "app_jobs.cpu_budget"
+    },
+    "token_samples": {
+      "row_job_name": "{row_job_name}",
+      "row_type": "{row_type}",
+      "row_status": "{row_status}",
+      "row_enabled": "{row_enabled}",
+      "row_interval_ms": "{row_interval_ms}",
+      "row_cpu_budget": "{row_cpu_budget}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_name": "{row_job_name}",
+    "row_type": "{row_type}",
+    "row_status": "{row_status}",
+    "row_enabled": "{row_enabled}",
+    "row_interval_ms": "{row_interval_ms}",
+    "row_cpu_budget": "{row_cpu_budget}"
+  }
+}

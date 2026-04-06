@@ -1,0 +1,8 @@
+Template: Logger — Metadata
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 5
+  Scalars: date_from, date_to, generated_at
+  Row tokens: row_key, row_value
+  Totals: (none)
+Has block repeat: True

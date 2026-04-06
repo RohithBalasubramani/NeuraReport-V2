@@ -1,0 +1,205 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_device_table_id",
+      "row_schema_id",
+      "row_gateway_id",
+      "row_interval_sec",
+      "row_protocol",
+      "row_enabled",
+      "row_status",
+      "row_last_run_at",
+      "row_error_count",
+      "row_created_at",
+      "row_updated_at"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_id": "app_jobs.id",
+    "row_name": "app_jobs.name",
+    "row_device_table_id": "app_jobs.tables_json",
+    "row_schema_id": "app_device_tables.schema_id",
+    "row_gateway_id": "app_devices.gateway_id",
+    "row_interval_sec": "app_jobs.interval_ms",
+    "row_protocol": "app_devices.protocol",
+    "row_enabled": "app_jobs.enabled",
+    "row_status": "app_jobs.status",
+    "row_last_run_at": "app_job_runs.started_at",
+    "row_error_count": "app_job_errors_minute.count",
+    "row_created_at": "app_gateways.created_at",
+    "row_updated_at": "app_gateways.updated_at"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_jobs",
+    "parent_key": "id",
+    "child_table": "app_job_runs",
+    "child_key": "job_id"
+  },
+  "date_columns": {
+    "app_job_runs": "started_at",
+    "app_gateways": "created_at"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_id",
+          "from": [
+            "app_jobs.id"
+          ]
+        },
+        {
+          "as": "row_name",
+          "from": [
+            "app_jobs.name"
+          ]
+        },
+        {
+          "as": "row_device_table_id",
+          "from": [
+            "app_jobs.tables_json"
+          ]
+        },
+        {
+          "as": "row_schema_id",
+          "from": [
+            "app_device_tables.schema_id"
+          ]
+        },
+        {
+          "as": "row_gateway_id",
+          "from": [
+            "app_devices.gateway_id"
+          ]
+        },
+        {
+          "as": "row_interval_sec",
+          "from": [
+            "app_jobs.interval_ms"
+          ]
+        },
+        {
+          "as": "row_protocol",
+          "from": [
+            "app_devices.protocol"
+          ]
+        },
+        {
+          "as": "row_enabled",
+          "from": [
+            "app_jobs.enabled"
+          ]
+        },
+        {
+          "as": "row_status",
+          "from": [
+            "app_jobs.status"
+          ]
+        },
+        {
+          "as": "row_last_run_at",
+          "from": [
+            "app_job_runs.started_at"
+          ]
+        },
+        {
+          "as": "row_error_count",
+          "from": [
+            "app_job_errors_minute.count"
+          ]
+        },
+        {
+          "as": "row_created_at",
+          "from": [
+            "app_gateways.created_at"
+          ]
+        },
+        {
+          "as": "row_updated_at",
+          "from": [
+            "app_gateways.updated_at"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "row_device_table_id": {
+      "op": "concat",
+      "columns": [
+        "app_jobs.tables_json"
+      ],
+      "separator": ""
+    },
+    "row_interval_sec": {
+      "op": "divide",
+      "numerator": "app_jobs.interval_ms",
+      "denominator": 1000
+    },
+    "row_last_run_at": {
+      "op": "format_date",
+      "column": "app_job_runs.started_at",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "row_error_count": {
+      "op": "sum",
+      "column": "app_job_errors_minute.count"
+    },
+    "row_created_at": {
+      "op": "format_date",
+      "column": "app_gateways.created_at",
+      "format": "%Y-%m-%d %H:%M:%S"
+    },
+    "row_updated_at": {
+      "op": "format_date",
+      "column": "app_gateways.updated_at",
+      "format": "%Y-%m-%d %H:%M:%S"
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_interval_sec": "number(0)",
+    "row_error_count": "number(0)",
+    "row_last_run_at": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_created_at": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_updated_at": "date(YYYY-MM-DD HH:mm:ss)"
+  },
+  "order_by": {
+    "rows": [
+      "app_jobs.id ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_device_table_id",
+    "row_schema_id",
+    "row_gateway_id",
+    "row_interval_sec",
+    "row_protocol",
+    "row_enabled",
+    "row_status",
+    "row_last_run_at",
+    "row_error_count",
+    "row_created_at",
+    "row_updated_at"
+  ],
+  "row_order": [
+    "app_jobs.id ASC"
+  ],
+  "literals": {},
+  "notes": "Jobs report displays all data acquisition jobs with device configuration, polling intervals, operational status, and runtime metrics. Multi-table joins connect jobs → device_tables → devices → gateways. Aggregations compute last run timestamp and total error counts from job_runs and job_errors_minute tables."
+}

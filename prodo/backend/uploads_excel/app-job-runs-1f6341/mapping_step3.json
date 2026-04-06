@@ -1,0 +1,70 @@
+{
+  "mapping": {
+    "row_id": "app_job_runs.id",
+    "row_job_id": "app_job_runs.job_id",
+    "row_started_at": "app_job_runs.started_at",
+    "row_stopped_at": "app_job_runs.stopped_at",
+    "row_duration_ms": "app_job_runs.duration_ms",
+    "row_rows": "app_job_runs.rows",
+    "row_read_lat_avg": "app_job_runs.read_lat_avg",
+    "row_write_lat_avg": "app_job_runs.write_lat_avg",
+    "row_error_pct": "app_job_runs.error_pct"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "82b7ca30986ba8db5d5c05724fcc0f9d1acb0f79b20b0873019c2c40cefce26f",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "ce8a395b69eef2f3f0590fc767f1f7df3a3825ab411b8b0637333dbe5c79fe2e",
+    "pre_html_sha256": "d1b842c69e3f72c0570b40292469c477f69089c5284dd2faff22a25ff299f896",
+    "post_html_sha256": "d1b842c69e3f72c0570b40292469c477f69089c5284dd2faff22a25ff299f896",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_job_runs.id",
+      "row_job_id": "app_job_runs.job_id",
+      "row_started_at": "app_job_runs.started_at",
+      "row_stopped_at": "app_job_runs.stopped_at",
+      "row_duration_ms": "app_job_runs.duration_ms",
+      "row_rows": "app_job_runs.rows",
+      "row_read_lat_avg": "app_job_runs.read_lat_avg",
+      "row_write_lat_avg": "app_job_runs.write_lat_avg",
+      "row_error_pct": "app_job_runs.error_pct"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_job_id": "{row_job_id}",
+      "row_started_at": "{row_started_at}",
+      "row_stopped_at": "{row_stopped_at}",
+      "row_duration_ms": "{row_duration_ms}",
+      "row_rows": "{row_rows}",
+      "row_read_lat_avg": "{row_read_lat_avg}",
+      "row_write_lat_avg": "{row_write_lat_avg}",
+      "row_error_pct": "{row_error_pct}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_job_id": "{row_job_id}",
+    "row_started_at": "{row_started_at}",
+    "row_stopped_at": "{row_stopped_at}",
+    "row_duration_ms": "{row_duration_ms}",
+    "row_rows": "{row_rows}",
+    "row_read_lat_avg": "{row_read_lat_avg}",
+    "row_write_lat_avg": "{row_write_lat_avg}",
+    "row_error_pct": "{row_error_pct}"
+  }
+}

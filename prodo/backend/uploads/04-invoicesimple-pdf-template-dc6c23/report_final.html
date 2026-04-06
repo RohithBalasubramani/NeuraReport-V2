@@ -1,0 +1,349 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Invoice</title>
+<style>
+:root {
+  --col-description-w: 230mm;
+  --col-quantity-w: 60mm;
+  --col-price-w: 70mm;
+  --col-amount-w: 80mm;
+  --row-height: 32px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@page {
+  size: A4;
+  margin: 15mm 20mm;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  line-height: 1.4;
+  color: #333;
+  background: #fff;
+}
+
+#report-header {
+  margin-bottom: 25mm;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20mm;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.invoice-title {
+  font-size: 48pt;
+  font-weight: 300;
+  color: #555;
+  margin-bottom: 3mm;
+  letter-spacing: 0px;
+}
+
+.invoice-meta {
+  font-size: 9pt;
+  color: #333;
+  line-height: 1.5;
+}
+
+.invoice-meta strong {
+  font-weight: 700;
+}
+
+.from-to-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15mm;
+  gap: 80mm;
+}
+
+.from-block, .to-block {
+  flex: 0 0 auto;
+}
+
+.from-block strong, .to-block strong {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 3mm;
+}
+
+.address-lines {
+  font-size: 9.5pt;
+  color: #333;
+  line-height: 1.5;
+}
+
+.terms-section {
+  margin-bottom: 3mm;
+}
+
+.terms-section strong {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #333;
+}
+
+.terms-section span {
+  font-size: 9.5pt;
+  color: #333;
+  margin-left: 8px;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+  table-layout: fixed;
+}
+
+#data-table thead th {
+  background: #f8f8f8;
+  border: 1px solid #999;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 11pt;
+  font-weight: 600;
+  color: #333;
+}
+
+#data-table thead th:nth-child(1) {
+  width: 230mm;
+}
+
+#data-table thead th:nth-child(2) {
+  width: 60mm;
+  text-align: center;
+}
+
+#data-table thead th:nth-child(3) {
+  width: 70mm;
+  text-align: center;
+}
+
+#data-table thead th:nth-child(4) {
+  width: 80mm;
+  text-align: center;
+}
+
+#data-table tbody td {
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  padding: 6px 10px;
+  font-size: 9.5pt;
+  color: #333;
+  vertical-align: top;
+  min-height: 140mm;
+}
+
+#data-table tbody td:nth-child(2) {
+  text-align: center;
+}
+
+#data-table tbody td:nth-child(3),
+#data-table tbody td:nth-child(4) {
+  text-align: right;
+}
+
+#report-totals {
+  margin-top: 0;
+  margin-bottom: 15mm;
+}
+
+.totals-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.totals-table tr td {
+  padding: 5mm 10px;
+  font-size: 10pt;
+}
+
+.totals-table tr td:first-child {
+  text-align: right;
+  font-weight: 400;
+  color: #333;
+}
+
+.totals-table tr td:last-child {
+  width: 80mm;
+  text-align: right;
+  border: 1px solid #999;
+  font-weight: 400;
+  color: #333;
+}
+
+.totals-table tr.balance-row td:first-child {
+  font-size: 14pt;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.totals-table tr.balance-row td:last-child {
+  font-size: 12pt;
+  font-weight: 600;
+}
+
+.notes-section {
+  margin-top: 10mm;
+  margin-bottom: 15mm;
+}
+
+.notes-section h3 {
+  font-size: 14pt;
+  font-weight: 300;
+  color: #555;
+  margin-bottom: 5mm;
+}
+
+.notes-box {
+  border: 1px solid #999;
+  padding: 10px;
+  min-height: 60mm;
+  font-size: 8.5pt;
+  color: #333;
+  background: #fff;
+}
+
+.footer-branding {
+  margin-top: 15mm;
+  text-align: right;
+}
+
+.footer-branding a {
+  display: inline-block;
+  background: #ff5722;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 18px;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.footer-branding a::after {
+  content: " ↗";
+  margin-left: 4px;
+}
+</style>
+
+
+
+<div id="report-header">
+  <div class="header-top">
+    <div class="header-left">
+      
+    </div>
+    <div class="header-right">
+      <div class="invoice-title">Invoice</div>
+      <div class="invoice-meta">
+        <strong>DATE:</strong> {invoice_date}<br>
+        <strong>INVOICE</strong> {invoice_number}
+      </div>
+    </div>
+  </div>
+
+  <div class="from-to-section">
+    <div class="from-block">
+      <strong>FROM:</strong>
+      <div class="address-lines">
+        {from_company_name}<br>
+        {from_email}<br>
+        {from_address_1}<br>
+        {from_address_2}
+      </div>
+    </div>
+    <div class="to-block">
+      <strong>TO:</strong>
+      <div class="address-lines">
+        {to_client_name}<br>
+        {to_email}<br>
+        {to_address_1}<br>
+        {to_address_2}
+      </div>
+    </div>
+  </div>
+
+  <div class="terms-section">
+    <strong>TERMS:</strong>
+    <span>{terms}</span>
+  </div>
+  <div class="terms-section">
+    <strong>DUE:</strong>
+    <span>{due_date}</span>
+  </div>
+</div>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th data-label="item_description">Item Description</th>
+      <th data-label="quantity">Quantity</th>
+      <th data-label="price">Price</th>
+      <th data-label="amount">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{row_item_description}</td>
+      <td>{row_quantity}</td>
+      <td>{row_price}</td>
+      <td>{row_amount}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div id="report-totals">
+  <table class="totals-table">
+    <tbody><tr>
+      <td>Subtotal</td>
+      <td>{subtotal}</td>
+    </tr>
+    <tr>
+      <td>Tax</td>
+      <td>{tax}</td>
+    </tr>
+    <tr class="balance-row">
+      <td>BALANCE DUE</td>
+      <td>{balance_due}</td>
+    </tr>
+  </tbody></table>
+</div>
+
+<div class="notes-section">
+  <h3>Notes</h3>
+  <div class="notes-box">
+    {notes}
+  </div>
+</div>
+
+<div class="footer-branding">
+  Online Invoice Generator
+</div>
+
+

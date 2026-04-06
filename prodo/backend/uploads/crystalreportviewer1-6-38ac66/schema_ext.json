@@ -1,0 +1,29 @@
+{
+  "scalars": [
+    "plant_name",
+    "report_date",
+    "location",
+    "recipe_code",
+    "print_type",
+    "shift_no",
+    "page_number",
+    "total_pages"
+  ],
+  "row_tokens": [
+    "row_bth_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_percent",
+    "row_dosing_dur_sec"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_percent",
+    "total_dosing_dur_sec"
+  ],
+  "notes": "Batch block contains repeating metadata fields: batch_no, scale_1, start_time_1, date_act_1, scale_2, start_time_2, date_act_2, batch_date, main1_value, main1_detail, main2_value, main2_detail, batch_shift_no, recipe_name, recipe_code_detail, recipe_no. These are part of the repeatable BLOCK_REPEAT structure."
+}

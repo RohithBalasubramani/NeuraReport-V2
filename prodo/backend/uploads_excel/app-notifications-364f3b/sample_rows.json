@@ -1,0 +1,10 @@
+{
+  "sample_row": {
+    "row_read": "false",
+    "row_id": "N/A",
+    "row_type": "info",
+    "row_time": "2025-01-01",
+    "row_user": "system",
+    "row_message": "No notifications"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "mapping": {
+    "row_id": "app_devices.id",
+    "row_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_unit_id": "app_devices.unit_id",
+    "row_port": "app_devices.port",
+    "row_gateway_id": "app_devices.gateway_id"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "3d359d6ef4bb76f2853fda8cc883de2ee5470db1e31d240e832705ffe49e8e3d",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "db383288b02939183f31aa28be4861983cf37ec36fb17f83e680c6c0320c2520",
+    "pre_html_sha256": "e855845baa7af41e45384bf895eed8e597f9a700252e962fbb46277b9cf7ef44",
+    "post_html_sha256": "e855845baa7af41e45384bf895eed8e597f9a700252e962fbb46277b9cf7ef44",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_devices.id",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_unit_id": "app_devices.unit_id",
+      "row_port": "app_devices.port",
+      "row_gateway_id": "app_devices.gateway_id"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_protocol": "{row_protocol}",
+      "row_status": "{row_status}",
+      "row_latency_ms": "{row_latency_ms}",
+      "row_auto_reconnect": "{row_auto_reconnect}",
+      "row_unit_id": "{row_unit_id}",
+      "row_port": "{row_port}",
+      "row_gateway_id": "{row_gateway_id}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_protocol": "{row_protocol}",
+    "row_status": "{row_status}",
+    "row_latency_ms": "{row_latency_ms}",
+    "row_auto_reconnect": "{row_auto_reconnect}",
+    "row_unit_id": "{row_unit_id}",
+    "row_port": "{row_port}",
+    "row_gateway_id": "{row_gateway_id}"
+  }
+}

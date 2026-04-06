@@ -1,0 +1,37 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level data required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents a schema field definition from the app_schema_fields table with all metadata columns.",
+      "columns": [
+        "row_schema_id",
+        "row_field_key",
+        "row_field_type",
+        "row_unit",
+        "row_scale",
+        "row_description"
+      ],
+      "grouping": [],
+      "ordering": [
+        "schema_id ASC",
+        "key ASC"
+      ]
+    },
+    "totals": {
+      "description": "No aggregate totals required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no filter parameters. All schema fields are displayed without user-supplied filtering or date range constraints.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load all rows from app_schema_fields table",
+    "Order results by schema_id ascending, then key ascending"
+  ]
+}

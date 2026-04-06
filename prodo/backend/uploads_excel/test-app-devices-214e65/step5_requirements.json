@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No scalar tokens required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Complete device registry with protocol, status, performance metrics, and gateway associations",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_protocol",
+        "row_params_json",
+        "row_status",
+        "row_latency_ms",
+        "row_last_error",
+        "row_auto_reconnect",
+        "row_unit_id",
+        "row_port",
+        "row_gateway_id"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "This is a straightforward listing report with no filtering or parameterization. All columns are direct pass-through from the app_devices table.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct column selection from app_devices table with no transformations"
+  ]
+}

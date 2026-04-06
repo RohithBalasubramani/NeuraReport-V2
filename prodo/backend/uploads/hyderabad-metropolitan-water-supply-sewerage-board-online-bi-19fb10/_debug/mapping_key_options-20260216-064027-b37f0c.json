@@ -1,0 +1,25 @@
+{
+  "event": "mapping_key_options",
+  "timestamp": "20260216-064027",
+  "template_id": "hyderabad-metropolitan-water-supply-sewerage-board-online-bi-19fb10",
+  "template_kind": "pdf",
+  "connection_id": "de4126f8-f743-4a8a-a36e-f6e014ffc4eb",
+  "db_path": "/home/rohith/desktop/NeuraReport/backend/hmwssb_billing.db",
+  "tokens_available": [
+    "transaction_status"
+  ],
+  "token_details": {
+    "transaction_status": {
+      "table": "transactions",
+      "column": "transaction_status",
+      "date_column": "transaction_date",
+      "applied_date_filters": false,
+      "sql": "\"transaction_status\" IS NOT NULL AND TRIM(CAST(\"transaction_status\" AS TEXT)) <> ''",
+      "params": [],
+      "fallback_used": false,
+      "error": null,
+      "row_count": 1,
+      "binding_source": "mapping"
+    }
+  }
+}

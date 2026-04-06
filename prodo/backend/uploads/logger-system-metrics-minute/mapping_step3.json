@@ -1,0 +1,97 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_minute_utc": "app_metrics_system_minute.minute_utc",
+    "row_cpu": "app_metrics_system_minute.cpu",
+    "row_mem": "app_metrics_system_minute.mem",
+    "row_disk_rps": "app_metrics_system_minute.disk_rps",
+    "row_disk_wps": "app_metrics_system_minute.disk_wps",
+    "row_net_rxps": "app_metrics_system_minute.net_rxps",
+    "row_net_txps": "app_metrics_system_minute.net_txps",
+    "row_proc_cpu": "app_metrics_system_minute.proc_cpu",
+    "row_proc_rss_mb": "app_metrics_system_minute.proc_rss_mb",
+    "row_proc_handles": "app_metrics_system_minute.proc_handles"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "a7c904c102cb0c48e436278003729885e042d8c344ed831605b28dca34675374",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "e1b1c49be7d550fb9432c61d614a8d17b3cfa2bf9e6299e02f64798ea2a881f7",
+    "cache_key": "19e65a226a6f465fca7d9d6d97b0386e75bf447396d2c1a690270e26606b6fb3",
+    "pre_html_sha256": "8219475ff3caece014ec44357c35a6aab33b7aa9a8ea59616ae55048ad7a1e38",
+    "post_html_sha256": "635e4ea4093ab400b347c143ba39fc70e3af3b48ee208882326a31ccb90a27b6",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_minute_utc": "app_metrics_system_minute.minute_utc",
+      "row_cpu": "app_metrics_system_minute.cpu",
+      "row_mem": "app_metrics_system_minute.mem",
+      "row_disk_rps": "app_metrics_system_minute.disk_rps",
+      "row_disk_wps": "app_metrics_system_minute.disk_wps",
+      "row_net_rxps": "app_metrics_system_minute.net_rxps",
+      "row_net_txps": "app_metrics_system_minute.net_txps",
+      "row_proc_cpu": "app_metrics_system_minute.proc_cpu",
+      "row_proc_rss_mb": "app_metrics_system_minute.proc_rss_mb",
+      "row_proc_handles": "app_metrics_system_minute.proc_handles"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "Generated: 2026-02-18",
+      "row_minute_utc": "2026-02-18 10:00",
+      "row_cpu": "12.4",
+      "row_mem": "67.8",
+      "row_disk_rps": "1.2",
+      "row_disk_wps": "0.8",
+      "row_net_rxps": "524",
+      "row_net_txps": "318",
+      "row_proc_cpu": "3.1",
+      "row_proc_rss_mb": "148",
+      "row_proc_handles": "42"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not stored in any catalog column; must be injected at runtime as a system scalar."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "Generated: 2026-02-18"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "Generated: 2026-02-18"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "Generated: 2026-02-18",
+    "row_minute_utc": "2026-02-18 10:00",
+    "row_cpu": "12.4",
+    "row_mem": "67.8",
+    "row_disk_rps": "1.2",
+    "row_disk_wps": "0.8",
+    "row_net_rxps": "524",
+    "row_net_txps": "318",
+    "row_proc_cpu": "3.1",
+    "row_proc_rss_mb": "148",
+    "row_proc_handles": "42"
+  }
+}

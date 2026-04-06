@@ -1,0 +1,56 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_protocol_type"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_protocol_type": "app_protocol_types.type"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_protocol_types",
+    "parent_key": "type",
+    "child_table": "app_protocol_types",
+    "child_key": "type"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_protocol_type",
+          "from": [
+            "app_protocol_types.type"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "app_protocol_types.type ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_protocol_type"
+  ],
+  "row_order": [
+    "app_protocol_types.type ASC"
+  ],
+  "literals": {},
+  "notes": "Simple enumeration report listing all protocol types. No parameters, no filters, no aggregations."
+}

@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens in this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job run records with execution metrics, latency stats, and error percentages",
+      "columns": [
+        "row_job_id",
+        "row_started_at",
+        "row_stopped_at",
+        "row_duration_ms",
+        "row_rows_written",
+        "row_read_lat_avg",
+        "row_write_lat_avg",
+        "row_error"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals in this report",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct column pass-throughs from app_job_runs. No parameters or filters are required.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Load all rows from app_job_runs table",
+    "Map each token directly to its corresponding column",
+    "Order by ROWID (insertion order)"
+  ]
+}

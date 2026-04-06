@@ -1,0 +1,66 @@
+{
+  "id": "b5d2ab4a-7e48-4407-a336-a7fb6bf58324",
+  "name": "Portfolio Holdings",
+  "sheets": [
+    {
+      "id": "3b25ffe5-831c-418f-abbd-7570212307cd",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Ticker",
+          "Shares",
+          "Buy Price",
+          "Current Price",
+          "Sector"
+        ],
+        [
+          "AAPL",
+          100,
+          175.5,
+          198.3,
+          "Technology"
+        ],
+        [
+          "MSFT",
+          50,
+          380.2,
+          415.6,
+          "Technology"
+        ],
+        [
+          "JNJ",
+          75,
+          155.8,
+          162.4,
+          "Healthcare"
+        ],
+        [
+          "JPM",
+          60,
+          195.3,
+          210.8,
+          "Finance"
+        ],
+        [
+          "XOM",
+          80,
+          105.4,
+          118.9,
+          "Energy"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T18:15:38.640533+00:00",
+  "updated_at": "2026-02-22T18:15:38.640533+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

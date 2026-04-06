@@ -1,0 +1,85 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_name": "app_devices.name",
+    "row_protocol": "app_devices.protocol",
+    "row_status": "app_devices.status",
+    "row_port": "app_devices.port",
+    "row_latency_ms": "app_devices.latency_ms",
+    "row_auto_reconnect": "app_devices.auto_reconnect",
+    "row_last_error": "app_devices.last_error"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "e16b74add540f94af089f5440c88f585dbc27018caec998daa178ca0612fbaf7",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "f90a7d423bd699febb898faa4cb3c7f65d67e9e48db29d358036cf26b2d4fcde",
+    "cache_key": "5bca208e94c9d1c2941101e7121043880d94382f0067e57e39851f86be3e74f9",
+    "pre_html_sha256": "ca6b935ca183b372ec7e10f2c95504ac4f1b797f665bf5f7b2e0e1d5c9e6a308",
+    "post_html_sha256": "494f1b8b8b7de403229b84adb2cee8172dc10633e341af960d46e26477065a6e",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_port": "app_devices.port",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_last_error": "app_devices.last_error"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_name": "MFM 20",
+      "row_protocol": "modbus",
+      "row_status": "reconnecting",
+      "row_port": "502",
+      "row_latency_ms": "21.0",
+      "row_auto_reconnect": "1",
+      "row_last_error": "TCP_CONNECT_FAILED"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a catalog column; inject server-side as run metadata"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "NOT_VISIBLE"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "NOT_VISIBLE"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_name": "MFM 20",
+    "row_protocol": "modbus",
+    "row_status": "reconnecting",
+    "row_port": "502",
+    "row_latency_ms": "21.0",
+    "row_auto_reconnect": "1",
+    "row_last_error": "TCP_CONNECT_FAILED"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "975e8cd93be8bb1138b4b932cc8b6d9c007880b0dd88d4356ce3de7ffe495334",
+  "db_signature": "4a555a8403e51b5e72af8e68865ea232efdc242d9aac43adae92e9ef58aac273",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771221195,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "can_number",
+        "consumer_name",
+        "reference_number",
+        "transaction_date",
+        "transaction_time",
+        "transaction_status",
+        "bill_amount",
+        "bank_name"
+      ],
+      "row_tokens": [
+        "row_date",
+        "row_reference",
+        "row_amount",
+        "row_status",
+        "row_bank"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "can_number": "consumers.can_number",
+      "consumer_name": "PARAM:consumer_name",
+      "reference_number": "transactions.transaction_ref_number",
+      "transaction_date": "transactions.transaction_date",
+      "transaction_time": "transactions.transaction_time",
+      "transaction_status": "transactions.transaction_status",
+      "bill_amount": "transactions.bill_amount",
+      "bank_name": "transactions.bank_name",
+      "row_date": "transactions.transaction_date",
+      "row_reference": "transactions.transaction_ref_number",
+      "row_amount": "transactions.bill_amount",
+      "row_status": "transactions.transaction_status",
+      "row_bank": "transactions.bank_name"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "consumers",
+      "parent_key": "can_number",
+      "child_table": "transactions",
+      "child_key": "can_number"
+    },
+    "date_columns": {
+      "transactions": "transaction_date"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_date",
+            "from": [
+              "transactions.transaction_date"
+            ]
+          },
+          {
+            "as": "row_reference",
+            "from": [
+              "transactions.transaction_ref_number"
+            ]
+          },
+          {
+            "as": "row_amount",
+            "from": [
+              "transactions.bill_amount"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "transactions.transaction_status"
+            ]
+          },
+          {
+            "as": "row_bank",
+            "from": [
+              "transactions.bank_name"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "bill_amount": "number(2)",
+      "row_amount": "number(2)",
+      "transaction_date": "date(%d-%m-%Y)",
+      "row_date": "date(%d-%m-%Y)"
+    },
+    "order_by": {
+      "rows": [
+        "transaction_date DESC",
+        "transaction_time DESC"
+      ]
+    },
+    "header_tokens": [
+      "can_number",
+      "consumer_name",
+      "reference_number",
+      "transaction_date",
+      "transaction_time",
+      "transaction_status",
+      "bill_amount",
+      "bank_name"
+    ],
+    "row_tokens": [
+      "row_date",
+      "row_reference",
+      "row_amount",
+      "row_status",
+      "row_bank"
+    ],
+    "row_order": [
+      "transaction_date DESC",
+      "transaction_time DESC"
+    ],
+    "literals": {},
+    "notes": "HMWSSB water bill payment receipt. Consumer name is not stored in the database and must be provided as a runtime parameter. All transactions for the consumer are displayed in reverse chronological order."
+  },
+  "key_tokens": []
+}

@@ -1,0 +1,181 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "74af60927d88c68075a38cda3a45d907633cdb59ccc19d6251d57d0abb753950",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771227063,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "invoice_date",
+        "invoice_number",
+        "from_company_name",
+        "from_email",
+        "from_address_1",
+        "from_address_2",
+        "to_client_name",
+        "to_email",
+        "to_address_1",
+        "to_address_2",
+        "terms",
+        "due_date",
+        "notes"
+      ],
+      "row_tokens": [
+        "row_item_description",
+        "row_quantity",
+        "row_price",
+        "row_amount"
+      ],
+      "totals": [
+        "subtotal",
+        "tax",
+        "balance_due"
+      ]
+    },
+    "mapping": {
+      "invoice_date": "invoices.issue_date",
+      "invoice_number": "invoices.invoice_number",
+      "from_company_name": "invoices.vendor_name",
+      "from_email": "UNRESOLVED",
+      "from_address_1": "UNRESOLVED",
+      "from_address_2": "UNRESOLVED",
+      "to_client_name": "customers.customer_name",
+      "to_email": "customers.email",
+      "to_address_1": "customers.billing_address",
+      "to_address_2": "UNRESOLVED",
+      "terms": "UNRESOLVED",
+      "due_date": "invoices.due_date",
+      "notes": "invoices.notes",
+      "row_item_description": "invoice_items.description",
+      "row_quantity": "invoice_items.quantity",
+      "row_price": "invoice_items.unit_price",
+      "row_amount": "invoice_items.line_total",
+      "subtotal": "invoices.subtotal",
+      "tax": "invoices.tax_amount",
+      "balance_due": "invoices.total_amount"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoice_items",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "issue_date"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_item_description",
+            "from": [
+              "invoice_items.description"
+            ]
+          },
+          {
+            "as": "row_quantity",
+            "from": [
+              "invoice_items.quantity"
+            ]
+          },
+          {
+            "as": "row_price",
+            "from": [
+              "invoice_items.unit_price"
+            ]
+          },
+          {
+            "as": "row_amount",
+            "from": [
+              "invoice_items.line_total"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {
+      "subtotal": {
+        "op": "sum",
+        "column": "row_amount"
+      },
+      "tax": {
+        "op": "sum",
+        "column": "row_amount"
+      },
+      "balance_due": {
+        "op": "sum",
+        "column": "row_amount"
+      }
+    },
+    "totals": {
+      "subtotal": "invoices.subtotal",
+      "tax": "invoices.tax_amount",
+      "balance_due": "invoices.total_amount"
+    },
+    "formatters": {
+      "invoice_date": "date(YYYY-MM-DD)",
+      "due_date": "date(YYYY-MM-DD)",
+      "row_quantity": "number(0)",
+      "row_price": "number(2)",
+      "row_amount": "number(2)",
+      "subtotal": "number(2)",
+      "tax": "number(2)",
+      "balance_due": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "invoice_date",
+      "invoice_number",
+      "from_company_name",
+      "from_email",
+      "from_address_1",
+      "from_address_2",
+      "to_client_name",
+      "to_email",
+      "to_address_1",
+      "to_address_2",
+      "terms",
+      "due_date",
+      "notes"
+    ],
+    "row_tokens": [
+      "row_item_description",
+      "row_quantity",
+      "row_price",
+      "row_amount"
+    ],
+    "row_order": [
+      "invoice_items.line_no ASC"
+    ],
+    "literals": {},
+    "notes": "Invoice report with vendor/client contact details, itemized line items, and financial totals. Five tokens (vendor email, vendor address lines, client address line 2, payment terms) remain unresolved due to missing catalog columns. Totals are pre-aggregated in the invoices table and passed through directly."
+  },
+  "key_tokens": []
+}

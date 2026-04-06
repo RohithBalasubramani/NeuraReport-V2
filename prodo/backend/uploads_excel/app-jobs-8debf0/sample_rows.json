@@ -1,0 +1,10 @@
+{
+  "sample_row": {
+    "row_interval_ms": "1000",
+    "row_job_name": "12test",
+    "row_type": "continuous",
+    "row_status": "stopped",
+    "row_cpu_budget": "balanced",
+    "row_enabled": "1"
+  }
+}

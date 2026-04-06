@@ -1,0 +1,87 @@
+[
+  {
+    "header": "print_date",
+    "placeholder": "{print_date}",
+    "mapping": "PARAM:print_date"
+  },
+  {
+    "header": "date_from",
+    "placeholder": "{date_from}",
+    "mapping": "PARAM:from_date"
+  },
+  {
+    "header": "date_to",
+    "placeholder": "{date_to}",
+    "mapping": "PARAM:to_date"
+  },
+  {
+    "header": "recipe_code",
+    "placeholder": "{recipe_code}",
+    "mapping": "PARAM:recipe_code"
+  },
+  {
+    "header": "row_recipe_code",
+    "placeholder": "{row_recipe_code}",
+    "mapping": "recipes.recipe_name"
+  },
+  {
+    "header": "row_batch_no",
+    "placeholder": "{row_batch_no}",
+    "mapping": "rows.row_batch_no"
+  },
+  {
+    "header": "row_batch_start",
+    "placeholder": "{row_batch_start}",
+    "mapping": "rows.row_batch_start"
+  },
+  {
+    "header": "row_batch_end",
+    "placeholder": "{row_batch_end}",
+    "mapping": "rows.row_batch_end"
+  },
+  {
+    "header": "row_material_rows",
+    "placeholder": "{row_material_rows}",
+    "mapping": "rows.row_material_rows"
+  },
+  {
+    "header": "batch_total_set_wt",
+    "placeholder": "{batch_total_set_wt}",
+    "mapping": "rows.batch_total_set_wt"
+  },
+  {
+    "header": "batch_total_ach_wt",
+    "placeholder": "{batch_total_ach_wt}",
+    "mapping": "rows.batch_total_ach_wt"
+  },
+  {
+    "header": "batch_total_error_kg",
+    "placeholder": "{batch_total_error_kg}",
+    "mapping": "rows.batch_total_error_kg"
+  },
+  {
+    "header": "batch_total_error_pct",
+    "placeholder": "{batch_total_error_pct}",
+    "mapping": "rows.batch_total_error_pct"
+  },
+  {
+    "header": "total_set_wt",
+    "placeholder": "{total_set_wt}",
+    "mapping": "totals.total_set_wt"
+  },
+  {
+    "header": "total_ach_wt",
+    "placeholder": "{total_ach_wt}",
+    "mapping": "totals.total_ach_wt"
+  },
+  {
+    "header": "total_error_kg",
+    "placeholder": "{total_error_kg}",
+    "mapping": "totals.total_error_kg"
+  },
+  {
+    "header": "total_error_pct",
+    "placeholder": "{total_error_pct}",
+    "mapping": "totals.total_error_pct"
+  }
+]

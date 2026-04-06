@@ -1,0 +1,176 @@
+{
+  "tokens": {
+    "scalars": [
+      "print_date",
+      "print_time"
+    ],
+    "row_tokens": [
+      "row_analysers",
+      "row_orp_101",
+      "row_orp_102",
+      "row_ph_101",
+      "row_ph_102",
+      "row_orp_103",
+      "row_ph_103",
+      "row_tds_101",
+      "row_ph_104",
+      "row_tds_102",
+      "row_do_101"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_analysers": "neuract__ANALYSER_TABLE.timestamp_utc",
+    "row_orp_101": "neuract__ANALYSER_TABLE.ORP_101",
+    "row_orp_102": "neuract__ANALYSER_TABLE.ORP_102",
+    "row_ph_101": "neuract__ANALYSER_TABLE.PH_101",
+    "row_ph_102": "neuract__ANALYSER_TABLE.PH_102",
+    "row_orp_103": "neuract__ANALYSER_TABLE.ORP_103",
+    "row_ph_103": "neuract__ANALYSER_TABLE.PH_103",
+    "row_tds_101": "neuract__ANALYSER_TABLE.TDS_101",
+    "row_ph_104": "neuract__ANALYSER_TABLE.PH_104",
+    "row_tds_102": "neuract__ANALYSER_TABLE.TDS_102",
+    "row_do_101": "neuract__ANALYSER_TABLE.D0_101",
+    "print_date": "PARAM:print_date",
+    "print_time": "PARAM:print_time"
+  },
+  "unresolved": [
+    "print_date",
+    "print_time"
+  ],
+  "join": {
+    "parent_table": "neuract__ANALYSER_TABLE",
+    "parent_key": "rowid",
+    "child_table": "neuract__ANALYSER_TABLE",
+    "child_key": "rowid"
+  },
+  "date_columns": {
+    "neuract__ANALYSER_TABLE": "timestamp_utc"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "neuract__ANALYSER_TABLE.timestamp_utc",
+      "date_to": "neuract__ANALYSER_TABLE.timestamp_utc"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_analysers",
+          "from": [
+            "neuract__ANALYSER_TABLE.timestamp_utc"
+          ]
+        },
+        {
+          "as": "row_orp_101",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_101"
+          ]
+        },
+        {
+          "as": "row_orp_102",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_102"
+          ]
+        },
+        {
+          "as": "row_ph_101",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_101"
+          ]
+        },
+        {
+          "as": "row_ph_102",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_102"
+          ]
+        },
+        {
+          "as": "row_orp_103",
+          "from": [
+            "neuract__ANALYSER_TABLE.ORP_103"
+          ]
+        },
+        {
+          "as": "row_ph_103",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_103"
+          ]
+        },
+        {
+          "as": "row_tds_101",
+          "from": [
+            "neuract__ANALYSER_TABLE.TDS_101"
+          ]
+        },
+        {
+          "as": "row_ph_104",
+          "from": [
+            "neuract__ANALYSER_TABLE.PH_104"
+          ]
+        },
+        {
+          "as": "row_tds_102",
+          "from": [
+            "neuract__ANALYSER_TABLE.TDS_102"
+          ]
+        },
+        {
+          "as": "row_do_101",
+          "from": [
+            "neuract__ANALYSER_TABLE.D0_101"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "row_analysers": {
+      "op": "format_date",
+      "column": "timestamp_utc",
+      "format": "%d-%m-%Y %H:%M:%S"
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_orp_101": "number(3)",
+    "row_orp_102": "number(3)",
+    "row_orp_103": "number(3)",
+    "row_ph_101": "number(2)",
+    "row_ph_102": "number(2)",
+    "row_ph_103": "number(2)",
+    "row_ph_104": "number(2)",
+    "row_tds_101": "number(3)",
+    "row_tds_102": "number(3)",
+    "row_do_101": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "timestamp_utc ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_analysers",
+    "row_orp_101",
+    "row_orp_102",
+    "row_ph_101",
+    "row_ph_102",
+    "row_orp_103",
+    "row_ph_103",
+    "row_tds_101",
+    "row_ph_104",
+    "row_tds_102",
+    "row_do_101"
+  ],
+  "row_order": [
+    "timestamp_utc ASC"
+  ],
+  "literals": {},
+  "notes": "Single-table wide-format report. print_date and print_time are system-injected at render time (server clock) \u2014 no DB source. Catalog column D0_101 uses digit zero not letter O \u2014 verified against catalog. Optional date_from/date_to filters support day-wise and month-wise time selection as stated in footer conditions. ORP unit: mV; TDS unit: ppm; DO unit: mg/l; PH: dimensionless."
+}

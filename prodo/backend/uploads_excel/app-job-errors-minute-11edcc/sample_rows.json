@@ -1,0 +1,9 @@
+{
+  "sample_row": {
+    "row_code": "ERR_TIMEOUT",
+    "row_minute_utc": "2025-01-01 00:00",
+    "row_job_id": "job-001",
+    "row_count": "0",
+    "row_last_message": "No errors"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "scalars": [
+    "date_from",
+    "date_to",
+    "generated_at"
+  ],
+  "row_tokens": [
+    "row_key",
+    "row_value"
+  ],
+  "totals": []
+}

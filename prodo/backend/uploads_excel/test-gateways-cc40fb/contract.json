@@ -1,0 +1,143 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_id",
+      "row_name",
+      "row_host",
+      "row_adapter_id",
+      "row_nic_hint",
+      "row_protocol_hint",
+      "row_status",
+      "row_created_at",
+      "row_updated_at",
+      "row_last_test_at"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_id": "app_gateways.id",
+    "row_name": "app_gateways.name",
+    "row_host": "app_gateways.host",
+    "row_adapter_id": "app_gateways.adapter_id",
+    "row_nic_hint": "app_gateways.nic_hint",
+    "row_protocol_hint": "app_gateways.protocol_hint",
+    "row_status": "app_gateways.status",
+    "row_created_at": "app_gateways.created_at",
+    "row_updated_at": "app_gateways.updated_at",
+    "row_last_test_at": "app_gateways.last_test_at"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_gateways",
+    "parent_key": "id",
+    "child_table": "app_gateways",
+    "child_key": "id"
+  },
+  "date_columns": {
+    "app_gateways": "created_at"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_id",
+          "from": [
+            "app_gateways.id"
+          ]
+        },
+        {
+          "as": "row_name",
+          "from": [
+            "app_gateways.name"
+          ]
+        },
+        {
+          "as": "row_host",
+          "from": [
+            "app_gateways.host"
+          ]
+        },
+        {
+          "as": "row_adapter_id",
+          "from": [
+            "app_gateways.adapter_id"
+          ]
+        },
+        {
+          "as": "row_nic_hint",
+          "from": [
+            "app_gateways.nic_hint"
+          ]
+        },
+        {
+          "as": "row_protocol_hint",
+          "from": [
+            "app_gateways.protocol_hint"
+          ]
+        },
+        {
+          "as": "row_status",
+          "from": [
+            "app_gateways.status"
+          ]
+        },
+        {
+          "as": "row_created_at",
+          "from": [
+            "app_gateways.created_at"
+          ]
+        },
+        {
+          "as": "row_updated_at",
+          "from": [
+            "app_gateways.updated_at"
+          ]
+        },
+        {
+          "as": "row_last_test_at",
+          "from": [
+            "app_gateways.last_test_at"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_created_at": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_updated_at": "date(YYYY-MM-DD HH:mm:ss)",
+    "row_last_test_at": "date(YYYY-MM-DD HH:mm:ss)"
+  },
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_host",
+    "row_adapter_id",
+    "row_nic_hint",
+    "row_protocol_hint",
+    "row_status",
+    "row_created_at",
+    "row_updated_at",
+    "row_last_test_at"
+  ],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {},
+  "notes": "Gateway infrastructure inventory report. All columns map directly from app_gateways table. Timestamp columns (created_at, updated_at, last_test_at) are ISO 8601 formatted strings that should be parsed and displayed in standard date format."
+}

@@ -1,0 +1,67 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "4a7c5b22cab3755bc447165a12057922ec1d3296f7972367e4d3410b1fd22980",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771483530,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "{'token': 'row_schema_id', 'description': 'Schema ID', 'sample': 'sch_1771004322765'}",
+        "{'token': 'row_schema_name', 'description': 'Schema Name', 'sample': 'Test_123'}"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_schema_id": "app_schemas.id",
+      "row_schema_name": "app_schemas.name"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_schemas",
+      "parent_key": "id",
+      "child_table": "app_schemas",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "{'token': 'row_schema_id', 'description': 'Schema ID', 'sample': 'sch_1771004322765'}",
+      "{'token': 'row_schema_name', 'description': 'Schema Name', 'sample': 'Test_123'}"
+    ],
+    "row_order": [
+      "ROWID ASC"
+    ],
+    "literals": {},
+    "notes": "Simple schemas listing report with no filters, parameters, or computations"
+  },
+  "key_tokens": []
+}

@@ -1,0 +1,98 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "e870f992329ec458797cc22138dae0a72d1e0307c79a1fdf538fd8cfde8dc254",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "852a6adbff60699bc36037cd39417f8214d7a97ed7a6deaab5200000c6954208",
+  "generated_at": 1771434514,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "date_from",
+        "date_to",
+        "generated_at"
+      ],
+      "row_tokens": [
+        "row_key",
+        "row_value"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "date_from": "PARAM:date_from",
+      "date_to": "PARAM:date_to",
+      "generated_at": "PARAM:generated_at",
+      "row_key": "app_meta.key",
+      "row_value": "app_meta.value"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_meta",
+      "parent_key": "key",
+      "child_table": "app_meta",
+      "child_key": "key"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Direct projection of all app_meta key-value rows, no reshape needed",
+        "strategy": "NONE",
+        "columns": [
+          {
+            "as": "row_key",
+            "from": [
+              "app_meta.key"
+            ]
+          },
+          {
+            "as": "row_value",
+            "from": [
+              "app_meta.value"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID ASC"
+      ]
+    },
+    "header_tokens": [
+      "date_from",
+      "date_to",
+      "generated_at"
+    ],
+    "row_tokens": [
+      "row_key",
+      "row_value"
+    ],
+    "row_order": [
+      "ROWID ASC"
+    ],
+    "literals": {},
+    "notes": "app_meta is a simple flat key-value store with no date column and no relationships to other tables. date_from and date_to are display-only parameters injected into the header; they do not filter rows. generated_at is a server-injected timestamp constant."
+  },
+  "key_tokens": []
+}

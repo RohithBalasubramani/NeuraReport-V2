@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PH, ORP, TDS, DO Report – SOLID WASTE MANAGEMENT SYSTEM</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 14mm 12mm 14mm 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #111;
+      background: #fff;
+    }
+
+    /* ── Report Header ─────────────────────────────────── */
+    #report-header {
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    #report-header table {
+      width: 100%;
+      border-collapse: collapse;
+      border: none;
+    }
+
+    #report-header td {
+      border: none;
+      padding: 2px 4px;
+      vertical-align: middle;
+    }
+
+    .hdr-print-info {
+      font-size: 7.5pt;
+      color: #333;
+      white-space: pre-line;
+      width: 18%;
+    }
+
+    .hdr-title-cell {
+      text-align: center;
+      font-size: 12pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #000;
+    }
+
+    .hdr-spacer {
+      width: 18%;
+    }
+
+    /* ── Column-number sub-header row ───────────────────── */
+    .col-num-row td {
+      border: 1px solid #bbb;
+      text-align: center;
+      font-size: 7.5pt;
+      color: #555;
+      padding: 2px 4px;
+      background: #f5f5f5;
+    }
+
+    /* ── Data Table ─────────────────────────────────────── */
+    #data-table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      margin-top: 0;
+    }
+
+    #data-table thead tr th {
+      background: #dce6f1;
+      color: #000;
+      font-weight: 700;
+      font-size: 8pt;
+      text-align: center;
+      border: 1px solid #888;
+      padding: 5px 4px;
+      white-space: nowrap;
+    }
+
+    #data-table thead tr th:first-child {
+      text-align: left;
+      width: 18%;
+    }
+
+    #data-table tbody tr td {
+      border: 1px solid #999;
+      padding: 4px 5px;
+      font-size: 8pt;
+      vertical-align: middle;
+    }
+
+    #data-table tbody tr td:first-child {
+      text-align: left;
+      white-space: nowrap;
+      font-size: 7.5pt;
+      color: #222;
+    }
+
+    #data-table tbody tr td:not(:first-child) {
+      text-align: right;
+    }
+
+    #data-table tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    #data-table tbody tr:hover {
+      background: #eef4fb;
+    }
+
+    /* ── Footer / Notes ─────────────────────────────────── */
+    #report-footer {
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid #bbb;
+      font-size: 7.5pt;
+      color: #333;
+    }
+
+    #report-footer .footer-label {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    #report-footer ul {
+      list-style: none;
+      padding-left: 8px;
+    }
+
+    #report-footer ul li {
+      padding: 1px 0;
+    }
+
+    /* ── Print helpers ──────────────────────────────────── */
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      #data-table tbody tr { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       REPORT HEADER
+  ════════════════════════════════════════════════════ -->
+  <div id="report-header">
+    <table>
+      <tr>
+        <td class="hdr-print-info">PRINT DATE: {print_date}<br>TIME: {print_time}</td>
+        <td class="hdr-title-cell">SOLID WASTE MANAGEMENT SYSTEM</td>
+        <td class="hdr-spacer"></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       DATA TABLE  (column-number sub-header + main header + data rows)
+  ════════════════════════════════════════════════════ -->
+  <table id="data-table">
+    <thead>
+      <!-- Sub-header: column numbers 1–10 -->
+      <tr class="col-num-row">
+        <td></td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+      </tr>
+      <!-- Main column headers -->
+      <tr>
+        <th data-label="analysers">ANALYSERS</th>
+        <th data-label="orp_101">ORP-101</th>
+        <th data-label="orp_102">ORP-102</th>
+        <th data-label="ph_101">PH-101</th>
+        <th data-label="ph_102">PH-102</th>
+        <th data-label="orp_103">ORP-103</th>
+        <th data-label="ph_103">PH-103</th>
+        <th data-label="tds_101">TDS-101</th>
+        <th data-label="ph_104">PH-104</th>
+        <th data-label="tds_102">TDS-102</th>
+        <th data-label="do_101">DO-101</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{row_analysers}</td>
+        <td>{row_orp_101}</td>
+        <td>{row_orp_102}</td>
+        <td>{row_ph_101}</td>
+        <td>{row_ph_102}</td>
+        <td>{row_orp_103}</td>
+        <td>{row_ph_103}</td>
+        <td>{row_tds_101}</td>
+        <td>{row_ph_104}</td>
+        <td>{row_tds_102}</td>
+        <td>{row_do_101}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       REPORT FOOTER / NOTES
+  ════════════════════════════════════════════════════ -->
+  <div id="report-footer">
+    <div class="footer-label">Conditions:</div>
+    <ul>
+      <li>Day Wise Time Selection</li>
+      <li>Monthwise day Total level</li>
+      <li>ORP: Mv</li>
+      <li>TDS: ppm</li>
+      <li>DO: mg/l</li>
+    </ul>
+  </div>
+
+</body>
+</html>

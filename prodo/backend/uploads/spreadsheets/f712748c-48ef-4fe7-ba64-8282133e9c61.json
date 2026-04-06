@@ -1,0 +1,39 @@
+{
+  "id": "f712748c-48ef-4fe7-ba64-8282133e9c61",
+  "name": "Test STP Data",
+  "sheets": [
+    {
+      "id": "41a86953-1547-4b8a-8846-0d9089d77dc4",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Device",
+          "Reading",
+          "Unit"
+        ],
+        [
+          "FM-001",
+          "125.5",
+          "m3/h"
+        ],
+        [
+          "FM-002",
+          "98.3",
+          "m3/h"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T11:49:54.791114+00:00",
+  "updated_at": "2026-02-22T11:49:54.791114+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

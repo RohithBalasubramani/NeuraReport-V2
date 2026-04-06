@@ -1,0 +1,32 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level data required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Job error events aggregated by minute from app_job_errors_minute table",
+      "columns": [
+        "row_job_id",
+        "row_code",
+        "row_minute_utc",
+        "row_count",
+        "row_last_message"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All data is pass-through from app_job_errors_minute table with no filtering or parameter substitution",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": []
+}

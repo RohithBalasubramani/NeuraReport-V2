@@ -1,0 +1,201 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Consumption Report</title>
+    <style>
+        :root {
+            --col-1-w: 10%;
+            --col-2-w: 30%;
+            --col-3-w: 12%;
+            --col-4-w: 12%;
+            --col-5-w: 12%;
+            --col-6-w: 12%;
+            --border-color: #000;
+            --font-main: "Times New Roman", Times, serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 15mm;
+            box-sizing: border-box;
+            background: #fff;
+            color: #000;
+            font-size: 12pt;
+            line-height: 1.2;
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        #report-header {
+            border: 1px solid var(--border-color);
+            padding: 15mm 20mm;
+            margin-bottom: 10mm;
+            position: relative;
+            min-height: 130mm;
+        }
+
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10mm;
+            font-size: 11pt;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            flex-direction: column;
+            gap: 2mm;
+        }
+
+        .header-left {
+            width: 40%;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .report-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28pt;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .recipe-code {
+            position: absolute;
+            bottom: 10mm;
+            right: 20mm;
+            font-weight: bold;
+        }
+
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 11pt;
+        }
+
+        #data-table th, #data-table td {
+            border: 1px solid var(--border-color);
+            padding: 3mm 4mm;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        #data-table th {
+            text-align: center;
+            font-weight: bold;
+            background-color: #fff;
+        }
+
+        #data-table td:nth-child(1) {
+            text-align: center;
+            width: var(--col-1-w);
+        }
+
+        #data-table td:nth-child(2) {
+            text-align: left;
+            width: var(--col-2-w);
+        }
+
+        #data-table td:nth-child(3) {
+            width: var(--col-3-w);
+        }
+
+        #data-table td:nth-child(4) {
+            width: var(--col-4-w);
+        }
+
+        #data-table td:nth-child(5) {
+            width: var(--col-5-w);
+        }
+
+        #data-table td:nth-child(6) {
+            width: var(--col-6-w);
+        }
+
+        #report-totals {
+            width: 100%;
+            border-collapse: collapse;
+            font-weight: bold;
+            font-size: 11pt;
+            margin-top: 0;
+        }
+
+        #report-totals td {
+            border: 1px solid var(--border-color);
+            padding: 3mm 4mm;
+            text-align: right;
+        }
+
+        #report-totals td:first-child {
+            text-align: left;
+            width: var(--col-1-w);
+        }
+        
+        .empty-cell {
+            width: var(--col-2-w);
+        }
+    </style>
+
+
+    <div id="report-header">
+        <div class="header-top-row">
+            <div class="header-left">
+                <div><strong>Plant name</strong> : </div>
+                <div><strong>Location</strong> : </div>
+                <div><strong>Print Date</strong> : 12/11/2025</div>
+            </div>
+            <div class="header-right">
+                <div><strong>From</strong> Date: 01/10/2025 00:00</div>
+                <div><strong>To</strong> 02/10/2025 00:00</div>
+            </div>
+        </div>
+        <div class="report-title">Consumption report</div>
+        <div class="recipe-code">Recipe code : </div>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="sl_no">Sl. No.</th>
+                <th data-label="material_name">Material name</th>
+                <th data-label="set_wt_kg">Set. wt(Kg)</th>
+                <th data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                <th data-label="error_kg">Error(Kg)</th>
+                <th data-label="error_pct">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_sl_no}</td>
+                <td>{row_material_name}</td>
+                <td>{row_set_wt_kg}</td>
+                <td>{row_ach_wt_kg}</td>
+                <td>{row_error_kg}</td>
+                <td>{row_error_pct}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="report-totals">
+        <tbody><tr>
+            <td>Total</td>
+            <td class="empty-cell"></td>
+            <td>37820</td>
+            <td>37596</td>
+            <td>-224</td>
+            <td>-0.592</td>
+        </tr>
+    </tbody></table>
+

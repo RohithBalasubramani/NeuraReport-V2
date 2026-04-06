@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMWSSB Payment Receipt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .receipt-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .org-name {
+            flex: 1;
+        }
+        .org-name h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .org-name p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255,255,255,0.2);
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+            padding: 10px;
+        }
+        .receipt-title {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px 30px;
+        }
+        .receipt-title h2 {
+            color: #1e40af;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .receipt-title .timestamp {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .status-success {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        .status-failed {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .details-table tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .details-table td {
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+        .details-table td:first-child {
+            color: #64748b;
+            font-weight: 600;
+            width: 40%;
+        }
+        .details-table td:last-child {
+            color: #1e293b;
+            font-weight: 500;
+        }
+        .amount-row td:last-child {
+            color: #1e40af;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .note-section {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .note-section h3 {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .note-section p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .footer {
+            background-color: #f8fafc;
+            border-top: 2px solid #e2e8f0;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        .footer p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 20px 0;
+        }
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .receipt-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <div class="header-content">
+                <div class="org-name">
+                    <h1>HMWSSB</h1>
+                    <p>Hyderabad Metropolitan Water Supply & Sewerage Board</p>
+                </div>
+                <div class="logo-placeholder">
+                    {logo_url}
+                </div>
+            </div>
+        </div>
+
+        <div class="receipt-title">
+            <h2>Payment Receipt</h2>
+            <p class="timestamp">Generated on {receipt_date} at {receipt_time}</p>
+        </div>
+
+        <div class="content">
+            <div class="status-badge status-success">
+                {transaction_status}
+            </div>
+
+            <table class="details-table">
+                <tr>
+                    <td>Transaction Reference Number</td>
+                    <td>{reference_number}</td>
+                </tr>
+                <tr>
+                    <td>Transaction Date & Time</td>
+                    <td>{transaction_date} {transaction_time}</td>
+                </tr>
+                <tr>
+                    <td>Consumer Account Number (CAN)</td>
+                    <td>{can_number}</td>
+                </tr>
+                <tr>
+                    <td>Consumer Name</td>
+                    <td>{consumer_name}</td>
+                </tr>
+                <tr>
+                    <td>Billing Period</td>
+                    <td>{billing_period}</td>
+                </tr>
+                <tr class="amount-row">
+                    <td>Bill Amount Paid</td>
+                    <td>₹ {bill_amount}</td>
+                </tr>
+                <tr>
+                    <td>Payment Mode</td>
+                    <td>{payment_mode}</td>
+                </tr>
+                <tr>
+                    <td>Bank Name</td>
+                    <td>{bank_name}</td>
+                </tr>
+            </table>
+
+            <div class="note-section">
+                <h3>Important Note</h3>
+                <p>{note_text}</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <strong>HMWSSB Customer Service</strong><br>
+                Phone: {customer_service_phone} | Email: <a href="mailto:{customer_service_email}">{customer_service_email}</a><br>
+                Website: <a href="{website_url}" target="_blank">{website_url}</a><br>
+                {footer_address}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

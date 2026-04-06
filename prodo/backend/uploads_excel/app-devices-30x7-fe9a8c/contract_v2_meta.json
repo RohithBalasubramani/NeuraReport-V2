@@ -1,0 +1,132 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "ab67479ef7df84f24fb015c1247f5347298373353d7c70e334eedede93e4dd5d",
+  "db_signature": "bc3784cd60c3ff6d",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771484724,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_device_name",
+        "row_protocol",
+        "row_status",
+        "row_port",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_last_error"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_device_name": "app_devices.name",
+      "row_protocol": "app_devices.protocol",
+      "row_status": "app_devices.status",
+      "row_port": "app_devices.port",
+      "row_latency_ms": "app_devices.latency_ms",
+      "row_auto_reconnect": "app_devices.auto_reconnect",
+      "row_last_error": "app_devices.last_error"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "app_devices",
+      "parent_key": "id",
+      "child_table": "app_devices",
+      "child_key": "id"
+    },
+    "date_columns": {},
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_device_name",
+            "from": [
+              "app_devices.name"
+            ]
+          },
+          {
+            "as": "row_protocol",
+            "from": [
+              "app_devices.protocol"
+            ]
+          },
+          {
+            "as": "row_status",
+            "from": [
+              "app_devices.status"
+            ]
+          },
+          {
+            "as": "row_port",
+            "from": [
+              "app_devices.port"
+            ]
+          },
+          {
+            "as": "row_latency_ms",
+            "from": [
+              "app_devices.latency_ms"
+            ]
+          },
+          {
+            "as": "row_auto_reconnect",
+            "from": [
+              "app_devices.auto_reconnect"
+            ]
+          },
+          {
+            "as": "row_last_error",
+            "from": [
+              "app_devices.last_error"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {},
+    "order_by": {
+      "rows": [
+        "ROWID"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_device_name",
+      "row_protocol",
+      "row_status",
+      "row_port",
+      "row_latency_ms",
+      "row_auto_reconnect",
+      "row_last_error"
+    ],
+    "row_order": [
+      "ROWID"
+    ],
+    "literals": {},
+    "notes": "Simple device inventory report with direct column mappings from app_devices table. No computed fields, aggregations, or parameters."
+  },
+  "key_tokens": []
+}

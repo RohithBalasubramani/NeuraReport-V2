@@ -1,0 +1,35 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Schema field definitions with metadata properties",
+      "columns": [
+        "row_schema_id",
+        "row_key",
+        "row_type",
+        "row_unit",
+        "row_scale",
+        "row_description"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens are direct column pass-through with no filters or transformations. No parameters required.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct column-to-token mapping from app_schema_fields table."
+  ]
+}

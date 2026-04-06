@@ -1,0 +1,39 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required—this report has no scalar tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "System metrics aggregated by minute: CPU, memory, disk I/O, network I/O, and process-level metrics.",
+      "columns": [
+        "row_minute_utc",
+        "row_cpu",
+        "row_memory",
+        "row_disk_r_s",
+        "row_disk_w_s",
+        "row_net_rx_s",
+        "row_net_tx_s",
+        "row_proc_cpu",
+        "row_proc_rss_mb",
+        "row_proc_handles"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required—this report has no totals tokens.",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are pass-through—no parameters or filters required. The report renders all rows from the app_metrics_system_minute table in chronological order.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations needed—each token maps directly to a single column in the source table."
+  ]
+}

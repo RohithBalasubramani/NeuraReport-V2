@@ -1,0 +1,47 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_device_tables.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_device_tables.name"
+  },
+  {
+    "header": "row_schema_id",
+    "placeholder": "{row_schema_id}",
+    "mapping": "app_device_tables.schema_id"
+  },
+  {
+    "header": "row_db_target_id",
+    "placeholder": "{row_db_target_id}",
+    "mapping": "app_device_tables.db_target_id"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_device_tables.status"
+  },
+  {
+    "header": "row_last_migrated_at",
+    "placeholder": "{row_last_migrated_at}",
+    "mapping": "app_device_tables.last_migrated_at"
+  },
+  {
+    "header": "row_schema_hash",
+    "placeholder": "{row_schema_hash}",
+    "mapping": "app_device_tables.schema_hash"
+  },
+  {
+    "header": "row_mapping_health",
+    "placeholder": "{row_mapping_health}",
+    "mapping": "app_device_tables.mapping_health"
+  },
+  {
+    "header": "row_device_id",
+    "placeholder": "{row_device_id}",
+    "mapping": "app_device_tables.device_id"
+  }
+]

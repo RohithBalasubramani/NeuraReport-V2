@@ -1,0 +1,74 @@
+{
+  "mapping": {
+    "row_id": "app_gateways.id",
+    "row_name": "app_gateways.name",
+    "row_host": "app_gateways.host",
+    "row_adapter_id": "app_gateways.adapter_id",
+    "row_nic_hint": "app_gateways.nic_hint",
+    "row_protocol_hint": "app_gateways.protocol_hint",
+    "row_status": "app_gateways.status",
+    "row_created_at": "app_gateways.created_at",
+    "row_updated_at": "app_gateways.updated_at",
+    "row_last_test_at": "app_gateways.last_test_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "c24263b5e2871869cc6a4c227faed8c4d5987966db9406de16f0ad33eac8c9f4",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "818044d839536155c49d9bab2d0644741970eeacb904170afc65c0a0ad1af734",
+    "cache_key": "825b8e469d7c002ded4b3445f3630a127d7ee11514c4781255fc9ac67beac905",
+    "pre_html_sha256": "38e6c151555100ec6126df771391060322bda3cb6259a1a93b7ff80d361f8a35",
+    "post_html_sha256": "38e6c151555100ec6126df771391060322bda3cb6259a1a93b7ff80d361f8a35",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_gateways.id",
+      "row_name": "app_gateways.name",
+      "row_host": "app_gateways.host",
+      "row_adapter_id": "app_gateways.adapter_id",
+      "row_nic_hint": "app_gateways.nic_hint",
+      "row_protocol_hint": "app_gateways.protocol_hint",
+      "row_status": "app_gateways.status",
+      "row_created_at": "app_gateways.created_at",
+      "row_updated_at": "app_gateways.updated_at",
+      "row_last_test_at": "app_gateways.last_test_at"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_host": "{row_host}",
+      "row_adapter_id": "{row_adapter_id}",
+      "row_nic_hint": "{row_nic_hint}",
+      "row_protocol_hint": "{row_protocol_hint}",
+      "row_status": "{row_status}",
+      "row_created_at": "{row_created_at}",
+      "row_updated_at": "{row_updated_at}",
+      "row_last_test_at": "{row_last_test_at}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_host": "{row_host}",
+    "row_adapter_id": "{row_adapter_id}",
+    "row_nic_hint": "{row_nic_hint}",
+    "row_protocol_hint": "{row_protocol_hint}",
+    "row_status": "{row_status}",
+    "row_created_at": "{row_created_at}",
+    "row_updated_at": "{row_updated_at}",
+    "row_last_test_at": "{row_last_test_at}"
+  }
+}

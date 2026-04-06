@@ -1,0 +1,26 @@
+{
+  "correlation_id": "94791734c12f4b278e0c536c2e9b7d49",
+  "file_checksums": {
+    "reference_p1.html": "0e3edb6a17568114068af53c12fe70d4aa6e18b81797986fe0144ac6aba755cb",
+    "reference_p1.png": "50f1e26d1615b0a82f7cc9897d8aa789226d5ef8dcfa9bb0623432d66a17a649",
+    "report_final.png": "dfc6c79b96a7319b71798e2697231dde3b00833f13641520a1927ff77361a8dd",
+    "sample_rows.json": "189d16c95194ab3bebc2b577489589c4795bae35d1eada75daeda03cff6f9557",
+    "source.xlsx": "bfd625394cf38526e602d16bfe8df82c400500af4db68018956092b4d8e0ae38",
+    "template_p1.html": "4f4159a358d34000ecbb470bc960ca9d7098125fb3693a2cbe88b0b1c77d69a2"
+  },
+  "files": {
+    "reference_p1.html": "reference_p1.html",
+    "reference_p1.png": "reference_p1.png",
+    "report_final.png": "report_final.png",
+    "sample_rows.json": "sample_rows.json",
+    "source.xlsx": "source.xlsx",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/NeuraReport/prodo/backend/uploads_excel/ph-orp-tds-do-5ca668/source.xlsx"
+  ],
+  "pid": 1555247,
+  "produced_at": "2026-02-20T06:33:31.856545+00:00",
+  "schema_version": "1.0",
+  "step": "excel_verify"
+}

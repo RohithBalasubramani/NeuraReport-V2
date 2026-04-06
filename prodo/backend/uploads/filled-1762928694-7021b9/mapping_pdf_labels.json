@@ -1,0 +1,32 @@
+[
+  {
+    "header": "row_sl_no",
+    "placeholder": "{row_sl_no}",
+    "mapping": "INDEX"
+  },
+  {
+    "header": "row_material_name",
+    "placeholder": "{row_material_name}",
+    "mapping": "RESHAPE:bin_content"
+  },
+  {
+    "header": "row_set_wt_kg",
+    "placeholder": "{row_set_wt_kg}",
+    "mapping": "RESHAPE:bin_sp"
+  },
+  {
+    "header": "row_ach_wt_kg",
+    "placeholder": "{row_ach_wt_kg}",
+    "mapping": "RESHAPE:bin_act"
+  },
+  {
+    "header": "row_error_kg",
+    "placeholder": "{row_error_kg}",
+    "mapping": "COMPUTED:(bin_sp-bin_act)"
+  },
+  {
+    "header": "row_error_pct",
+    "placeholder": "{row_error_pct}",
+    "mapping": "COMPUTED:((bin_sp-bin_act)/bin_sp)*100"
+  }
+]

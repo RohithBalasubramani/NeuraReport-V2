@@ -1,0 +1,4456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PH, ORP, TDS, DO Report — SOLID WASTE MANAGEMENT SYSTEM</title>
+<style>
+  @page {
+    size: A4 landscape;
+    margin: 15mm 12mm 15mm 12mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    color: #000;
+    background: #fff;
+  }
+
+  /* ── REPORT HEADER ── */
+  #report-header {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  #report-header table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .header-meta {
+    font-size: 8pt;
+    line-height: 1.5;
+    white-space: pre-line;
+    vertical-align: top;
+    width: 110px;
+    border: 1px solid #999;
+    padding: 4px 6px;
+  }
+
+  .header-title-cell {
+    text-align: center;
+    font-size: 13pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    border: 1px solid #999;
+    padding: 6px;
+  }
+
+  /* Column number row */
+  .col-number-row td {
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 600;
+    border: 1px solid #999;
+    padding: 2px 4px;
+    background: #f5f5f5;
+  }
+
+  /* ── DATA TABLE ── */
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  #data-table thead tr th {
+    background: #dce6f1;
+    border: 1px solid #999;
+    padding: 5px 6px;
+    text-align: center;
+    font-size: 8.5pt;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  #data-table thead tr th:first-child {
+    text-align: left;
+    width: 130px;
+  }
+
+  #data-table tbody tr td {
+    border: 1px solid #999;
+    padding: 4px 6px;
+    vertical-align: middle;
+    font-size: 8.5pt;
+  }
+
+  #data-table tbody tr td:first-child {
+    text-align: left;
+    white-space: nowrap;
+    font-size: 8pt;
+  }
+
+  #data-table tbody tr td:not(:first-child) {
+    text-align: right;
+  }
+
+  #data-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  /* ── FOOTER / NOTES ── */
+  #report-footer {
+    margin-top: 10px;
+    font-size: 8.5pt;
+  }
+
+  #report-footer .footer-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  #report-footer .conditions-block {
+    border: 1px solid #bbb;
+    padding: 6px 10px;
+    display: inline-block;
+    min-width: 320px;
+  }
+
+  #report-footer .conditions-block p {
+    margin: 1px 0;
+    line-height: 1.6;
+  }
+
+  /* Print optimisations */
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #report-footer { page-break-inside: avoid; }
+  }
+</style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+@media print {
+  tbody tr:nth-of-type(38n+1):not(:first-child) {
+    break-before: page;
+    page-break-before: always;
+  }
+}
+</style>
+</head>
+<body>
+
+<table id="data-table">
+  <colgroup>
+    <col style="width:130px">
+    <col><col><col><col><col><col><col><col><col><col>
+  </colgroup>
+  <thead>
+    <tr>
+      <td style="font-size:8pt;line-height:1.5;white-space:pre-line;text-align:left;width:130px;border:1px solid #999;padding:4px 6px;background:#ffff00;font-weight:700">PRINT DATE: 21/02/2026<br>TIME: 05:42 AM</td>
+      <td colspan="10" style="text-align:center;font-size:13pt;font-weight:700;letter-spacing:1px;background:#ffff00;border:1px solid #999;padding:6px">SOLID WASTE MANAGEMENT SYSTEM</td>
+    </tr>
+    <tr>
+      <td style="background:#e2efda;border:1px solid #999"></td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">1</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">2</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">3</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">4</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">5</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">6</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">7</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">8</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">9</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">10</td>
+    </tr>
+    <tr>
+      <th data-label="analysers">ANALYSERS</th>
+      <th data-label="orp_101">ORP-101</th>
+      <th data-label="orp_102">ORP-102</th>
+      <th data-label="ph_101">PH-101</th>
+      <th data-label="ph_102">PH-102</th>
+      <th data-label="orp_103">ORP-103</th>
+      <th data-label="ph_103">PH-103</th>
+      <th data-label="tds_101">TDS-101</th>
+      <th data-label="ph_104">PH-104</th>
+      <th data-label="tds_102">TDS-102</th>
+      <th data-label="do_101">DO-101</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20-02-2026 09:24:30</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.375</td>
+      <td>8.42</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:30</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.875</td>
+      <td>8.42</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:32</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.42</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:33</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.43</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:34</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:35</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:36</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:37</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:38</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:39</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.375</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:40</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.14</td>
+      <td>-20.875</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:41</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.44</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:42</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:44</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-21.000</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:45</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:47</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.125</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:47</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:48</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.375</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:49</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:50</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.45</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:51</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.94</td>
+      <td>0.16</td>
+      <td>-20.375</td>
+      <td>8.46</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:52</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.46</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:54</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:55</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.375</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:56</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:57</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:59</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:24:59</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:00</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.47</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:01</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.48</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:03</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.48</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:03</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.375</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:04</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:06</td>
+      <td>-29.875</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:07</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:08</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-21.000</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:09</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:10</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:11</td>
+      <td>-29.875</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:12</td>
+      <td>-29.875</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.500</td>
+      <td>8.49</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:13</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:14</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:15</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:16</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:17</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:18</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:19</td>
+      <td>-29.750</td>
+      <td>5.500</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.10</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:20</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.50</td>
+      <td>0.000</td>
+      <td>7.10</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:21</td>
+      <td>-29.875</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.51</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:23</td>
+      <td>-29.875</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.51</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:23</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:24</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:26</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.375</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:27</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:28</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:29</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:30</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:31</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.52</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:33</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:34</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:35</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:36</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:37</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:38</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:40</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.53</td>
+      <td>0.000</td>
+      <td>7.10</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:41</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.54</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:41</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.54</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:42</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:43</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:44</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:46</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:48</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:49</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:49</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:50</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.55</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:51</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.56</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:52</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.875</td>
+      <td>8.56</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:53</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:55</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:56</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:57</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:58</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.500</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:25:59</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.750</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:00</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:01</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.57</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:04</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:05</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.375</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:05</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:06</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:07</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.14</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:09</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:10</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.15</td>
+      <td>-20.625</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:11</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:12</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.58</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:12</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.59</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:13</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:14</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:16</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:17</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:18</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:19</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:20</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:21</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.60</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:22</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:24</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:25</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:26</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:27</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:27</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:28</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-21.000</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:30</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:31</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.61</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:32</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.62</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:33</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:35</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:35</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:36</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:37</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:38</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:39</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:41</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.10</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:42</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.63</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:42</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.64</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:43</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.64</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:44</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:45</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:47</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:48</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:49</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:49</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:50</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:51</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:52</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.65</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:54</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:55</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:56</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:57</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:58</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:26:58</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:00</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:01</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:02</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.375</td>
+      <td>8.66</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:03</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.67</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:04</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:05</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:06</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:07</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:08</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:09</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:11</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:11</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:12</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:13</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.68</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:15</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:15</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:16</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:17</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:19</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:22</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.69</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:23</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.70</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:24</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.70</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:27</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:28</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:30</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:31</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:33</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:34</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.71</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:35</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.72</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:37</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.73</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:39</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.73</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:40</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.73</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:41</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.73</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:42</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.73</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:46</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:47</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:48</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:50</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:52</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:53</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:55</td>
+      <td>-29.750</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.74</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:57</td>
+      <td>-31.625</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.75</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:27:58</td>
+      <td>-33.875</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.500</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:00</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:00</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:01</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:03</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:04</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.76</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:07</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:07</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.750</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:09</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.875</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:10</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-20.625</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:11</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-19.750</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:12</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-17.625</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:13</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.875</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:15</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.375</td>
+      <td>8.77</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:16</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.375</td>
+      <td>8.78</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:18</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.375</td>
+      <td>8.79</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:19</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.500</td>
+      <td>8.79</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:26</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.500</td>
+      <td>8.79</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:33</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.375</td>
+      <td>8.81</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:40</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.16</td>
+      <td>-16.625</td>
+      <td>8.81</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:47</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.82</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:53</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.84</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:28:58</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.250</td>
+      <td>8.84</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:05</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.250</td>
+      <td>8.85</td>
+      <td>0.000</td>
+      <td>7.09</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:11</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.85</td>
+      <td>0.000</td>
+      <td>7.10</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:17</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.87</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:23</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.88</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:30</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.89</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:37</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.90</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:43</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.90</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:49</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.92</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:29:55</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.92</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:02</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.93</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:08</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.95</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:15</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.95</td>
+      <td>0.000</td>
+      <td>7.12</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:22</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>8.97</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:28</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.97</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:35</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>8.98</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:41</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>9.00</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:48</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.375</td>
+      <td>9.00</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:30:54</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.95</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>9.01</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:01</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.17</td>
+      <td>-16.500</td>
+      <td>9.02</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:08</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.03</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:14</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.375</td>
+      <td>9.05</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:20</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.05</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:26</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.06</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:34</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.06</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:40</td>
+      <td>-34.125</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.08</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:47</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.375</td>
+      <td>9.09</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:31:54</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.375</td>
+      <td>9.09</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:00</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.500</td>
+      <td>9.11</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:07</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.375</td>
+      <td>9.12</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:13</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-16.375</td>
+      <td>9.13</td>
+      <td>0.000</td>
+      <td>7.11</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:21</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.14</td>
+      <td>0.000</td>
+      <td>7.12</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:28</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.15</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:34</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.16</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:40</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.17</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:47</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.17</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:52</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.19</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:32:58</td>
+      <td>-34.250</td>
+      <td>5.625</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.19</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:03</td>
+      <td>-38.250</td>
+      <td>2.250</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.21</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:08</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.21</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:14</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.22</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:19</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.22</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:25</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.24</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:30</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.24</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:35</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.25</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:40</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.25</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:46</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.27</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:51</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.27</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:53</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.28</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:33:58</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.29</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:04</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.875</td>
+      <td>9.29</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:10</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.30</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:16</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.31</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:22</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-21.000</td>
+      <td>9.32</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:27</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.19</td>
+      <td>-20.750</td>
+      <td>9.33</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:32</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.33</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:34</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.33</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:36</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.33</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:37</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.35</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:42</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.35</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:44</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.35</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:45</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.35</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:50</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.37</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:53</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.37</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:34:55</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.37</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:00</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.38</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:02</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.38</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:03</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.38</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:04</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.38</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:06</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.38</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:07</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.38</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:12</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.40</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:14</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.40</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:16</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.40</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:17</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.40</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:19</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.40</td>
+      <td>0.000</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:20</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.40</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:22</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:23</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:25</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:26</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:28</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:28</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.41</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:31</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.43</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:34</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.43</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:36</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.43</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:37</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.43</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:39</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.43</td>
+      <td>0.219</td>
+      <td>7.13</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:40</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.43</td>
+      <td>0.000</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:42</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-21.000</td>
+      <td>9.44</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:43</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-21.000</td>
+      <td>9.44</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:45</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:45</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:47</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:48</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:49</td>
+      <td>-38.750</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:51</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-21.000</td>
+      <td>9.45</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:54</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:56</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:56</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:35:58</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:00</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:01</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:03</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-21.000</td>
+      <td>9.46</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:08</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.48</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:09</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.48</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:12</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.48</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:13</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.48</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:13</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.48</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:16</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.49</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:17</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.49</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:20</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.49</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:21</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.49</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:24</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.49</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:27</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.49</td>
+      <td>0.000</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:29</td>
+      <td>-38.625</td>
+      <td>1.125</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.625</td>
+      <td>9.51</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-3.063</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:31</td>
+      <td>-38.625</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.51</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:33</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.51</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:34</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.51</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:35</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.875</td>
+      <td>9.51</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+<tr>
+      <td>20-02-2026 09:36:40</td>
+      <td>-38.750</td>
+      <td>1.000</td>
+      <td>6.97</td>
+      <td>0.20</td>
+      <td>-20.750</td>
+      <td>9.53</td>
+      <td>0.219</td>
+      <td>7.14</td>
+      <td>-2.844</td>
+      <td>0.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER / CONDITIONS
+══════════════════════════════════════════════ -->
+<div id="report-footer">
+  <p class="footer-label">Conditions:</p>
+  <div class="conditions-block">
+    <p>Day Wise Time Selection</p>
+    <p>Monthwise day Total level</p>
+    <p>ORP: Mv</p>
+    <p>TDS: ppm</p>
+    <p>DO: mg/l</p>
+  </div>
+</div>
+
+</body>
+</html>

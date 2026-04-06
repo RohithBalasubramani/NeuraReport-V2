@@ -1,0 +1,48 @@
+{
+  "id": "607a9b89-54ab-4721-af8e-5ba113426a5d",
+  "name": "Product Performance",
+  "sheets": [
+    {
+      "id": "49deae56-478e-4fb2-be99-a55c7d62cbb6",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Product",
+          "Units",
+          "Revenue",
+          "Rating"
+        ],
+        [
+          "Widget Pro",
+          2340,
+          468000,
+          4.7
+        ],
+        [
+          "Widget Plus",
+          1850,
+          277500,
+          4.3
+        ],
+        [
+          "Widget Basic",
+          3100,
+          186000,
+          4.1
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T19:27:15.461165+00:00",
+  "updated_at": "2026-02-22T19:27:15.461165+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

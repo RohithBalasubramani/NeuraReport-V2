@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 24mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: #333;
+            background: #fff;
+        }
+
+        #report-header {
+            margin-bottom: 16px;
+        }
+
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 16px;
+        }
+
+        #data-table caption {
+            caption-side: top;
+            font-weight: 700;
+            text-align: left;
+            margin: 6px 0;
+            font-size: 12pt;
+        }
+
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 9pt;
+            vertical-align: middle;
+        }
+
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            vertical-align: top;
+            font-size: 9pt;
+            word-wrap: break-word;
+        }
+
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Column-specific alignment */
+        #data-table td[data-col="interval_ms"],
+        #data-table td[data-col="enabled"] {
+            text-align: right;
+        }
+
+        /* Print optimization */
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            #data-table thead {
+                display: table-header-group;
+            }
+
+            #data-table tbody tr {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive column widths */
+        #data-table th:nth-child(1),
+        #data-table td:nth-child(1) { width: 10%; }
+        
+        #data-table th:nth-child(2),
+        #data-table td:nth-child(2) { width: 12%; }
+        
+        #data-table th:nth-child(3),
+        #data-table td:nth-child(3) { width: 8%; }
+        
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(4) { width: 10%; }
+        
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(5) { width: 8%; }
+        
+        #data-table th:nth-child(6),
+        #data-table td:nth-child(6) { width: 7%; }
+        
+        #data-table th:nth-child(7),
+        #data-table td:nth-child(7) { width: 6%; }
+        
+        #data-table th:nth-child(8),
+        #data-table td:nth-child(8) { width: 7%; }
+        
+        #data-table th:nth-child(9),
+        #data-table td:nth-child(9) { width: 8%; }
+        
+        #data-table th:nth-child(10),
+        #data-table td:nth-child(10) { width: 8%; }
+        
+        #data-table th:nth-child(11),
+        #data-table td:nth-child(11) { width: 8%; }
+        
+        #data-table th:nth-child(12),
+        #data-table td:nth-child(12) { width: 8%; }
+    </style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Jobs</h1>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="id">Id</th>
+                <th data-label="name">Name</th>
+                <th data-label="type">Type</th>
+                <th data-label="tables_json">Tables Json</th>
+                <th data-label="columns_json">Columns Json</th>
+                <th data-label="interval_ms">Interval Ms</th>
+                <th data-label="enabled">Enabled</th>
+                <th data-label="status">Status</th>
+                <th data-label="batching_json">Batching Json</th>
+                <th data-label="cpu_budget">Cpu Budget</th>
+                <th data-label="triggers_json">Triggers Json</th>
+                <th data-label="metrics_json">Metrics Json</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-col="id">1</td>
+                <td data-col="name">12test</td>
+                <td data-col="type">continuous</td>
+                <td data-col="tables_json">["tbl_1771159526049_3"]</td>
+                <td data-col="columns_json">"all"</td>
+                <td data-col="interval_ms">1000</td>
+                <td data-col="enabled">1</td>
+                <td data-col="status">stopped</td>
+                <td data-col="batching_json">{}</td>
+                <td data-col="cpu_budget">balanced</td>
+                <td data-col="triggers_json">[]</td>
+                <td data-col="metrics_json">{}</td>
+            </tr>
+<tr>
+                <td data-col="id">2</td>
+                <td data-col="name">Continuous Poll - Table 1</td>
+                <td data-col="type">continuous</td>
+                <td data-col="tables_json">["tbl_1771013480714_1"]</td>
+                <td data-col="columns_json">"all"</td>
+                <td data-col="interval_ms">1000</td>
+                <td data-col="enabled">1</td>
+                <td data-col="status">stopped</td>
+                <td data-col="batching_json">{}</td>
+                <td data-col="cpu_budget">balanced</td>
+                <td data-col="triggers_json">[]</td>
+                <td data-col="metrics_json">{}</td>
+            </tr>
+<tr>
+                <td data-col="id">3</td>
+                <td data-col="name">VPN_Test_Job</td>
+                <td data-col="type">continuous</td>
+                <td data-col="tables_json">["tbl_1771148926922_2"]</td>
+                <td data-col="columns_json">"all"</td>
+                <td data-col="interval_ms">1000</td>
+                <td data-col="enabled">1</td>
+                <td data-col="status">stopped</td>
+                <td data-col="batching_json">{}</td>
+                <td data-col="cpu_budget">balanced</td>
+                <td data-col="triggers_json">[]</td>
+                <td data-col="metrics_json">{}</td>
+            </tr>
+<tr>
+                <td data-col="id">4</td>
+                <td data-col="name">9test</td>
+                <td data-col="type">continuous</td>
+                <td data-col="tables_json">["tbl_1771163400130_5"]</td>
+                <td data-col="columns_json">"all"</td>
+                <td data-col="interval_ms">1000</td>
+                <td data-col="enabled">1</td>
+                <td data-col="status">running</td>
+                <td data-col="batching_json">{}</td>
+                <td data-col="cpu_budget">balanced</td>
+                <td data-col="triggers_json">[]</td>
+                <td data-col="metrics_json">{}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

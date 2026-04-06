@@ -1,0 +1,32 @@
+{
+  "id": "85823e58-7272-46c0-822f-94fbebc919d2",
+  "name": "Debug2",
+  "sheets": [
+    {
+      "id": "2db7cc4e-1630-4aea-8e1a-1001c4d9fe47",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "X",
+          "Y"
+        ],
+        [
+          "1",
+          "2"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T11:47:02.699549+00:00",
+  "updated_at": "2026-02-22T11:47:02.699549+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

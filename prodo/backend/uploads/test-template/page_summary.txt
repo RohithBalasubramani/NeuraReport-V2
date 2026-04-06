@@ -1,0 +1,8 @@
+Template: Test Template
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 8
+  Scalars: bank_name, bill_amount, can_number, generated_datetime, logo_url, transaction_datetime, transaction_reference, transaction_status
+  Row tokens: (none)
+  Totals: (none)
+Has block repeat: False

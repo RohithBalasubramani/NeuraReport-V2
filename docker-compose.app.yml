@@ -1,0 +1,46 @@
+# docker-compose.app.yml - NeuraReport application (build + run)
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.app.yml up -d
+#
+# This file builds and runs the NeuraReport application container
+# alongside the infrastructure services defined in docker-compose.yml.
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment:
+      NEURA_DATABASE_URL: "postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport"
+      NEURA_REDIS_URL: "redis://redis:6379/0"
+      NEURA_JWT_SECRET: "${NEURA_JWT_SECRET:?Set NEURA_JWT_SECRET in .env}"
+      NEURA_DEBUG: "${NEURA_DEBUG:-false}"
+      NEURA_OTLP_ENDPOINT: "tempo:4317"
+      NEURA_METRICS_ENABLED: "true"
+    env_file:
+      - .env
+    volumes:
+      - neurareport-state:/app/state
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+
+volumes:
+  neurareport-state:
+    driver: local

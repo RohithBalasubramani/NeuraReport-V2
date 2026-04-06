@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solid Waste Management System Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+        
+        #report-container {
+            width: 100%;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        
+        #report-header {
+            margin-bottom: 8px;
+        }
+        
+        #report-header h1 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 0 0 4px 0;
+            text-align: center;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 12px;
+        }
+        
+        #data-table caption {
+            caption-side: top;
+            font-weight: bold;
+            text-align: left;
+            margin: 0 0 6px 0;
+            font-size: 11pt;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: center;
+            font-weight: bold;
+            vertical-align: middle;
+            white-space: pre-line;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 5px 7px;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody tr:nth-child(1) td {
+            font-weight: bold;
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody td:first-child {
+            text-align: left;
+            font-weight: normal;
+        }
+        
+        .analyser-row {
+            font-weight: bold;
+            background-color: #e8e8e8;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-container">
+        <div id="report-header">
+            <h1>SOLID WASTE MANAGEMENT SYSTEM</h1>
+        </div>
+        
+        <table id="data-table">
+            <caption>Sheet1</caption>
+            <thead>
+                <tr>
+                    <th data-label="print_date_time">PRINT DATE:<br>TIME:</th>
+                    <th data-label="solid_waste_management_system">SOLID WASTE MANAGEMENT SYSTEM</th>
+                    <th data-label="column_3">Column 3</th>
+                    <th data-label="column_4">Column 4</th>
+                    <th data-label="column_5">Column 5</th>
+                    <th data-label="column_6">Column 6</th>
+                    <th data-label="column_7">Column 7</th>
+                    <th data-label="column_8">Column 8</th>
+                    <th data-label="column_9">Column 9</th>
+                    <th data-label="column_10">Column 10</th>
+                    <th data-label="column_11">Column 11</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{row_print_date_time}</td>
+                    <td>{row_solid_waste_management_system}</td>
+                    <td>{row_column_3}</td>
+                    <td>{row_column_4}</td>
+                    <td>{row_column_5}</td>
+                    <td>{row_column_6}</td>
+                    <td>{row_column_7}</td>
+                    <td>{row_column_8}</td>
+                    <td>{row_column_9}</td>
+                    <td>{row_column_10}</td>
+                    <td>{row_column_11}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+Template: Logger — Job Errors (Minute)
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 8
+  Scalars: date_from, date_to, generated_at
+  Row tokens: row_code, row_count, row_job_id, row_last_message, row_minute_utc
+  Totals: (none)
+Has block repeat: True

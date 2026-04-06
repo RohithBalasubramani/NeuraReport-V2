@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gateways Report</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 10pt;
+      line-height: 1.4;
+      color: #222;
+      background: #fff;
+    }
+    
+    #report-header {
+      margin-bottom: 16px;
+    }
+    
+    #report-header h1 {
+      font-size: 16pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    
+    #data-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-bottom: 20px;
+    }
+    
+    #data-table thead {
+      background-color: #f5f5f5;
+    }
+    
+    #data-table th {
+      border: 1px solid #999;
+      padding: 8px 6px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 9pt;
+      color: #333;
+      vertical-align: middle;
+    }
+    
+    #data-table tbody tr {
+      page-break-inside: avoid;
+    }
+    
+    #data-table tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+    
+    #data-table td {
+      border: 1px solid #999;
+      padding: 6px;
+      vertical-align: top;
+      font-size: 9pt;
+      word-wrap: break-word;
+    }
+    
+    /* Column-specific widths */
+    #data-table th:nth-child(1),
+    #data-table td:nth-child(1) {
+      width: 11%;
+    }
+    
+    #data-table th:nth-child(2),
+    #data-table td:nth-child(2) {
+      width: 14%;
+    }
+    
+    #data-table th:nth-child(3),
+    #data-table td:nth-child(3) {
+      width: 18%;
+      font-family: 'Courier New', monospace;
+      font-size: 8.5pt;
+    }
+    
+    #data-table th:nth-child(4),
+    #data-table td:nth-child(4),
+    #data-table th:nth-child(5),
+    #data-table td:nth-child(5) {
+      width: 7%;
+      text-align: center;
+    }
+    
+    #data-table th:nth-child(6),
+    #data-table td:nth-child(6),
+    #data-table th:nth-child(7),
+    #data-table td:nth-child(7) {
+      width: 8%;
+      text-align: center;
+    }
+    
+    #data-table th:nth-child(8),
+    #data-table td:nth-child(8),
+    #data-table th:nth-child(9),
+    #data-table td:nth-child(9),
+    #data-table th:nth-child(10),
+    #data-table td:nth-child(10) {
+      width: 11%;
+      font-size: 8pt;
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* Empty cell styling */
+    #data-table td:empty::after {
+      content: '—';
+      color: #ccc;
+    }
+    
+    @media print {
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+      
+      #data-table {
+        page-break-inside: auto;
+      }
+      
+      #data-table thead {
+        display: table-header-group;
+      }
+      
+      #data-table tbody tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="report-header">
+    <h1>Gateways</h1>
+  </div>
+  
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th data-label="id">ID</th>
+        <th data-label="name">Name</th>
+        <th data-label="host">Host</th>
+        <th data-label="adapter_id">Adapter ID</th>
+        <th data-label="nic_hint">NIC Hint</th>
+        <th data-label="protocol_hint">Protocol Hint</th>
+        <th data-label="status">Status</th>
+        <th data-label="created_at">Created At</th>
+        <th data-label="updated_at">Updated At</th>
+        <th data-label="last_test_at">Last Test At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{row_id}</td>
+        <td>{row_name}</td>
+        <td>{row_host}</td>
+        <td>{row_adapter_id}</td>
+        <td>{row_nic_hint}</td>
+        <td>{row_protocol_hint}</td>
+        <td>{row_status}</td>
+        <td>{row_created_at}</td>
+        <td>{row_updated_at}</td>
+        <td>{row_last_test_at}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

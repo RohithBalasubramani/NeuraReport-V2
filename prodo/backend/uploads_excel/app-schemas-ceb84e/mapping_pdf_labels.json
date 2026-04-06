@@ -1,0 +1,12 @@
+[
+  {
+    "header": "row_schema_id",
+    "placeholder": "{row_schema_id}",
+    "mapping": "app_schemas.id"
+  },
+  {
+    "header": "row_schema_name",
+    "placeholder": "{row_schema_name}",
+    "mapping": "app_schemas.name"
+  }
+]

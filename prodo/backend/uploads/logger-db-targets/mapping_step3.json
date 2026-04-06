@@ -1,0 +1,77 @@
+{
+  "mapping": {
+    "date_from": "LATER_SELECTED",
+    "date_to": "LATER_SELECTED",
+    "row_id": "app_db_targets.id",
+    "row_provider": "app_db_targets.provider",
+    "row_conn": "app_db_targets.conn",
+    "row_status": "app_db_targets.status",
+    "row_last_msg": "app_db_targets.last_msg"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "a97416041de71936504d9819bf1903bfc05d2c9c164da602fc36f29751842801",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "ac574308a7b9230f7822ed3d5bc681326f0f1047f7be1b292119f07e1fd18642",
+    "cache_key": "d2a71f36f5063517a3f526e7c954318935a5c902ae5e8a041748313af3c5fbf3",
+    "pre_html_sha256": "70e498ccbee140526ef89941bc2b9f77949ac7fe152968945d8d402b67360069",
+    "post_html_sha256": "57ba75334f53e4a12b4d1f3403473da27adcb2a5bf1bec9b92e42949c5f01b0e",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "row_id": "app_db_targets.id",
+      "row_provider": "app_db_targets.provider",
+      "row_conn": "app_db_targets.conn",
+      "row_status": "app_db_targets.status",
+      "row_last_msg": "app_db_targets.last_msg"
+    },
+    "token_samples": {
+      "date_from": "To Be Selected...",
+      "date_to": "To Be Selected...",
+      "generated_at": "NOT_VISIBLE",
+      "row_id": "db_1771013394981",
+      "row_provider": "postgresql",
+      "row_conn": "postgresql://postgres@localhost:5432/fast_target",
+      "row_status": "untested",
+      "row_last_msg": "NOT_VISIBLE"
+    },
+    "meta": {
+      "unresolved": [
+        "generated_at"
+      ],
+      "hints": {
+        "generated_at": {
+          "op": "FORMAT",
+          "over": [
+            "note:Current timestamp at report generation time — not a catalog column; must be injected as a runtime parameter or system-generated value."
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "generated_at": "NOT_VISIBLE"
+    }
+  },
+  "constant_replacements": {
+    "generated_at": "NOT_VISIBLE"
+  },
+  "token_samples": {
+    "date_from": "To Be Selected...",
+    "date_to": "To Be Selected...",
+    "generated_at": "NOT_VISIBLE",
+    "row_id": "db_1771013394981",
+    "row_provider": "postgresql",
+    "row_conn": "postgresql://postgres@localhost:5432/fast_target",
+    "row_status": "untested",
+    "row_last_msg": "NOT_VISIBLE"
+  }
+}

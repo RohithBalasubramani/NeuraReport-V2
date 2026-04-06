@@ -1,0 +1,131 @@
+{
+  "parameters": {
+    "required": [
+      {
+        "name": "from_date",
+        "type": "date",
+        "description": "Inclusive lower bound applied to DATE(recipes.start_time).",
+        "example": "2024-09-01"
+      },
+      {
+        "name": "to_date",
+        "type": "date",
+        "description": "Inclusive upper bound applied to DATE(recipes.start_time).",
+        "example": "2024-09-30"
+      }
+    ],
+    "optional": [
+      {
+        "name": "recipe_code",
+        "type": "string",
+        "description": "Optional equality filter for recipes.recipe_name (leave blank for all)."
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "alias": "rows",
+      "source_table": "recipes",
+      "description": "One record per batch/run. Uses bin1..bin12 data to render an HTML <tbody> with child material rows and batch-level totals.",
+      "columns": [
+        {
+          "as": "row_recipe_code",
+          "from": "recipes.recipe_name"
+        },
+        {
+          "as": "row_batch_no",
+          "from": "ROW_NUMBER() OVER (PARTITION BY recipes.recipe_name ORDER BY recipes.start_time, recipes.id)"
+        },
+        {
+          "as": "row_batch_start",
+          "from": "COALESCE(strftime('%d/%m/%Y %H:%M', recipes.start_time), recipes.start_time)"
+        },
+        {
+          "as": "row_batch_end",
+          "from": "COALESCE(strftime('%d/%m/%Y %H:%M', recipes.end_time), recipes.end_time)"
+        },
+        {
+          "as": "row_material_rows",
+          "from": "'<tbody>' || GROUP_CONCAT('<tr>' || '<td class=\"center\">' || material_sl_no || '</td>' || '<td>' || REPLACE(REPLACE(COALESCE(material_name, ''), '&', '&amp;'), '<', '&lt;') || '</td>' || '<td class=\"num\">' || printf('%g', COALESCE(set_wt, 0)) || '</td>' || '<td class=\"num\">' || printf('%g', COALESCE(ach_wt, 0)) || '</td>' || '<td class=\"num\">' || printf('%g', COALESCE(ach_wt - set_wt, 0)) || '</td>' || '<td class=\"num\">' || COALESCE(printf('%g', CASE WHEN set_wt IS NULL OR set_wt = 0 THEN NULL ELSE 100.0 * (ach_wt - set_wt) / set_wt END), '') || '</td>' || '</tr>', '') || '</tbody>'"
+        },
+        {
+          "as": "batch_total_set_wt",
+          "from": "SUM(materials.set_wt)"
+        },
+        {
+          "as": "batch_total_ach_wt",
+          "from": "SUM(materials.ach_wt)"
+        },
+        {
+          "as": "batch_total_error_kg",
+          "from": "SUM(materials.ach_wt - materials.set_wt)"
+        },
+        {
+          "as": "batch_total_error_pct",
+          "from": "CASE WHEN SUM(materials.set_wt) = 0 THEN NULL ELSE 100.0 * SUM(materials.ach_wt - materials.set_wt) / SUM(materials.set_wt) END"
+        }
+      ],
+      "filters": [
+        "DATE(recipes.start_time) BETWEEN DATE(:from_date) AND DATE(:to_date)",
+        "Apply recipe_name = :recipe_code when recipe_code is provided"
+      ],
+      "ordering": [
+        "row_recipe_code ASC",
+        "row_batch_no ASC"
+      ]
+    },
+    {
+      "alias": "totals",
+      "source_table": "recipes",
+      "description": "Aggregates every filtered bin entry to compute overall set/achieved/error totals for the page summary.",
+      "columns": [
+        {
+          "as": "total_set_wt",
+          "from": "SUM(materials.set_wt)"
+        },
+        {
+          "as": "total_ach_wt",
+          "from": "SUM(materials.ach_wt)"
+        },
+        {
+          "as": "total_error_kg",
+          "from": "SUM(materials.ach_wt - materials.set_wt)"
+        },
+        {
+          "as": "total_error_pct",
+          "from": "CASE WHEN SUM(materials.set_wt) = 0 THEN NULL ELSE 100.0 * SUM(materials.ach_wt - materials.set_wt) / SUM(materials.set_wt) END"
+        }
+      ],
+      "filters": [
+        "Reuse the same filtered population used for rows"
+      ],
+      "ordering": []
+    }
+  ],
+  "reshape_rules": [
+    {
+      "alias": "materials",
+      "purpose": "Unpivot bin1..bin12 into long-form rows (batch_id, bin_no, material_name, set_wt, ach_wt) before aggregation.",
+      "strategy": "UNION_ALL",
+      "columns": [
+        "batch_id",
+        "recipe_name",
+        "start_time",
+        "bin_no",
+        "material_name",
+        "set_wt",
+        "ach_wt"
+      ]
+    }
+  ],
+  "order_by": {
+    "rows": [
+      "row_recipe_code ASC",
+      "row_batch_no ASC"
+    ]
+  },
+  "row_order": [
+    "row_recipe_code ASC",
+    "row_batch_no ASC"
+  ]
+}

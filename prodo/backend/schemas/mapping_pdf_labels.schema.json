@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MappingPdfLabels",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["header", "placeholder", "mapping"],
+    "properties": {
+      "header": {
+        "type": "string",
+        "minLength": 1
+      },
+        "placeholder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mapping": {
+          "type": "string",
+          "minLength": 1
+        }
+    },
+    "additionalProperties": true
+  }
+}

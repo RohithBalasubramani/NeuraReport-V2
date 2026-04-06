@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level data required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Each row represents one database connection target with its configuration and current health status.",
+      "columns": [
+        "row_target_id",
+        "row_provider",
+        "row_connection_string",
+        "row_status",
+        "row_last_message"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens are direct column passthroughs from app_db_targets. No filtering logic, no parameter-based subsetting—every row in the table appears in the output.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations needed—data flows directly from app_db_targets table columns to report row tokens."
+  ]
+}

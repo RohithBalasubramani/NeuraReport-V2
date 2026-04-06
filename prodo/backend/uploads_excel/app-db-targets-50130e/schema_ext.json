@@ -1,0 +1,16 @@
+{
+  "row_tokens": [
+    "row_target_id",
+    "row_provider",
+    "row_connection_string",
+    "row_status",
+    "row_last_message"
+  ],
+  "scalars": {},
+  "totals": {},
+  "notes": {
+    "sheet_title": "Db Targets",
+    "repeating_row_count": 1,
+    "column_count": 5
+  }
+}

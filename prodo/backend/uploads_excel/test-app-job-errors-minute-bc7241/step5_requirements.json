@@ -1,0 +1,34 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Error events aggregated by job, error code, and minute timestamp",
+      "columns": [
+        "row_job_id",
+        "row_code",
+        "row_minute_utc",
+        "row_count",
+        "row_last_message"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All row tokens are direct passthroughs from app_job_errors_minute table. Time filtering applies to minute_utc column.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required - direct table-to-report mapping"
+  ]
+}

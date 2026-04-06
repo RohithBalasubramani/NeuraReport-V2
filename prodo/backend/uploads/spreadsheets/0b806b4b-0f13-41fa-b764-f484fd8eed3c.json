@@ -1,0 +1,44 @@
+{
+  "id": "0b806b4b-0f13-41fa-b764-f484fd8eed3c",
+  "name": "Portfolio",
+  "sheets": [
+    {
+      "id": "5ff97a5d-0103-4f77-a4f7-af79255d63b1",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Ticker",
+          "Shares",
+          "Price"
+        ],
+        [
+          "AAPL",
+          100,
+          198.3
+        ],
+        [
+          "MSFT",
+          50,
+          415.6
+        ],
+        [
+          "JNJ",
+          75,
+          162.4
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T19:32:09.964496+00:00",
+  "updated_at": "2026-02-22T19:32:09.964496+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

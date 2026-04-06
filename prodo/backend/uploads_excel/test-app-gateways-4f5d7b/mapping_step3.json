@@ -1,0 +1,90 @@
+{
+  "mapping": {
+    "row_id": "app_gateways.id",
+    "row_name": "app_gateways.name",
+    "row_host": "app_gateways.host",
+    "row_adapter_id": "app_gateways.adapter_id",
+    "row_nic_hint": "app_gateways.nic_hint",
+    "row_ports_json": "app_gateways.ports_json",
+    "row_protocol_hint": "app_gateways.protocol_hint",
+    "row_tags_json": "app_gateways.tags_json",
+    "row_status": "app_gateways.status",
+    "row_last_ping_json": "app_gateways.last_ping_json",
+    "row_last_tcp_json": "app_gateways.last_tcp_json",
+    "row_created_at": "app_gateways.created_at",
+    "row_updated_at": "app_gateways.updated_at",
+    "row_last_test_at": "app_gateways.last_test_at"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "3d41e0f6f19a75a66dab3961d1fb3da7cef25929878f533b833f3690c0a09b0f",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "ee8c45dd64cc4dac009d5d865beb4ad416ad1dbaaac976fce671541676cb87fa",
+    "cache_key": "a0935e62f05682c3f3f740e190fc384e19215f7172f8171cb665584095932b18",
+    "pre_html_sha256": "4d473b0ab940e3cdf04c3edea3e2c39ffdef4d190c295dcfe0fbab483a3ddb36",
+    "post_html_sha256": "4d473b0ab940e3cdf04c3edea3e2c39ffdef4d190c295dcfe0fbab483a3ddb36",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_gateways.id",
+      "row_name": "app_gateways.name",
+      "row_host": "app_gateways.host",
+      "row_adapter_id": "app_gateways.adapter_id",
+      "row_nic_hint": "app_gateways.nic_hint",
+      "row_ports_json": "app_gateways.ports_json",
+      "row_protocol_hint": "app_gateways.protocol_hint",
+      "row_tags_json": "app_gateways.tags_json",
+      "row_status": "app_gateways.status",
+      "row_last_ping_json": "app_gateways.last_ping_json",
+      "row_last_tcp_json": "app_gateways.last_tcp_json",
+      "row_created_at": "app_gateways.created_at",
+      "row_updated_at": "app_gateways.updated_at",
+      "row_last_test_at": "app_gateways.last_test_at"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_host": "{row_host}",
+      "row_adapter_id": "{row_adapter_id}",
+      "row_nic_hint": "{row_nic_hint}",
+      "row_ports_json": "{row_ports_json}",
+      "row_protocol_hint": "{row_protocol_hint}",
+      "row_tags_json": "{row_tags_json}",
+      "row_status": "{row_status}",
+      "row_last_ping_json": "{row_last_ping_json}",
+      "row_last_tcp_json": "{row_last_tcp_json}",
+      "row_created_at": "{row_created_at}",
+      "row_updated_at": "{row_updated_at}",
+      "row_last_test_at": "{row_last_test_at}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_host": "{row_host}",
+    "row_adapter_id": "{row_adapter_id}",
+    "row_nic_hint": "{row_nic_hint}",
+    "row_ports_json": "{row_ports_json}",
+    "row_protocol_hint": "{row_protocol_hint}",
+    "row_tags_json": "{row_tags_json}",
+    "row_status": "{row_status}",
+    "row_last_ping_json": "{row_last_ping_json}",
+    "row_last_tcp_json": "{row_last_tcp_json}",
+    "row_created_at": "{row_created_at}",
+    "row_updated_at": "{row_updated_at}",
+    "row_last_test_at": "{row_last_test_at}"
+  }
+}

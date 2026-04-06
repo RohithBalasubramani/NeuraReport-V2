@@ -1,0 +1,112 @@
+{
+  "scalars": {
+    "print_date": {
+      "label": "Print Date",
+      "description": "Date the report was generated (e.g. 2/1/2026)",
+      "sample": "2/1/2026"
+    },
+    "print_time": {
+      "label": "Print Time",
+      "description": "Time the report was generated (e.g. 11:38 AM)",
+      "sample": "11:38 AM"
+    }
+  },
+  "row_tokens": [
+    {
+      "token": "row_analysers",
+      "header": "ANALYSERS",
+      "column_index": 0,
+      "description": "Timestamp / analyser label for the row",
+      "sample": "2/1/2026, 11:38 AM",
+      "align": "left"
+    },
+    {
+      "token": "row_orp_101",
+      "header": "ORP-101",
+      "column_index": 1,
+      "description": "ORP-101 reading (mV)",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_orp_102",
+      "header": "ORP-102",
+      "column_index": 2,
+      "description": "ORP-102 reading (mV)",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_ph_101",
+      "header": "PH-101",
+      "column_index": 3,
+      "description": "PH-101 reading",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_ph_102",
+      "header": "PH-102",
+      "column_index": 4,
+      "description": "PH-102 reading",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_orp_103",
+      "header": "ORP-103",
+      "column_index": 5,
+      "description": "ORP-103 reading (mV)",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_ph_103",
+      "header": "PH-103",
+      "column_index": 6,
+      "description": "PH-103 reading",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_tds_101",
+      "header": "TDS-101",
+      "column_index": 7,
+      "description": "TDS-101 reading (ppm)",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_ph_104",
+      "header": "PH-104",
+      "column_index": 8,
+      "description": "PH-104 reading",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_tds_102",
+      "header": "TDS-102",
+      "column_index": 9,
+      "description": "TDS-102 reading (ppm)",
+      "sample": "",
+      "align": "right"
+    },
+    {
+      "token": "row_do_101",
+      "header": "DO-101",
+      "column_index": 10,
+      "description": "DO-101 reading (mg/l)",
+      "sample": "",
+      "align": "right"
+    }
+  ],
+  "totals": {},
+  "notes": [
+    "Conditions: Day Wise Time Selection",
+    "Monthwise day Total level",
+    "ORP unit: Mv",
+    "TDS unit: ppm",
+    "DO unit: mg/l"
+  ]
+}

@@ -1,0 +1,221 @@
+# docker-compose.yml - Full NeuraReport infrastructure stack
+# Usage: docker-compose up -d
+version: "3.8"
+
+services:
+  # ---- PostgreSQL (primary database) ----
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: neura
+      POSTGRES_PASSWORD: neura_dev
+      POSTGRES_DB: neurareport
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./backend/scripts/init-pgvector.sql:/docker-entrypoint-initdb.d/01-pgvector.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U neura"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ---- Redis (task broker + cache) ----
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis-data:/data
+    command: >
+      redis-server
+        --appendonly yes
+        --maxmemory 256mb
+        --maxmemory-policy noeviction
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ---- Vault (secrets management) ----
+  vault:
+    image: hashicorp/vault:1.17
+    cap_add: [IPC_LOCK]
+    ports:
+      - "127.0.0.1:8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: dev-only-token
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    command: server -dev
+    restart: unless-stopped
+
+  # ---- Prometheus (metrics) ----
+  prometheus:
+    image: prom/prometheus:v3.3.1
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./backend/observability/prometheus:/etc/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --enable-feature=exemplar-storage
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # ---- Grafana (dashboards) ----
+  grafana:
+    image: grafana/grafana:12.0.0
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ./backend/observability/grafana:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # ---- Tempo (distributed tracing) ----
+  tempo:
+    image: grafana/tempo:2.7.2
+    ports:
+      - "127.0.0.1:4317:4317"
+      - "127.0.0.1:4318:4318"
+    command:
+      - "-config.file=/etc/tempo.yml"
+      - "--target=all"
+      - "--storage.trace.backend=local"
+      - "--storage.trace.local.path=/var/tempo"
+      - "--auth.enabled=false"
+    volumes:
+      - ./backend/observability/tempo/tempo.yml:/etc/tempo.yml
+    restart: unless-stopped
+
+  # ---- Qdrant (vector search) ----
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    restart: unless-stopped
+
+  # ---- Loki (log aggregation) ----
+  loki:
+    image: grafana/loki:3.5.0
+    ports:
+      - "127.0.0.1:3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+  # ---- Dramatiq Worker (background tasks) ----
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NEURA_REDIS_URL=redis://redis:6379/0
+      - NEURA_DATABASE_URL=postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport
+      - NEURA_DEBUG=true
+      - NEURA_WORKER_MODE=true
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=dev-only-token
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    command: >
+      dramatiq backend.app.services.worker
+        --processes 2
+        --threads 8
+        --log-level info
+    restart: on-failure
+
+  # ---- Agent Worker (dedicated queue) ----
+  worker-agents:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NEURA_REDIS_URL=redis://redis:6379/0
+      - NEURA_DATABASE_URL=postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport
+      - NEURA_DEBUG=true
+      - NEURA_WORKER_MODE=true
+      - NEURA_WORKER_METRICS_PORT=9192
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=dev-only-token
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: >
+      dramatiq backend.app.services.worker
+        --processes 1
+        --threads 4
+        --queues agents
+        --log-level info
+    restart: on-failure
+
+  # ---- APScheduler (periodic tasks) ----
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NEURA_REDIS_URL=redis://redis:6379/0
+      - NEURA_DATABASE_URL=postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport
+      - NEURA_DEBUG=true
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    command: python -m backend.app.services.worker.scheduler
+    restart: on-failure
+
+  # ---- FastAPI App ----
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - NEURA_DATABASE_URL=postgresql+asyncpg://neura:neura_dev@postgres:5432/neurareport
+      - NEURA_REDIS_URL=redis://redis:6379/0
+      - NEURA_JWT_SECRET=${NEURA_JWT_SECRET:-dev-secret-not-for-production}
+      - NEURA_DEBUG=true
+      - NEURA_OTLP_ENDPOINT=tempo:4317
+      - NEURA_METRICS_ENABLED=true
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=dev-only-token
+    volumes:
+      - neurareport-state:/app/state
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  qdrant-data:
+  neurareport-state:

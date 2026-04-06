@@ -1,0 +1,71 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header scalars. The report has no title-block tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "One row per timestamp record from neuract__LT_TABLE. Each row carries the formatted timestamp and 28 LT instrument readings (LT_122 is absent from the DB and will render blank).",
+      "columns": [
+        "row_level_transmitter",
+        "row_lt_105",
+        "row_lt_107",
+        "row_lt_109",
+        "row_lt_111",
+        "row_lt_114",
+        "row_lt_116",
+        "row_lt_118",
+        "row_lt_127",
+        "row_lt_128",
+        "row_lt_129",
+        "row_lt_130",
+        "row_lt_131",
+        "row_lt_120",
+        "row_lt_122",
+        "row_lt_114_2",
+        "row_lt_126",
+        "row_lt_113",
+        "row_lt_134",
+        "row_lt_135",
+        "row_lt_137",
+        "row_lt_138",
+        "row_lt_139",
+        "row_lt_140",
+        "row_lt_142",
+        "row_lt_143",
+        "row_lt_144",
+        "row_lt_146",
+        "row_lt_148",
+        "row_lt_149"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required.",
+      "columns": []
+    }
+  },
+  "semantics": "No mandatory filter parameters are defined. If the caller supplies optional date-range parameters (from_date / to_date), they should be applied as inclusive range filters on neuract__LT_TABLE.timestamp_utc.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "from_date",
+        "type": "date"
+      },
+      {
+        "name": "to_date",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "No reshape: all columns are direct projections from neuract__LT_TABLE.",
+    "row_level_transmitter displays timestamp_utc formatted as DD-MM-YYYY HH:MM:SS.",
+    "All LT reading columns are numeric floats; format to 2 decimal places.",
+    "row_lt_122 has no catalog source and will be rendered as an empty string."
+  ]
+}

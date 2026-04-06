@@ -1,0 +1,28 @@
+{
+  "id": "238bb619-e11b-4acb-9f49-f274ae665d80",
+  "name": "Test STP Document",
+  "content": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Flow meter report data for STP plant."
+          }
+        ]
+      }
+    ]
+  },
+  "content_type": "tiptap",
+  "version": 1,
+  "created_at": "2026-02-22T11:49:50.829765+00:00",
+  "updated_at": "2026-02-22T11:49:50.829765+00:00",
+  "owner_id": null,
+  "is_template": false,
+  "track_changes_enabled": false,
+  "collaboration_enabled": false,
+  "tags": [],
+  "metadata": {}
+}

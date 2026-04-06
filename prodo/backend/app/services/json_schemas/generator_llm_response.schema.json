@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GeneratorLLMResponse",
+  "type": "object",
+  "required": ["contract", "sql_pack"],
+  "properties": {
+    "contract": {
+      "type": "object"
+    },
+    "sql_pack": {
+      "type": "object"
+    },
+    "dialect": {
+      "type": "string"
+    },
+    "invalid": {
+      "type": "boolean"
+    },
+    "output_schemas": {
+      "type": "object"
+    },
+    "needs_user_fix": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dry_run": {
+      "type": ["object", "null"]
+    },
+    "summary": {
+      "type": "object"
+    },
+    "key_tokens": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,44 @@
+{
+  "id": "0d8716f0-fb90-4988-85fc-f39a8785c294",
+  "name": "Q4 Revenue Data",
+  "sheets": [
+    {
+      "id": "71af628e-00fe-4867-a31a-390fc42b30be",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Region",
+          "Revenue",
+          "Growth"
+        ],
+        [
+          "APAC",
+          4500000,
+          0.32
+        ],
+        [
+          "EMEA",
+          3200000,
+          0.08
+        ],
+        [
+          "NA",
+          5100000,
+          -0.03
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T19:24:12.770845+00:00",
+  "updated_at": "2026-02-22T19:24:12.770845+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

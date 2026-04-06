@@ -1,0 +1,30 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header data required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "List of protocol types from app_protocol_types table",
+      "columns": [
+        "row_protocol_type"
+      ],
+      "grouping": [],
+      "ordering": [
+        "type ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "This report has no filter parameters. It simply enumerates all protocol types available in the system.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. Direct mapping of protocol type column to row token."
+  ]
+}

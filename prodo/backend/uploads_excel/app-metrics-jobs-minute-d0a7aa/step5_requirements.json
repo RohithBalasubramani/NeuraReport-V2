@@ -1,0 +1,42 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — report has no scalar tokens.",
+      "columns": []
+    },
+    "rows": {
+      "description": "Per-minute job metrics: read/write volumes, errors, latency percentiles, and trigger events.",
+      "columns": [
+        "row_job_id",
+        "row_minute_utc",
+        "row_reads",
+        "row_read_err",
+        "row_writes",
+        "row_write_err",
+        "row_read_p50",
+        "row_read_p95",
+        "row_write_p50",
+        "row_write_p95",
+        "row_triggers",
+        "row_fires",
+        "row_suppressed"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required — report has no totals tokens.",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters or filters. All rows from app_metrics_jobs_minute are returned, ordered by minute_utc descending.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct column extraction from app_metrics_jobs_minute — no MELT, UNION_ALL, or computed columns."
+  ]
+}

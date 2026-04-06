@@ -1,0 +1,372 @@
+{
+  "prompt_version": "v3_df",
+  "model": "sonnet",
+  "input_signature": "16615d79d80eb05813e0ca002a5a9fcb151716c1882f7b9b61dc3f45c5f7b382",
+  "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1771562772,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11",
+        "row_column_12",
+        "row_column_13",
+        "row_column_14",
+        "row_column_15",
+        "row_column_16",
+        "row_column_17",
+        "row_column_18",
+        "row_column_19",
+        "row_column_20",
+        "row_column_21",
+        "row_column_22",
+        "row_column_23",
+        "row_column_24",
+        "row_column_25",
+        "row_column_26",
+        "row_column_27",
+        "row_column_28",
+        "row_column_29",
+        "row_column_30"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_print_date_time": "neuract__LT_TABLE.timestamp_utc",
+      "row_solid_waste_management_system": "neuract__LT_TABLE.LT_105",
+      "row_column_3": "neuract__LT_TABLE.LT_107",
+      "row_column_4": "neuract__LT_TABLE.LT_109",
+      "row_column_5": "neuract__LT_TABLE.LT_111",
+      "row_column_6": "neuract__LT_TABLE.LT_114",
+      "row_column_7": "neuract__LT_TABLE.LT_116",
+      "row_column_8": "neuract__LT_TABLE.LT_118",
+      "row_column_9": "neuract__LT_TABLE.LT_127",
+      "row_column_10": "neuract__LT_TABLE.LT_128",
+      "row_column_11": "neuract__LT_TABLE.LT_129",
+      "row_column_12": "neuract__LT_TABLE.LT_130",
+      "row_column_13": "neuract__LT_TABLE.LT_131",
+      "row_column_14": "neuract__LT_TABLE.LT_120",
+      "row_column_15": "neuract__LT_TABLE.LT_112",
+      "row_column_16": "neuract__LT_TABLE.LT_114_2",
+      "row_column_17": "neuract__LT_TABLE.LT_126",
+      "row_column_18": "neuract__LT_TABLE.LT_113",
+      "row_column_19": "neuract__LT_TABLE.LT_134",
+      "row_column_20": "neuract__LT_TABLE.LT_135",
+      "row_column_21": "neuract__LT_TABLE.LT_137",
+      "row_column_22": "neuract__LT_TABLE.LT_138",
+      "row_column_23": "neuract__LT_TABLE.LT_139",
+      "row_column_24": "neuract__LT_TABLE.LT_140",
+      "row_column_25": "neuract__LT_TABLE.LT_142",
+      "row_column_26": "neuract__LT_TABLE.LT_143",
+      "row_column_27": "neuract__LT_TABLE.LT_144",
+      "row_column_28": "neuract__LT_TABLE.LT_146",
+      "row_column_29": "neuract__LT_TABLE.LT_148",
+      "row_column_30": "neuract__LT_TABLE.LT_149"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "neuract__LT_TABLE",
+      "parent_key": "rowid",
+      "child_table": "neuract__LT_TABLE",
+      "child_key": "rowid"
+    },
+    "date_columns": {
+      "neuract__LT_TABLE": "timestamp_utc"
+    },
+    "filters": {
+      "optional": {}
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_print_date_time",
+            "from": [
+              "neuract__LT_TABLE.timestamp_utc"
+            ]
+          },
+          {
+            "as": "row_solid_waste_management_system",
+            "from": [
+              "neuract__LT_TABLE.LT_105"
+            ]
+          },
+          {
+            "as": "row_column_3",
+            "from": [
+              "neuract__LT_TABLE.LT_107"
+            ]
+          },
+          {
+            "as": "row_column_4",
+            "from": [
+              "neuract__LT_TABLE.LT_109"
+            ]
+          },
+          {
+            "as": "row_column_5",
+            "from": [
+              "neuract__LT_TABLE.LT_111"
+            ]
+          },
+          {
+            "as": "row_column_6",
+            "from": [
+              "neuract__LT_TABLE.LT_114"
+            ]
+          },
+          {
+            "as": "row_column_7",
+            "from": [
+              "neuract__LT_TABLE.LT_116"
+            ]
+          },
+          {
+            "as": "row_column_8",
+            "from": [
+              "neuract__LT_TABLE.LT_118"
+            ]
+          },
+          {
+            "as": "row_column_9",
+            "from": [
+              "neuract__LT_TABLE.LT_127"
+            ]
+          },
+          {
+            "as": "row_column_10",
+            "from": [
+              "neuract__LT_TABLE.LT_128"
+            ]
+          },
+          {
+            "as": "row_column_11",
+            "from": [
+              "neuract__LT_TABLE.LT_129"
+            ]
+          },
+          {
+            "as": "row_column_12",
+            "from": [
+              "neuract__LT_TABLE.LT_130"
+            ]
+          },
+          {
+            "as": "row_column_13",
+            "from": [
+              "neuract__LT_TABLE.LT_131"
+            ]
+          },
+          {
+            "as": "row_column_14",
+            "from": [
+              "neuract__LT_TABLE.LT_120"
+            ]
+          },
+          {
+            "as": "row_column_15",
+            "from": [
+              "neuract__LT_TABLE.LT_112"
+            ]
+          },
+          {
+            "as": "row_column_16",
+            "from": [
+              "neuract__LT_TABLE.LT_114_2"
+            ]
+          },
+          {
+            "as": "row_column_17",
+            "from": [
+              "neuract__LT_TABLE.LT_126"
+            ]
+          },
+          {
+            "as": "row_column_18",
+            "from": [
+              "neuract__LT_TABLE.LT_113"
+            ]
+          },
+          {
+            "as": "row_column_19",
+            "from": [
+              "neuract__LT_TABLE.LT_134"
+            ]
+          },
+          {
+            "as": "row_column_20",
+            "from": [
+              "neuract__LT_TABLE.LT_135"
+            ]
+          },
+          {
+            "as": "row_column_21",
+            "from": [
+              "neuract__LT_TABLE.LT_137"
+            ]
+          },
+          {
+            "as": "row_column_22",
+            "from": [
+              "neuract__LT_TABLE.LT_138"
+            ]
+          },
+          {
+            "as": "row_column_23",
+            "from": [
+              "neuract__LT_TABLE.LT_139"
+            ]
+          },
+          {
+            "as": "row_column_24",
+            "from": [
+              "neuract__LT_TABLE.LT_140"
+            ]
+          },
+          {
+            "as": "row_column_25",
+            "from": [
+              "neuract__LT_TABLE.LT_142"
+            ]
+          },
+          {
+            "as": "row_column_26",
+            "from": [
+              "neuract__LT_TABLE.LT_143"
+            ]
+          },
+          {
+            "as": "row_column_27",
+            "from": [
+              "neuract__LT_TABLE.LT_144"
+            ]
+          },
+          {
+            "as": "row_column_28",
+            "from": [
+              "neuract__LT_TABLE.LT_146"
+            ]
+          },
+          {
+            "as": "row_column_29",
+            "from": [
+              "neuract__LT_TABLE.LT_148"
+            ]
+          },
+          {
+            "as": "row_column_30",
+            "from": [
+              "neuract__LT_TABLE.LT_149"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_print_date_time": "date(DD-MM-YYYY HH:mm:ss)",
+      "row_solid_waste_management_system": "number(2)",
+      "row_column_3": "number(2)",
+      "row_column_4": "number(2)",
+      "row_column_5": "number(2)",
+      "row_column_6": "number(2)",
+      "row_column_7": "number(2)",
+      "row_column_8": "number(2)",
+      "row_column_9": "number(2)",
+      "row_column_10": "number(2)",
+      "row_column_11": "number(2)",
+      "row_column_12": "number(2)",
+      "row_column_13": "number(2)",
+      "row_column_14": "number(2)",
+      "row_column_15": "number(2)",
+      "row_column_16": "number(2)",
+      "row_column_17": "number(2)",
+      "row_column_18": "number(2)",
+      "row_column_19": "number(2)",
+      "row_column_20": "number(2)",
+      "row_column_21": "number(2)",
+      "row_column_22": "number(2)",
+      "row_column_23": "number(2)",
+      "row_column_24": "number(2)",
+      "row_column_25": "number(2)",
+      "row_column_26": "number(2)",
+      "row_column_27": "number(2)",
+      "row_column_28": "number(2)",
+      "row_column_29": "number(2)",
+      "row_column_30": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "timestamp_utc DESC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_print_date_time",
+      "row_solid_waste_management_system",
+      "row_column_3",
+      "row_column_4",
+      "row_column_5",
+      "row_column_6",
+      "row_column_7",
+      "row_column_8",
+      "row_column_9",
+      "row_column_10",
+      "row_column_11",
+      "row_column_12",
+      "row_column_13",
+      "row_column_14",
+      "row_column_15",
+      "row_column_16",
+      "row_column_17",
+      "row_column_18",
+      "row_column_19",
+      "row_column_20",
+      "row_column_21",
+      "row_column_22",
+      "row_column_23",
+      "row_column_24",
+      "row_column_25",
+      "row_column_26",
+      "row_column_27",
+      "row_column_28",
+      "row_column_29",
+      "row_column_30"
+    ],
+    "row_order": [
+      "timestamp_utc DESC"
+    ],
+    "literals": {},
+    "notes": "Wide-format sensor report with 30 level transmitter readings per timestamp. All data from neuract__LT_TABLE. No aggregations or computations required."
+  },
+  "key_tokens": []
+}

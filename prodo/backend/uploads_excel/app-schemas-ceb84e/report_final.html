@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schemas Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            color: #000;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        
+        #data-table thead th {
+            background-color: #f0f0f0;
+            border: 1px solid #999;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 10px;
+            vertical-align: top;
+            font-size: 10pt;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            #data-table tbody tr {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="report-header">
+        <h1>Schemas</h1>
+    </header>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="schema_id">Schema ID</th>
+                <th data-label="schema_name">Schema Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_schema_id}</td>
+                <td>{row_schema_name}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

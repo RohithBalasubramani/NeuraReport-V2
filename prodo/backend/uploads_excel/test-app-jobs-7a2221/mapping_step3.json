@@ -1,0 +1,216 @@
+{
+  "mapping": {
+    "row_id": "app_jobs.id",
+    "row_name": "app_jobs.name",
+    "row_device_table_id": "UNRESOLVED",
+    "row_schema_id": "UNRESOLVED",
+    "row_gateway_id": "UNRESOLVED",
+    "row_interval_sec": "UNRESOLVED",
+    "row_protocol": "UNRESOLVED",
+    "row_enabled": "app_jobs.enabled",
+    "row_status": "app_jobs.status",
+    "row_last_run_at": "UNRESOLVED",
+    "row_error_count": "UNRESOLVED",
+    "row_created_at": "UNRESOLVED",
+    "row_updated_at": "UNRESOLVED"
+  },
+  "meta": {
+    "unresolved": [
+      "row_device_table_id",
+      "row_schema_id",
+      "row_gateway_id",
+      "row_interval_sec",
+      "row_protocol",
+      "row_last_run_at",
+      "row_error_count",
+      "row_created_at",
+      "row_updated_at"
+    ],
+    "hints": {
+      "row_device_table_id": {
+        "op": "EXTRACT",
+        "over": [
+          "note:Extract from app_jobs.tables_json which contains device table IDs in array format"
+        ]
+      },
+      "row_schema_id": {
+        "op": "JOIN",
+        "over": [
+          "note:Requires joining app_jobs -> app_device_tables (via tables_json) -> schema_id"
+        ]
+      },
+      "row_gateway_id": {
+        "op": "JOIN",
+        "over": [
+          "note:Requires joining app_jobs -> app_device_tables -> app_devices -> gateway_id"
+        ]
+      },
+      "row_interval_sec": {
+        "op": "CONVERT",
+        "over": [
+          "note:Convert app_jobs.interval_ms from milliseconds to seconds (divide by 1000)"
+        ]
+      },
+      "row_protocol": {
+        "op": "JOIN",
+        "over": [
+          "note:Requires joining app_jobs -> app_device_tables -> app_devices -> protocol"
+        ]
+      },
+      "row_last_run_at": {
+        "op": "AGGREGATE",
+        "over": [
+          "note:Get MAX(started_at) from app_job_runs where job_id matches"
+        ]
+      },
+      "row_error_count": {
+        "op": "AGGREGATE",
+        "over": [
+          "note:Count or sum errors from app_job_errors_minute for this job_id"
+        ]
+      },
+      "row_created_at": {
+        "op": "MISSING",
+        "over": [
+          "note:No created_at field in app_jobs table"
+        ]
+      },
+      "row_updated_at": {
+        "op": "MISSING",
+        "over": [
+          "note:No updated_at field in app_jobs table"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "8cf3617ab5fc84d924cf7d7ba6db83397a80153aaca150bb01edfc35359ade7b",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "0b35095d4205009df1fdd811aef49b46d95275689dd2f9c0a0b1135f344e473b",
+    "cache_key": "c73f6f8715aeb00e0fab103ceff130b7332f62afd23637d8e4641d4246405a5c",
+    "pre_html_sha256": "45f56d58405550920e9daa7609604657f9c6fde1b2955c77c4a263ae9d97b305",
+    "post_html_sha256": "45f56d58405550920e9daa7609604657f9c6fde1b2955c77c4a263ae9d97b305",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_id": "app_jobs.id",
+      "row_name": "app_jobs.name",
+      "row_device_table_id": "UNRESOLVED",
+      "row_schema_id": "UNRESOLVED",
+      "row_gateway_id": "UNRESOLVED",
+      "row_interval_sec": "UNRESOLVED",
+      "row_protocol": "UNRESOLVED",
+      "row_enabled": "app_jobs.enabled",
+      "row_status": "app_jobs.status",
+      "row_last_run_at": "UNRESOLVED",
+      "row_error_count": "UNRESOLVED",
+      "row_created_at": "UNRESOLVED",
+      "row_updated_at": "UNRESOLVED"
+    },
+    "token_samples": {
+      "row_id": "{row_id}",
+      "row_name": "{row_name}",
+      "row_device_table_id": "{row_device_table_id}",
+      "row_schema_id": "{row_schema_id}",
+      "row_gateway_id": "{row_gateway_id}",
+      "row_interval_sec": "{row_interval_sec}",
+      "row_protocol": "{row_protocol}",
+      "row_enabled": "{row_enabled}",
+      "row_status": "{row_status}",
+      "row_last_run_at": "{row_last_run_at}",
+      "row_error_count": "{row_error_count}",
+      "row_created_at": "{row_created_at}",
+      "row_updated_at": "{row_updated_at}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_device_table_id",
+        "row_schema_id",
+        "row_gateway_id",
+        "row_interval_sec",
+        "row_protocol",
+        "row_last_run_at",
+        "row_error_count",
+        "row_created_at",
+        "row_updated_at"
+      ],
+      "hints": {
+        "row_device_table_id": {
+          "op": "EXTRACT",
+          "over": [
+            "note:Extract from app_jobs.tables_json which contains device table IDs in array format"
+          ]
+        },
+        "row_schema_id": {
+          "op": "JOIN",
+          "over": [
+            "note:Requires joining app_jobs -> app_device_tables (via tables_json) -> schema_id"
+          ]
+        },
+        "row_gateway_id": {
+          "op": "JOIN",
+          "over": [
+            "note:Requires joining app_jobs -> app_device_tables -> app_devices -> gateway_id"
+          ]
+        },
+        "row_interval_sec": {
+          "op": "CONVERT",
+          "over": [
+            "note:Convert app_jobs.interval_ms from milliseconds to seconds (divide by 1000)"
+          ]
+        },
+        "row_protocol": {
+          "op": "JOIN",
+          "over": [
+            "note:Requires joining app_jobs -> app_device_tables -> app_devices -> protocol"
+          ]
+        },
+        "row_last_run_at": {
+          "op": "AGGREGATE",
+          "over": [
+            "note:Get MAX(started_at) from app_job_runs where job_id matches"
+          ]
+        },
+        "row_error_count": {
+          "op": "AGGREGATE",
+          "over": [
+            "note:Count or sum errors from app_job_errors_minute for this job_id"
+          ]
+        },
+        "row_created_at": {
+          "op": "MISSING",
+          "over": [
+            "note:No created_at field in app_jobs table"
+          ]
+        },
+        "row_updated_at": {
+          "op": "MISSING",
+          "over": [
+            "note:No updated_at field in app_jobs table"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_id": "{row_id}",
+    "row_name": "{row_name}",
+    "row_device_table_id": "{row_device_table_id}",
+    "row_schema_id": "{row_schema_id}",
+    "row_gateway_id": "{row_gateway_id}",
+    "row_interval_sec": "{row_interval_sec}",
+    "row_protocol": "{row_protocol}",
+    "row_enabled": "{row_enabled}",
+    "row_status": "{row_status}",
+    "row_last_run_at": "{row_last_run_at}",
+    "row_error_count": "{row_error_count}",
+    "row_created_at": "{row_created_at}",
+    "row_updated_at": "{row_updated_at}"
+  }
+}

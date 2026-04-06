@@ -1,0 +1,86 @@
+{
+  "mapping": {
+    "row_job_id": "app_metrics_jobs_minute.job_id",
+    "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+    "row_reads": "app_metrics_jobs_minute.reads",
+    "row_read_err": "app_metrics_jobs_minute.read_err",
+    "row_writes": "app_metrics_jobs_minute.writes",
+    "row_write_err": "app_metrics_jobs_minute.write_err",
+    "row_read_p50": "app_metrics_jobs_minute.read_p50",
+    "row_read_p95": "app_metrics_jobs_minute.read_p95",
+    "row_write_p50": "app_metrics_jobs_minute.write_p50",
+    "row_write_p95": "app_metrics_jobs_minute.write_p95",
+    "row_triggers": "app_metrics_jobs_minute.triggers",
+    "row_fires": "app_metrics_jobs_minute.fires",
+    "row_suppressed": "app_metrics_jobs_minute.suppressed"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {}
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "b647829ae9f289263e4900c904034fbfd0858b7d7a9272cd64caca60bf030e83",
+    "catalog_sha256": "c09e23ff7faf7c66b61ce036ed02ec806a9f65650c2d220898067fc8e3c605a3",
+    "schema_sha256": "",
+    "cache_key": "1d4bf84cb8db1e9211ee188b161b7be245d0b1f439a081a343589d58701d262f",
+    "pre_html_sha256": "a6f7105f557a94edbaa7603b2cbe2c2b019c0f17866b17818e4e77e3306b5a2b",
+    "post_html_sha256": "a6f7105f557a94edbaa7603b2cbe2c2b019c0f17866b17818e4e77e3306b5a2b",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "bc3784cd60c3ff6d"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_job_id": "app_metrics_jobs_minute.job_id",
+      "row_minute_utc": "app_metrics_jobs_minute.minute_utc",
+      "row_reads": "app_metrics_jobs_minute.reads",
+      "row_read_err": "app_metrics_jobs_minute.read_err",
+      "row_writes": "app_metrics_jobs_minute.writes",
+      "row_write_err": "app_metrics_jobs_minute.write_err",
+      "row_read_p50": "app_metrics_jobs_minute.read_p50",
+      "row_read_p95": "app_metrics_jobs_minute.read_p95",
+      "row_write_p50": "app_metrics_jobs_minute.write_p50",
+      "row_write_p95": "app_metrics_jobs_minute.write_p95",
+      "row_triggers": "app_metrics_jobs_minute.triggers",
+      "row_fires": "app_metrics_jobs_minute.fires",
+      "row_suppressed": "app_metrics_jobs_minute.suppressed"
+    },
+    "token_samples": {
+      "row_job_id": "{row_job_id}",
+      "row_minute_utc": "{row_minute_utc}",
+      "row_reads": "{row_reads}",
+      "row_read_err": "{row_read_err}",
+      "row_writes": "{row_writes}",
+      "row_write_err": "{row_write_err}",
+      "row_read_p50": "{row_read_p50}",
+      "row_read_p95": "{row_read_p95}",
+      "row_write_p50": "{row_write_p50}",
+      "row_write_p95": "{row_write_p95}",
+      "row_triggers": "{row_triggers}",
+      "row_fires": "{row_fires}",
+      "row_suppressed": "{row_suppressed}"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {}
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_job_id": "{row_job_id}",
+    "row_minute_utc": "{row_minute_utc}",
+    "row_reads": "{row_reads}",
+    "row_read_err": "{row_read_err}",
+    "row_writes": "{row_writes}",
+    "row_write_err": "{row_write_err}",
+    "row_read_p50": "{row_read_p50}",
+    "row_read_p95": "{row_read_p95}",
+    "row_write_p50": "{row_write_p50}",
+    "row_write_p95": "{row_write_p95}",
+    "row_triggers": "{row_triggers}",
+    "row_fires": "{row_fires}",
+    "row_suppressed": "{row_suppressed}"
+  }
+}

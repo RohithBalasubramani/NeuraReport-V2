@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required for this report",
+      "columns": []
+    },
+    "rows": {
+      "description": "Per-minute job performance metrics including operation counts, errors, and latency percentiles",
+      "columns": [
+        "row_job_id",
+        "row_minute_utc",
+        "row_reads",
+        "row_read_errors",
+        "row_writes",
+        "row_write_errors",
+        "row_read_p50",
+        "row_read_p95",
+        "row_write_p50",
+        "row_write_p95"
+      ],
+      "grouping": [],
+      "ordering": [
+        "minute_utc DESC",
+        "job_id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required for this report",
+      "columns": []
+    }
+  },
+  "semantics": "All columns are direct pass-through values from the source table. No filtering parameters are defined.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required. All row tokens map directly to catalog columns from app_metrics_jobs_minute."
+  ]
+}

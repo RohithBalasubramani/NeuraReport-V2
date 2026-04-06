@@ -1,0 +1,137 @@
+fastapi
+slowapi
+uvicorn
+pydantic-settings
+sqlmodel
+apscheduler
+prefect
+litellm
+instructor
+fastapi-users
+fastapi-users-db-sqlalchemy
+python-jose[cryptography]
+passlib[bcrypt]
+aiosqlite
+email-validator
+pymupdf
+pdfplumber
+reportlab
+pikepdf
+python-multipart
+cryptography
+bleach
+filelock
+
+jsonschema>=4.18.0
+
+# State persistence & migrations
+sqlalchemy
+alembic>=1.13.0
+
+# LLM Providers (install based on your needs)
+openai>=1.0.0
+# anthropic>=0.18.0  # Optional: For Claude models
+# google-generativeai>=0.4.0  # Optional: For Gemini models
+
+pillow
+numpy
+pandas
+duckdb
+opencv-python
+scikit-image
+playwright
+openpyxl
+html2docx
+python-docx
+pdf2docx
+
+# Enhanced LLM features (all optional)
+# httpx>=0.24.0  # For async HTTP requests
+# tiktoken>=0.5.0  # For token counting
+# sentence-transformers>=2.2.0  # For local embeddings
+
+# ============================================
+# NEW FEATURES - Phase 1 Dependencies
+# ============================================
+
+# Document Editing - Real-time Collaboration
+y-py>=0.6.0
+websockets>=12.0
+
+# Spreadsheet Features
+xlrd>=2.0.1
+xlsxwriter>=3.1.0
+
+# Database Connectors
+asyncpg>=0.29.0
+pymysql>=1.1.0
+pymongo>=4.6.0
+elasticsearch>=8.12.0
+
+# Cloud Storage Connectors
+google-api-python-client>=2.118.0
+google-auth-oauthlib>=1.2.0
+msal>=1.26.0
+dropbox>=11.36.0
+boto3>=1.34.0
+azure-storage-blob>=12.19.0
+paramiko>=3.4.0
+
+# Productivity Integrations
+notion-client>=2.2.0
+slack-sdk>=3.27.0
+pymsteams>=0.2.2
+
+# Analytics & ML
+statsmodels>=0.14.0
+scikit-learn>=1.4.0
+
+# NLP & Document Intelligence
+spacy>=3.7.0
+
+# Export Formats
+python-pptx>=0.6.23
+ebooklib>=0.18
+pylatex>=1.4.2
+html2text>=2024.2.26
+
+# Workflow Automation
+watchdog>=4.0.0
+
+# GraphQL
+strawberry-graphql>=0.219.0
+
+# Full-text Search
+whoosh>=2.7.4
+
+# OAuth
+authlib>=1.3.0
+
+# Formula Parsing
+lark>=1.1.0
+
+# Task Queue (Dramatiq + Redis)
+dramatiq[redis]>=1.16.0
+redis>=5.0.0
+
+# Vector Search
+pgvector>=0.3.0
+sentence-transformers>=3.0.0
+
+# Observability
+opentelemetry-api>=1.20.0
+opentelemetry-sdk>=1.20.0
+opentelemetry-exporter-otlp-proto-grpc>=1.20.0
+opentelemetry-instrumentation-fastapi>=0.41b0
+opentelemetry-instrumentation-logging>=0.41b0
+prometheus-client>=0.20.0
+
+# Secrets Management
+hvac>=2.1.0  # HashiCorp Vault client
+
+# Dependency Injection
+dependency-injector>=4.41.0
+
+# Prompt Management
+pyyaml>=6.0.0
+jinja2>=3.1.0

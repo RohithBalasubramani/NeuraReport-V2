@@ -1,0 +1,55 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Two system-injected scalars: the report render date and render time, set from the server clock at generation time. Not sourced from the database.",
+      "columns": [
+        "print_date",
+        "print_time"
+      ]
+    },
+    "rows": {
+      "description": "One row per measurement event from neuract__ANALYSER_TABLE. Each row captures a UTC timestamp and readings for all 10 analyser instruments in wide format. The timestamp column is formatted for display as the row label.",
+      "columns": [
+        "row_analysers",
+        "row_orp_101",
+        "row_orp_102",
+        "row_ph_101",
+        "row_ph_102",
+        "row_orp_103",
+        "row_ph_103",
+        "row_tds_101",
+        "row_ph_104",
+        "row_tds_102",
+        "row_do_101"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals section in this report.",
+      "columns": []
+    }
+  },
+  "semantics": "No required filter parameters are declared. date_from and date_to are optional pass-through filters applied to timestamp_utc to support day-wise or month-wise time selection as indicated in the footer. print_date and print_time are system-generated scalars injected at render time.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Format timestamp_utc from ISO 8601 to DD-MM-YYYY HH:MM:SS for display in the row_analysers column.",
+    "Apply number(3) formatting to ORP, TDS, and DO readings.",
+    "Apply number(2) formatting to PH readings.",
+    "No reshape: data is already wide-format with one instrument per column."
+  ]
+}

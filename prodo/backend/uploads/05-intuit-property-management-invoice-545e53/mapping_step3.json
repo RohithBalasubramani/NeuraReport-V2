@@ -1,0 +1,304 @@
+{
+  "mapping": {
+    "company_name": "invoices.vendor_name",
+    "company_street_address": "UNRESOLVED",
+    "company_city_state_zipcode": "UNRESOLVED",
+    "company_phone": "UNRESOLVED",
+    "company_email": "UNRESOLVED",
+    "company_website": "UNRESOLVED",
+    "bill_to_client_name": "customers.customer_name",
+    "bill_to_street_address": "customers.billing_address",
+    "bill_to_city_state_zipcode": "UNRESOLVED",
+    "ship_to_client_name": "customers.customer_name",
+    "ship_to_street_address": "customers.billing_address",
+    "ship_to_city_state_zipcode": "UNRESOLVED",
+    "invoice_number": "invoices.invoice_number",
+    "invoice_date": "invoices.issue_date",
+    "payment_terms": "UNRESOLVED",
+    "due_date": "invoices.due_date",
+    "row_item_service": "invoice_items.item_code",
+    "row_description": "invoice_items.description",
+    "row_quantity_hrs": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_amount": "invoice_items.line_total",
+    "customer_message": "invoices.notes",
+    "total_subtotal": "invoices.subtotal",
+    "total_sales_tax": "invoices.tax_amount",
+    "total_shipping": "UNRESOLVED",
+    "total_amount": "invoices.total_amount"
+  },
+  "meta": {
+    "unresolved": [
+      "company_street_address",
+      "company_city_state_zipcode",
+      "company_phone",
+      "company_email",
+      "company_website",
+      "bill_to_city_state_zipcode",
+      "ship_to_city_state_zipcode",
+      "payment_terms",
+      "total_shipping"
+    ],
+    "hints": {
+      "company_street_address": {
+        "op": "LOOKUP",
+        "over": [
+          "columns:invoices.vendor_name",
+          "note:Vendor address not in catalog, may need separate vendor table or params"
+        ]
+      },
+      "company_city_state_zipcode": {
+        "op": "CONCAT",
+        "over": [
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code",
+          "note:Format: 'City, State Zipcode' - requires vendor address data"
+        ]
+      },
+      "company_phone": {
+        "op": "LOOKUP",
+        "over": [
+          "note:Vendor contact info not in catalog"
+        ]
+      },
+      "company_email": {
+        "op": "LOOKUP",
+        "over": [
+          "note:Vendor email not in catalog"
+        ]
+      },
+      "company_website": {
+        "op": "LOOKUP",
+        "over": [
+          "note:Vendor website not in catalog"
+        ]
+      },
+      "bill_to_city_state_zipcode": {
+        "op": "CONCAT",
+        "over": [
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code",
+          "note:Format: 'City, State Zipcode'"
+        ]
+      },
+      "ship_to_city_state_zipcode": {
+        "op": "CONCAT",
+        "over": [
+          "columns:customers.city",
+          "columns:customers.state",
+          "columns:customers.postal_code",
+          "note:Format: 'City, State Zipcode' - shipping address not separate in catalog"
+        ]
+      },
+      "payment_terms": {
+        "op": "LOOKUP",
+        "over": [
+          "note:Payment terms not in catalog, may be constant or param"
+        ]
+      },
+      "total_shipping": {
+        "op": "CALCULATE",
+        "over": [
+          "columns:invoices.total_amount",
+          "columns:invoices.subtotal",
+          "columns:invoices.tax_amount",
+          "note:Shipping = Total - Subtotal - Tax (or may need separate shipping column)"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "7c8c8fc55d6e3b2d831b9469f7d486ff2660be8d9acf3af846c59defa9574ec6",
+    "catalog_sha256": "3046e10689799f25ea732aacd0e4f9de3bcc68229b7777b15ddba12c96152c52",
+    "schema_sha256": "619e1329303fa3a098c18abbdb02694b4971ff5866eafd6159359bd578482059",
+    "cache_key": "e90b21c319aff78194a419aaf2f8128e24afb2aebb4a206260b649004e6f2af4",
+    "pre_html_sha256": "89042450619ad30b0dc80a4f36eafe5aa4db657759d4e25bf76dee4c4107c829",
+    "post_html_sha256": "0eca6a7e476bc762b79bb667525a3e703cdfa0c8a0378e755e9c05f55899efb4",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "4ae3452d2b062690821cb8fca36ae0bd17aae1cc4f7a0b8bb1880710806a1211",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "company_name": "invoices.vendor_name",
+      "company_street_address": "UNRESOLVED",
+      "company_city_state_zipcode": "UNRESOLVED",
+      "company_phone": "UNRESOLVED",
+      "company_email": "UNRESOLVED",
+      "company_website": "UNRESOLVED",
+      "bill_to_client_name": "customers.customer_name",
+      "bill_to_street_address": "customers.billing_address",
+      "bill_to_city_state_zipcode": "UNRESOLVED",
+      "ship_to_client_name": "customers.customer_name",
+      "ship_to_street_address": "customers.billing_address",
+      "ship_to_city_state_zipcode": "UNRESOLVED",
+      "invoice_number": "invoices.invoice_number",
+      "invoice_date": "invoices.issue_date",
+      "payment_terms": "UNRESOLVED",
+      "due_date": "invoices.due_date",
+      "row_item_service": "invoice_items.item_code",
+      "row_description": "invoice_items.description",
+      "row_quantity_hrs": "invoice_items.quantity",
+      "row_rate": "invoice_items.unit_price",
+      "row_amount": "invoice_items.line_total",
+      "customer_message": "invoices.notes",
+      "total_subtotal": "invoices.subtotal",
+      "total_sales_tax": "invoices.tax_amount",
+      "total_shipping": "UNRESOLVED",
+      "total_amount": "invoices.total_amount"
+    },
+    "token_samples": {
+      "logo_placeholder_text": "Replace with",
+      "logo_text": "LOGO",
+      "company_name": "Your Company Name",
+      "company_street_address": "Street address",
+      "company_city_state_zipcode": "City, State, Zipcode",
+      "company_phone": "555-555-555",
+      "company_email": "company.name@company.com",
+      "company_website": "www.companyname.com",
+      "bill_to_client_name": "Client name",
+      "bill_to_street_address": "Street address",
+      "bill_to_city_state_zipcode": "City, State, Zipcode",
+      "ship_to_client_name": "Client name",
+      "ship_to_street_address": "Street address",
+      "ship_to_city_state_zipcode": "City, State, Zipcode",
+      "invoice_number": "12345",
+      "invoice_date": "mm/dd/yyyy",
+      "payment_terms": "Net 30",
+      "due_date": "mm/dd/yyyy",
+      "row_item_service": "Item or service",
+      "row_description": "Description of item or service",
+      "row_quantity_hrs": "0",
+      "row_rate": "$0.00",
+      "row_amount": "$0.00",
+      "customer_message": "Hello!\n\nThank you for your business. Please return this invoice with payment.\n\nThanks!",
+      "total_subtotal": "$0.00",
+      "total_sales_tax": "$0.00",
+      "total_shipping": "$0.00",
+      "total_amount": "$0.00"
+    },
+    "meta": {
+      "unresolved": [
+        "company_street_address",
+        "company_city_state_zipcode",
+        "company_phone",
+        "company_email",
+        "company_website",
+        "bill_to_city_state_zipcode",
+        "ship_to_city_state_zipcode",
+        "payment_terms",
+        "total_shipping"
+      ],
+      "hints": {
+        "company_street_address": {
+          "op": "LOOKUP",
+          "over": [
+            "columns:invoices.vendor_name",
+            "note:Vendor address not in catalog, may need separate vendor table or params"
+          ]
+        },
+        "company_city_state_zipcode": {
+          "op": "CONCAT",
+          "over": [
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code",
+            "note:Format: 'City, State Zipcode' - requires vendor address data"
+          ]
+        },
+        "company_phone": {
+          "op": "LOOKUP",
+          "over": [
+            "note:Vendor contact info not in catalog"
+          ]
+        },
+        "company_email": {
+          "op": "LOOKUP",
+          "over": [
+            "note:Vendor email not in catalog"
+          ]
+        },
+        "company_website": {
+          "op": "LOOKUP",
+          "over": [
+            "note:Vendor website not in catalog"
+          ]
+        },
+        "bill_to_city_state_zipcode": {
+          "op": "CONCAT",
+          "over": [
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code",
+            "note:Format: 'City, State Zipcode'"
+          ]
+        },
+        "ship_to_city_state_zipcode": {
+          "op": "CONCAT",
+          "over": [
+            "columns:customers.city",
+            "columns:customers.state",
+            "columns:customers.postal_code",
+            "note:Format: 'City, State Zipcode' - shipping address not separate in catalog"
+          ]
+        },
+        "payment_terms": {
+          "op": "LOOKUP",
+          "over": [
+            "note:Payment terms not in catalog, may be constant or param"
+          ]
+        },
+        "total_shipping": {
+          "op": "CALCULATE",
+          "over": [
+            "columns:invoices.total_amount",
+            "columns:invoices.subtotal",
+            "columns:invoices.tax_amount",
+            "note:Shipping = Total - Subtotal - Tax (or may need separate shipping column)"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {
+      "logo_placeholder_text": "Replace with",
+      "logo_text": "LOGO"
+    }
+  },
+  "constant_replacements": {
+    "logo_placeholder_text": "Replace with",
+    "logo_text": "LOGO"
+  },
+  "token_samples": {
+    "logo_placeholder_text": "Replace with",
+    "logo_text": "LOGO",
+    "company_name": "Your Company Name",
+    "company_street_address": "Street address",
+    "company_city_state_zipcode": "City, State, Zipcode",
+    "company_phone": "555-555-555",
+    "company_email": "company.name@company.com",
+    "company_website": "www.companyname.com",
+    "bill_to_client_name": "Client name",
+    "bill_to_street_address": "Street address",
+    "bill_to_city_state_zipcode": "City, State, Zipcode",
+    "ship_to_client_name": "Client name",
+    "ship_to_street_address": "Street address",
+    "ship_to_city_state_zipcode": "City, State, Zipcode",
+    "invoice_number": "12345",
+    "invoice_date": "mm/dd/yyyy",
+    "payment_terms": "Net 30",
+    "due_date": "mm/dd/yyyy",
+    "row_item_service": "Item or service",
+    "row_description": "Description of item or service",
+    "row_quantity_hrs": "0",
+    "row_rate": "$0.00",
+    "row_amount": "$0.00",
+    "customer_message": "Hello!\n\nThank you for your business. Please return this invoice with payment.\n\nThanks!",
+    "total_subtotal": "$0.00",
+    "total_sales_tax": "$0.00",
+    "total_shipping": "$0.00",
+    "total_amount": "$0.00"
+  }
+}

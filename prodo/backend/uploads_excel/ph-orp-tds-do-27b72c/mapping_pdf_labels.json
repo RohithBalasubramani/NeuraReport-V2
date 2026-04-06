@@ -1,0 +1,57 @@
+[
+  {
+    "header": "row_print_date_time",
+    "placeholder": "{row_print_date_time}",
+    "mapping": "neuract__ANALYSER_TABLE.timestamp_utc"
+  },
+  {
+    "header": "row_solid_waste_management_system",
+    "placeholder": "{row_solid_waste_management_system}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_101"
+  },
+  {
+    "header": "row_column_3",
+    "placeholder": "{row_column_3}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_102"
+  },
+  {
+    "header": "row_column_4",
+    "placeholder": "{row_column_4}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_101"
+  },
+  {
+    "header": "row_column_5",
+    "placeholder": "{row_column_5}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_102"
+  },
+  {
+    "header": "row_column_6",
+    "placeholder": "{row_column_6}",
+    "mapping": "neuract__ANALYSER_TABLE.ORP_103"
+  },
+  {
+    "header": "row_column_7",
+    "placeholder": "{row_column_7}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_103"
+  },
+  {
+    "header": "row_column_8",
+    "placeholder": "{row_column_8}",
+    "mapping": "neuract__ANALYSER_TABLE.TDS_101"
+  },
+  {
+    "header": "row_column_9",
+    "placeholder": "{row_column_9}",
+    "mapping": "neuract__ANALYSER_TABLE.PH_104"
+  },
+  {
+    "header": "row_column_10",
+    "placeholder": "{row_column_10}",
+    "mapping": "neuract__ANALYSER_TABLE.TDS_102"
+  },
+  {
+    "header": "row_column_11",
+    "placeholder": "{row_column_11}",
+    "mapping": "neuract__ANALYSER_TABLE.D0_101"
+  }
+]

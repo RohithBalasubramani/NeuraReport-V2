@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Schema Fields Report</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; color: #1a1a2e; background: #f4f6fb; }
+.page { max-width: 1100px; margin: 0 auto; background: #fff; padding: 40px 48px 56px; min-height: 100vh; }
+.report-header { border-bottom: 3px solid #1565c0; padding-bottom: 20px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-end; }
+.report-header-left .report-title { font-size: 24px; font-weight: 700; color: #0d47a1; }
+.report-header-left .report-subtitle { font-size: 13px; color: #5c6bc0; margin-top: 4px; }
+.report-header-right { text-align: right; }
+.report-header-right .label { font-size: 11px; color: #90a4ae; text-transform: uppercase; }
+.report-header-right .value { font-size: 13px; font-weight: 600; color: #1a237e; margin-top: 2px; }
+.report-header-right .generated { font-size: 11px; color: #90a4ae; margin-top: 6px; }
+.section { margin-bottom: 36px; }
+.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.section-number { background: #1565c0; color: #fff; font-size: 11px; font-weight: 700; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+.section-title { font-size: 16px; font-weight: 700; color: #0d47a1; }
+.section-line { flex: 1; height: 1px; background: #e3eaf7; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead tr { background: #1565c0; color: #fff; }
+thead th { padding: 10px 13px; text-align: left; font-weight: 600; font-size: 11.5px; white-space: nowrap; }
+tbody tr { border-bottom: 1px solid #e8edf5; }
+tbody tr:nth-child(even) { background: #f5f8ff; }
+tbody td { padding: 9px 13px; vertical-align: middle; }
+.td-num { text-align: right; font-variant-numeric: tabular-nums; }
+.td-mono { font-family: 'Courier New', monospace; font-size: 11.5px; color: #37474f; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; text-transform: capitalize; }
+.badge-connected, .badge-running, .badge-active, .badge-online, .badge-ok { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.badge-disconnected, .badge-error, .badge-failed, .badge-offline { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+.badge-idle, .badge-stopped, .badge-unknown, .badge-reconnecting { background: #eceff1; color: #546e7a; border: 1px solid #cfd8dc; }
+.report-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e3eaf7; display: flex; justify-content: space-between; font-size: 11px; color: #90a4ae; }</style>
+</head>
+<body>
+<div class="page">
+  <div class="report-header">
+    <div class="report-header-left">
+      <div class="report-title">Schema Fields Report</div>
+      <div class="report-subtitle">Field definitions across all schemas</div>
+    </div>
+    <div class="report-header-right">
+      <div class="label">Reporting Period</div>
+      <div class="value">01/01/2025 &ndash; 18/02/2026</div>
+      <div class="generated">Generated: 18/02/2026</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">Schema Fields Report</div>
+      <div class="section-line"></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Schema ID</th>
+          <th>Field Key</th>
+          <th>Type</th>
+          <th>Unit</th>
+          <th class="td-num">Scale</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- BEGIN:BLOCK_REPEAT schema_fields -->
+        <tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_r_n</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Phase R to Neutral Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_y_n</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Phase Y to Neutral Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_b_n</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Phase B to Neutral Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_ry</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Line Voltage R-Y</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_yb</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Line Voltage Y-B</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_br</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>V</td>
+          <td class="td-num">0.000</td>
+          <td>Line Voltage B-R</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>thd_voltage_r_pct</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>%</td>
+          <td class="td-num">0.000</td>
+          <td>Total Harmonic Distortion - Phase R Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>thd_voltage_y_pct</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>%</td>
+          <td class="td-num">0.000</td>
+          <td>Total Harmonic Distortion - Phase Y Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>thd_voltage_b_pct</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>%</td>
+          <td class="td-num">0.000</td>
+          <td>Total Harmonic Distortion - Phase B Voltage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1770993251278</td>
+          <td class="td-mono"><strong>voltage_unbalance_pct</strong></td>
+          <td class="td-mono">REAL</td>
+          <td>%</td>
+          <td class="td-num">0.000</td>
+          <td>Voltage Unbalance Percentage</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device1_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 1 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device2_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 2 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device3_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 3 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device4_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 4 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device5_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 5 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device6_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 6 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device7_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 7 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device8_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 8 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device9_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 9 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>device10_temp</strong></td>
+          <td class="td-mono">float</td>
+          <td>°C</td>
+          <td class="td-num">0.000</td>
+          <td>Device 10 Temperature</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771148877234</td>
+          <td class="td-mono"><strong>flip_bit</strong></td>
+          <td class="td-mono">boolean</td>
+          <td></td>
+          <td class="td-num">0.000</td>
+          <td>FlipBit coil</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>phase1_current</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 1 current</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>phase2_current</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 2 current</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>phase3_current</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 3 current</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>avg_current</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Average value current</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v12</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V12</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v23</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V23</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v31</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V31</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>avg_voltage_ll</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Average value voltage (L-L)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v1n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V1N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v2n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V2N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>voltage_v3n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Voltage V3N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>pf_phase1</strong></td>
+          <td class="td-mono">float</td>
+          <td>%</td>
+          <td class="td-num">0.100</td>
+          <td>Phase 1 power factor (x0.1%)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>pf_phase2</strong></td>
+          <td class="td-mono">float</td>
+          <td>%</td>
+          <td class="td-num">0.100</td>
+          <td>Phase 2 power factor (x0.1%)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>pf_phase3</strong></td>
+          <td class="td-mono">float</td>
+          <td>%</td>
+          <td class="td-num">0.100</td>
+          <td>Phase 3 power factor (x0.1%)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>pf_total</strong></td>
+          <td class="td-mono">float</td>
+          <td>%</td>
+          <td class="td-num">0.100</td>
+          <td>Sum power factor (x0.1%)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>frequency</strong></td>
+          <td class="td-mono">float</td>
+          <td>Hz</td>
+          <td class="td-num">0.100</td>
+          <td>Frequency (x0.1 Hz)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_power_phase1</strong></td>
+          <td class="td-mono">float</td>
+          <td>kW</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 1 active power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_power_phase2</strong></td>
+          <td class="td-mono">float</td>
+          <td>kW</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 2 active power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_power_phase3</strong></td>
+          <td class="td-mono">float</td>
+          <td>kW</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 3 active power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_power_total</strong></td>
+          <td class="td-mono">float</td>
+          <td>kW</td>
+          <td class="td-num">1.000</td>
+          <td>Sum active power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_power_phase1</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvar</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 1 reactive power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_power_phase2</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvar</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 2 reactive power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_power_phase3</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvar</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 3 reactive power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_power_total</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvar</td>
+          <td class="td-num">1.000</td>
+          <td>Sum reactive power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>apparent_power_phase1</strong></td>
+          <td class="td-mono">float</td>
+          <td>kVA</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 1 apparent power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>apparent_power_phase2</strong></td>
+          <td class="td-mono">float</td>
+          <td>kVA</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 2 apparent power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>apparent_power_phase3</strong></td>
+          <td class="td-mono">float</td>
+          <td>kVA</td>
+          <td class="td-num">1.000</td>
+          <td>Phase 3 apparent power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>apparent_power_total</strong></td>
+          <td class="td-mono">float</td>
+          <td>kVA</td>
+          <td class="td-num">1.000</td>
+          <td>Sum apparent power</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_energy_import</strong></td>
+          <td class="td-mono">float</td>
+          <td>kWh</td>
+          <td class="td-num">1.000</td>
+          <td>Active energy import (kWh fixed)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>active_energy_export</strong></td>
+          <td class="td-mono">float</td>
+          <td>kWh</td>
+          <td class="td-num">1.000</td>
+          <td>Active energy export (kWh fixed)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_energy_import</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvarh</td>
+          <td class="td-num">1.000</td>
+          <td>Reactive energy import (kvarh fixed)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>reactive_energy_export</strong></td>
+          <td class="td-mono">float</td>
+          <td>kvarh</td>
+          <td class="td-num">1.000</td>
+          <td>Reactive energy export (kvarh fixed)</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_voltage_v1n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value V1N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_voltage_v2n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value V2N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_voltage_v3n</strong></td>
+          <td class="td-mono">float</td>
+          <td>V</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value V3N</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_current_i1</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value I1</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_current_i2</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value I2</td>
+        </tr>
+<tr>
+          <td class="td-mono">sch_1771159496669</td>
+          <td class="td-mono"><strong>harmonics_current_i3</strong></td>
+          <td class="td-mono">float</td>
+          <td>A</td>
+          <td class="td-num">1.000</td>
+          <td>Harmonics value I3</td>
+        </tr>
+        <!-- END:BLOCK_REPEAT -->
+      </tbody>
+    </table>
+  </div>
+  <div class="report-footer">
+    <span>Schema Fields Report &mdash; Confidential</span>
+    <span>Period: 01/01/2025 &ndash; 18/02/2026 &nbsp;|&nbsp; Generated: 18/02/2026</span>
+  </div>
+</div>
+</body>
+</html>

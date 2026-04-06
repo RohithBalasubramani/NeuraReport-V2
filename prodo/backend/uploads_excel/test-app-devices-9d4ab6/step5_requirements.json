@@ -1,0 +1,40 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset required — all tokens are row-level",
+      "columns": []
+    },
+    "rows": {
+      "description": "Complete device inventory with connectivity and configuration details",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_protocol",
+        "row_status",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_unit_id",
+        "row_port",
+        "row_gateway_id",
+        "row_last_error",
+        "row_params_json"
+      ],
+      "grouping": [],
+      "ordering": [
+        "app_devices.id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset required",
+      "columns": []
+    }
+  },
+  "semantics": "No parameters or filters — this is a full table scan of app_devices",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required — direct column selection from app_devices table"
+  ]
+}

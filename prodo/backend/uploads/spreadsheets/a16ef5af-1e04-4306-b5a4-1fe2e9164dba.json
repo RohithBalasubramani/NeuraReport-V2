@@ -1,0 +1,32 @@
+{
+  "id": "a16ef5af-1e04-4306-b5a4-1fe2e9164dba",
+  "name": "DebugXLSX",
+  "sheets": [
+    {
+      "id": "577b4084-6371-4f73-8144-cd2e26324dd1",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "A",
+          "B"
+        ],
+        [
+          "1",
+          "2"
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T11:46:37.686420+00:00",
+  "updated_at": "2026-02-22T11:46:37.686420+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

@@ -1,0 +1,105 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_schema_id",
+      "row_key",
+      "row_type",
+      "row_unit",
+      "row_scale",
+      "row_desc_text"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_schema_id": "app_schema_fields.schema_id",
+    "row_key": "app_schema_fields.key",
+    "row_type": "app_schema_fields.type",
+    "row_unit": "app_schema_fields.unit",
+    "row_scale": "app_schema_fields.scale",
+    "row_desc_text": "app_schema_fields.desc_text"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_schema_fields",
+    "parent_key": "schema_id",
+    "child_table": "app_schema_fields",
+    "child_key": "schema_id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_schema_id",
+          "from": [
+            "app_schema_fields.schema_id"
+          ]
+        },
+        {
+          "as": "row_key",
+          "from": [
+            "app_schema_fields.key"
+          ]
+        },
+        {
+          "as": "row_type",
+          "from": [
+            "app_schema_fields.type"
+          ]
+        },
+        {
+          "as": "row_unit",
+          "from": [
+            "app_schema_fields.unit"
+          ]
+        },
+        {
+          "as": "row_scale",
+          "from": [
+            "app_schema_fields.scale"
+          ]
+        },
+        {
+          "as": "row_desc_text",
+          "from": [
+            "app_schema_fields.desc_text"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_scale": "number(1)"
+  },
+  "order_by": {
+    "rows": [
+      "app_schema_fields.schema_id ASC",
+      "app_schema_fields.key ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_schema_id",
+    "row_key",
+    "row_type",
+    "row_unit",
+    "row_scale",
+    "row_desc_text"
+  ],
+  "row_order": [
+    "app_schema_fields.schema_id ASC",
+    "app_schema_fields.key ASC"
+  ],
+  "literals": {},
+  "notes": "Simple schema field catalog. No filters, parameters, or transformations."
+}

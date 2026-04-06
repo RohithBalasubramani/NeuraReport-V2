@@ -1,0 +1,29 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header data required for this report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "All schemas from app_schemas table, one row per schema.",
+      "columns": [
+        "row_id",
+        "row_name"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals required for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "This is a simple listing report with no filters or parameters. All schemas are returned.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": []
+}

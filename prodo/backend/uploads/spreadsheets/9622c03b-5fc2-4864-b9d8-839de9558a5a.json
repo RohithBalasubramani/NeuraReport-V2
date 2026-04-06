@@ -1,0 +1,66 @@
+{
+  "id": "9622c03b-5fc2-4864-b9d8-839de9558a5a",
+  "name": "Financial Data",
+  "sheets": [
+    {
+      "id": "02375654-e22f-49dd-9a6d-1924804489ac",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Month",
+          "Revenue",
+          "Costs",
+          "Employees"
+        ],
+        [
+          "Jan",
+          500000,
+          320000,
+          45
+        ],
+        [
+          "Feb",
+          520000,
+          315000,
+          47
+        ],
+        [
+          "Mar",
+          580000,
+          340000,
+          50
+        ],
+        [
+          "Apr",
+          550000,
+          330000,
+          48
+        ],
+        [
+          "May",
+          610000,
+          350000,
+          52
+        ],
+        [
+          "Jun",
+          640000,
+          360000,
+          55
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T19:24:22.084270+00:00",
+  "updated_at": "2026-02-22T19:24:22.084270+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

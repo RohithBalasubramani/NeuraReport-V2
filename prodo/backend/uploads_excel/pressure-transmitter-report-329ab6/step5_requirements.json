@@ -1,0 +1,72 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header tokens — report title is static",
+      "columns": []
+    },
+    "rows": {
+      "description": "Single or multiple rows of pressure transmitter readings with timestamp",
+      "columns": [
+        "row_print_date_time",
+        "row_solid_waste_management_system",
+        "row_column_3",
+        "row_column_4",
+        "row_column_5",
+        "row_column_6",
+        "row_column_7",
+        "row_column_8",
+        "row_column_9",
+        "row_column_10",
+        "row_column_11",
+        "row_column_12",
+        "row_column_13",
+        "row_column_14",
+        "row_column_15",
+        "row_column_16",
+        "row_column_17",
+        "row_column_18",
+        "row_column_19",
+        "row_column_20",
+        "row_column_21",
+        "row_column_22",
+        "row_column_23",
+        "row_column_24",
+        "row_column_25",
+        "row_column_26",
+        "row_column_27",
+        "row_column_28",
+        "row_column_29",
+        "row_column_30",
+        "row_column_31",
+        "row_column_32"
+      ],
+      "grouping": [],
+      "ordering": [
+        "timestamp_utc DESC"
+      ]
+    },
+    "totals": {
+      "description": "No totals row required",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are direct pass-through from neuract__PT_TABLE. Time-range filtering applied via timestamp_utc column when user specifies date range parameters at runtime.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "start_date",
+        "type": "date"
+      },
+      {
+        "name": "end_date",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Direct column mapping from neuract__PT_TABLE — no unpivoting or reshaping",
+    "Format timestamp_utc as readable date/time string",
+    "Format all pressure readings to 2 decimal places"
+  ]
+}

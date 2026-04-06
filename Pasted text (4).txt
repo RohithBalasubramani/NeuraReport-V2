@@ -1,0 +1,740 @@
+Pipeline V3: Hermes Agent + Qwen 3.5 + GLM-OCR
+Context
+Replace the current hardcoded Python orchestrator (intent.py regex → orchestrator.py dispatch → legacy_services) with an agentic tool-calling loop where Qwen 3.5 27B IS the brain that decides what tools to call. Claude CLI subprocess is eliminated. DeepSeek-OCR (3B) replaced with GLM-OCR (0.9B). Frontend unchanged — same NDJSON streaming contract.
+
+The key shift: Python code decides → LLM executes → Python continues becomes LLM decides → calls tools (Python + OCR) → LLM continues. Pipeline is emergent from system prompt + tools, not hardcoded handlers.
+
+Stack
+Layer	Old	New
+Brain (orchestrator)	Claude CLI (dumb pipe) + Python orchestrator.py + regex intent.py	Qwen 3.5 27B with OpenAI tool calling
+Muscle (generation)	Qwen 3.5 27B via LiteLLM	Same — Qwen 3.5 27B (brain IS muscle)
+Eyes (OCR)	DeepSeek-OCR 3B (Ollama, 6.7GB)	GLM-OCR 0.9B (Ollama, ~2GB)
+Hands (execution)	Python services	Same — exposed as tools
+VRAM	~18-20GB	~18GB (saved ~4GB on OCR)
+Single model for brain+muscle means: no extra process, no extra VRAM, no routing latency. Qwen 3.5 27B has 93.7% tool calling accuracy — sufficient for pipeline routing.
+
+End-to-End Flow
+User: "Here's my PDF, build me a report"
+         │
+         ▼
+   ┌─────────────────────┐
+   │  POST /pipeline/chat │ (FastAPI, unchanged endpoint)
+   │  UnifiedChatPayload  │
+   └──────────┬──────────┘
+              │
+              ▼
+   ┌─────────────────────┐
+   │  Qwen 3.5 27B       │ ← Brain. System prompt has pipeline rules.
+   │  (tool calling mode) │    Sees: conversation history + state + tools.
+   │  port 4000 (LiteLLM) │    Decides what to do next.
+   └──────────┬──────────┘
+              │
+              │ tool_call: extract_ocr_text(page_image)
+              ▼
+   ┌─────────────────────┐
+   │  GLM-OCR 0.9B       │ ← Eyes. Pure OCR.
+   │  Ollama port 11434  │
+   └──────────┬──────────┘
+              │ returns: extracted text
+              ▼
+   ┌─────────────────────┐
+   │  Qwen 3.5 27B       │ "Now generate HTML template from PDF + OCR text"
+   └──────────┬──────────┘
+              │ tool_call: verify_template(file, connection_id)
+              ▼
+   ┌─────────────────────┐
+   │  Python: verify_template()  │ ← Hands. Calls Qwen vision internally.
+   │  (legacy_services.py)       │    Renders preview PNGs.
+   └──────────┬─────────────────┘
+              │ returns: {template_id, tokens, html}
+              ▼
+   ┌─────────────────────┐
+   │  Qwen 3.5 27B       │ tool_call: session_transition("HTML_READY")
+   │                      │ "Template ready! Connect a database or edit?"
+   └──────────┬──────────┘
+              │
+              │ ... user provides DB connection ...
+              │
+              │ tool_call: get_schema(connection_id)
+              │ tool_call: auto_map_tokens(template_id, connection_id)
+              │ tool_call: session_transition("MAPPED")
+              │ "Mapped 14 tokens. 3 unresolved. Want me to fix them?"
+              │
+              │ ... user approves or corrects ...
+              │
+              │ tool_call: build_contract(template_id, connection_id)
+              │ tool_call: validate_pipeline(template_id, connection_id)
+              │
+              │ Validation failed? Qwen reasons:
+              │   "column_exists error on 'qty' — let me check schema..."
+              │ tool_call: refine_mapping(corrections)
+              │ tool_call: validate_pipeline(template_id, connection_id)  ← retry
+              │
+              │ Validation passed!
+              │ tool_call: session_transition("VALIDATED")
+              │ tool_call: generate_report(template_id, start_date, end_date)
+              │ "Report ready. 45 batches, 70KB PDF."
+              ▼
+   StreamingResponse(NDJSON) → Frontend
+What Qwen 3.5 Owns (the "brain")
+Intent detection — No regex. Reads user message + conversation history + state. Just knows.
+Pipeline flow — Decides next step, handles branching, loops on validation failures
+Error recovery — Tool fails → reasons about why → tries alternative
+User interaction — Natural conversation, asks clarifying questions
+Multi-step reasoning — "3 unresolved tokens → check schema → suggest corrections → ask user"
+Auto-fix loop — validate → fix → validate (up to 3 rounds, enforced by system prompt)
+What GLM-OCR Does (the "eyes")
+Extract text from PDF page images
+Structured key-value extraction
+0.9B, ~2GB VRAM, 1.86 pages/sec, #1 on OmniDocBench (94.62%)
+What Python Does (the "hands")
+File I/O (read/write templates, contracts, mappings)
+Database queries (schema introspection, data loading)
+PDF rendering (Playwright subprocess)
+Excel import/export
+State persistence (session.json)
+Validation checks (deterministic rules — 10 checks)
+Report generation (fill template + render)
+All existing service code stays (~29,000 lines)
+Tool Definitions (16 tools)
+Each tool has: name, parameters, precondition (enforced in Python — NOT by the LLM), backing function.
+
+State Management Tools
+#	Tool	Params	Precondition	Backed By
+1	session_get_state	(none)	None	session.to_dict()
+2	session_transition	target_state: str	Valid per transition table	session.transition()
+OCR Tools
+#	Tool	Params	Precondition	Backed By
+3	extract_ocr_text	page_image_b64: str, prompt?: str	None	infra_services.glm_ocr_extract() (renamed)
+Template Tools
+#	Tool	Params	Precondition	Backed By
+4	verify_template	(file passed via context)	state in {EMPTY, HTML_READY, MAPPED, APPROVED, READY}	legacy_services.verify_template()
+5	save_template	html: str, tokens: list[str]	state >= HTML_READY	File I/O to template dir
+Mapping Tools
+#	Tool	Params	Precondition	Backed By
+6	get_schema	connection_id: str	Connection exists	repositories.get_connection_schema()
+7	auto_map_tokens	template_id: str, connection_id: str	state >= HTML_READY	legacy_services.run_mapping_preview()
+8	refine_mapping	user_input: str, mapping_override?: dict	state == MAPPED	legacy_services.run_corrections_preview()
+9	get_key_options	tokens?: list[str], limit?: int	state >= APPROVED	legacy_services.mapping_key_options()
+Contract & Validation Tools
+#	Tool	Params	Precondition	Backed By
+10	build_contract	template_id: str, connection_id: str	state == MAPPED, mapping complete	legacy_services.run_mapping_approve()
+11	validate_pipeline	template_id: str, connection_id: str, skip_llm?: bool	state >= APPROVED	validator.runner.validate_pipeline()
+12	auto_fix_issues	issues: list[dict], template_id: str	state >= APPROVED	Extracted from orchestrator._auto_fix_issues()
+Report Generation Tools
+#	Tool	Params	Precondition	Backed By
+13	discover_batches	template_id: str, connection_id: str, start_date?: str, end_date?: str	state >= APPROVED	reports.discover_batches_and_counts()
+14	generate_report	template_id: str, connection_id: str, start_date: str, end_date: str, batch_ids?: list	state >= VALIDATED	legacy_services.queue_report_job()
+15	build_generator_assets	template_id: str	state == APPROVED	legacy_services.generator_assets()
+LLM Bridge Tool
+#	Tool	Params	Precondition	Backed By
+16	call_qwen_vision	messages: list[dict], images?: list[str]	None	OpenAICompatProvider.chat_completion()
+Tool 16 exists because some tasks need Qwen's vision capability (e.g., comparing reference PNG vs generated PNG). The brain calls this tool when it needs to "see" images and reason about them. For text-only tasks, the brain reasons directly — it IS Qwen.
+
+Precondition Enforcement (Gates with Absolute Authority)
+Critical design rule: Agent = planner with unreliable judgment. Python tools = gates with absolute authority. If agent can bypass gates → system degrades. If agent is forced through gates → system stabilizes.
+
+Each tool enforces preconditions in Python:
+
+class PreconditionError(Exception):
+    """Raised when a tool is called in an invalid pipeline state."""
+    def __init__(self, tool: str, current_state: str, required: set[str]):
+        self.tool = tool
+        self.current_state = current_state
+        self.required = required
+
+# Example: auto_map_tokens REQUIRES state >= HTML_READY
+async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id: str) -> dict:
+    _require_state(ctx.session, {"html_ready", "mapped", "approved", "ready"}, "auto_map_tokens")
+    # ... call legacy_services.run_mapping_preview()
+Specific enforcement rules:
+
+Tools enforce preconditions, not the LLM — auto_map_tokens fails hard if state != HTML_READY+
+Mapping completeness: unresolved_tokens == 0 AND semantic checks pass — confidence is NOT a gate. See Mapping Sanity section below.
+Contract sanity is structural — validate_pipeline checks joins produce rows, reshape produces expected cardinality, computed fields not degenerate
+Validation is blocking — generate_report checks "validate" in session.completed_stages. If validate_pipeline returned fail, generation is impossible. Agent CANNOT say "good enough."
+State transitions enforced by session.py — session_transition("GENERATING") raises ValueError if current state doesn't allow it
+Retry limits enforced in Python — ctx.retry_counts["validate"] <= 2, not system prompt. Hard stop in tool layer.
+Multi-Candidate Comparative Mapping (Pre-Contract Gate)
+Root cause of plausible wrongness: Single-shot mapping picks one answer. If that answer maps row_set_wt_kg → bin1_act instead of bin1_sp, it passes all structural checks because both are INTEGER columns with similar distributions. Subtle swaps survive.
+
+Solution: Generate 2-3 candidate mappings, score each on 3 axes, pick best OR ask user if scores are close. This runs inside tool_auto_map_tokens and tool_resolve_mapping_pipeline, BEFORE build_contract is ever called.
+
+How It Works
+Step 1: LLM generates 3 candidate mappings (temperature=0.7, n=3)
+Step 2: Python scores each candidate on 3 axes (no LLM needed)
+Step 3: Pick winner OR flag ambiguity for user
+Step 4: Semantic sanity checks on winner
+Step 5: Only then allow build_contract
+Step 1: Multi-Candidate Generation
+Current run_mapping_preview() calls Qwen once with temperature=0 → single deterministic mapping.
+
+Change: Call Qwen 3 times with temperature=0.7 (or use n=3 if vLLM supports it). Each call gets the same prompt (tokens + schema + OCR context) but produces different mappings due to sampling.
+
+async def _generate_candidate_mappings(
+    tokens: list[str], 
+    schema: dict, 
+    ocr_context: str | None,
+    n_candidates: int = 3,
+) -> list[dict]:
+    """Generate n candidate mappings via LLM with temperature sampling."""
+    candidates = []
+    for i in range(n_candidates):
+        mapping = await _call_mapping_llm(
+            tokens=tokens,
+            schema=schema,
+            ocr_context=ocr_context,
+            temperature=0.0 if i == 0 else 0.7,  # first is deterministic, rest sampled
+        )
+        candidates.append(mapping)
+    
+    # Deduplicate identical mappings
+    unique = _deduplicate_mappings(candidates)
+    return unique  # 1-3 unique candidates
+Step 2: Scoring (Python, No LLM)
+Each candidate scored on 3 axes. Each axis produces a 0.0-1.0 score per token. Final score = weighted average across all tokens.
+
+Axis 1: Token-Column Name Similarity (0.0-1.0)
+
+Fuzzy string matching between token name and column name. Catches obvious swaps.
+
+def _score_name_similarity(token: str, column: str) -> float:
+    """
+    row_set_wt_kg ↔ bin1_sp → low (0.2)
+    row_set_wt_kg ↔ set_weight → high (0.8)
+    row_material_name ↔ bin1_content → medium (0.4, "content" ~ "material")
+    """
+    from difflib import SequenceMatcher
+    
+    # Normalize: strip row_ prefix, expand abbreviations
+    tok_norm = _normalize_token(token)   # "row_set_wt_kg" → "set weight kg"
+    col_norm = _normalize_column(column) # "bin1_sp" → "bin 1 setpoint"
+    
+    # Direct ratio
+    ratio = SequenceMatcher(None, tok_norm, col_norm).ratio()
+    
+    # Bonus: semantic alias matches (sp↔setpoint↔set_weight, act↔actual↔achieved)
+    ALIASES = {
+        "sp": ["set", "setpoint", "set_weight", "target"],
+        "act": ["actual", "achieved", "ach", "measured"],
+        "content": ["name", "material", "description", "label"],
+    }
+    for key, aliases in ALIASES.items():
+        if key in col_norm and any(a in tok_norm for a in aliases):
+            ratio = max(ratio, 0.7)
+    
+    return ratio
+Axis 2: Column Type Alignment (0.0 or 1.0, hard)
+
+Binary check: does the token's expected type match the column's actual type?
+
+def _score_type_alignment(token: str, column: str, schema: dict) -> float:
+    """
+    row_set_wt_kg → INTEGER/REAL column → 1.0
+    row_set_wt_kg → TEXT column → 0.0
+    row_material_name → TEXT column → 1.0
+    row_material_name → INTEGER column → 0.0
+    """
+    col_type = schema.get_column_type(column)
+    expected = _infer_token_type(token)  # "numeric", "text", "datetime"
+    
+    TYPE_COMPAT = {
+        "numeric": {"INTEGER", "REAL", "FLOAT", "DOUBLE", "NUMERIC", "DECIMAL"},
+        "text": {"TEXT", "VARCHAR", "CHAR", "BLOB"},
+        "datetime": {"TEXT", "DATETIME", "TIMESTAMP", "DATE"},  # TEXT ok for dates in SQLite
+    }
+    
+    return 1.0 if col_type in TYPE_COMPAT.get(expected, set()) else 0.0
+Axis 3: Distribution Alignment (0.0-1.0)
+
+Sample 10 rows from mapped column. Compare distribution characteristics against token expectations.
+
+def _score_distribution_alignment(token: str, column: str, loader, table: str) -> float:
+    """
+    row_set_wt_kg → column with values [50, 100, 80, 30, 150] → 1.0 (numeric, reasonable weights)
+    row_set_wt_kg → column with values [50, 100, 80, 30, 150] but this is bin_act not bin_sp → ???
+    
+    Can't distinguish bin_sp from bin_act by distribution alone (similar ranges).
+    BUT can distinguish:
+    - row_material_name → [50, 100, 80] (numeric where text expected) → 0.0
+    - row_sl_no → [1, 2, 3, 4, 5] (sequential integers) → 1.0
+    - row_start_time → ["2025-10-01 00:01:45"] (datetime string) → 1.0
+    - row_batch_no → [2459, 2460, 2461] (monotonic integers) → 0.8
+    """
+    sample = loader.frame(table).head(10)
+    col = column.split(".", 1)[1] if "." in column else column
+    if col not in sample.columns:
+        return 0.0
+    
+    values = sample[col].dropna()
+    if values.empty:
+        return 0.0
+    
+    score = 0.5  # neutral baseline
+    
+    expected = _infer_token_type(token)
+    
+    if expected == "numeric":
+        numeric_count = sum(1 for v in values if _is_numeric(v))
+        score = numeric_count / len(values)
+    elif expected == "text":
+        text_count = sum(1 for v in values if isinstance(v, str) and not _is_numeric(v))
+        score = text_count / len(values) if len(values) > 0 else 0.0
+    elif expected == "datetime":
+        dt_count = sum(1 for v in values if _looks_like_datetime(str(v)))
+        score = dt_count / len(values)
+    
+    # Bonus: sequential check for sl_no/index tokens
+    if "sl_no" in token.lower() or "index" in token.lower():
+        if _is_sequential(values):
+            score = min(score + 0.3, 1.0)
+    
+    return score
+Step 3: Candidate Selection
+def _select_best_mapping(
+    candidates: list[dict],  # [{token: column, ...}, ...]
+    tokens: list[str],
+    schema: dict,
+    loader,
+    table: str,
+) -> tuple[dict, bool]:
+    """
+    Returns (best_mapping, needs_user_confirmation).
+    needs_user_confirmation=True when top 2 candidates are within 0.1 of each other.
+    """
+    WEIGHTS = {"name": 0.4, "type": 0.3, "distribution": 0.3}
+    
+    scored = []
+    for candidate in candidates:
+        total = 0.0
+        token_scores = {}
+        for token in tokens:
+            col = candidate.get(token, "UNRESOLVED")
+            if col == "UNRESOLVED":
+                token_scores[token] = 0.0
+                continue
+            
+            s_name = _score_name_similarity(token, col)
+            s_type = _score_type_alignment(token, col, schema)
+            s_dist = _score_distribution_alignment(token, col, loader, table)
+            
+            weighted = (s_name * WEIGHTS["name"] + 
+                       s_type * WEIGHTS["type"] + 
+                       s_dist * WEIGHTS["distribution"])
+            token_scores[token] = weighted
+            total += weighted
+        
+        avg = total / len(tokens) if tokens else 0.0
+        scored.append({"mapping": candidate, "score": avg, "token_scores": token_scores})
+    
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    
+    best = scored[0]
+    runner_up = scored[1] if len(scored) > 1 else None
+    
+    # Close race → ask user
+    needs_confirmation = (
+        runner_up is not None 
+        and abs(best["score"] - runner_up["score"]) < 0.1
+    )
+    
+    return best, runner_up, needs_confirmation
+Step 4: Semantic Sanity Checks (on winner)
+After selecting the best candidate, run hard sanity checks. These are binary pass/fail gates.
+
+Cross-field consistency — tokens that MUST map to different columns:
+
+set_wt and ach_wt → same column? REJECT
+start_time and end_time → same column? REJECT
+from_date and to_date → same column? REJECT
+Duplicate column mapping — multiple row tokens → same column (excluding computed/total tokens)
+
+Type hard failures — numeric token → TEXT column, or text token → INTEGER column
+
+If any check fails, return error to agent with violations list.
+
+Integration into Tools
+tool_auto_map_tokens becomes:
+
+async def tool_auto_map_tokens(ctx, template_id, connection_id) -> dict:
+    _require_state(ctx.session, {"html_ready", ...}, "auto_map_tokens")
+    
+    # Generate candidates
+    candidates = await _generate_candidate_mappings(tokens, schema, ocr_context, n_candidates=3)
+    
+    # Score and select
+    best, runner_up, needs_confirmation = _select_best_mapping(candidates, tokens, schema, loader, table)
+    
+    # Sanity check winner
+    violations = _run_sanity_checks(best["mapping"], schema, loader, table)
+    
+    if violations:
+        return {"status": "sanity_failed", "violations": violations, "mapping": best["mapping"]}
+    
+    if needs_confirmation:
+        return {
+            "status": "needs_confirmation",
+            "candidates": [
+                {"mapping": best["mapping"], "score": best["score"], "token_scores": best["token_scores"]},
+                {"mapping": runner_up["mapping"], "score": runner_up["score"], "token_scores": runner_up["token_scores"]},
+            ],
+            "message": "Two mapping candidates scored similarly. Which looks correct?"
+        }
+    
+    # Clear winner
+    _save_mapping(best["mapping"], template_dir)
+    return {"status": "mapped", "mapping": best["mapping"], "score": best["score"]}
+tool_resolve_mapping_pipeline uses the same multi-candidate flow internally.
+
+Where It Lives
+New file: backend/app/services/validator/mapping_evaluator.py (~300 lines)
+
+_generate_candidate_mappings() — calls LLM n times
+_score_name_similarity(), _score_type_alignment(), _score_distribution_alignment()
+_select_best_mapping() — rank, detect close races
+_run_sanity_checks() — cross-field, duplicates, type hard failures
+_normalize_token(), _normalize_column() — string normalization with alias expansion
+New file: backend/app/services/validator/mapping_sanity.py (~150 lines)
+
+_check_cross_field_consistency() — exclusive pairs
+_check_duplicate_columns() — same column mapped twice
+_check_type_hard_failures() — type mismatches
+What This Catches That Single-Shot Misses
+Scenario	Single-Shot	Multi-Candidate
+row_set_wt_kg → bin1_act (wrong: should be bin1_sp)	Passes — both INTEGER	Candidate 2 maps to bin1_sp; name similarity "set_wt" ↔ "sp/setpoint" scores higher → correct pick
+row_material_name → bin1_sp (wrong: should be bin1_content)	Passes — but distribution check flags numbers where text expected	Type alignment: 0.0 for INTEGER, distribution: 0.0. Dead on arrival.
+row_start_time → end_time (swapped)	Passes — both TEXT datetime	Name similarity: "start_time" ↔ "start_time" (1.0) vs "start_time" ↔ "end_time" (0.3). Candidate with correct mapping wins.
+bin1_sp and bin1_act both exist, token is ambiguous	Picks one arbitrarily	Two candidates differ here → scores close → needs_confirmation=True → asks user
+Remaining Blind Spot
+If ALL 3 candidates map row_set_wt_kg → bin1_act (LLM consistently wrong), multi-candidate doesn't help. This requires:
+
+OCR context containing "Set. wt(Kg)" header text → name similarity to "sp/setpoint" would still catch it
+Or: user review of sample data in the mapping panel (existing frontend feature)
+Retry Limits in Python (Not System Prompt)
+Problem: System prompt says "max 3 attempts" but agent can ignore or miscount.
+
+Solution: ToolContext tracks per-tool call counts. Enforced in Python.
+
+@dataclass
+class ToolContext:
+    session: ChatSession
+    request: Request
+    template_id: str | None
+    connection_id: str | None
+    event_queue: asyncio.Queue
+    call_counts: dict[str, int] = field(default_factory=dict)  # tool_name → count
+    
+    CALL_LIMITS: ClassVar[dict[str, int]] = {
+        "validate_pipeline": 3,   # max 3 validation attempts per session turn
+        "auto_fix_issues": 3,     # max 3 auto-fix attempts
+        "refine_mapping": 5,      # max 5 correction rounds
+        "call_qwen_vision": 5,    # max 5 vision calls
+    }
+    
+    def check_call_limit(self, tool_name: str) -> None:
+        limit = self.CALL_LIMITS.get(tool_name)
+        if limit is None:
+            return
+        count = self.call_counts.get(tool_name, 0)
+        if count >= limit:
+            raise CallLimitExceeded(tool_name, count, limit)
+        self.call_counts[tool_name] = count + 1
+Every tool calls ctx.check_call_limit(tool_name) at entry. CallLimitExceeded is caught in the agent loop and fed back to Qwen as: {"error": "call_limit_exceeded", "tool": "validate_pipeline", "attempts": 3, "limit": 3}. Agent must then tell the user.
+
+State Snapshot Integrity (Cross-Tool Consistency)
+Problem: auto_map_tokens → refine_mapping → build_contract — each may use slightly different internal representations (cached vs recomputed). Contract may not reflect latest mapping.
+
+Solution: Every tool reads from and writes to the same persisted state files. No in-memory caching across tool calls.
+
+Rule: Tools operate on disk artifacts, not in-memory state.
+
+Template dir contains the single source of truth:
+  {template_dir}/
+    chat_session.json          ← pipeline state (session.py)
+    chat_history.json          ← conversation history
+    report_final.html          ← template HTML
+    mapping_pdf_labels.json    ← current mapping
+    contract.json              ← current contract
+    schema_ext.json            ← DB schema snapshot
+Enforcement:
+
+auto_map_tokens writes mapping_pdf_labels.json atomically (write_json_atomic)
+refine_mapping reads mapping_pdf_labels.json, modifies, writes atomically
+build_contract reads mapping_pdf_labels.json fresh (never cached), builds contract, writes contract.json atomically
+validate_pipeline reads contract.json and mapping_pdf_labels.json fresh
+No tool holds a reference to a previous tool's return value — each reads from disk
+This eliminates cross-tool state drift. If refine_mapping updated the mapping, build_contract sees the update because it reads the file.
+
+Collapsed Tool Chain (Reduced Decision Surface)
+Problem: auto_map_tokens, refine_mapping, build_contract form a tight dependency chain. Exposing all individually lets the agent call them in isolation, breaking implicit coupling.
+
+Solution: Add a composite tool that runs the full mapping-to-contract pipeline atomically.
+
+Tool 17: resolve_mapping_pipeline
+async def tool_resolve_mapping_pipeline(ctx: ToolContext, template_id: str, connection_id: str) -> dict:
+    """
+    Atomic pipeline: map → [refine if unresolved] → semantic validate → build contract.
+    Reduces agent decision surface. Agent calls ONE tool instead of 3-4.
+    """
+    # Step 1: Auto-map
+    mapping_result = await tool_auto_map_tokens(ctx, template_id, connection_id)
+    
+    # Step 2: Check completeness
+    unresolved = [t for t, v in mapping_result["mapping"].items() if v == "UNRESOLVED"]
+    if unresolved:
+        return {
+            "status": "needs_user_input",
+            "unresolved": unresolved,
+            "mapping": mapping_result["mapping"],
+            "message": f"{len(unresolved)} tokens need manual mapping"
+        }
+    
+    # Step 3: Semantic validation
+    violations = _validate_mapping_semantics(mapping_result["mapping"], schema, tokens)
+    if violations:
+        return {
+            "status": "semantic_violations",
+            "violations": violations,
+            "mapping": mapping_result["mapping"],
+            "message": "Mapping has semantic issues"
+        }
+    
+    # Step 4: Build contract
+    contract_result = await tool_build_contract(ctx, template_id, connection_id)
+    return {"status": "contract_ready", **contract_result}
+The individual tools (auto_map_tokens, refine_mapping, build_contract) remain available for fine-grained control, but the system prompt guides the agent to prefer resolve_mapping_pipeline for the normal flow. Individual tools are for when the user specifically asks to change one mapping.
+
+Agent Loop Implementation
+Core Loop (hermes_agent.py)
+class HermesAgent:
+    MAX_TOOL_ROUNDS = 10  # hard safety limit — prevents infinite loops
+    
+    async def run(self, payload, upload_file=None) -> AsyncIterator[dict]:
+        """
+        1. Build system prompt with pipeline rules + context
+        2. Send to Qwen 3.5 with tool schemas
+        3. If response has tool_calls → execute tools → feed results back → goto 2
+        4. If response is text (no tool_calls) → yield chat_complete → done
+        
+        Retry limits enforced in Python via ctx.check_call_limit(), NOT prompt.
+        State read from disk on every tool call, NOT cached in memory.
+        """
+        messages = self._build_messages(payload)
+        ctx = ToolContext(session, request, template_id, connection_id, event_queue)
+        
+        for round in range(MAX_TOOL_ROUNDS):
+            response = await call_qwen_with_tools(messages, TOOL_SCHEMAS)
+            
+            if no_tool_calls(response):
+                yield chat_complete(response.content)
+                return
+            
+            for tool_call in response.tool_calls:
+                yield stage_event(tool_call.name, "started")
+                try:
+                    ctx.check_call_limit(tool_call.name)  # Python-enforced retry limit
+                    result = await execute_tool(ctx, tool_call)
+                except PreconditionError as e:
+                    result = {"error": "precondition_failed", "message": str(e)}
+                except CallLimitExceeded as e:
+                    result = {"error": "call_limit_exceeded", "tool": e.tool, 
+                              "attempts": e.count, "limit": e.limit,
+                              "message": f"Tool '{e.tool}' called {e.count} times (limit: {e.limit}). Ask user for help."}
+                yield stage_event(tool_call.name, "complete")
+                messages.append(tool_result(tool_call.id, result))
+        
+        yield chat_complete("Max rounds reached. Here's where we are...")
+System Prompt (hermes_system_prompt.py)
+The system prompt tells Qwen:
+
+Identity: "You are NeuraReport, a report-building assistant"
+Pipeline states: all 14 states, valid transitions (informational — enforcement is in Python)
+Guidance per state (NOT enforcement — tools enforce):
+EMPTY: "User must upload a PDF. Call verify_template."
+HTML_READY: "Ask user to connect DB or edit. Call auto_map_tokens or resolve_mapping_pipeline when DB connected."
+MAPPED: "Show mapping to user. If issues, call refine_mapping. If good, call resolve_mapping_pipeline or build_contract."
+APPROVED: "Call validate_pipeline. If errors returned, call auto_fix_issues then validate again. If call_limit_exceeded returned, tell the user."
+VALIDATED: "Ask user for date range, then call generate_report."
+Conversation style: concise, actionable, show progress
+Tool error handling: "When a tool returns an error, explain it to the user and suggest next steps."
+What the prompt does NOT enforce (Python enforces these instead):
+
+Retry limits → ctx.check_call_limit() in Python
+Mapping completeness → _validate_mapping_semantics() in build_contract
+Validation before generation → generate_report checks session.completed_stages
+State transitions → session.transition() raises ValueError
+Dynamic context injected per turn:
+
+Current state from session.to_dict()
+Template summary (tokens, HTML snippet)
+DB schema summary
+Mapping status (resolved/unresolved counts)
+Last validation result
+NDJSON Streaming Bridge
+Tools push progress events to an asyncio.Queue:
+
+# Inside tool_verify_template:
+async for chunk in _iter_streaming(verify_response):
+    event = _try_parse_ndjson(chunk)
+    if event and event.get("event") == "stage":
+        await ctx.event_queue.put(event)  # → streamed to frontend
+
+# Inside agent loop:
+while not event_queue.empty():
+    yield event_queue.get_nowait()  # drain progress events between tool calls
+Frontend sees the same NDJSON stream: chat_start → stage events → chat_complete.
+
+Conversation History (chat_history.py)
+class ChatHistory:
+    MAX_MESSAGES = 50
+    MAX_TOOL_RESULT_CHARS = 2000  # trim old tool results to save context
+    
+    def append(message: dict) → None
+    def get_messages(max_tokens: int = 30000) → list[dict]
+    def save() → None  # to {template_dir}/chat_history.json
+    def load(template_dir) → ChatHistory
+Persisted alongside chat_session.json. Loaded on session resume. Sliding window: keeps last N messages, always preserves system prompt. Tool results older than 2 turns get trimmed to summaries.
+
+FastAPI Integration
+Endpoint Changes (minimal)
+File: backend/app/api/routes/routes_a.py (lines 7929-8084)
+
+Feature flag controls which orchestrator runs:
+
+# In config.py:
+PIPELINE_ORCHESTRATOR = os.getenv("PIPELINE_ORCHESTRATOR", "classic")  # "classic" | "hermes"
+
+# In routes_a.py pipeline_chat:
+if PIPELINE_ORCHESTRATOR == "hermes":
+    agent = HermesAgent(session, request)
+    async for event in agent.run(payload):
+        yield event
+else:
+    intent = classify_intent(...)
+    orchestrator = ChatPipelineOrchestrator(session, request)
+    async for event in orchestrator.dispatch(intent, payload):
+        yield event
+Both paths produce identical NDJSON. Frontend doesn't know which is running.
+
+Frontend Contract (unchanged)
+Same endpoints: POST /pipeline/chat, POST /pipeline/chat/upload, GET /pipeline/{session_id}
+Same NDJSON events: chat_start, stage, chat_complete
+Same response fields: message, action_result, updated_html, pipeline_state
+Same HTTP headers: X-Session-Id, X-Pipeline-State
+Same store: pipeline.js processEvent() handles both formats
+GLM-OCR Integration
+Model Swap
+# Remove old model
+ollama rm deepseek-ocr
+
+# Pull GLM-OCR (check exact name on Ollama registry)
+ollama pull glm-ocr
+# OR if not on registry, create from GGUF:
+# ollama create glm-ocr -f Modelfile
+Config Change
+# .env
+VISION_LLM_MODEL=glm-ocr          # was: deepseek-ocr
+VISION_LLM_API_BASE=http://localhost:11434/v1
+VISION_LLM_ENABLED=true
+Code Change
+File: backend/app/services/infra_services.py
+
+Rename deepseek_ocr_extract() → ocr_extract() (model-agnostic name). Same function body — Ollama native API is model-agnostic. Only behavioral differences to handle:
+
+GLM-OCR may not add **bold markers** — keep the .replace("**", "") strip (harmless if absent)
+GLM-OCR supports JSON KIE output — add optional output_format param for future use
+DPI: GLM-OCR handles 200 DPI well (same as DeepSeek-OCR)
+What Gets Deleted vs What Stays
+Deleted (~1,400 lines, after hermes is default)
+File	Lines	Why
+backend/app/services/chat/intent.py	181	Regex intent classification → Qwen decides naturally
+backend/app/services/chat/orchestrator.py	1,224	12 handler methods → 16 tools in tools.py
+New Files (~2,050 lines)
+File	Lines (est.)	Purpose
+backend/app/services/chat/tools.py	~600	17 tool definitions + schemas + dispatch table + call limit enforcement
+backend/app/services/chat/hermes_agent.py	~350	Agent loop, NDJSON bridge, message building
+backend/app/services/chat/hermes_system_prompt.py	~200	System prompt with pipeline guidance (not enforcement)
+backend/app/services/chat/chat_history.py	~150	Conversation persistence + sliding window
+backend/app/services/validator/mapping_evaluator.py	~300	Multi-candidate generation, 3-axis scoring, candidate selection
+backend/app/services/validator/mapping_sanity.py	~150	Cross-field consistency, duplicate columns, type hard failures
+Modified Files (~100 lines of changes)
+File	Change
+backend/app/services/config.py	Add PIPELINE_ORCHESTRATOR feature flag
+backend/app/api/routes/routes_a.py	Feature-flag switch at lines 7931, 7981
+backend/app/services/chat/__init__.py	Export HermesAgent, ChatHistory
+backend/app/services/infra_services.py	Rename deepseek_ocr_extract → ocr_extract
+backend/.env + prodo/backend/.env	VISION_LLM_MODEL=glm-ocr
+Stays Unchanged (~29,000 lines)
+All service backends become tool implementations:
+
+legacy_services.py (7,138 lines) — verify, map, approve, generate
+reports.py (9,534 lines) — fill_and_print, DataFramePipeline, MELT reshape
+mapping_service.py (2,183 lines) — token mapping, LLM calls
+session.py (330 lines) — state machine (tools call session.transition())
+context_builder.py (263 lines) — reused in hermes_system_prompt.py
+validator/ (~1,400 lines) — deterministic checks, dry run, visual check
+templates.py (1,929 lines) — template import
+llm.py (5,250 lines) — OpenAICompatProvider (backs all LLM calls)
+agents.py (11,164 lines) — existing agent infrastructure
+Frontend — entirely unchanged
+Verification
+Unit Tests
+Each tool: call in wrong state → PreconditionError
+Each tool: call with valid state → correct service function invoked
+Agent loop: mock Qwen to return scripted tool_calls → verify NDJSON output
+Integration Test (full pipeline)
+# Set feature flag
+export PIPELINE_ORCHESTRATOR=hermes
+
+# Step 1: Upload PDF
+curl -X POST /pipeline/chat/upload -F file=@recipe_batch_report.pdf -F 'payload_json={...}'
+# Expect: chat_start → stage events → chat_complete with template_id
+
+# Step 2: Map
+curl -X POST /pipeline/chat -d '{"template_id":"...", "connection_id":"...", "messages":[{"role":"user","content":"/map"}]}'
+# Expect: Qwen calls auto_map_tokens tool → returns mapping
+
+# Step 3: Approve
+curl -X POST /pipeline/chat -d '{"messages":[{"role":"user","content":"/approve"}]}'
+# Expect: Qwen calls build_contract → validate_pipeline → auto-fix if needed
+
+# Step 4: Generate
+curl -X POST /pipeline/chat -d '{"messages":[{"role":"user","content":"Generate Oct 1-2"}]}'
+# Expect: Qwen calls generate_report → returns job_id
+A/B Comparison
+Run both classic and hermes on same payloads:
+
+Pipeline completion rate
+Number of LLM turns to complete
+NDJSON event parity
+Total latency
+Execution Order
+Phase 0: Pull GLM-OCR to Ollama, update .env, rename OCR function
+Phase 1: Create mapping_evaluator.py + mapping_sanity.py — multi-candidate scoring + sanity gates
+Phase 2: Create tools.py — 17 tool definitions with OpenAI schemas, preconditions, call limits
+Phase 3: Create hermes_agent.py — async tool-calling loop with NDJSON bridge
+Phase 4: Create hermes_system_prompt.py — pipeline guidance for Qwen
+Phase 5: Create chat_history.py — conversation persistence
+Phase 6: Modify routes_a.py with feature flag, add config
+Phase 7: Test end-to-end with recipe_log.sqlite3 + recipe PDF
+Phase 8: A/B comparison, tune system prompt, delete old files
+Risks and Mitigations
+Risk	Mitigation
+Wrong tool called	Preconditions catch invalid calls in Python; PreconditionError fed back to agent
+Tool call explosion (latency)	MAX_TOOL_ROUNDS=10 hard limit; ctx.call_counts per-tool limits
+Retry loop ignored/miscounted	ctx.check_call_limit() in Python, NOT prompt. CallLimitExceeded stops tool.
+Context window pressure	chat_history.py sliding window; tool results trimmed after 2 turns
+Mapping looks correct but is wrong	mapping_sanity.py — type checks, value distribution sampling, cross-field consistency. Hard gate before contract.
+Cross-tool state drift	All tools read/write disk artifacts atomically. No in-memory caching across tool calls.
+Agent bypasses validation	generate_report checks "validate" in session.completed_stages — Python enforces
+GLM-OCR not on Ollama	Create from GGUF; or keep DeepSeek-OCR until available
+Plausible wrongness passes all checks	This is the remaining risk. Semantic validation catches type/distribution mismatches but can't catch all semantic errors. Mitigation: dry-run visual comparison (already in validator) + user review step before generation.
+What This Plan Does NOT Solve
+All 3 candidates consistently wrong: If Qwen maps row_set_wt_kg → bin1_act in ALL 3 candidate attempts (same wrong answer every time), multi-candidate scoring can't help because there's no correct candidate to compare against.
+
+Mitigations (layered, not single-point):
+
+OCR context injects column header text ("Set. wt(Kg)") → name similarity scoring matches "set_wt" to "sp/setpoint" alias
+Dry-run visual check compares generated PDF against reference PDF
+User reviews sample data in mapping panel before approving
+This is a design limit: the system reduces wrong mappings from common to rare, but can't guarantee zero.

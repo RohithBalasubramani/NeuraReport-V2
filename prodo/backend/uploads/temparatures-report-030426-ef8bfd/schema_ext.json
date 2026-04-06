@@ -1,0 +1,20 @@
+{
+  "scalars": [],
+  "row_tokens": [
+    "row_date_time",
+    "row_m1a_2_pt100",
+    "row_m1a_3_pt100",
+    "row_p3a_pt100",
+    "row_p4a_pt100",
+    "row_p5a_pt100",
+    "row_p6a_pt100",
+    "row_p8a_pt100",
+    "row_p8a_3_pt100",
+    "row_p8a_4_pt100",
+    "row_p8a_dryout_pt100",
+    "row_p9a_dryout_pt100",
+    "row_room_pt100"
+  ],
+  "totals": [],
+  "notes": "Fixed layout table with specific column widths. Header contains static text 'COSTAL FEEDS', 'TEMPERATURE REPORT', 'Sheet1' and 'Print Date 04/03/2026'."
+}

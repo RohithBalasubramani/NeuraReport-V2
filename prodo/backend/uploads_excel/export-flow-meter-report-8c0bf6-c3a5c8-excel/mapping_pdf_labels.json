@@ -1,0 +1,67 @@
+[
+  {
+    "header": "row_flow_meter",
+    "placeholder": "{row_flow_meter}",
+    "mapping": "neuract__FM_TABLE.timestamp_utc"
+  },
+  {
+    "header": "row_fm_101",
+    "placeholder": "{row_fm_101}",
+    "mapping": "neuract__FM_TABLE.FM_101"
+  },
+  {
+    "header": "row_fm_102",
+    "placeholder": "{row_fm_102}",
+    "mapping": "neuract__FM_TABLE.FM_102"
+  },
+  {
+    "header": "row_fm_103",
+    "placeholder": "{row_fm_103}",
+    "mapping": "neuract__FM_TABLE.FM_103"
+  },
+  {
+    "header": "row_fm_104",
+    "placeholder": "{row_fm_104}",
+    "mapping": "neuract__FM_TABLE.FM_104"
+  },
+  {
+    "header": "row_fm_105",
+    "placeholder": "{row_fm_105}",
+    "mapping": "neuract__FM_TABLE.FM_105"
+  },
+  {
+    "header": "row_fm_106",
+    "placeholder": "{row_fm_106}",
+    "mapping": "neuract__FM_TABLE.FM_106"
+  },
+  {
+    "header": "row_fm_101_totalizer",
+    "placeholder": "{row_fm_101_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_101_TOTALIZER"
+  },
+  {
+    "header": "row_fm_102_totalizer",
+    "placeholder": "{row_fm_102_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_102_TOTALIZER"
+  },
+  {
+    "header": "row_fm_103_totalizer",
+    "placeholder": "{row_fm_103_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_103_TOTALIZER"
+  },
+  {
+    "header": "row_fm_104_totalizer",
+    "placeholder": "{row_fm_104_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_104_TOTALIZER"
+  },
+  {
+    "header": "row_fm_105_totalizer",
+    "placeholder": "{row_fm_105_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_105_TOTALIZER"
+  },
+  {
+    "header": "row_fm_106_totalizer",
+    "placeholder": "{row_fm_106_totalizer}",
+    "mapping": "neuract__FM_TABLE.FM_106_TOTALIZER"
+  }
+]

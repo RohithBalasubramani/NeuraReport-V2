@@ -1,0 +1,23 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_print_date_time",
+    "row_solid_waste_management_system",
+    "row_column_3",
+    "row_column_4",
+    "row_column_5",
+    "row_column_6",
+    "row_column_7",
+    "row_column_8",
+    "row_column_9",
+    "row_column_10",
+    "row_column_11"
+  ],
+  "totals": {},
+  "notes": {
+    "description": "Solid Waste Management System report with analyzer data across multiple columns",
+    "sheet_title": "Sheet1",
+    "column_count": 11,
+    "repeating_row_structure": "Single prototype row with 11 token placeholders"
+  }
+}

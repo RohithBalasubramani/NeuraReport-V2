@@ -1,0 +1,45 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Single transaction acknowledgment record with payment and customer details",
+      "columns": [
+        "timestamp",
+        "logo_url",
+        "organization_name",
+        "organization_subtitle",
+        "transaction_status",
+        "transaction_reference_number",
+        "transaction_date_time",
+        "can_number",
+        "bill_amount",
+        "bank_name",
+        "payment_note",
+        "security_warning_text",
+        "payment_url",
+        "payment_provider",
+        "page_number"
+      ]
+    },
+    "rows": {
+      "description": "No repeating rows - this is a single-page receipt",
+      "columns": [],
+      "grouping": [],
+      "ordering": []
+    },
+    "totals": {
+      "description": "No aggregate totals",
+      "columns": []
+    }
+  },
+  "semantics": "All tokens are pass-through or constant values. No filtering parameters required as this displays a single transaction confirmation.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Format payment_date as YYYY-MM-DD HH:MM:SS for timestamp field",
+    "Format payment_date as DD/MM/YYYY HH:MM:SS for transaction_date_time field",
+    "Format total_amount as currency with rupee symbol and 2 decimal places",
+    "All branding and static text fields populated as literal constants"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "event": "mapping_key_options",
+  "timestamp": "20251113-234115",
+  "template_id": "c5598348-4d89-445e-a2f9-43a3aa6382ee-d1fdde",
+  "template_kind": "pdf",
+  "connection_id": "700a1034-819e-42e5-8bc6-4aa44b1a1cb6",
+  "db_path": "C:\\Users\\alfre\\Downloads\\recipe_log (1).sqlite3",
+  "tokens_available": [
+    "row_recipe_code"
+  ],
+  "token_details": {
+    "row_recipe_code": {
+      "table": "recipes",
+      "column": "recipe_name",
+      "date_column": "start_time",
+      "applied_date_filters": true,
+      "sql": "\"recipe_name\" IS NOT NULL AND TRIM(CAST(\"recipe_name\" AS TEXT)) <> '' AND \"start_time\" BETWEEN ? AND ?",
+      "params": [
+        "2025-10-01 00:00:00",
+        "2025-10-31 00:00:00"
+      ],
+      "fallback_used": false,
+      "error": null,
+      "row_count": 12,
+      "binding_source": "mapping"
+    }
+  }
+}

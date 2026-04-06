@@ -1,0 +1,31 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header dataset — report contains only row data",
+      "columns": []
+    },
+    "rows": {
+      "description": "Key-value pairs from app_meta table, one row per configuration entry",
+      "columns": [
+        "row_key",
+        "row_value"
+      ],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "No totals — metadata table has no aggregations",
+      "columns": []
+    }
+  },
+  "semantics": "No filters or parameters — report displays all rows from app_meta in natural order",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Direct passthrough: SELECT key, value FROM app_meta ORDER BY ROWID"
+  ]
+}

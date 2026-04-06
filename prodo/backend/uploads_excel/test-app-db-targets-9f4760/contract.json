@@ -1,0 +1,92 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_id",
+      "row_provider",
+      "row_conn",
+      "row_status",
+      "row_last_msg"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_id": "app_db_targets.id",
+    "row_provider": "app_db_targets.provider",
+    "row_conn": "app_db_targets.conn",
+    "row_status": "app_db_targets.status",
+    "row_last_msg": "app_db_targets.last_msg"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "app_db_targets",
+    "parent_key": "id",
+    "child_table": "app_db_targets",
+    "child_key": "id"
+  },
+  "date_columns": {},
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_id",
+          "from": [
+            "app_db_targets.id"
+          ]
+        },
+        {
+          "as": "row_provider",
+          "from": [
+            "app_db_targets.provider"
+          ]
+        },
+        {
+          "as": "row_conn",
+          "from": [
+            "app_db_targets.conn"
+          ]
+        },
+        {
+          "as": "row_status",
+          "from": [
+            "app_db_targets.status"
+          ]
+        },
+        {
+          "as": "row_last_msg",
+          "from": [
+            "app_db_targets.last_msg"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {},
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_id",
+    "row_provider",
+    "row_conn",
+    "row_status",
+    "row_last_msg"
+  ],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {},
+  "notes": "Simple database targets listing with no computations, aggregations, or parameters. The app_db_targets table contains no date/timestamp columns (all fields are id, provider, conn, status, last_msg which are text fields), so date_columns is intentionally empty."
+}

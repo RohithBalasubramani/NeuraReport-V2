@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PH, ORP, TDS, DO Report — SOLID WASTE MANAGEMENT SYSTEM</title>
+<style>
+  @page {
+    size: A4 landscape;
+    margin: 15mm 12mm 15mm 12mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    color: #000;
+    background: #fff;
+  }
+
+  /* ── REPORT HEADER ── */
+  #report-header {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  #report-header table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .header-meta {
+    font-size: 8pt;
+    line-height: 1.5;
+    white-space: pre-line;
+    vertical-align: top;
+    width: 110px;
+    border: 1px solid #999;
+    padding: 4px 6px;
+  }
+
+  .header-title-cell {
+    text-align: center;
+    font-size: 13pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    border: 1px solid #999;
+    padding: 6px;
+  }
+
+  /* Column number row */
+  .col-number-row td {
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 600;
+    border: 1px solid #999;
+    padding: 2px 4px;
+    background: #f5f5f5;
+  }
+
+  /* ── DATA TABLE ── */
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  #data-table thead tr th {
+    background: #dce6f1;
+    border: 1px solid #999;
+    padding: 5px 6px;
+    text-align: center;
+    font-size: 8.5pt;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  #data-table thead tr th:first-child {
+    text-align: left;
+    width: 130px;
+  }
+
+  #data-table tbody tr td {
+    border: 1px solid #999;
+    padding: 4px 6px;
+    vertical-align: middle;
+    font-size: 8.5pt;
+  }
+
+  #data-table tbody tr td:first-child {
+    text-align: left;
+    white-space: nowrap;
+    font-size: 8pt;
+  }
+
+  #data-table tbody tr td:not(:first-child) {
+    text-align: right;
+  }
+
+  #data-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  /* ── FOOTER / NOTES ── */
+  #report-footer {
+    margin-top: 10px;
+    font-size: 8.5pt;
+  }
+
+  #report-footer .footer-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  #report-footer .conditions-block {
+    border: 1px solid #bbb;
+    padding: 6px 10px;
+    display: inline-block;
+    min-width: 320px;
+  }
+
+  #report-footer .conditions-block p {
+    margin: 1px 0;
+    line-height: 1.6;
+  }
+
+  /* Print optimisations */
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    #report-footer { page-break-inside: avoid; }
+  }
+</style>
+
+<style id="excel-print-sizing">
+:root { --excel-print-scale: 0.9; }
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  max-width: calc(100% / var(--excel-print-scale));
+}
+body {
+  width: calc(100% / var(--excel-print-scale));
+  min-height: calc(100% / var(--excel-print-scale));
+  transform-origin: top left;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  word-break: break-word;
+  white-space: normal;
+}
+@media screen {
+  body {
+    transform: scale(var(--excel-print-scale));
+  }
+}
+@media print {
+  body {
+    transform: scale(var(--excel-print-scale));
+    zoom: 1;
+  }
+}
+</style>
+</head>
+<body>
+
+<table id="data-table">
+  <colgroup>
+    <col style="width:130px">
+    <col><col><col><col><col><col><col><col><col><col>
+  </colgroup>
+  <thead>
+    <tr>
+      <td style="font-size:8pt;line-height:1.5;white-space:pre-line;text-align:left;width:130px;border:1px solid #999;padding:4px 6px;background:#ffff00;font-weight:700">PRINT DATE: 21/02/2026<br>TIME: 05:39 AM</td>
+      <td colspan="10" style="text-align:center;font-size:13pt;font-weight:700;letter-spacing:1px;background:#ffff00;border:1px solid #999;padding:6px">SOLID WASTE MANAGEMENT SYSTEM</td>
+    </tr>
+    <tr>
+      <td style="background:#e2efda;border:1px solid #999"></td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">1</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">2</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">3</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">4</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">5</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">6</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">7</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">8</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">9</td>
+      <td style="text-align:center;background:#e2efda;border:1px solid #999">10</td>
+    </tr>
+    <tr>
+      <th data-label="analysers">ANALYSERS</th>
+      <th data-label="orp_101">ORP-101</th>
+      <th data-label="orp_102">ORP-102</th>
+      <th data-label="ph_101">PH-101</th>
+      <th data-label="ph_102">PH-102</th>
+      <th data-label="orp_103">ORP-103</th>
+      <th data-label="ph_103">PH-103</th>
+      <th data-label="tds_101">TDS-101</th>
+      <th data-label="ph_104">PH-104</th>
+      <th data-label="tds_102">TDS-102</th>
+      <th data-label="do_101">DO-101</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER / CONDITIONS
+══════════════════════════════════════════════ -->
+<div id="report-footer">
+  <p class="footer-label">Conditions:</p>
+  <div class="conditions-block">
+    <p>Day Wise Time Selection</p>
+    <p>Monthwise day Total level</p>
+    <p>ORP: Mv</p>
+    <p>TDS: ppm</p>
+    <p>DO: mg/l</p>
+  </div>
+</div>
+
+</body>
+</html>

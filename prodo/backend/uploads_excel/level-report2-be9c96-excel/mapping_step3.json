@@ -1,0 +1,213 @@
+{
+  "mapping": {
+    "row_level_transmitter": "neuract__LT_TABLE.timestamp_utc",
+    "row_lt_105": "neuract__LT_TABLE.LT_105",
+    "row_lt_107": "neuract__LT_TABLE.LT_107",
+    "row_lt_109": "neuract__LT_TABLE.LT_109",
+    "row_lt_111": "neuract__LT_TABLE.LT_111",
+    "row_lt_114": "neuract__LT_TABLE.LT_114",
+    "row_lt_116": "neuract__LT_TABLE.LT_116",
+    "row_lt_118": "neuract__LT_TABLE.LT_118",
+    "row_lt_127": "neuract__LT_TABLE.LT_127",
+    "row_lt_128": "neuract__LT_TABLE.LT_128",
+    "row_lt_129": "neuract__LT_TABLE.LT_129",
+    "row_lt_130": "neuract__LT_TABLE.LT_130",
+    "row_lt_131": "neuract__LT_TABLE.LT_131",
+    "row_lt_120": "neuract__LT_TABLE.LT_120",
+    "row_lt_122": "UNRESOLVED",
+    "row_lt_124": "neuract__LT_TABLE.LT_114_2",
+    "row_lt_126": "neuract__LT_TABLE.LT_126",
+    "row_lt_133": "neuract__LT_TABLE.LT_113",
+    "row_lt_134": "neuract__LT_TABLE.LT_134",
+    "row_lt_135": "neuract__LT_TABLE.LT_135",
+    "row_lt_137": "neuract__LT_TABLE.LT_137",
+    "row_lt_138": "neuract__LT_TABLE.LT_138",
+    "row_lt_139": "neuract__LT_TABLE.LT_139",
+    "row_lt_140": "neuract__LT_TABLE.LT_140",
+    "row_lt_142": "neuract__LT_TABLE.LT_142",
+    "row_lt_143": "neuract__LT_TABLE.LT_143",
+    "row_lt_144": "neuract__LT_TABLE.LT_144",
+    "row_lt_146": "neuract__LT_TABLE.LT_146",
+    "row_lt_148": "neuract__LT_TABLE.LT_148",
+    "row_lt_149": "neuract__LT_TABLE.LT_149",
+    "row_lt_112": "neuract__LT_TABLE.LT_112"
+  },
+  "meta": {
+    "unresolved": [
+      "row_lt_122",
+      "row_lt_124",
+      "row_lt_133"
+    ],
+    "hints": {
+      "row_level_transmitter": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:First column acts as row label/key; mapped to neuract__LT_TABLE.timestamp_utc as the natural row identifier for time-series sensor data"
+        ]
+      },
+      "row_lt_122": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:LT_122 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+        ]
+      },
+      "row_lt_124": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:LT_124 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+        ]
+      },
+      "row_lt_133": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:LT_133 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "7402e6ecedf154e87217dcdeb9ee5eb04c9cc220a5b7647c110afa0d9acdc1a0",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "",
+    "cache_key": "30140bd219badddecfe8392d7f0cf6d7e9902fe9ac76b60a56f7a5d11d24d03e",
+    "pre_html_sha256": "e0a09561015904e32f7499edc89ffeea62ac674a86859ca0cf9c935f83a140f4",
+    "post_html_sha256": "e0a09561015904e32f7499edc89ffeea62ac674a86859ca0cf9c935f83a140f4",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "row_level_transmitter": "neuract__LT_TABLE.timestamp_utc",
+      "row_lt_105": "neuract__LT_TABLE.LT_105",
+      "row_lt_107": "neuract__LT_TABLE.LT_107",
+      "row_lt_109": "neuract__LT_TABLE.LT_109",
+      "row_lt_111": "neuract__LT_TABLE.LT_111",
+      "row_lt_114": "neuract__LT_TABLE.LT_114",
+      "row_lt_116": "neuract__LT_TABLE.LT_116",
+      "row_lt_118": "neuract__LT_TABLE.LT_118",
+      "row_lt_127": "neuract__LT_TABLE.LT_127",
+      "row_lt_128": "neuract__LT_TABLE.LT_128",
+      "row_lt_129": "neuract__LT_TABLE.LT_129",
+      "row_lt_130": "neuract__LT_TABLE.LT_130",
+      "row_lt_131": "neuract__LT_TABLE.LT_131",
+      "row_lt_120": "neuract__LT_TABLE.LT_120",
+      "row_lt_122": "UNRESOLVED",
+      "row_lt_124": "UNRESOLVED",
+      "row_lt_126": "neuract__LT_TABLE.LT_126",
+      "row_lt_133": "UNRESOLVED",
+      "row_lt_134": "neuract__LT_TABLE.LT_134",
+      "row_lt_135": "neuract__LT_TABLE.LT_135",
+      "row_lt_137": "neuract__LT_TABLE.LT_137",
+      "row_lt_138": "neuract__LT_TABLE.LT_138",
+      "row_lt_139": "neuract__LT_TABLE.LT_139",
+      "row_lt_140": "neuract__LT_TABLE.LT_140",
+      "row_lt_142": "neuract__LT_TABLE.LT_142",
+      "row_lt_143": "neuract__LT_TABLE.LT_143",
+      "row_lt_144": "neuract__LT_TABLE.LT_144",
+      "row_lt_146": "neuract__LT_TABLE.LT_146",
+      "row_lt_148": "neuract__LT_TABLE.LT_148",
+      "row_lt_149": "neuract__LT_TABLE.LT_149"
+    },
+    "token_samples": {
+      "row_level_transmitter": "{row_level_transmitter}",
+      "row_lt_105": "{row_lt_105}",
+      "row_lt_107": "{row_lt_107}",
+      "row_lt_109": "{row_lt_109}",
+      "row_lt_111": "{row_lt_111}",
+      "row_lt_114": "{row_lt_114}",
+      "row_lt_116": "{row_lt_116}",
+      "row_lt_118": "{row_lt_118}",
+      "row_lt_127": "{row_lt_127}",
+      "row_lt_128": "{row_lt_128}",
+      "row_lt_129": "{row_lt_129}",
+      "row_lt_130": "{row_lt_130}",
+      "row_lt_131": "{row_lt_131}",
+      "row_lt_120": "{row_lt_120}",
+      "row_lt_122": "{row_lt_122}",
+      "row_lt_124": "{row_lt_124}",
+      "row_lt_126": "{row_lt_126}",
+      "row_lt_133": "{row_lt_133}",
+      "row_lt_134": "{row_lt_134}",
+      "row_lt_135": "{row_lt_135}",
+      "row_lt_137": "{row_lt_137}",
+      "row_lt_138": "{row_lt_138}",
+      "row_lt_139": "{row_lt_139}",
+      "row_lt_140": "{row_lt_140}",
+      "row_lt_142": "{row_lt_142}",
+      "row_lt_143": "{row_lt_143}",
+      "row_lt_144": "{row_lt_144}",
+      "row_lt_146": "{row_lt_146}",
+      "row_lt_148": "{row_lt_148}",
+      "row_lt_149": "{row_lt_149}"
+    },
+    "meta": {
+      "unresolved": [
+        "row_lt_122",
+        "row_lt_124",
+        "row_lt_133"
+      ],
+      "hints": {
+        "row_level_transmitter": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:First column acts as row label/key; mapped to neuract__LT_TABLE.timestamp_utc as the natural row identifier for time-series sensor data"
+          ]
+        },
+        "row_lt_122": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:LT_122 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+          ]
+        },
+        "row_lt_124": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:LT_124 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+          ]
+        },
+        "row_lt_133": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:LT_133 not present in neuract__LT_TABLE catalog; instrument may not be instrumented or the column was never created in the DB schema"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "row_level_transmitter": "{row_level_transmitter}",
+    "row_lt_105": "{row_lt_105}",
+    "row_lt_107": "{row_lt_107}",
+    "row_lt_109": "{row_lt_109}",
+    "row_lt_111": "{row_lt_111}",
+    "row_lt_114": "{row_lt_114}",
+    "row_lt_116": "{row_lt_116}",
+    "row_lt_118": "{row_lt_118}",
+    "row_lt_127": "{row_lt_127}",
+    "row_lt_128": "{row_lt_128}",
+    "row_lt_129": "{row_lt_129}",
+    "row_lt_130": "{row_lt_130}",
+    "row_lt_131": "{row_lt_131}",
+    "row_lt_120": "{row_lt_120}",
+    "row_lt_122": "{row_lt_122}",
+    "row_lt_124": "{row_lt_124}",
+    "row_lt_126": "{row_lt_126}",
+    "row_lt_133": "{row_lt_133}",
+    "row_lt_134": "{row_lt_134}",
+    "row_lt_135": "{row_lt_135}",
+    "row_lt_137": "{row_lt_137}",
+    "row_lt_138": "{row_lt_138}",
+    "row_lt_139": "{row_lt_139}",
+    "row_lt_140": "{row_lt_140}",
+    "row_lt_142": "{row_lt_142}",
+    "row_lt_143": "{row_lt_143}",
+    "row_lt_144": "{row_lt_144}",
+    "row_lt_146": "{row_lt_146}",
+    "row_lt_148": "{row_lt_148}",
+    "row_lt_149": "{row_lt_149}"
+  }
+}

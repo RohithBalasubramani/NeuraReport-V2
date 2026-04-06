@@ -1,0 +1,42 @@
+[
+  {
+    "header": "bank_name",
+    "placeholder": "{bank_name}",
+    "mapping": "transactions.bank_name"
+  },
+  {
+    "header": "bill_amount",
+    "placeholder": "{bill_amount}",
+    "mapping": "transactions.bill_amount"
+  },
+  {
+    "header": "can_number",
+    "placeholder": "{can_number}",
+    "mapping": "transactions.can_number"
+  },
+  {
+    "header": "generated_datetime",
+    "placeholder": "{generated_datetime}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "logo_url",
+    "placeholder": "{logo_url}",
+    "mapping": "params.logo_url"
+  },
+  {
+    "header": "transaction_datetime",
+    "placeholder": "{transaction_datetime}",
+    "mapping": "UNRESOLVED"
+  },
+  {
+    "header": "transaction_reference",
+    "placeholder": "{transaction_reference}",
+    "mapping": "transactions.transaction_ref_number"
+  },
+  {
+    "header": "transaction_status",
+    "placeholder": "{transaction_status}",
+    "mapping": "transactions.transaction_status"
+  }
+]

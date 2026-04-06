@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Report</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 15mm 10mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #222;
+            background: #fff;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            font-weight: 700;
+            font-size: 9pt;
+            text-align: left;
+            padding: 8px 6px;
+            border: 1px solid #999;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        #data-table tbody td {
+            padding: 6px 6px;
+            border: 1px solid #ccc;
+            font-size: 9pt;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific widths */
+        #data-table th:nth-child(1),
+        #data-table td:nth-child(1) { width: 8%; } /* ID */
+        
+        #data-table th:nth-child(2),
+        #data-table td:nth-child(2) { width: 12%; } /* Name */
+        
+        #data-table th:nth-child(3),
+        #data-table td:nth-child(3) { width: 8%; } /* Device Table ID */
+        
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(4) { width: 7%; } /* Schema ID */
+        
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(5) { width: 7%; } /* Gateway ID */
+        
+        #data-table th:nth-child(6),
+        #data-table td:nth-child(6) { width: 6%; text-align: right; } /* Interval Sec */
+        
+        #data-table th:nth-child(7),
+        #data-table td:nth-child(7) { width: 6%; } /* Protocol */
+        
+        #data-table th:nth-child(8),
+        #data-table td:nth-child(8) { width: 5%; text-align: center; } /* Enabled */
+        
+        #data-table th:nth-child(9),
+        #data-table td:nth-child(9) { width: 6%; } /* Status */
+        
+        #data-table th:nth-child(10),
+        #data-table td:nth-child(10) { width: 9%; } /* Last Run At */
+        
+        #data-table th:nth-child(11),
+        #data-table td:nth-child(11) { width: 6%; text-align: right; } /* Error Count */
+        
+        #data-table th:nth-child(12),
+        #data-table td:nth-child(12) { width: 10%; } /* Created At */
+        
+        #data-table th:nth-child(13),
+        #data-table td:nth-child(13) { width: 10%; } /* Updated At */
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+            
+            #data-table tbody tr {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Jobs</h1>
+    </div>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="id">ID</th>
+                <th data-label="name">Name</th>
+                <th data-label="device_table_id">Device Table ID</th>
+                <th data-label="schema_id">Schema ID</th>
+                <th data-label="gateway_id">Gateway ID</th>
+                <th data-label="interval_sec">Interval Sec</th>
+                <th data-label="protocol">Protocol</th>
+                <th data-label="enabled">Enabled</th>
+                <th data-label="status">Status</th>
+                <th data-label="last_run_at">Last Run At</th>
+                <th data-label="error_count">Error Count</th>
+                <th data-label="created_at">Created At</th>
+                <th data-label="updated_at">Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_id}</td>
+                <td>{row_name}</td>
+                <td>{row_device_table_id}</td>
+                <td>{row_schema_id}</td>
+                <td>{row_gateway_id}</td>
+                <td>{row_interval_sec}</td>
+                <td>{row_protocol}</td>
+                <td>{row_enabled}</td>
+                <td>{row_status}</td>
+                <td>{row_last_run_at}</td>
+                <td>{row_error_count}</td>
+                <td>{row_created_at}</td>
+                <td>{row_updated_at}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

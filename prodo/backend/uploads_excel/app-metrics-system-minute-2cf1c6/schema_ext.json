@@ -1,0 +1,17 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_minute_utc",
+    "row_cpu",
+    "row_memory",
+    "row_disk_r_s",
+    "row_disk_w_s",
+    "row_net_rx_s",
+    "row_net_tx_s",
+    "row_proc_cpu",
+    "row_proc_rss_mb",
+    "row_proc_handles"
+  ],
+  "totals": {},
+  "notes": "System metrics report with per-minute granularity showing CPU, memory, disk I/O, network traffic, and process-level metrics"
+}

@@ -1,0 +1,8 @@
+Template: Test HMWSSB Bill
+Type: pdf
+Created from: AI chat conversation
+Total tokens: 8
+  Scalars: bill_date, company_name, consumer_name, due_date
+  Row tokens: amount, meter_reading, month
+  Totals: total_amount
+Has block repeat: True

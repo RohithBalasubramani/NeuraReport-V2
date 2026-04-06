@@ -1,0 +1,77 @@
+{
+  "tokens": {
+    "scalars": [
+      "bank_name",
+      "bill_amount",
+      "billdesk_logo_url",
+      "can_no",
+      "logo_url",
+      "page_url",
+      "transaction_date",
+      "transaction_ref",
+      "transaction_status",
+      "transaction_time",
+      "update_note"
+    ],
+    "row_tokens": [],
+    "totals": []
+  },
+  "mapping": {
+    "transaction_status": "transactions.transaction_status",
+    "transaction_ref": "transactions.transaction_ref_number",
+    "transaction_date": "transactions.transaction_date",
+    "transaction_time": "transactions.transaction_time",
+    "can_no": "transactions.can_number",
+    "bill_amount": "transactions.bill_amount",
+    "bank_name": "transactions.bank_name",
+    "logo_url": "UNRESOLVED",
+    "billdesk_logo_url": "UNRESOLVED",
+    "page_url": "UNRESOLVED",
+    "update_note": "UNRESOLVED"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "transactions",
+    "parent_key": "id",
+    "child_table": "transactions",
+    "child_key": "id"
+  },
+  "date_columns": {
+    "transactions": "transaction_date"
+  },
+  "filters": {
+    "optional": {}
+  },
+  "reshape_rules": [],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "transaction_date": "date(DD-MM-YYYY)",
+    "bill_amount": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "transaction_date DESC"
+    ]
+  },
+  "header_tokens": [
+    "bank_name",
+    "bill_amount",
+    "billdesk_logo_url",
+    "can_no",
+    "logo_url",
+    "page_url",
+    "transaction_date",
+    "transaction_ref",
+    "transaction_status",
+    "transaction_time",
+    "update_note"
+  ],
+  "row_tokens": [],
+  "row_order": [
+    "transaction_date DESC"
+  ],
+  "literals": {},
+  "notes": "HMWSSB transaction acknowledgment receipt. Single-record display with no row iteration. Four tokens (logo_url, billdesk_logo_url, page_url, update_note) are static UI constants marked UNRESOLVED — application should inject these at runtime. No user parameters required; transaction selection handled by application layer."
+}

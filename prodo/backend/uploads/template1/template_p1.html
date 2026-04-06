@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Acknowledgment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+            background: #fff;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .org-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .org-subtitle {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+        .timestamp {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 10px;
+            color: #666;
+        }
+        .page-title {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        .thank-you {
+            background: #f9f9f9;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-left: 3px solid #4CAF50;
+        }
+        .thank-you p {
+            margin-bottom: 5px;
+        }
+        .thank-you .bold {
+            font-weight: bold;
+        }
+        .details-section {
+            margin-bottom: 15px;
+        }
+        .detail-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-label {
+            width: 40%;
+            color: #666;
+            font-weight: normal;
+        }
+        .detail-value {
+            width: 60%;
+            color: #333;
+            font-weight: 500;
+        }
+        .detail-value.success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .note {
+            background: #fff9e6;
+            padding: 10px;
+            margin: 15px 0;
+            border-left: 3px solid #ffc107;
+            font-size: 11px;
+        }
+        .note strong {
+            font-weight: bold;
+        }
+        .security-warning {
+            background: #fff5f5;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #ffcccc;
+            color: #d32f2f;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 10px;
+            color: #666;
+        }
+        .powered-by {
+            text-align: right;
+        }
+        .powered-by img {
+            height: 20px;
+            vertical-align: middle;
+        }
+        .url {
+            font-size: 9px;
+            color: #999;
+            margin-top: 20px;
+        }
+        .page-number {
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #666;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #0066cc;
+            color: #fff;
+            border-color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="timestamp">{timestamp}</div>
+    
+    <div class="header">
+        <img src="{logo_url}" alt="HMWSSB Logo" class="logo">
+        <div>
+            <div class="org-name">{organization_name}</div>
+            <div class="org-subtitle">{organization_subtitle}</div>
+        </div>
+    </div>
+
+    <div class="page-title">Transaction Acknowledgment</div>
+
+    <div class="thank-you">
+        <p><strong>Thank you!</strong> Your payment has been successfully received with the following details.</p>
+        <p>Please quote your <strong>transaction reference number</strong> for any queries relating to this request.</p>
+    </div>
+
+    <div class="details-section">
+        <div class="detail-row">
+            <div class="detail-label">Transaction Status</div>
+            <div class="detail-value success">{transaction_status}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Transaction Reference Number</div>
+            <div class="detail-value">{transaction_reference_number}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Transaction Date and Time</div>
+            <div class="detail-value">{transaction_date_time}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Can No.</div>
+            <div class="detail-value">{can_number}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Bill Amount :</div>
+            <div class="detail-value">{bill_amount}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Bank Name :</div>
+            <div class="detail-value">{bank_name}</div>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>Note:</strong> {payment_note}
+    </div>
+
+    <div class="buttons">
+        <a href="#" class="btn">Print</a>
+        <a href="#" class="btn btn-primary">Make Another Payment</a>
+    </div>
+
+    <div class="security-warning">
+        {security_warning_text}
+    </div>
+
+    <div class="footer">
+        <div class="url">{payment_url}</div>
+        <div class="powered-by">
+            Powered by<br>
+            <strong>{payment_provider}</strong>
+        </div>
+    </div>
+
+    <div class="page-number">{page_number}</div>
+</body>
+</html>

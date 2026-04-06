@@ -1,0 +1,67 @@
+[
+  {
+    "header": "row_id",
+    "placeholder": "{row_id}",
+    "mapping": "app_jobs.id"
+  },
+  {
+    "header": "row_name",
+    "placeholder": "{row_name}",
+    "mapping": "app_jobs.name"
+  },
+  {
+    "header": "row_device_table_id",
+    "placeholder": "{row_device_table_id}",
+    "mapping": "app_jobs.device_table_id"
+  },
+  {
+    "header": "row_schema_id",
+    "placeholder": "{row_schema_id}",
+    "mapping": "app_jobs.schema_id"
+  },
+  {
+    "header": "row_gateway_id",
+    "placeholder": "{row_gateway_id}",
+    "mapping": "app_jobs.gateway_id"
+  },
+  {
+    "header": "row_interval_sec",
+    "placeholder": "{row_interval_sec}",
+    "mapping": "app_jobs.interval_sec"
+  },
+  {
+    "header": "row_protocol",
+    "placeholder": "{row_protocol}",
+    "mapping": "app_jobs.protocol"
+  },
+  {
+    "header": "row_enabled",
+    "placeholder": "{row_enabled}",
+    "mapping": "app_jobs.enabled"
+  },
+  {
+    "header": "row_status",
+    "placeholder": "{row_status}",
+    "mapping": "app_jobs.status"
+  },
+  {
+    "header": "row_last_run_at",
+    "placeholder": "{row_last_run_at}",
+    "mapping": "app_jobs.last_run_at"
+  },
+  {
+    "header": "row_error_count",
+    "placeholder": "{row_error_count}",
+    "mapping": "app_jobs.error_count"
+  },
+  {
+    "header": "row_created_at",
+    "placeholder": "{row_created_at}",
+    "mapping": "app_jobs.created_at"
+  },
+  {
+    "header": "row_updated_at",
+    "placeholder": "{row_updated_at}",
+    "mapping": "app_jobs.updated_at"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "scalars": {},
+  "row_tokens": [
+    "row_id",
+    "row_name",
+    "row_schema_id",
+    "row_db_target_id",
+    "row_status",
+    "row_last_migrated_at",
+    "row_schema_hash",
+    "row_mapping_health",
+    "row_device_id"
+  ],
+  "totals": {},
+  "notes": {
+    "sheet_title": "Device Tables",
+    "columns": 9,
+    "sample_row_count": 5
+  }
+}

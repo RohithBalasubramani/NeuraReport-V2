@@ -1,0 +1,54 @@
+{
+  "id": "0fe07094-6caa-458e-adc4-545760eb5a65",
+  "name": "Sales Data",
+  "sheets": [
+    {
+      "id": "0a19a177-2687-42e8-aaa3-4e16897b7dde",
+      "name": "Sheet1",
+      "index": 0,
+      "data": [
+        [
+          "Product",
+          "Price",
+          "Quantity",
+          "Discount%"
+        ],
+        [
+          "Laptop",
+          999,
+          50,
+          10
+        ],
+        [
+          "Mouse",
+          25,
+          500,
+          5
+        ],
+        [
+          "Keyboard",
+          75,
+          200,
+          15
+        ],
+        [
+          "Monitor",
+          350,
+          80,
+          0
+        ]
+      ],
+      "formats": {},
+      "column_widths": {},
+      "row_heights": {},
+      "frozen_rows": 0,
+      "frozen_cols": 0,
+      "conditional_formats": [],
+      "data_validations": []
+    }
+  ],
+  "created_at": "2026-02-22T20:05:45.847227+00:00",
+  "updated_at": "2026-02-22T20:05:45.847227+00:00",
+  "owner_id": null,
+  "metadata": {}
+}

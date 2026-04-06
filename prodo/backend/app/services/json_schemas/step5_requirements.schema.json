@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Step5Requirements",
+  "type": "object",
+  "required": [
+    "datasets",
+    "parameters",
+    "transformations",
+    "edge_cases",
+    "dialect_notes",
+    "artifact_expectations"
+  ],
+  "properties": {
+    "datasets": {
+      "type": "object",
+      "required": ["header", "rows", "totals"],
+      "properties": {
+        "header": {
+          "type": "object",
+          "required": ["description", "columns"],
+          "properties": {
+            "description": {"type": "string"},
+            "columns": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "additionalProperties": true
+        },
+        "rows": {
+          "type": "object",
+          "required": ["description", "columns"],
+          "properties": {
+            "description": {"type": "string"},
+            "columns": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "grouping": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "ordering": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "additionalProperties": true
+        },
+        "totals": {
+          "type": "object",
+          "required": ["description", "columns"],
+          "properties": {
+            "description": {"type": "string"},
+            "columns": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "parameters": {
+      "type": "object",
+      "required": ["required", "optional", "semantics"],
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string"},
+              "description": {"type": "string"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string"},
+              "description": {"type": "string"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "semantics": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "transformations": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "edge_cases": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "dialect_notes": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "artifact_expectations": {
+      "type": "object",
+      "properties": {
+        "output_schemas": {"type": "string"},
+        "sql_pack": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

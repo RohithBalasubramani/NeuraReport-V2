@@ -1,0 +1,48 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice header containing dates, customer addresses, and aggregated financial totals",
+      "columns": [
+        "invoice_date",
+        "invoice_number",
+        "bill_to",
+        "ship_to",
+        "remarks",
+        "subtotal",
+        "discount",
+        "subtotal_less_discount",
+        "tax_rate",
+        "total_tax",
+        "shipping_handling",
+        "other",
+        "total"
+      ]
+    },
+    "rows": {
+      "description": "Line items for the invoice, one row per product/service",
+      "columns": [
+        "row_description",
+        "row_total"
+      ],
+      "grouping": [],
+      "ordering": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals dataset — all aggregates are pre-computed in invoices table",
+      "columns": []
+    }
+  },
+  "semantics": "No filter parameters — invoice_number is assumed to be pre-selected. All tokens are pass-through or computed from joined tables.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Concatenate customer name and billing address fields with newlines for bill_to and ship_to",
+    "Compute subtotal_less_discount by subtracting discount_amount from subtotal",
+    "Compute tax_rate by dividing tax_amount by subtotal and formatting as percentage",
+    "Default shipping_handling and other to 0.00 as literals"
+  ]
+}

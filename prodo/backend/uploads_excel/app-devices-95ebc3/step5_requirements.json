@@ -1,0 +1,38 @@
+{
+  "datasets": {
+    "header": {
+      "description": "No header-level data for this simple device listing report.",
+      "columns": []
+    },
+    "rows": {
+      "description": "One row per device from app_devices, showing all configuration and status fields.",
+      "columns": [
+        "row_id",
+        "row_name",
+        "row_protocol",
+        "row_status",
+        "row_latency_ms",
+        "row_auto_reconnect",
+        "row_unit_id",
+        "row_port",
+        "row_gateway_id"
+      ],
+      "grouping": [],
+      "ordering": [
+        "id ASC"
+      ]
+    },
+    "totals": {
+      "description": "No totals for this report.",
+      "columns": []
+    }
+  },
+  "semantics": "This is a simple listing report with no parameters or filters. All tokens are direct column references.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "No transformations required — all tokens map directly to app_devices columns."
+  ]
+}

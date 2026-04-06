@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Tables Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        #report-header {
+            margin-bottom: 16px;
+        }
+        
+        #report-header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 16px;
+        }
+        
+        #data-table thead th {
+            background-color: #f5f5f5;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 9pt;
+            vertical-align: middle;
+        }
+        
+        #data-table tbody td {
+            border: 1px solid #999;
+            padding: 6px 6px;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+        
+        #data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        #data-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* Column-specific widths */
+        #data-table th:nth-child(1),
+        #data-table td:nth-child(1) {
+            width: 16%;
+        }
+        
+        #data-table th:nth-child(2),
+        #data-table td:nth-child(2) {
+            width: 14%;
+        }
+        
+        #data-table th:nth-child(3),
+        #data-table td:nth-child(3) {
+            width: 14%;
+        }
+        
+        #data-table th:nth-child(4),
+        #data-table td:nth-child(4) {
+            width: 14%;
+        }
+        
+        #data-table th:nth-child(5),
+        #data-table td:nth-child(5) {
+            width: 10%;
+        }
+        
+        #data-table th:nth-child(6),
+        #data-table td:nth-child(6) {
+            width: 14%;
+        }
+        
+        #data-table th:nth-child(7),
+        #data-table td:nth-child(7) {
+            width: 18%;
+        }
+        
+        /* Text alignment */
+        #data-table td:nth-child(5),
+        #data-table td:nth-child(6) {
+            text-align: center;
+        }
+        
+        /* Print optimization */
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            #data-table {
+                page-break-inside: auto;
+            }
+            
+            #data-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            #data-table thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="report-header">
+        <h1>Device Tables</h1>
+    </div>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="table_name">Table Name</th>
+                <th data-label="device_id">Device ID</th>
+                <th data-label="schema_id">Schema ID</th>
+                <th data-label="db_target_id">DB Target ID</th>
+                <th data-label="status">Status</th>
+                <th data-label="mapping_health">Mapping Health</th>
+                <th data-label="last_migrated_at">Last Migrated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{row_table_name}</td>
+                <td>{row_device_id}</td>
+                <td>{row_schema_id}</td>
+                <td>{row_db_target_id}</td>
+                <td>{row_status}</td>
+                <td>{row_mapping_health}</td>
+                <td>{row_last_migrated_at}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

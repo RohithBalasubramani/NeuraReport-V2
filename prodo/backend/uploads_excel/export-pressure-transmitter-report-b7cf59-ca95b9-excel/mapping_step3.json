@@ -1,0 +1,198 @@
+{
+  "mapping": {
+    "print_date": "params.print_date",
+    "print_time": "params.print_time",
+    "row_pressure_meter": "neuract__PT_TABLE.timestamp_utc",
+    "row_pt_105": "neuract__PT_TABLE.PT_105",
+    "row_pt_107": "neuract__PT_TABLE.PT_107",
+    "row_pt_109": "neuract__PT_TABLE.PT_109",
+    "row_pt_111": "neuract__PT_TABLE.PT_111",
+    "row_pt_114": "neuract__PT_TABLE.PT_114",
+    "row_pt_115": "neuract__PT_TABLE.PT_115",
+    "row_pt_117": "neuract__PT_TABLE.PT_117",
+    "row_pt_125": "neuract__PT_TABLE.PT_125",
+    "row_pt_121": "neuract__PT_TABLE.PT_121",
+    "row_pt_119": "neuract__PT_TABLE.PT_119",
+    "row_pt_123": "neuract__PT_TABLE.PT_123",
+    "row_pt_127": "neuract__PT_TABLE.PT_127",
+    "row_pt_129": "neuract__PT_TABLE.PT_129",
+    "row_pt_131": "neuract__PT_TABLE.PT_131",
+    "row_pt_132": "neuract__PT_TABLE.PT_132",
+    "row_pt_133": "neuract__PT_TABLE.PT_133",
+    "row_pt_135": "neuract__PT_TABLE.PT_135",
+    "row_pt_136": "neuract__PT_TABLE.PT_136",
+    "row_pt_140": "neuract__PT_TABLE.PT_140",
+    "row_pt_141": "neuract__PT_TABLE.PT_141",
+    "row_pt_142": "neuract__PT_TABLE.PT_142",
+    "row_pt_138": "neuract__PT_TABLE.PT_138",
+    "row_pt_139": "neuract__PT_TABLE.PT_139",
+    "row_pt_147": "neuract__PT_TABLE.PT_147",
+    "row_pt_148": "neuract__PT_TABLE.PT_148",
+    "row_pt_143": "neuract__PT_TABLE.PT_143",
+    "row_pt_145": "neuract__PT_TABLE.PT_145",
+    "row_ph_146": "neuract__PT_TABLE.PT_146",
+    "row_pt_149": "neuract__PT_TABLE.PT_149",
+    "row_pt_151": "neuract__PT_TABLE.PT_151",
+    "row_pt_154": "neuract__PT_TABLE.PT_154"
+  },
+  "meta": {
+    "unresolved": [],
+    "hints": {
+      "row_pressure_meter": {
+        "op": "FORMAT",
+        "over": [
+          "columns:neuract__PT_TABLE.timestamp_utc",
+          "note:Row label column — display as formatted date string (e.g. DD/MM/YYYY) derived from timestamp_utc; one row per day per the schema notes"
+        ]
+      },
+      "row_ph_146": {
+        "op": "UNKNOWN",
+        "over": [
+          "note:HTML header labels this instrument as PH-146 but catalog column is PT_146 in neuract__PT_TABLE; mapped to PT_146 as the closest catalog match"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "c736a9f1ddfa0925f0efa9338e582877040ccbdabc6efddc6a2050df141430f9",
+    "catalog_sha256": "312a06afd264f4c409ba0a0fb006aac7601c8781b51c4946edc16a58ed702f95",
+    "schema_sha256": "83e5656dd0c62a615b45b4eadc624f8c1f513e0fd9c503a76e456dbc28542903",
+    "cache_key": "f8073f27b28a7f46ec5aa9e6f449f73ea6c738d1e0befa111ec09e9114e749a5",
+    "pre_html_sha256": "eb4e0ab8da413887d120ba05764b11b93da3606a189ab3c6e754623763eb18df",
+    "post_html_sha256": "eb4e0ab8da413887d120ba05764b11b93da3606a189ab3c6e754623763eb18df",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "",
+    "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776"
+  },
+  "raw_payload": {
+    "mapping": {
+      "print_date": "params.print_date",
+      "print_time": "params.print_time",
+      "row_pressure_meter": "neuract__PT_TABLE.timestamp_utc",
+      "row_pt_105": "neuract__PT_TABLE.PT_105",
+      "row_pt_107": "neuract__PT_TABLE.PT_107",
+      "row_pt_109": "neuract__PT_TABLE.PT_109",
+      "row_pt_111": "neuract__PT_TABLE.PT_111",
+      "row_pt_114": "neuract__PT_TABLE.PT_114",
+      "row_pt_115": "neuract__PT_TABLE.PT_115",
+      "row_pt_117": "neuract__PT_TABLE.PT_117",
+      "row_pt_125": "neuract__PT_TABLE.PT_125",
+      "row_pt_121": "neuract__PT_TABLE.PT_121",
+      "row_pt_119": "neuract__PT_TABLE.PT_119",
+      "row_pt_123": "neuract__PT_TABLE.PT_123",
+      "row_pt_127": "neuract__PT_TABLE.PT_127",
+      "row_pt_129": "neuract__PT_TABLE.PT_129",
+      "row_pt_131": "neuract__PT_TABLE.PT_131",
+      "row_pt_132": "neuract__PT_TABLE.PT_132",
+      "row_pt_133": "neuract__PT_TABLE.PT_133",
+      "row_pt_135": "neuract__PT_TABLE.PT_135",
+      "row_pt_136": "neuract__PT_TABLE.PT_136",
+      "row_pt_140": "neuract__PT_TABLE.PT_140",
+      "row_pt_141": "neuract__PT_TABLE.PT_141",
+      "row_pt_142": "neuract__PT_TABLE.PT_142",
+      "row_pt_138": "neuract__PT_TABLE.PT_138",
+      "row_pt_139": "neuract__PT_TABLE.PT_139",
+      "row_pt_147": "neuract__PT_TABLE.PT_147",
+      "row_pt_148": "neuract__PT_TABLE.PT_148",
+      "row_pt_143": "neuract__PT_TABLE.PT_143",
+      "row_pt_145": "neuract__PT_TABLE.PT_145",
+      "row_ph_146": "neuract__PT_TABLE.PT_146",
+      "row_pt_149": "neuract__PT_TABLE.PT_149",
+      "row_pt_151": "neuract__PT_TABLE.PT_151",
+      "row_pt_154": "neuract__PT_TABLE.PT_154"
+    },
+    "token_samples": {
+      "print_date": "19/02/2026",
+      "print_time": "17:50:13",
+      "row_pressure_meter": "2026-02-19T17:50:13+05:30",
+      "row_pt_105": "-0.24",
+      "row_pt_107": "-0.24",
+      "row_pt_109": "-0.24",
+      "row_pt_111": "-0.24",
+      "row_pt_114": "-0.24",
+      "row_pt_115": "-0.24",
+      "row_pt_117": "-0.24",
+      "row_pt_125": "0.0006",
+      "row_pt_121": "-0.24",
+      "row_pt_119": "0.039",
+      "row_pt_123": "-0.0078",
+      "row_pt_127": "-0.024",
+      "row_pt_129": "-0.010",
+      "row_pt_131": "0.028",
+      "row_pt_132": "0.087",
+      "row_pt_133": "0.003",
+      "row_pt_135": "-0.010",
+      "row_pt_136": "-0.006",
+      "row_pt_140": "-0.002",
+      "row_pt_141": "-0.008",
+      "row_pt_142": "-0.010",
+      "row_pt_138": "0.006",
+      "row_pt_139": "-0.004",
+      "row_pt_147": "-0.020",
+      "row_pt_148": "-0.028",
+      "row_pt_143": "-0.085",
+      "row_pt_145": "0.120",
+      "row_ph_146": "-0.006",
+      "row_pt_149": "-0.007",
+      "row_pt_151": "-0.008",
+      "row_pt_154": "0.025"
+    },
+    "meta": {
+      "unresolved": [],
+      "hints": {
+        "row_pressure_meter": {
+          "op": "FORMAT",
+          "over": [
+            "columns:neuract__PT_TABLE.timestamp_utc",
+            "note:Row label column — display as formatted date string (e.g. DD/MM/YYYY) derived from timestamp_utc; one row per day per the schema notes"
+          ]
+        },
+        "row_ph_146": {
+          "op": "UNKNOWN",
+          "over": [
+            "note:HTML header labels this instrument as PH-146 but catalog column is PT_146 in neuract__PT_TABLE; mapped to PT_146 as the closest catalog match"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "print_date": "19/02/2026",
+    "print_time": "17:50:13",
+    "row_pressure_meter": "2026-02-19T17:50:13+05:30",
+    "row_pt_105": "-0.24",
+    "row_pt_107": "-0.24",
+    "row_pt_109": "-0.24",
+    "row_pt_111": "-0.24",
+    "row_pt_114": "-0.24",
+    "row_pt_115": "-0.24",
+    "row_pt_117": "-0.24",
+    "row_pt_125": "0.0006",
+    "row_pt_121": "-0.24",
+    "row_pt_119": "0.039",
+    "row_pt_123": "-0.0078",
+    "row_pt_127": "-0.024",
+    "row_pt_129": "-0.010",
+    "row_pt_131": "0.028",
+    "row_pt_132": "0.087",
+    "row_pt_133": "0.003",
+    "row_pt_135": "-0.010",
+    "row_pt_136": "-0.006",
+    "row_pt_140": "-0.002",
+    "row_pt_141": "-0.008",
+    "row_pt_142": "-0.010",
+    "row_pt_138": "0.006",
+    "row_pt_139": "-0.004",
+    "row_pt_147": "-0.020",
+    "row_pt_148": "-0.028",
+    "row_pt_143": "-0.085",
+    "row_pt_145": "0.120",
+    "row_ph_146": "-0.006",
+    "row_pt_149": "-0.007",
+    "row_pt_151": "-0.008",
+    "row_pt_154": "0.025"
+  }
+}

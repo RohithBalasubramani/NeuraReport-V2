@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocol Types</title>
+<style>
+@page {
+  size: A4;
+  margin: 20mm 15mm;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+  line-height: 1.4;
+  color: #000;
+  background: #fff;
+}
+
+#report-header {
+  margin-bottom: 16px;
+}
+
+#report-header h1 {
+  font-size: 16pt;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 16px;
+}
+
+#data-table thead {
+  background-color: #f5f5f5;
+}
+
+#data-table th {
+  border: 1px solid #999;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+#data-table tbody tr {
+  page-break-inside: avoid;
+}
+
+#data-table td {
+  border: 1px solid #999;
+  padding: 6px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #data-table {
+    page-break-inside: auto;
+  }
+  
+  #data-table tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  #data-table thead {
+    display: table-header-group;
+  }
+}
+</style>
+</head>
+<body>
+
+<header id="report-header">
+  <h1>Protocol Types</h1>
+</header>
+
+<table id="data-table">
+  <thead>
+    <tr>
+      <th data-label="type">Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{row_type}</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
