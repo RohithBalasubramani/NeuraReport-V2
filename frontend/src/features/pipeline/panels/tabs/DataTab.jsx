@@ -31,7 +31,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, 
 import clsx from 'clsx'
 import usePipelineStore from '@/stores/pipeline'
 import { humanizeColumn } from '../../utils'
-import { fetchColumnStats, fetchTags, saveTags } from '@/api/widgetData'
+import { fetchColumnStats, fetchTemporal, fetchTags, saveTags, executeQuery } from '@/api/widgetData'
 
 // ── 3c: Column Tag Selector ──
 function ColumnTagSelector({ column, currentTag, onTag }) {
@@ -238,6 +238,8 @@ export default function DataTab({ onAction }) {
 
   const [showQueryBuilder, setShowQueryBuilder] = useState(false)
   const [showTemporal, setShowTemporal] = useState(false)
+  const [queryResult, setQueryResult] = useState(null)
+  const [queryLoading, setQueryLoading] = useState(false)
 
   // Fetch column stats from backend on mount when connection + mapping exist
   useEffect(() => {
@@ -248,18 +250,52 @@ export default function DataTab({ onAction }) {
       ? [...new Set(catalog.map(c => (typeof c === 'string' ? c : c.name || '').split('.')[0]).filter(Boolean))]
       : typeof catalog === 'object' ? Object.keys(catalog) : []
 
-    tableNames.forEach(table => {
-      fetchColumnStats(sessionId, table)
+    if (tableNames.length) {
+      tableNames.forEach(table => {
+        fetchColumnStats(sessionId, table)
+          .then(r => {
+            if (r?.columns) {
+              const current = usePipelineStore.getState().columnStats
+              setColumnStats({ ...current, ...r.columns })
+            }
+          })
+          .catch(() => {})
+      })
+    } else if (connectionId) {
+      // No mapping yet — fetch stats for first available table from schema
+      try {
+        fetch(`/api/v1/connections/${encodeURIComponent(connectionId)}/schema`)
+          .then(r => r.ok ? r.json() : null)
+          .then(schema => {
+            const firstTable = schema?.tables?.[0]?.name
+            if (firstTable) {
+              fetchColumnStats(sessionId, firstTable)
+                .then(r => { if (r?.columns) setColumnStats(r.columns) })
+                .catch(() => {})
+            }
+          })
+          .catch(() => {})
+      } catch (_) { /* ignore */ }
+    }
+  }, [sessionId, connectionId, mapping?.catalog]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Fetch detailed temporal data for date-tagged columns
+  useEffect(() => {
+    if (!sessionId) return
+    const dateCols = Object.entries(columnTags).filter(([, t]) => t === 'date').map(([c]) => c)
+    dateCols.forEach(col => {
+      const parts = col.split('.')
+      if (parts.length < 2) return
+      fetchTemporal(sessionId, parts[0], parts.slice(1).join('.'))
         .then(r => {
-          if (r?.columns) {
-            // Merge with existing stats (setColumnStats replaces, so read + merge)
+          if (r?.periods) {
             const current = usePipelineStore.getState().columnStats
-            setColumnStats({ ...current, ...r.columns })
+            setColumnStats({ ...current, [col]: { ...(current[col] || {}), temporalDistribution: r.periods, _temporal: r } })
           }
         })
         .catch(() => {})
     })
-  }, [sessionId, connectionId, mapping?.catalog]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sessionId, columnTags]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load persisted tags on mount
   useEffect(() => {
@@ -367,10 +403,34 @@ export default function DataTab({ onAction }) {
         <Box sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider', bgcolor: '#fafafa' }}>
           <QueryBuilder fields={queryFields} query={query} onQueryChange={setQueryBuilderState} />
           <Box sx={{ mt: 1, display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Button size="small" variant="contained" onClick={() => onAction?.({ type: 'inspect_data', query: formatQuery(query, 'sql') })}
-              sx={{ textTransform: 'none', fontSize: '0.7rem' }}>Run Query</Button>
+            <Button size="small" variant="contained" disabled={queryLoading}
+              onClick={async () => {
+                setQueryLoading(true); setQueryResult(null)
+                try { setQueryResult(await executeQuery(sessionId, formatQuery(query, 'sql'))) }
+                catch (e) { setQueryResult({ error: e.message }) }
+                finally { setQueryLoading(false) }
+              }}
+              sx={{ textTransform: 'none', fontSize: '0.7rem' }}>{queryLoading ? 'Running...' : 'Run Query'}</Button>
             <Typography variant="caption" color="text.disabled" fontFamily="monospace" sx={{ flex: 1 }} noWrap>{formatQuery(query, 'sql')}</Typography>
           </Box>
+          {queryResult?.error && (
+            <Typography variant="caption" color="error" sx={{ mt: 0.5, display: 'block' }}>{queryResult.error}</Typography>
+          )}
+          {queryResult?.columns && (
+            <TableContainer component={Paper} variant="outlined" sx={{ mt: 1, maxHeight: 200 }}>
+              <Table size="small" stickyHeader>
+                <TableHead><TableRow>{queryResult.columns.map(c => <TableCell key={c} sx={{ fontWeight: 600, fontSize: '0.65rem', py: 0.5 }}>{c}</TableCell>)}</TableRow></TableHead>
+                <TableBody>{queryResult.rows.slice(0, 50).map((row, i) => (
+                  <TableRow key={i}>{queryResult.columns.map(c => <TableCell key={c} sx={{ fontSize: '0.65rem', py: 0.25 }}>{row[c] ?? ''}</TableCell>)}</TableRow>
+                ))}</TableBody>
+              </Table>
+              {queryResult.row_count > 0 && (
+                <Typography variant="caption" color="text.secondary" sx={{ px: 1, py: 0.5, display: 'block' }}>
+                  {queryResult.row_count} rows in {queryResult.execution_time_ms}ms
+                </Typography>
+              )}
+            </TableContainer>
+          )}
         </Box>
       </Collapse>
 

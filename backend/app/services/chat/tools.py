@@ -295,6 +295,56 @@ def _build_completion_signal(ctx: ToolContext) -> dict:
     retries_used = any(v > 1 for v in ctx.call_counts.values())
     user_corrected = "corrections" in session.completed_stages
 
+    # Derive patterns from session state for LearnedPatternsWidget (widget 9)
+    patterns: list[dict] = []
+    pid = 0
+
+    if "map" in session.completed_stages and not retries_used:
+        pid += 1
+        patterns.append({"id": f"p{pid}", "name": "Auto-mapping succeeded",
+                         "description": "All tokens mapped automatically without retries."})
+
+    tdir = Path(session.template_dir) if session.template_dir else None
+    if tdir:
+        try:
+            mapping_path = tdir / "mapping_pdf_labels.json"
+            if mapping_path.exists():
+                mdata = json.loads(mapping_path.read_text())
+                has_reshape = any(
+                    isinstance(e, dict) and str(e.get("mapping", "")).startswith("RESHAPE:")
+                    for e in mdata
+                )
+                has_computed = any(
+                    isinstance(e, dict) and str(e.get("mapping", "")).startswith("COMPUTED:")
+                    for e in mdata
+                )
+                if has_reshape:
+                    pid += 1
+                    patterns.append({"id": f"p{pid}", "name": "Wide-format detected",
+                                     "description": "Report uses MELT/reshape to pivot wide columns into rows."})
+                if has_computed:
+                    pid += 1
+                    patterns.append({"id": f"p{pid}", "name": "Computed fields used",
+                                     "description": "Some fields are calculated from other columns."})
+        except Exception:
+            pass
+
+        try:
+            contract_path = tdir / "contract.json"
+            if contract_path.exists():
+                cdata = json.loads(contract_path.read_text())
+                if cdata.get("join", {}).get("parent_table"):
+                    pid += 1
+                    patterns.append({"id": f"p{pid}", "name": "Multi-table join",
+                                     "description": "Data sourced from multiple joined database tables."})
+        except Exception:
+            pass
+
+    if user_corrected:
+        pid += 1
+        patterns.append({"id": f"p{pid}", "name": "User corrections applied",
+                         "description": "Manual adjustments were made to mappings or rules."})
+
     if (session.pipeline_state.value in ("validated", "ready")
             and "validate" in session.completed_stages):
         return {
@@ -303,12 +353,14 @@ def _build_completion_signal(ctx: ToolContext) -> dict:
             "no_retries": not retries_used,
             "no_user_corrections": not user_corrected,
             "clean_run": not retries_used and not user_corrected,
+            "patterns": patterns,
         }
     return {
         "valid": False,
         "reason": f"ended_at_{session.pipeline_state.value}",
         "retries_used": retries_used,
         "user_corrected": user_corrected,
+        "patterns": patterns,
     }
 
 
@@ -553,6 +605,93 @@ def _post_process_contract(tdir: Path, mapping: dict[str, str], expansions: dict
         for name, expr in contract.get("totals_math", contract.get("totals", {})).items():
             if isinstance(expr, dict):
                 _fix_computed_refs(expr, reshape_source_to_alias)
+
+        # ── 5. Derive `fields` dict for LogicTab widgets (4a, 4c, 5a, 5c, D3, D7) ──
+        # Each field gets {source, transform, aggregate, format, computed} so
+        # RuleCard, TransformPipelineView, MermaidFlowView, LineageView can render.
+        contract_mapping = contract.get("mapping", {})
+        formatters = contract.get("formatters", {})
+        row_computed = contract.get("row_computed", {})
+        totals_math_d = contract.get("totals_math", contract.get("totals", {}))
+        all_tokens: set[str] = set()
+        tokens_obj = contract.get("tokens", {})
+        if isinstance(tokens_obj, dict):
+            for k in ("scalars", "row_tokens", "totals"):
+                for t in tokens_obj.get(k, []):
+                    all_tokens.add(t)
+        # Fallback: collect from mapping keys if tokens dict is empty
+        if not all_tokens:
+            all_tokens = set(contract_mapping.keys()) | set(mapping.keys())
+
+        fields: dict[str, dict] = {}
+        for token_name in all_tokens:
+            field: dict[str, Any] = {}
+            # Source — from contract mapping or user mapping
+            src = contract_mapping.get(token_name) or mapping.get(token_name, "")
+            if src and not src.startswith(("COMPUTED", "SUM:", "RESHAPE", "PARAM:", "LITERAL", "LATER_SELECTED")):
+                field["source"] = src
+            # Format
+            fmt = formatters.get(token_name, "")
+            if fmt:
+                field["format"] = fmt
+            # Computed (row-level)
+            comp = row_computed.get(token_name)
+            if comp:
+                field["computed"] = json.dumps(comp) if isinstance(comp, dict) else str(comp)
+            # Aggregate (totals)
+            tot = totals_math_d.get(token_name)
+            if isinstance(tot, dict):
+                field["aggregate"] = tot.get("op", "SUM").upper()
+                if tot.get("column"):
+                    field["source"] = field.get("source") or tot["column"]
+            # Source from user mapping directives (COMPUTED:, SUM:)
+            user_src = mapping.get(token_name, "")
+            if user_src.startswith("COMPUTED:") and "computed" not in field:
+                field["computed"] = user_src.split(":", 1)[1]
+            elif user_src.startswith("SUM:") and "aggregate" not in field:
+                field["aggregate"] = "SUM"
+                field["source"] = field.get("source") or user_src.split(":", 1)[1]
+
+            if field:  # Only add if we have at least one attribute
+                fields[token_name] = field
+
+        if fields:
+            contract["fields"] = fields
+            modified = True
+            logger.info(f"contract_fields_derived: {len(fields)} fields")
+
+        # ── 6. Derive `joins` array for JoinGraphView (5b, D5) ──
+        # Frontend expects [{from, to, type, cardinality}] but contract has
+        # single `join` object {parent_table, parent_key, child_table, child_key}.
+        join_obj = contract.get("join")
+        if isinstance(join_obj, dict) and join_obj.get("parent_table"):
+            contract["joins"] = [{
+                "from": f"{join_obj['parent_table']}.{join_obj.get('parent_key', '')}",
+                "to": f"{join_obj.get('child_table', '')}.{join_obj.get('child_key', '')}",
+                "type": join_obj.get("type", "LEFT JOIN"),
+                "cardinality": join_obj.get("cardinality", "1:N"),
+            }]
+            modified = True
+            logger.info("contract_joins_derived")
+
+        # ── 7. Derive `constraints` array for json-rules-engine (6b, 6c, D9) ──
+        constraints: list[dict] = []
+        for token_name, f in fields.items():
+            if f.get("source"):
+                constraints.append({
+                    "field": token_name, "operator": "notNull",
+                    "message": f"{token_name} must not be NULL", "severity": "error",
+                })
+            fmt_str = f.get("format", "")
+            if fmt_str and "number" in fmt_str.lower():
+                constraints.append({
+                    "field": token_name, "operator": "isNumeric",
+                    "message": f"{token_name} must be numeric", "severity": "warning",
+                })
+        if constraints:
+            contract["constraints"] = constraints
+            modified = True
+            logger.info(f"contract_constraints_derived: {len(constraints)} rules")
 
         if modified:
             contract_path.write_text(json.dumps(contract, indent=2, ensure_ascii=False))
@@ -1695,6 +1834,45 @@ async def tool_validate_pipeline(
             "issues": result_dict.get("issues", []),
             "summary": result_dict.get("summary", {}),
         }
+
+        # Enrich issues for frontend widgets (7a panel jump, 7b Quick Fix/Manual,
+        # 7c optimization context, 4b per-rule status, 6b/6c constraint display)
+        _CATEGORY_PANEL = {
+            "token_match": "mappings", "unresolved": "mappings", "column_exists": "mappings",
+            "computed_ref": "logic", "join_valid": "logic", "join_failed": "logic",
+            "row_estimate": "preview", "dry_run": "preview", "visual": "preview",
+            "template": "template", "html": "template",
+        }
+        _AUTOFIXABLE_CATEGORIES = {"token_match", "unresolved", "column_exists", "computed_ref"}
+
+        for issue in val_result["issues"]:
+            # panel: where to jump when user clicks "View" in ErrorsTab
+            if not issue.get("panel"):
+                if issue.get("token"):
+                    issue["panel"] = "mappings"
+                else:
+                    issue["panel"] = _CATEGORY_PANEL.get(issue.get("category", ""), "errors")
+
+            # explanation: collapsible "Why?" section in ErrorsTab
+            if not issue.get("explanation"):
+                detail = issue.get("detail") or ""
+                hint = issue.get("fix_hint") or ""
+                issue["explanation"] = detail if detail else (
+                    f"Flagged during {issue.get('category', 'validation')} checks. {hint}"
+                ).strip()
+
+            # autoFixable: Quick Fix chip vs Manual chip in ErrorsTab (7b)
+            if "autoFixable" not in issue:
+                fix_candidates = issue.get("fix_candidates") or []
+                issue["autoFixable"] = (
+                    issue.get("category", "") in _AUTOFIXABLE_CATEGORIES
+                    or len(fix_candidates) == 1
+                )
+
+            # Rename fix_hint → fix for frontend compat (ErrorsTab reads issue.fix)
+            if issue.get("fix_hint") and not issue.get("fix"):
+                issue["fix"] = issue["fix_hint"]
+
         try:
             (tdir / "validation_result.json").write_text(
                 json.dumps(val_result, default=str), encoding="utf-8"

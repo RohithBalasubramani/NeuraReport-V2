@@ -26,7 +26,7 @@ _TOKEN_RE = re.compile(r"\{\{?\s*([A-Za-z0-9_\-.]+)\s*\}\}?")
 _PANEL_AVAILABILITY: dict[str, list[str]] = {
     "empty": [],
     "verifying": ["template"],
-    "html_ready": ["template"],
+    "html_ready": ["template", "data"],
     "mapping": ["template", "data"],
     "mapped": ["template", "data", "mappings"],
     "approving": ["template", "data", "mappings"],
@@ -105,10 +105,48 @@ def build_hydration_payload(session) -> dict:
     if mapping_raw and isinstance(mapping_raw, dict):
         mapping_dict = mapping_raw.get("mapping", mapping_raw)
         meta = mapping_raw.get("meta", {})
+        # Read persisted fields first (written by _mapping_preview_pipeline),
+        # fall back to meta, then to heuristic for old sessions.
+        confidence = mapping_raw.get("confidence") or meta.get("confidence", {})
+        candidates = mapping_raw.get("candidates") or meta.get("candidates", {})
+        confidence_reason = mapping_raw.get("confidence_reason", {})
+
+        if not confidence:
+            # Heuristic fallback for sessions created before persistence was added
+            hints = meta.get("hints", {})
+            for token, col in mapping_dict.items():
+                if not isinstance(col, str):
+                    continue
+                if col == "UNRESOLVED":
+                    confidence[token] = 0.0
+                    confidence_reason[token] = "unresolved"
+                elif col.startswith(("PARAM:", "LITERAL")) or col == "LATER_SELECTED":
+                    confidence[token] = 1.0
+                    confidence_reason[token] = "parameter"
+                elif col.startswith(("COMPUTED", "SUM:", "RESHAPE")):
+                    confidence[token] = 0.8
+                    confidence_reason[token] = "computed"
+                elif "." in col:
+                    col_name = col.split(".")[-1].lower()
+                    tok_clean = token.replace("row_", "").replace("total_", "").lower()
+                    if tok_clean in col_name or col_name in tok_clean:
+                        confidence[token] = 0.9
+                        confidence_reason[token] = "name_match"
+                    else:
+                        confidence[token] = 0.6
+                        confidence_reason[token] = "type_match"
+
+            if not candidates and hints:
+                for token, hint in hints.items():
+                    cols = [ref.replace("columns:", "") for ref in hint.get("over", []) if isinstance(ref, str) and ref.startswith("columns:")]
+                    if cols:
+                        candidates[token] = cols
+
         ar["mapping"] = {
             "mapping": mapping_dict,
-            "confidence": meta.get("confidence", {}),
-            "candidates": meta.get("candidates", {}),
+            "confidence": confidence,
+            "candidates": candidates,
+            "confidence_reason": confidence_reason,
             "token_samples": mapping_raw.get("token_samples", {}),
             "status": "mapped",
         }
@@ -142,6 +180,8 @@ def build_hydration_payload(session) -> dict:
         # The backend stores status/passed but not 'result', so we map it.
         if validation_data.get("passed") or validation_data.get("status") == "passed":
             validation_data["result"] = "pass"
+        elif not validation_data.get("result"):
+            validation_data["result"] = "fail"
         ar["validation"] = validation_data
 
     # ── 5. Generation / Dry Run ──────────────────────────────────────
@@ -187,13 +227,70 @@ def build_hydration_payload(session) -> dict:
         if cv:
             payload["constraint_violations"] = cv
 
-    # ── 8. Available panels ──────────────────────────────────────────
-    payload["panel"] = {
-        "available": _PANEL_AVAILABILITY.get(state, []),
-        "show": None,
-    }
+    # ── 7b. Temporal analysis (detailed gap/spike data from daemon) ──
+    temporal_data = {}
+    cache_dir = tdir / "widget_cache"
+    if cache_dir.exists():
+        for tf in cache_dir.glob("temporal_*.json"):
+            td = _read_json(tf)
+            if td:
+                temporal_data[tf.stem] = td
+    if temporal_data:
+        payload["temporal_data"] = temporal_data
 
-    # ── 9. Template ID (from directory name) ─────────────────────────
+    # ── 7c. Custom constraint rules ──────────────────────────────────
+    cc = _read_json(tdir / "custom_constraints.json")
+    if cc:
+        payload["custom_constraint_rules"] = cc
+
+    # ── 8. Available panels (data-aware gating) ────────────────────
+    #
+    # Logic: the _PANEL_AVAILABILITY dict is the baseline (state-driven).
+    # We refine it for EARLY states only, where the state might be reached
+    # before the required data actually exists.  For LATE states we trust
+    # the state machine — if the pipeline reached "validated", the data
+    # must be there (you can't transition without it).
+    #
+    _LATE_STATES = {"validated", "ready", "generating"}
+    base_panels = list(_PANEL_AVAILABILITY.get(state, []))
+
+    # "data" panel: useless without a DB connection.  Remove only at early
+    # states (html_ready/mapping) where connection might not be set yet.
+    # At mapped+ the connection is guaranteed (mapping requires it).
+    if "data" in base_panels and not session.connection_id:
+        if state not in {"mapped", "approving", "approved", "correcting",
+                         "building_assets", "validating"} | _LATE_STATES:
+            base_panels = [p for p in base_panels if p != "data"]
+
+    # "errors" panel: only hide if we're at an early state where validation
+    # hasn't run AND no error artifacts exist yet.  At validated+ always show.
+    if "errors" in base_panels and state not in _LATE_STATES:
+        has_errors_data = (
+            (tdir / "validation_result.json").exists()
+            or (tdir / "constraint_violations.json").exists()
+        )
+        if not has_errors_data:
+            base_panels = [p for p in base_panels if p != "errors"]
+
+    # "preview" panel: only hide if dry_run hasn't run AND we're before
+    # validated.  At validated+ the dry_run must have succeeded.
+    if "preview" in base_panels and state not in _LATE_STATES:
+        if not (tdir / "dry_run_result.json").exists():
+            base_panels = [p for p in base_panels if p != "preview"]
+
+    payload["panel"] = {"available": base_panels, "show": None}
+
+    # ── 9. Learning signal ────────────────────────────────────────────
+    ls = _read_json(tdir / "learning_signal.json")
+    if ls:
+        payload["learning_signal"] = ls
+
+    # ── 10. Template ID (from directory name) ────────────────────────
     payload["template_id"] = tdir.name
+
+    # ── 11. Pipeline history (for D12 action replay) ─────────────────
+    hist = _read_json(tdir / "pipeline_history.json")
+    if hist and isinstance(hist, list):
+        payload["action_result"]["history"] = hist[-30:]
 
     return payload

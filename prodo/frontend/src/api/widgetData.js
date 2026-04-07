@@ -53,3 +53,19 @@ export const fetchPerformance = (sessionId) =>
 /** S7 — Validation issues + constraint violations */
 export const fetchProblems = (sessionId) =>
   get('/problems', { session_id: sessionId })
+
+/** 3b — Execute a SELECT query against the session's DB */
+export const executeQuery = (sessionId, sql, limit = 100) =>
+  post('/query', { session_id: sessionId, sql, limit })
+
+/** 6c — Read persisted custom constraint rules */
+export const fetchConstraints = (sessionId) =>
+  get('/constraints', { session_id: sessionId })
+
+/** 6c — Persist custom constraint rules */
+export const saveConstraints = (sessionId, rules) =>
+  post('/constraints', { session_id: sessionId, rules })
+
+/** D12 — Persist pipeline edit history */
+export const saveHistory = (sessionId, history) =>
+  post('/history', { session_id: sessionId, history })

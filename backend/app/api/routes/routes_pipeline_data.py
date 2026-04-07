@@ -18,6 +18,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -300,6 +301,114 @@ async def widget_tags_post(payload: TagsPayload):
     tmp.rename(tags_file)
 
     return {"tags": existing}
+
+
+# ── Endpoint: Query Execution (3b) ─────────────────────────────────
+
+
+class QueryPayload(BaseModel):
+    session_id: str
+    sql: str
+    limit: int = 100
+
+
+_WRITE_KW = re.compile(
+    r"\b(INSERT|UPDATE|DELETE|DROP|ALTER|TRUNCATE|CREATE|REPLACE|ATTACH|DETACH|PRAGMA)\b",
+    re.IGNORECASE,
+)
+
+
+@pipeline_data_router.post("/query")
+async def widget_query(payload: QueryPayload):
+    """Execute a SELECT query against the session's database connection."""
+    session, _tdir = _find_session(payload.session_id)
+    if not session.connection_id:
+        raise HTTPException(400, "No database connection for this session")
+    if _WRITE_KW.search(payload.sql):
+        raise HTTPException(400, "Only SELECT queries are allowed")
+
+    import time
+
+    def _run():
+        loader = _get_loader(session.connection_id)
+        t0 = time.perf_counter()
+        df = loader.sql(payload.sql, limit=payload.limit)
+        elapsed = round((time.perf_counter() - t0) * 1000, 1)
+        columns = list(df.columns)
+        rows = df.head(payload.limit).to_dict(orient="records")
+        return {"columns": columns, "rows": rows, "row_count": len(rows), "execution_time_ms": elapsed}
+
+    try:
+        return await asyncio.to_thread(_run)
+    except Exception as exc:
+        raise HTTPException(400, f"Query failed: {exc}")
+
+
+# ── Endpoint: Custom Constraint Rules (6c) ─────────────────────────
+
+
+@pipeline_data_router.get("/constraints")
+async def widget_constraints_get(session_id: str = Query(...)):
+    """Read persisted custom constraint rules."""
+    _session, tdir = _find_session(session_id)
+    rules_file = tdir / "custom_constraints.json"
+    if rules_file.exists():
+        try:
+            return {"rules": json.loads(rules_file.read_text(encoding="utf-8"))}
+        except Exception:
+            pass
+    return {"rules": []}
+
+
+class ConstraintsPayload(BaseModel):
+    session_id: str
+    rules: list[dict]
+
+
+@pipeline_data_router.post("/constraints")
+async def widget_constraints_post(payload: ConstraintsPayload):
+    """Persist custom constraint rules to session directory."""
+    _session, tdir = _find_session(payload.session_id)
+    rules_file = tdir / "custom_constraints.json"
+    tmp = rules_file.with_suffix(".tmp")
+    tmp.write_text(json.dumps(payload.rules, ensure_ascii=False, default=str))
+    tmp.rename(rules_file)
+    return {"rules": payload.rules}
+
+
+# ── Endpoint: Pipeline History (D12) ───────────────────────────────
+
+
+@pipeline_data_router.get("/history")
+async def widget_history_get(session_id: str = Query(...)):
+    """Read persisted pipeline edit history."""
+    _session, tdir = _find_session(session_id)
+    hist_file = tdir / "pipeline_history.json"
+    if hist_file.exists():
+        try:
+            data = json.loads(hist_file.read_text(encoding="utf-8"))
+            if isinstance(data, list):
+                return {"history": data[-30:]}
+        except Exception:
+            pass
+    return {"history": []}
+
+
+class HistoryPayload(BaseModel):
+    session_id: str
+    history: list[dict]
+
+
+@pipeline_data_router.post("/history")
+async def widget_history_post(payload: HistoryPayload):
+    """Persist pipeline edit history (last 30 entries)."""
+    _session, tdir = _find_session(payload.session_id)
+    hist_file = tdir / "pipeline_history.json"
+    entries = payload.history[-30:]
+    tmp = hist_file.with_suffix(".tmp")
+    tmp.write_text(json.dumps(entries, ensure_ascii=False, default=str))
+    tmp.rename(hist_file)
+    return {"history": entries}
 
 
 # ── Endpoint 5: Performance Metrics (D10) ────────────────────────────

@@ -4501,6 +4501,37 @@ def _mapping_preview_pipeline(
         write_text_atomic(html_path, html_applied, encoding="utf-8", step="mapping_preview_html")
         html_post_sha = sha256_text(html_applied)
 
+        # Compute confidence, candidates, token_signatures from LLM result
+        # (moved here so they're persisted in mapping_step3.json for widget hydration)
+        _confidence: dict[str, float] = {}
+        _confidence_reason: dict[str, str] = {}
+        _candidates: dict[str, list[str]] = {}
+        _meta = result.meta or {}
+        _hints = _meta.get("hints", {})
+
+        for _tok, _col in result.mapping.items():
+            if _col == "UNRESOLVED":
+                _confidence[_tok] = 0.0
+                _confidence_reason[_tok] = "unresolved"
+                _hint = _hints.get(_tok, {})
+                _candidates[_tok] = _hint.get("columns", [])
+            elif _col.startswith("PARAM:") or _col == "LATER_SELECTED":
+                _confidence[_tok] = 1.0
+                _confidence_reason[_tok] = "parameter"
+            else:
+                _col_name = _col.split(".")[-1].lower() if "." in _col else _col.lower()
+                _tok_clean = _tok.replace("row_", "").replace("total_", "").lower()
+                if _tok_clean in _col_name or _col_name in _tok_clean:
+                    _confidence[_tok] = 0.95
+                    _confidence_reason[_tok] = "name_match"
+                else:
+                    _confidence[_tok] = 0.7
+                    _confidence_reason[_tok] = "type_match"
+
+        _token_sigs: dict[str, str] = {}
+        for _tok in result.mapping:
+            _token_sigs[_tok] = hashlib.sha256(_tok.encode("utf-8")).hexdigest()[:12]
+
         mapping_doc = {
             "mapping": result.mapping,
             "meta": result.meta,
@@ -4518,6 +4549,10 @@ def _mapping_preview_pipeline(
             "raw_payload": result.raw_payload,
             "constant_replacements": result.constant_replacements,
             "token_samples": result.token_samples,
+            "confidence": _confidence,
+            "confidence_reason": _confidence_reason,
+            "candidates": _candidates,
+            "token_signatures": _token_sigs,
         }
         write_json_atomic(mapping_path, mapping_doc, ensure_ascii=False, indent=2, step="mapping_preview_mapping")
         write_json_atomic(
@@ -4547,35 +4582,12 @@ def _mapping_preview_pipeline(
     errors = approval_errors(result.mapping)
     constant_replacements = result.constant_replacements
 
-    # Build confidence, candidates, and token_signatures from LLM meta
-    confidence: dict[str, float] = {}
-    confidence_reason: dict[str, str] = {}
-    candidates: dict[str, list[str]] = {}
-    meta = result.meta or {}
-    hints = meta.get("hints", {})
-
-    for token, col in result.mapping.items():
-        if col == "UNRESOLVED":
-            confidence[token] = 0.0
-            confidence_reason[token] = "unresolved"
-            hint = hints.get(token, {})
-            candidates[token] = hint.get("columns", [])
-        elif col.startswith("PARAM:") or col == "LATER_SELECTED":
-            confidence[token] = 1.0
-            confidence_reason[token] = "parameter"
-        else:
-            col_name = col.split(".")[-1].lower() if "." in col else col.lower()
-            tok_clean = token.replace("row_", "").replace("total_", "").lower()
-            if tok_clean in col_name or col_name in tok_clean:
-                confidence[token] = 0.95
-                confidence_reason[token] = "name_match"
-            else:
-                confidence[token] = 0.7
-                confidence_reason[token] = "type_match"
-
-    token_signatures: dict[str, str] = {}
-    for token in result.mapping:
-        token_signatures[token] = hashlib.sha256(token.encode("utf-8")).hexdigest()[:12]
+    # Reuse confidence/candidates/token_signatures computed inside the lock block
+    # (already persisted to mapping_step3.json above)
+    confidence = _confidence
+    confidence_reason = _confidence_reason
+    candidates = _candidates
+    token_signatures = _token_sigs
 
     record = state_store_ref.get_template_record(template_id) or {}
     template_name = record.get("name") or f"Template {template_id[:8]}"

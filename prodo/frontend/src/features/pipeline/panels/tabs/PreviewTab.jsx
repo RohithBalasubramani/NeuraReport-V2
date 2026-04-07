@@ -31,7 +31,7 @@ import { Engine } from 'json-rules-engine'
 import clsx from 'clsx'
 import usePipelineStore from '@/stores/pipeline'
 import GenerationPanel from '../GenerationPanel'
-import { fetchBatches } from '@/api/widgetData'
+import { fetchBatches, fetchConstraints, saveConstraints } from '@/api/widgetData'
 
 const ReactDiffViewer = lazy(() => import('react-diff-viewer-continued'))
 
@@ -162,6 +162,7 @@ async function runConstraints(rows, rules) {
 function ConstraintRuleEditor({ allRows, onRulesChanged }) {
   const customRules = usePipelineStore(s => s.customConstraintRules)
   const setCustomConstraintRules = usePipelineStore(s => s.setCustomConstraintRules)
+  const sessionId = usePipelineStore(s => s.sessionId)
   const [showForm, setShowForm] = useState(false)
   const [field, setField] = useState('')
   const [operator, setOperator] = useState('equal')
@@ -169,12 +170,21 @@ function ConstraintRuleEditor({ allRows, onRulesChanged }) {
   const [severity, setSeverity] = useState('warning')
   const fields = Object.keys(allRows[0] || {})
 
+  // Load persisted rules on mount
+  useEffect(() => {
+    if (!sessionId) return
+    fetchConstraints(sessionId)
+      .then(r => { if (r?.rules?.length) setCustomConstraintRules(r.rules) })
+      .catch(() => {})
+  }, [sessionId]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSave = () => {
     if (!field) return
     const updated = [...(customRules || []), { field, operator, value, severity }]
     setCustomConstraintRules(updated)
     setShowForm(false); setField(''); setValue('')
     onRulesChanged?.(updated)
+    if (sessionId) saveConstraints(sessionId, updated).catch(() => {})
   }
 
   return (

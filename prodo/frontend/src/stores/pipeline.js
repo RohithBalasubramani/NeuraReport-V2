@@ -117,6 +117,21 @@ function tokenColor(signature) {
   return TOKEN_COLORS[parseInt(signature, 16) % TOKEN_COLORS.length]
 }
 
+// ─── Debounced history persistence ───
+let _historyTimer = null
+function _persistHistory(getState) {
+  clearTimeout(_historyTimer)
+  _historyTimer = setTimeout(() => {
+    const { sessionId, pipelineState } = getState()
+    if (!sessionId || !pipelineState.history.length) return
+    fetch('/api/v1/pipeline/data/history', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, history: pipelineState.history }),
+    }).catch(() => {})
+  }, 2000)
+}
+
 // ─── Store ───
 
 const usePipelineStore = create((set, get) => ({
@@ -321,6 +336,7 @@ const usePipelineStore = create((set, get) => ({
         if (templateVersions.length > 10) templateVersions.shift()
       }
 
+      _persistHistory(get)
       return { pipelineState: { ...ps, data: d, history }, templateVersions }
     }),
 
@@ -337,6 +353,7 @@ const usePipelineStore = create((set, get) => ({
       d.validation = {}
       d.generation = { ...d.generation, previewApproved: false }
 
+      _persistHistory(get)
       return { pipelineState: { ...ps, data: d, history } }
     }),
 
@@ -571,7 +588,9 @@ const usePipelineStore = create((set, get) => ({
             if (r.contract) d.contract = { ...d.contract, ...r.contract }
             if (r.validation) d.validation = { ...d.validation, ...r.validation }
             if (r.generation) d.generation = { ...d.generation, ...r.generation }
-            return { pipelineState: { ...state.pipelineState, data: d } }
+            // Restore history if persisted (D12 action replay)
+            const history = r.history?.length ? r.history : state.pipelineState.history
+            return { pipelineState: { ...state.pipelineState, data: d, history } }
           })
           if (event.template_id) set({ templateId: event.template_id })
           if (event.connection_id) set({ connectionId: event.connection_id })
@@ -581,6 +600,9 @@ const usePipelineStore = create((set, get) => ({
           if (event.constraint_violations) store.setConstraintViolations(event.constraint_violations)
           if (event.panel?.available) store.setAvailablePanels(event.panel.available)
           if (event.token_color_map) set({ tokenColorMap: event.token_color_map })
+          if (event.learning_signal) store.setLearningSignal(event.learning_signal)
+          if (event.custom_constraint_rules) store.setCustomConstraintRules(event.custom_constraint_rules)
+          if (event.temporal_data) store.setColumnStats({ ...store.columnStats, _temporalCache: event.temporal_data })
           // Populate errors from validation issues (used by ErrorsTab, PipelineStrip)
           if (r.validation?.issues) store.setErrors(r.validation.issues)
           // Note: pipeline phase is derived by getPhase() from pipelineState.data,

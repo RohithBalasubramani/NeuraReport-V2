@@ -5,7 +5,7 @@ Includes implementation status for backend infrastructure.
 
 ---
 
-## Pure Frontend (28 widgets) — BACKEND: HYDRATION DAEMON ✅ PLANNED
+## Pure Frontend (28 widgets) — BACKEND: HYDRATION DAEMON ✅ IMPLEMENTED
 
 These work with data already in the Zustand store. The store starts **empty** on page load.
 Backend solution: **Hydration endpoint** (`GET /api/v1/pipeline/{session_id}/hydrate`) + **HydrationDaemon** background service that pre-builds a full store payload from cached session artifacts.
@@ -22,7 +22,11 @@ Backend solution: **Hydration endpoint** (`GET /api/v1/pipeline/{session_id}/hyd
 | `column_stats.json` | `columnStats` | `tool_get_column_stats` |
 | `performance_metrics.json` | `performanceMetrics` | `HermesBridge.save_performance_metrics()` |
 | `constraint_violations.json` | `constraintViolations` | `tool_validate_pipeline` |
-| `column_tags.json` | `columnTags` | NEW: `POST /pipeline/data/tags` |
+| `column_tags.json` | `columnTags` | `POST /pipeline/data/tags` |
+| `custom_constraints.json` | `customConstraintRules` | `POST /pipeline/data/constraints` |
+| `pipeline_history.json` | `pipelineState.history` | `POST /pipeline/data/history` (debounced) |
+| `learning_signal.json` | `learningSignal` | Hermes agent learning signal |
+| `widget_cache/temporal_*.json` | `temporalData` (gap/spike analysis) | WidgetDataDaemon |
 | `_build_status_view()` | `statusView` (cards, problems, example, next_step) | Computed from artifacts |
 
 ### Session isolation verified:
@@ -33,67 +37,75 @@ Backend solution: **Hydration endpoint** (`GET /api/v1/pipeline/{session_id}/hyd
 
 ### Widget list:
 
-| # | Widget | Store fields consumed | Behavior when empty |
-|---|--------|---|---|
-| 1a | Rendered report preview | `template.html` | Shows "Upload a file to get started" |
-| 1b | Section boundaries | `template.html` | Hidden |
-| 1c | Field placeholders highlighted | `template.html`, `template.tokens` | Hidden |
-| 1d | Grid/spacing overlay | `template.html` | Hidden |
-| 1e | Typography inspector | DOM element (no store) | Disabled until element clicked |
-| 1g | Toggle raw/filled values | `template.html`, `mapping.token_samples` | Shows "labels" mode only |
-| 8a | Version/diff layer | `templateVersions` (auto-tracked, not persisted) | Shows "Need ≥2 versions" |
-| 8b | Output variance | `templateVersions`, `validation` | Shows placeholder |
-| 10 | Quick actions | None (context menu) | Always works |
-| D8 | Output variance check | `validation`, `templateVersions` | Shows placeholder |
-| D9 | Constraint violations | `constraintViolations`, `contract.constraints` | Empty (client-side engine) |
-| D11 | Template density map | `template.html` | Returns empty grid |
-| D12 | User action replay | `pipelineState.history` (auto-tracked, not persisted) | Hidden if <2 entries |
-| S1 | Pipeline strip | `getPipelineSteps()` (derived) | Always renders (all "pending") |
-| S4 | Data flow (layman) | Same as S1 | Always renders |
-| S9 | Control buttons | `availablePanels` | Shows minimal buttons |
-| V1 | Living pipeline strip | Same as S1 + animations | Always renders |
-| V2 | Field connection animation | `template.tokens`, `mapping.mapping`, `mapping.confidence` | Returns null |
-| V3 | Before→after morph | `stages` prop (parent-driven) | Returns null |
-| V4 | Data injection | `template.tokens`, `mapping.mapping`, `mapping.token_samples` | Returns null |
-| V5 | Error as breakage | `statusView.problems` | Returns null |
-| V6 | Confidence as opacity | `mapping.confidence` | Default 0.5 opacity |
-| V7 | Row flow compression | `counts` prop (parent-driven) | Returns null |
-| V8 | Data source glow | `highlightedField` | No glow (no highlighted field) |
-| V9 | Timeline scrubber | `pipelineState.history` | Hidden if <2 entries |
-| V10 | Mini reality snapshot | `statusView.example.rows` | Returns null |
-| V11 | Interaction principle | None (wiring only) | Always works |
-| S5 | Confidence/certainty | `mapping.confidence` | Default opacity |
+| # | Widget | Store fields consumed | Behavior when empty | Backend status |
+|---|--------|---|---|---|
+| 1a | Rendered report preview | `template.html` | Shows "Upload a file to get started" | ✅ Hydrated |
+| 1b | Section boundaries | `template.html` | Hidden | ✅ Hydrated |
+| 1c | Field placeholders highlighted | `template.html`, `template.tokens` | Hidden | ✅ Hydrated |
+| 1d | Grid/spacing overlay | `template.html` | Hidden | ✅ CSS only |
+| 1e | Typography inspector | DOM element (no store) | Disabled until element clicked | ✅ DOM only |
+| 1g | Toggle raw/filled values | `template.html`, `mapping.token_samples` | Shows "labels" mode only | ✅ Hydrated |
+| 8a | Version/diff layer | `templateVersions` (auto-tracked) | Shows "Need ≥2 versions" | ✅ Frontend only |
+| 8b | Output variance | `templateVersions`, `validation` | Shows placeholder | ✅ Hydrated |
+| 10 | Quick actions | None (context menu) | Always works | ✅ No data needed |
+| D8 | Output variance check | `validation`, `templateVersions` | Shows placeholder | ✅ Hydrated |
+| D9 | Constraint violations | `constraintViolations`, `contract.constraints` | Empty (client-side engine) | ✅ Hydrated |
+| D11 | Template density map | `template.html` | Returns empty grid | ✅ Hydrated |
+| D12 | User action replay | `pipelineState.history` | Hidden if <2 entries | ✅ Persisted to `pipeline_history.json` |
+| S1 | Pipeline strip | `getPipelineSteps()` (derived) | Always renders (all "pending") | ✅ Derived |
+| S4 | Data flow (layman) | Same as S1 | Always renders | ✅ Derived |
+| S9 | Control buttons | `availablePanels` | Shows minimal buttons | ✅ Hydrated |
+| V1 | Living pipeline strip | Same as S1 + animations | Always renders | ✅ Derived |
+| V2 | Field connection animation | `template.tokens`, `mapping.mapping`, `mapping.confidence` | Returns null | ✅ Hydrated |
+| V3 | Before→after morph | `stages` prop (parent-driven) | Returns null | ✅ Hydrated |
+| V4 | Data injection | `template.tokens`, `mapping.mapping`, `mapping.token_samples` | Returns null | ✅ Hydrated |
+| V5 | Error as breakage | `statusView.problems` | Returns null | ✅ Hydrated |
+| V6 | Confidence as opacity | `mapping.confidence` | Default 0.5 opacity | ✅ Hydrated |
+| V7 | Row flow compression | `counts` prop (parent-driven) | Returns null | ✅ Hydrated |
+| V8 | Data source glow | `highlightedField` | No glow (no highlighted field) | ✅ Frontend only |
+| V9 | Timeline scrubber | `pipelineState.history` | Hidden if <2 entries | ✅ Persisted |
+| V10 | Mini reality snapshot | `statusView.example.rows` | Returns null | ✅ Hydrated |
+| V11 | Interaction principle | None (wiring only) | Always works | ✅ No data needed |
+| S5 | Confidence/certainty | `mapping.confidence` | Default opacity | ✅ Hydrated |
 
 ### Backend implementation:
-- `GET /api/v1/pipeline/{session_id}/hydrate` — returns ALL artifact data in one response
-- `HydrationDaemon` (asyncio background task) — rebuilds `hydration_cache.json` on every session state transition
-- Frontend calls `/hydrate` on page load → `store.processEvent(hydration)` populates entire store instantly
-- File: `backend/app/services/hydration_daemon.py` + endpoint in `routes_a.py`
+- `GET /api/v1/pipeline/{session_id}/hydrate` — returns ALL artifact data in one response ✅
+- `HydrationDaemon` (asyncio background task) — rebuilds `hydration_cache.json` on every session state transition ✅
+- Frontend calls `/hydrate` on page load → `store.processEvent(hydration)` populates entire store instantly ✅
+- File: `backend/app/services/hydration_daemon.py` + `backend/app/services/hydration.py` + endpoint in `routes_a.py`
 
 ---
 
-## Needs Backend but NOT LLM (10 widgets) — BACKEND: REST + DAEMON ✅ PLANNED
+## Needs Backend but NOT LLM (10 widgets) — BACKEND: REST + DAEMON ✅ IMPLEMENTED
 
 These need the backend to query the database or compute metrics, but no AI reasoning.
 Backend solution: **Dedicated REST endpoints** at `/api/v1/pipeline/data/` + **WidgetDataDaemon** that pre-computes on session transitions.
 
-| # | Widget | Endpoint | Existing backend | Status |
-|---|--------|----------|-----------------|--------|
-| 3a | Database explorer | `GET /connections/{id}/schema` | `get_connection_schema()` legacy_services.py:4789 | ✅ Exists — frontend needs to call it |
-| 3b | Query builder | `POST /nl2sql/execute` | `NL2SQLService.execute_query()` | ✅ Exists — frontend needs to call it |
-| 3c | Column tagging | `GET/POST /pipeline/data/tags` | None | 🔨 New — simple JSON read/write to `column_tags.json` |
-| 3d | Preview in report | `GET /connections/{id}/preview` | `get_connection_table_preview()` legacy_services.py:4871 | ✅ Exists — frontend needs to call it |
-| 6a | Real data preview | `GET /connections/{id}/preview` | Same as 3d | ✅ Exists |
-| 6d | Batch selector | `GET /pipeline/data/batches` | `discover_batches_and_counts()` reports.py | 🔨 New — wraps existing function |
-| D2 | Data quality | `GET /pipeline/data/column-stats` | `DataValidator.get_column_stats()` data_validator.py:215 | 🔨 New — extracts tool logic into REST |
-| D6 | Temporal consistency | `GET /pipeline/data/temporal` | Partial (in column_stats temporal branch) | 🔨 New — gap/spike detection logic |
-| D10 | Performance metrics | `GET /pipeline/data/performance` | Written to `performance_metrics.json` by hermes | 🔨 New — reads artifact file |
-| S7 | Problems | `GET /pipeline/data/problems` | `DataValidator.validate_report_data()` + validator/runner.py | 🔨 New — reads artifacts, computes on-demand |
+| # | Widget | Endpoint | Status |
+|---|--------|----------|--------|
+| 3a | Database explorer | `GET /connections/{id}/schema` | ✅ Exists + frontend wired |
+| 3b | Query builder | `POST /pipeline/data/query` | ✅ Direct SQL execution wired in DataTab |
+| 3c | Column tagging | `GET/POST /pipeline/data/tags` | ✅ Persisted to `column_tags.json` |
+| 3d | Preview in report | `setActivePanel('preview')` | ✅ Store navigation |
+| 6a | Real data preview | `GET /connections/{id}/preview` | ✅ Exists |
+| 6d | Batch selector | `GET /pipeline/data/batches` | ✅ Wraps `discover_batches_and_counts()` |
+| D2 | Data quality | `GET /pipeline/data/column-stats` | ✅ Daemon precomputes on `state:html_ready` + `state:mapped` |
+| D6 | Temporal consistency | `GET /pipeline/data/temporal` | ✅ Gap/spike detection, hydrated + fetched on mount |
+| D10 | Performance metrics | `GET /pipeline/data/performance` | ✅ Reads `performance_metrics.json` |
+| S7 | Problems | `GET /pipeline/data/problems` | ✅ Reads validation + violations, computes on-demand |
+
+### Additional endpoints (persistence for frontend state):
+
+| Endpoint | Widget | Purpose |
+|----------|--------|---------|
+| `GET/POST /pipeline/data/constraints` | 6c | Persist custom constraint rules to `custom_constraints.json` |
+| `GET/POST /pipeline/data/history` | D12 | Persist pipeline edit history to `pipeline_history.json` |
 
 ### Daemon precomputation triggers:
 
 | Session transition | Widgets pre-computed |
 |---|---|
+| `state:html_ready` | D2 (column stats) |
 | `state:mapped` | D2 (column stats), D6 (temporal) |
 | `state:approved` | 6d (batches) |
 | `state:validated` | S7 (problems), D10 (performance) |
@@ -104,41 +116,42 @@ Backend solution: **Dedicated REST endpoints** at `/api/v1/pipeline/data/` + **W
 - Session-isolated: cache lives inside the session's template_dir
 
 ### Backend implementation:
-- File: `backend/app/api/routes/routes_pipeline_data.py` (6 new endpoints)
-- File: `backend/app/services/widget_data_daemon.py` (background precompute)
-- Frontend: `frontend/src/api/widgetData.js` (API client for direct widget fetching)
+- File: `backend/app/api/routes/routes_pipeline_data.py` (12 endpoints total) ✅
+- File: `backend/app/services/widget_data_daemon.py` (background precompute) ✅
+- Frontend: `frontend/src/api/widgetData.js` (API client with 11 functions) ✅
 
 ---
 
-## Needs LLM (23 widgets) — TODO
+## Needs LLM (23 widgets — overlaps with above) — WORKS VIA CHAT PIPELINE
 
 These require the Qwen agent to reason, generate, or decide. Many share the same LLM calls.
+Data arrives via NDJSON `chat_complete` events, and is **persisted as artifacts** so the hydration daemon can serve them on subsequent page loads.
 
-| # | Widget | What the LLM provides |
-|---|--------|---|
-| 1f | Click field → source/type | **Mapping + confidence** — LLM decides which DB column maps to which token |
-| 2a-2e | Full mapping table | **Auto-mapping** — LLM matches tokens to columns, scores confidence, suggests candidates |
-| 4a | Contract logic blocks | **Contract generation** — LLM writes the transformation rules |
-| 4b | Per-rule validation | **Validation** — LLM-generated contract is then validated |
-| 4c | Transformation pipeline | Derived from **LLM contract** |
-| 5a | Data flow graph | Derived from **LLM contract** |
-| 5b | Join relationship graph | **LLM decides join conditions** between tables |
-| 5c | Field lineage trace | Derived from **LLM contract** |
-| 6b | Constraint violations | **LLM-generated constraints** (engine is client-side, but rules come from LLM) |
-| 6c | Constraint rule editor | User adds rules, but **defaults come from LLM contract** |
-| 6e | Toggle raw vs formatted | Needs `token_samples` which come from **LLM mapping** |
-| 7a | Validation panel | **LLM validates** contract against data |
-| 7b | Auto-fix vs manual | **LLM classifies** which issues are auto-fixable |
-| 7c | Optimization suggestions | Heuristic (frontend), but metrics from **LLM pipeline timing** |
-| 9 | Learned patterns | **LLM learning signal** — patterns extracted from user behavior |
-| D1 | Confidence heatmap | **LLM confidence scores** per field |
-| D3 | Transform pipeline view | From **LLM contract** |
-| D5 | Join relationship graph | From **LLM contract joins** |
-| D7 | Field lineage | From **LLM contract** |
-| S2 | What was understood | **LLM status_view.cards** — LLM summarizes what it understood |
-| S3 | What system did | **LLM status_view.actions_taken** |
-| S6 | Live example | **LLM provides example rows** in status_view |
-| S8 | What happens next | **LLM status_view.next_step** |
+| # | Widget | What the LLM provides | Hydrated after first run? |
+|---|--------|---|---|
+| 1f | Click field → source/type | **Mapping + confidence** | ✅ via `mapping_step3.json` |
+| 2a-2e | Full mapping table | **Auto-mapping** | ✅ via `mapping_step3.json` |
+| 4a | Contract logic blocks | **Contract generation** | ✅ via `contract.json` |
+| 4b | Per-rule validation | **Validation** | ✅ via `validation_result.json` |
+| 4c | Transformation pipeline | Derived from **LLM contract** | ✅ via `contract.json` |
+| 5a | Data flow graph | Derived from **LLM contract** | ✅ via `contract.json` |
+| 5b | Join relationship graph | **LLM decides join conditions** | ✅ via `contract.json` |
+| 5c | Field lineage trace | Derived from **LLM contract** | ✅ via `contract.json` |
+| 6b | Constraint violations | **LLM-generated constraints** | ✅ via `constraint_violations.json` |
+| 6c | Constraint rule editor | User adds rules, defaults from LLM | ✅ via `custom_constraints.json` |
+| 6e | Toggle raw vs formatted | `token_samples` from LLM mapping | ✅ via `mapping_step3.json` |
+| 7a | Validation panel | **LLM validates** contract | ✅ via `validation_result.json` |
+| 7b | Auto-fix vs manual | `issue.autoFixable` flag | ✅ via `validation_result.json` |
+| 7c | Optimization suggestions | Metrics from pipeline timing | ✅ via `performance_metrics.json` |
+| 9 | Learned patterns | **LLM learning signal** | ✅ via `learning_signal.json` |
+| D1 | Confidence heatmap | LLM confidence scores | ✅ via `mapping_step3.json` |
+| D3 | Transform pipeline view | From LLM contract | ✅ via `contract.json` |
+| D5 | Join relationship graph | From LLM contract joins | ✅ via `contract.json` |
+| D7 | Field lineage | From LLM contract | ✅ via `contract.json` |
+| S2 | What was understood | `statusView.cards` | ✅ via `_build_status_view()` |
+| S3 | What system did | `statusView.actions_taken` | ✅ via `_build_status_view()` |
+| S6 | Live example | `statusView.example` | ✅ via `_build_status_view()` |
+| S8 | What happens next | `statusView.next_step` | ✅ via `_build_status_view()` |
 
 ---
 
@@ -156,22 +169,21 @@ The 23 LLM-dependent widgets only need **5 distinct LLM actions**:
 
 ---
 
-## Backend Work Priority
+## Implementation Status: 42/42 COMPLETE ✅
 
-### Covered (38 of 42 widgets):
+| Phase | Scope | Widgets | Status |
+|-------|-------|---------|--------|
+| **A** | Hydration daemon + endpoint | 28 pure frontend | ✅ Implemented |
+| **B** | REST endpoints + data daemon | 10 non-LLM backend | ✅ Implemented |
+| **C** | Gap fixes (3b, 6c, D2, D6, D12) | 5 widgets with wiring gaps | ✅ Fixed |
+| **D** | LLM widgets via chat pipeline | 23 LLM-dependent (overlaps) | ✅ Working via chat + hydrated on reload |
 
-| Phase | Scope | Widgets | Files | Status |
-|-------|-------|---------|-------|--------|
-| **A** | Hydration daemon + endpoint | 28 pure frontend | `hydration_daemon.py`, `routes_a.py` (hydrate endpoint), `PipelineChatPage.jsx`, `pipeline.js` | 📋 Planned |
-| **B** | REST endpoints + data daemon | 10 non-LLM backend | `routes_pipeline_data.py`, `widget_data_daemon.py`, `widgetData.js` | 📋 Planned |
-
-### Remaining (23 LLM widgets — separate phase):
-
-1. **Already working**: Status View generation (action 4) — backend already emits `status_view` in `chat_complete`
-2. **Partially working**: Map action (action 1) — auto-mapping exists but needs confidence scores, candidates, token_samples
-3. **Needs implementation**: Contract/Approve (action 2) — contract generation with joins, transforms, field rules
-4. **Needs implementation**: Validate (action 3) — run contract against real data, produce issues list
-5. **Nice-to-have**: Learning Signal (action 5) — pattern extraction from user session history
+### Gap fixes completed:
+- **3b Query builder**: Direct `POST /pipeline/data/query` execution wired in DataTab (was dispatching to parent only)
+- **6c Constraint rules**: Persisted to `custom_constraints.json` via `GET/POST /pipeline/data/constraints` (was Zustand-only)
+- **D2 Data quality**: Daemon triggers on `state:html_ready` + proactive fetch on mount (was sparse after hydration)
+- **D6 Temporal**: Detailed gap/spike data included in hydration payload + fetched on mount (was missing)
+- **D12 History**: Debounce-persisted to `pipeline_history.json` + restored on hydration (was lost on refresh)
 
 ### Session Isolation Model
 
@@ -186,11 +198,14 @@ The 23 LLM-dependent widgets only need **5 distinct LLM actions**:
 │   ├── column_stats.json
 │   ├── performance_metrics.json
 │   ├── constraint_violations.json
-│   ├── column_tags.json               ← NEW (3c column tagging)
-│   ├── hydration_cache.json           ← NEW (pre-built by HydrationDaemon)
-│   └── widget_cache/                  ← NEW (pre-built by WidgetDataDaemon)
+│   ├── column_tags.json               ← 3c column tagging
+│   ├── custom_constraints.json         ← 6c constraint rules
+│   ├── pipeline_history.json           ← D12 edit history
+│   ├── learning_signal.json            ← 9 learned patterns
+│   ├── hydration_cache.json            ← pre-built by HydrationDaemon
+│   └── widget_cache/                   ← pre-built by WidgetDataDaemon
 │       ├── quality_{table}.json
-│       ├── temporal_{table}_{col}.json
+│       ├── temporal_{table}_{col}_month.json
 │       ├── batches.json
 │       └── problems.json
 └── filled-1762928694-38e79e/          ← different session, different directory

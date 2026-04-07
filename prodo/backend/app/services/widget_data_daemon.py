@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Trigger → widgets to precompute
 _TRIGGER_MAP: dict[str, list[str]] = {
+    "state:html_ready": ["quality"],
     "state:mapped": ["quality", "temporal"],
     "state:approved": ["batches"],
     "state:validated": ["problems"],

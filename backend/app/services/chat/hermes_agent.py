@@ -183,7 +183,7 @@ _STATE_LABELS = {
 _PANEL_AVAILABILITY = {
     "empty": [],
     "verifying": ["template"],
-    "html_ready": ["template"],
+    "html_ready": ["template", "data"],
     "mapping": ["template", "data"],
     "mapped": ["template", "data", "mappings"],
     "approving": ["template", "data", "mappings"],
@@ -214,6 +214,8 @@ def _build_status_view(session) -> dict:
         "problems": [],
         "next_step": None,
         "actions": [],
+        "row_counts": None,
+        "transform_stages": [],
     }
 
     if not tdir:
@@ -686,13 +688,40 @@ class HermesAgent:
         completion_signal = _build_completion_signal(ctx)
         extra_fields["learning_signal"] = completion_signal
 
+        # Persist learning_signal for hydration (survives page reload)
+        try:
+            _ls_path = Path(self.session.template_dir) / "learning_signal.json"
+            _ls_path.write_text(json.dumps(completion_signal, ensure_ascii=False, default=str))
+        except Exception:
+            logger.debug("learning_signal_persist_failed", exc_info=True)
+
         # ── 17b. Save performance metrics from tool timings ──
         bridge.save_performance_metrics()
+
+        # ── 17c. Build inline action_result from artifacts ──
+        # The frontend processEvent checks action-specific handlers (verify, map,
+        # approve, validate, discover) to populate pipelineState.data.
+        # Hermes sends action="agent" which skips those handlers.
+        # Solution: use action="hydrate" so the frontend bulk-restores all data
+        # from artifacts, same as page-load hydration.
+        try:
+            from backend.app.services.hydration import build_hydration_payload
+            _hydration = build_hydration_payload(self.session)
+            # Extract the parts processEvent needs for hydrate action
+            extra_fields["action_result"] = _hydration.get("action_result", {})
+            if _hydration.get("token_color_map"):
+                extra_fields["token_color_map"] = _hydration["token_color_map"]
+        except Exception:
+            logger.debug("inline_hydration_failed", exc_info=True)
 
         # ── 18. Build status view + panel signals ──
         status_view = _build_status_view(self.session)
         state_val = self.session.pipeline_state.value
-        available_panels = _PANEL_AVAILABILITY.get(state_val, [])
+        # Use data-aware panel gating from hydration (checks artifact existence)
+        try:
+            available_panels = _hydration.get("panel", {}).get("available", [])
+        except NameError:
+            available_panels = _PANEL_AVAILABILITY.get(state_val, [])
 
         # Promote nested fields to top-level for frontend store
         if status_view.get("column_stats"):
@@ -709,8 +738,10 @@ class HermesAgent:
         }
 
         # ── 19. Yield chat_complete ──
+        # Use action="hydrate" so frontend processEvent bulk-restores
+        # pipelineState.data from action_result (same code path as page-load).
         yield _chat_complete(
-            action="agent",
+            action="hydrate",
             pipeline_state=state_val,
             message=clean_content,
             **extra_fields,

@@ -23,11 +23,11 @@ import { motion, AnimatePresence } from 'motion/react'
 import usePipelineStore from '@/stores/pipeline'
 
 const PANEL_BUTTONS = [
-  { id: 'template', label: 'Template', Icon: TemplateIcon, tooltip: 'View and edit report template' },
-  { id: 'data', label: 'Data', Icon: DataIcon, tooltip: 'Explore database tables and columns' },
+  { id: 'template', label: 'Template', Icon: TemplateIcon, tooltip: 'Report template and field layout' },
+  { id: 'data', label: 'Data', Icon: DataIcon, tooltip: 'Database tables, columns, and quality' },
   { id: 'mappings', label: 'Mappings', Icon: MappingsIcon, tooltip: 'Field-to-column mapping table' },
   { id: 'logic', label: 'Logic', Icon: LogicIcon, tooltip: 'Contract rules, joins, and lineage' },
-  { id: 'preview', label: 'Preview', Icon: PreviewIcon, tooltip: 'Preview generated report data' },
+  { id: 'preview', label: 'Preview', Icon: PreviewIcon, tooltip: 'Preview with real data' },
   { id: 'errors', label: 'Errors', Icon: ErrorsIcon, tooltip: 'Validation issues and performance' },
 ]
 
@@ -123,7 +123,7 @@ export default function PanelButtons() {
               isActive={activePanel === btn.id}
               errorCount={errorCount}
               warningCount={warningCount}
-              onClick={() => setActivePanel(btn.id)}
+              onClick={() => setActivePanel(activePanel === btn.id ? null : btn.id)}
             />
           ))}
         </AnimatePresence>

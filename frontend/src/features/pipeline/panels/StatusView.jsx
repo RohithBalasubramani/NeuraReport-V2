@@ -261,6 +261,8 @@ function LearnedPatternsWidget({ onAction }) {
 }
 
 // ── Main StatusView Orchestrator ──
+const PHASE_ORDER = { upload: 0, edit: 1, map: 2, validate: 3, generate: 4 }
+
 export default function StatusView({ onAction }) {
   const statusView = usePipelineStore(s => s.statusView)
   const setActivePanel = usePipelineStore(s => s.setActivePanel)
@@ -268,6 +270,7 @@ export default function StatusView({ onAction }) {
   const history = usePipelineStore(s => s.pipelineState.history)
   const historyPreview = usePipelineStore(s => s.historyPreview)
   const learningSignal = usePipelineStore(s => s.learningSignal)
+  const phase = usePipelineStore(s => s.getPhase())
 
   // Timeline preview: overlay historical field snapshot
   const mapping = historyPreview?.field === 'mapping' && historyPreview.before
@@ -327,19 +330,24 @@ export default function StatusView({ onAction }) {
     !vizReplacedPanels.has(c.panel) || c.type === 'error'
   )
 
-  // Widget registry: id → { visible, component }
+  // Widget registry: id → { visible, minPhase, component }
+  // minPhase prevents widgets from flickering during phase transitions
+  const currentPhaseIdx = PHASE_ORDER[phase] ?? 0
   const widgetRegistry = {
-    pipeline:    { visible: true, component: <PipelineStrip /> },
-    connections: { visible: hasMapping, component: <FieldConnectionGraph compact /> },
-    rowflow:     { visible: hasRowCounts, component: <RowFlowCompression counts={row_counts} /> },
-    injection:   { visible: hasMapping, component: <DataInjection /> },
-    morph:       { visible: hasTransformStages, component: <BeforeAfterMorph stages={transform_stages} /> },
-    reality:     { visible: hasExample, component: <MiniReality example={example} /> },
-    errors:      { visible: hasProblems, component: <ErrorBreakage problems={problems} /> },
-    memory:      { visible: !!learningSignal?.patterns?.length, component: <LearnedPatternsWidget onAction={onAction} /> },
+    pipeline:    { visible: true, minPhase: 0, component: <PipelineStrip /> },
+    connections: { visible: hasMapping, minPhase: 2, component: <FieldConnectionGraph compact /> },
+    injection:   { visible: hasMapping, minPhase: 2, component: <DataInjection /> },
+    rowflow:     { visible: hasRowCounts, minPhase: 3, component: <RowFlowCompression counts={row_counts} /> },
+    morph:       { visible: hasTransformStages, minPhase: 3, component: <BeforeAfterMorph stages={transform_stages} /> },
+    reality:     { visible: hasExample, minPhase: 3, component: <MiniReality example={example} /> },
+    errors:      { visible: hasProblems, minPhase: 3, component: <ErrorBreakage problems={problems} /> },
+    memory:      { visible: !!learningSignal?.patterns?.length, minPhase: 2, component: <LearnedPatternsWidget onAction={onAction} /> },
   }
 
-  const visibleWidgets = widgetOrder.filter(id => widgetRegistry[id]?.visible)
+  const visibleWidgets = widgetOrder.filter(id => {
+    const w = widgetRegistry[id]
+    return w?.visible && currentPhaseIdx >= w.minPhase
+  })
 
   return (
     <Box
