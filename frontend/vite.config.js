@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
     env.NEURA_BACKEND_URL ||
     env.VITE_API_PROXY_TARGET ||
     env.VITE_BACKEND_URL ||
-    'http://127.0.0.1:8000'
+    'http://127.0.0.1:8500'
 
   return {
   plugins: [

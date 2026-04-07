@@ -1,0 +1,184 @@
+
+
+
+<meta charset="utf-8">
+<style>
+    :root {
+        --font-main: Arial, Helvetica, sans-serif;
+        --border-color: #000;
+        --col-sl-w: 8%;
+        --col-name-w: 25%;
+        --col-num-w: 18%;
+        --col-num-w-sm: 15%;
+        --col-num-w-lg: 24%;
+    }
+    body {
+        font-family: var(--font-main);
+        font-size: 11pt;
+        margin: 20px;
+        color: #000;
+    }
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .header-col {
+        width: 45%;
+    }
+    .header-row {
+        display: flex;
+        margin-bottom: 4px;
+    }
+    .header-label {
+        width: 120px;
+        font-weight: bold;
+    }
+    .header-value {
+        flex: 1;
+    }
+    .report-title {
+        text-align: center;
+        font-size: 24pt;
+        font-weight: bold;
+        margin: 15px 0 20px 0;
+    }
+    .batch-block {
+        margin-bottom: 25px;
+        page-break-inside: avoid;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid var(--border-color);
+        padding: 4px 6px;
+        text-align: right;
+    }
+    th {
+        font-weight: bold;
+        text-align: center;
+        background-color: #fff;
+    }
+    /* Specific Column Alignments */
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    
+    /* Column Widths */
+    .col-sl { width: var(--col-sl-w); }
+    .col-name { width: var(--col-name-w); }
+    .col-set { width: var(--col-num-w); }
+    .col-ach { width: var(--col-num-w); }
+    .col-err { width: var(--col-num-w-sm); }
+    .col-err-pct { width: var(--col-num-w-lg); }
+
+    /* Batch Header Row */
+    .batch-header-row td {
+        font-weight: bold;
+        text-align: left;
+        padding-left: 10px;
+    }
+    .batch-header-row td:last-child {
+        text-align: right;
+        padding-right: 10px;
+    }
+    .batch-header-row td:nth-child(2) {
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    /* Total Row */
+    .total-row td {
+        font-weight: bold;
+    }
+    .total-label {
+        text-align: left;
+        padding-left: 10px;
+    }
+</style>
+
+
+
+<div id="report-header">
+    <div class="header-section">
+        <div class="header-col">
+            <div class="header-row">
+                <div class="header-label">Plant name</div>
+                <div class="header-value">: {plant_name}</div>
+            </div>
+            <div class="header-row">
+                <div class="header-label">Location</div>
+                <div class="header-value">: {location}</div>
+            </div>
+            <div class="header-row">
+                <div class="header-label">Print Date</div>
+                <div class="header-value">: {print_date}</div>
+            </div>
+        </div>
+        <div class="header-col">
+            <div class="header-row">
+                <div class="header-label">From</div>
+                <div class="header-value">: {from_date}</div>
+            </div>
+            <div class="header-row">
+                <div class="header-label">To</div>
+                <div class="header-value">: {to_date}</div>
+            </div>
+            <div class="header-row">
+                <div class="header-label">Batch No</div>
+                <div class="header-value">: {batch_no_global}</div>
+            </div>
+        </div>
+    </div>
+    <div class="report-title">{report_title}</div>
+</div>
+
+<!-- BEGIN:BLOCK_REPEAT batches -->
+<section class="batch-block">
+    <table>
+        
+        <thead>
+            <tr class="batch-header-row">
+                <td colspan="2">{batch_id}</td>
+                <td colspan="2"></td>
+                <td colspan="2">{batch_start}</td>
+                <td colspan="2">{batch_end}</td>
+            </tr>
+            
+            <tr>
+                <th class="col-sl" data-label="sl_no">Sl. No.</th>
+                <th class="col-name" data-label="material_name">Material name</th>
+                <th class="col-set" data-label="set_wt_kg">Set. wt(Kg)</th>
+                <th class="col-ach" data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                <th class="col-err" data-label="error_kg">Error(Kg)</th>
+                <th class="col-err-pct" data-label="error_pct">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-sl text-center">{row_sl_no}</td>
+                <td class="col-name text-left">{row_material_name}</td>
+                <td class="col-set">{row_set_wt_kg}</td>
+                <td class="col-ach">{row_ach_wt_kg}</td>
+                <td class="col-err">{row_error_kg}</td>
+                <td class="col-err-pct">{row_error_pct}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="2" class="total-label">Total for batch</td>
+                <td class="col-set">{total_set_wt_kg}</td>
+                <td class="col-ach">{total_ach_wt_kg}</td>
+                <td class="col-err">{total_error_kg}</td>
+                <td class="col-err-pct">{total_error_pct}</td>
+            </tr>
+        </tfoot>
+    </table>
+</section>
+<!-- END:BLOCK_REPEAT -->
+
+

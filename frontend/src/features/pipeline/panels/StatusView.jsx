@@ -297,7 +297,7 @@ export default function StatusView({ onAction }) {
   if (!statusView) {
     return (
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ px: 2, pt: 2 }}>
+        <Box sx={{ px: 1, pt: 2 }}>
           <PipelineStrip />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
@@ -352,7 +352,7 @@ export default function StatusView({ onAction }) {
   return (
     <Box
       ref={parentRef}
-      sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', p: 2, gap: 2 }}
+      sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', px: 1, py: 2, gap: 2 }}
     >
       {/* Timeline preview banner */}
       {isPreviewActive && (

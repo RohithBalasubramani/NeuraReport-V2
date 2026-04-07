@@ -1,0 +1,26 @@
+[
+  {
+    "role": "user",
+    "content": "hi"
+  },
+  {
+    "role": "assistant",
+    "content": "To get started, please upload the PDF document you'd like to convert into a report template. Once you upload it, I'll:\n1. Extract the structure and layout from your PDF\n2. Connect it to your database\n3. Build an automated report that can be generated with real data\n\nWhat PDF would you like to work with?"
+  },
+  {
+    "role": "user",
+    "content": "[action: upload] upload"
+  },
+  {
+    "role": "assistant",
+    "content": "It looks like the file upload didn't come through. Could you please upload the PDF document you'd like to convert into a report? You can drag and drop the file or use the upload button."
+  },
+  {
+    "role": "user",
+    "content": "[action: upload] upload"
+  },
+  {
+    "role": "assistant",
+    "content": "The session_get_state tool isn't available, which is expected at the empty state. The user is trying to upload a file but it's not working. I should guide them on how to properly upload the PDF.\nI see you're trying to upload a file, but it's not coming through. Let me help you with the upload:\n\n**How to upload your PDF:**\n1. Look for an **upload button** or **paperclip icon** in the chat interface\n2. Click it and select your PDF file, OR\n3. **Drag and drop** the PDF file directly into the chat window\n\nOnce the file uploads successfully, I'll automatically:\n- Extract the layout and structure from your PDF\n- Identify all the data fields and tables\n- Prepare everything for connecting to your database\n\nPlease try uploading the PDF again, and let me know if you see any error messages or if the upload button isn't appearing."
+  }
+]

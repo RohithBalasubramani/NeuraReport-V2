@@ -210,6 +210,7 @@ const safeContext = (value) => {
 
 const resolveApiOrigin = () => {
   const envBaseUrl = runtimeEnv.VITE_API_BASE_URL
+  if (envBaseUrl === 'proxy') return ''
   if (envBaseUrl && envBaseUrl !== 'proxy') {
     // Path-based URL (e.g. /neurareport-api) — use as base directly
     if (envBaseUrl.startsWith('/')) return envBaseUrl
@@ -233,7 +234,7 @@ const resolveApiOrigin = () => {
   if (typeof window === 'undefined') return undefined
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:'
   const hostname = window.location.hostname || '127.0.0.1'
-  const port = runtimeEnv.VITE_API_PORT || '9070'
+  const port = runtimeEnv.VITE_API_PORT || '8500'
   return `${protocol}//${hostname}:${port}`
 }
 

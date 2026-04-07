@@ -105,9 +105,11 @@ def _stage_event(stage: str, status: str, progress: int = 0, **kw) -> dict:
 _COT_OPENERS = re.compile(
     r"^("
     r"the user (greeted|asked|wants|is asking|said|mentioned|provided|uploaded|seems)"
+    r"|the .{1,60}(tool|function|endpoint|isn't available|isn't working|didn't|failed|returned|says)"
     r"|i (should|need to|will|can|must|'ll|am going to|have to)"
+    r"|it (seems|looks like|appears)"
     r"|since (the|this|we|i|there)"
-    r"|let me (think|analyze|check|consider|plan|figure|look)"
+    r"|let me (think|analyze|check|consider|plan|figure|look|ask)"
     r"|my (approach|plan|reasoning|thought|analysis|strategy)"
     r"|first,? (i|let|we)"
     r"|okay,? so"
@@ -115,6 +117,9 @@ _COT_OPENERS = re.compile(
     r"|based on (the|this|my|what)"
     r"|looking at (the|this)"
     r"|so,? (the|i|we|this)"
+    r"|this (is|means|indicates|suggests|looks)"
+    r"|hmm"
+    r"|wait,?"
     r")",
     re.IGNORECASE,
 )
@@ -473,6 +478,16 @@ class HermesAgent:
         from .tools import ToolContext, _build_completion_signal
 
         # ── 1. Build ToolContext ──
+        logger.info("pipeline_turn_start", extra={
+            "session_id": self.session.session_id,
+            "state": self.session.pipeline_state.value,
+            "turn": self.session.turn_count,
+            "template_id": payload.template_id,
+            "connection_id": payload.connection_id,
+            "workspace_mode": self.workspace_mode,
+            "has_upload": upload_file is not None,
+            "completed_stages": list(self.session.completed_stages),
+        })
         ctx = ToolContext(
             session=self.session,
             request=self.request,
@@ -740,6 +755,21 @@ class HermesAgent:
         # ── 19. Yield chat_complete ──
         # Use action="hydrate" so frontend processEvent bulk-restores
         # pipelineState.data from action_result (same code path as page-load).
+        _ar = extra_fields.get("action_result", {})
+        logger.info("pipeline_turn_complete", extra={
+            "session_id": self.session.session_id,
+            "state": state_val,
+            "panels": available_panels,
+            "has_template": bool(_ar.get("template", {}).get("html")),
+            "has_mapping": bool(_ar.get("mapping", {}).get("mapping")),
+            "has_contract": bool(_ar.get("contract")),
+            "has_validation": bool(_ar.get("validation")),
+            "has_generation": bool(_ar.get("generation")),
+            "status_cards": len(status_view.get("cards", [])),
+            "problems": len(status_view.get("problems", [])),
+            "learning_patterns": len(extra_fields.get("learning_signal", {}).get("patterns", [])),
+            "message_len": len(clean_content),
+        })
         yield _chat_complete(
             action="hydrate",
             pipeline_state=state_val,

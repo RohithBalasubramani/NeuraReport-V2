@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { Person as UserIcon, SmartToy as AssistantIcon } from '@mui/icons-material'
+import ReactMarkdown from 'react-markdown'
 
 export default function TextMessage({ message }) {
   const isUser = message.role === 'user'
@@ -41,11 +42,29 @@ export default function TextMessage({ message }) {
           position: 'relative',
         }}
       >
-        <Typography
-          variant="body2"
-          sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}
+        <Box
+          sx={{
+            lineHeight: 1.6,
+            fontSize: '0.875rem',
+            '& p': { m: 0, mb: 1, '&:last-child': { mb: 0 } },
+            '& ul, & ol': { mt: 0, mb: 1, pl: 2.5 },
+            '& li': { mb: 0.5 },
+            '& strong': { fontWeight: 600 },
+            '& code': {
+              bgcolor: 'grey.200',
+              px: 0.5,
+              borderRadius: 0.5,
+              fontSize: '0.8rem',
+            },
+          }}
         >
-          {message.content}
+          {isUser ? (
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+              {message.content}
+            </Typography>
+          ) : (
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          )}
           {message.streaming && (
             <Box
               component="span"
@@ -60,7 +79,7 @@ export default function TextMessage({ message }) {
               }}
             />
           )}
-        </Typography>
+        </Box>
       </Box>
     </Box>
   )

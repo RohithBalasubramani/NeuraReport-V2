@@ -183,6 +183,12 @@ class ChatSession:
         if target in backward or target == PipelineState.EMPTY:
             self._invalidate_downstream(target)
 
+        logger.info("state_transition", extra={
+            "session_id": self.session_id,
+            "from": old.value,
+            "to": target.value,
+            "completed": list(self.completed_stages),
+        })
         self.pipeline_state = target
         self._previous_state = None
         self._touch()
@@ -190,6 +196,11 @@ class ChatSession:
 
     def complete_stage(self, stage_name: str) -> None:
         """Mark a pipeline stage as completed."""
+        logger.info("stage_complete", extra={
+            "session_id": self.session_id,
+            "stage": stage_name,
+            "state": self.pipeline_state.value,
+        })
         if stage_name not in self.completed_stages:
             self.completed_stages.append(stage_name)
         # Remove from invalidated if it was there

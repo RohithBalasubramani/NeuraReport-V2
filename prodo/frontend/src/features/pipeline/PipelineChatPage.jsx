@@ -19,6 +19,7 @@ import PanelButtons from './PanelButtons'
 import LivePanel from './panels/LivePanel'
 import usePipelineStore from '@/stores/pipeline'
 import { pipelineChat, pipelineChatUpload } from '@/api/client'
+import plog from '@/api/pipelineLogger'
 
 export default function PipelineChatPage() {
   const { sessionId: urlSessionId } = useParams()
@@ -35,10 +36,14 @@ export default function PipelineChatPage() {
           store.resumeSession(data)
           // Hydrate full store with all session artifacts so widgets
           // have data immediately (template, mapping, contract, etc.)
+          plog.api(`GET /hydrate session=${urlSessionId}`)
           fetch(`/api/v1/pipeline/${urlSessionId}/hydrate`)
             .then(r => r.json())
-            .then(hydration => { if (hydration) store.processEvent(hydration) })
-            .catch(err => console.warn('Hydration failed, widgets will populate via chat:', err))
+            .then(hydration => {
+              plog.hydrate('hydration response received', { keys: hydration ? Object.keys(hydration) : [], state: hydration?.pipeline_state })
+              if (hydration) store.processEvent(hydration)
+            })
+            .catch(err => { plog.error('Hydration failed', { error: err.message }); console.warn('Hydration failed:', err) })
         })
         .catch(() => store.initSession())
     } else if (!sessionId) {
@@ -98,9 +103,10 @@ export default function PipelineChatPage() {
           const event = JSON.parse(line)
           // Validate event structure before processing
           if (event && typeof event === 'object' && event.event) {
+            plog.event(`NDJSON ← ${event.event} ${event.stage || event.action || ''}`, { event: event.event, stage: event.stage, action: event.action, status: event.status, progress: event.progress })
             store.processEvent(event)
           } else if (event && typeof event === 'object') {
-            // Legacy event without 'event' field — process anyway
+            plog.event('NDJSON ← legacy (no event field)', { keys: Object.keys(event) })
             store.processEvent(event)
           }
           parseErrors = 0 // Reset on success
@@ -131,6 +137,7 @@ export default function PipelineChatPage() {
     session_id: sessionId,
     template_id: templateId,
     connection_id: connectionId,
+    template_kind: store.templateKind || 'pdf',
     workspace_mode: store.workspaceMode,
     messages: store.messages
       .filter(m => (m.role === 'user' || m.role === 'assistant') && m.type === 'text')
@@ -141,11 +148,13 @@ export default function PipelineChatPage() {
 
   // ─── Send text message ───
   const handleSend = useCallback(async (text) => {
+    plog.action(`chat.send: "${text.slice(0,80)}"`, { session: sessionId, template: templateId, connection: connectionId })
     store.addUserMessage(text)
     store.setIsProcessing(true)
     try {
       const payload = buildPayload()
       payload.messages.push({ role: 'user', content: text })
+      plog.api('POST /chat', { session: sessionId, msg_count: payload.messages.length, has_html: !!payload.html })
       const response = await pipelineChat(sessionId, payload)
       await streamResponse(response)
     } catch (err) {
@@ -157,6 +166,7 @@ export default function PipelineChatPage() {
 
   // ─── Upload file ───
   const handleFileUpload = useCallback(async (file) => {
+    plog.action(`file.upload: ${file.name} (${(file.size/1024).toFixed(1)}KB)`, { name: file.name, size: file.size, type: file.type })
     store.addUserMessage(file.name, 'file_upload', { fileName: file.name, fileSize: file.size })
     store.setIsProcessing(true)
     try {
@@ -186,6 +196,7 @@ export default function PipelineChatPage() {
       return
     }
 
+    plog.action(`action: ${action}`, typeof actionOrObj === 'object' ? actionOrObj : { action })
     store.setIsProcessing(true)
     try {
       const payload = buildPayload({
@@ -193,6 +204,7 @@ export default function PipelineChatPage() {
         action_params: typeof actionOrObj === 'object' ? actionOrObj : {},
         messages: [{ role: 'user', content: action }],
       })
+      plog.api(`POST /chat action=${action}`, { session: sessionId })
       const response = await pipelineChat(sessionId, payload)
       await streamResponse(response)
     } catch (err) {

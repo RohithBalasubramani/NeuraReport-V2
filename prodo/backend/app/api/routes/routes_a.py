@@ -7966,6 +7966,19 @@ async def pipeline_chat(request: Request):
     _workspace = getattr(payload, "workspace_mode", False)
     session.workspace_mode = _workspace
 
+    _chat_logger = logging.getLogger("neura.chat.pipeline")
+    _last_msg = payload.messages[-1].content[:120] if payload.messages else ""
+    _chat_logger.info("chat_request", extra={
+        "session_id": session.session_id,
+        "state": session.pipeline_state.value,
+        "action": payload.action,
+        "template_id": template_id,
+        "connection_id": payload.connection_id,
+        "workspace": _workspace,
+        "orchestrator": PIPELINE_ORCHESTRATOR,
+        "message_preview": _last_msg,
+    })
+
     if PIPELINE_ORCHESTRATOR == "hermes":
         # ── Hermes Agent path: Qwen decides via tool calling ──
         from backend.app.services.chat.hermes_agent import HermesAgent

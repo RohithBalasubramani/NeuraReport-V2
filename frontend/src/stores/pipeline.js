@@ -10,6 +10,7 @@
  */
 import { create } from 'zustand'
 import { nanoid } from 'nanoid'
+import plog, { summarize } from '@/api/pipelineLogger'
 
 // ─── Token Regex (matches backend) ───
 const TOKEN_RE = /\{\{?\s*([A-Za-z0-9_\-.]+)\s*\}\}?/g
@@ -292,7 +293,14 @@ const usePipelineStore = create((set, get) => ({
   // SETTERS WITH AUTOMATIC INVALIDATION
   // ═══════════════════════════════════════════════════════════
 
-  setTemplateData: (template, changeType = 'structural') =>
+  setTemplateData: (template, changeType = 'structural') => {
+    plog.store(`setTemplateData (${changeType})`, {
+      has_html: !!template.html,
+      html_len: template.html?.length,
+      has_tokens: !!template.tokens,
+      token_count: template.tokens?.length,
+      has_schema: !!template.schema,
+    })
     set(state => {
       const ps = { ...state.pipelineState }
       const d = { ...ps.data }
@@ -338,9 +346,18 @@ const usePipelineStore = create((set, get) => ({
 
       _persistHistory(get)
       return { pipelineState: { ...ps, data: d, history }, templateVersions }
-    }),
+    })
+  },
 
-  setMappingData: (mapping) =>
+  setMappingData: (mapping) => {
+    plog.store('setMappingData', {
+      mapping_keys: mapping.mapping ? Object.keys(mapping.mapping).length : '-',
+      has_confidence: !!mapping.confidence,
+      has_candidates: !!mapping.candidates,
+      has_catalog: !!mapping.catalog,
+      has_token_samples: !!mapping.token_samples,
+      status: mapping.status,
+    })
     set(state => {
       const ps = { ...state.pipelineState }
       const d = { ...ps.data }
@@ -355,35 +372,58 @@ const usePipelineStore = create((set, get) => ({
 
       _persistHistory(get)
       return { pipelineState: { ...ps, data: d, history } }
-    }),
+    })
+  },
 
-  setContractData: (contract) =>
+  setContractData: (contract) => {
+    plog.store('setContractData', {
+      has_contract: !!contract.contract,
+      has_fields: !!contract.contract?.fields,
+      field_count: contract.contract?.fields ? Object.keys(contract.contract.fields).length : 0,
+      has_joins: !!contract.contract?.joins,
+      has_constraints: !!contract.contract?.constraints,
+    })
     set(state => {
       const ps = { ...state.pipelineState }
       const d = { ...ps.data }
       d.contract = { ...d.contract, ...contract }
       d.validation = {} // Invalidate downstream
       return { pipelineState: { ...ps, data: d } }
-    }),
+    })
+  },
 
-  setValidationData: (validation) =>
+  setValidationData: (validation) => {
+    plog.store('setValidationData', {
+      result: validation.result,
+      passed: validation.passed,
+      issue_count: validation.issues?.length || 0,
+      has_autoFixable: validation.issues?.some(i => i.autoFixable),
+    })
     set(state => {
       const ps = { ...state.pipelineState }
       const d = { ...ps.data }
       d.validation = { ...d.validation, ...validation }
       return { pipelineState: { ...ps, data: d } }
-    }),
+    })
+  },
 
-  setGenerationData: (generation) =>
+  setGenerationData: (generation) => {
+    plog.store('setGenerationData', {
+      batch_count: generation.batches?.length,
+      job_count: generation.jobs?.length,
+    })
     set(state => {
       const ps = { ...state.pipelineState }
       const d = { ...ps.data }
       d.generation = { ...d.generation, ...generation }
       return { pipelineState: { ...ps, data: d } }
-    }),
+    })
+  },
 
-  setErrors: (errors) =>
-    set(state => ({ pipelineState: { ...state.pipelineState, errors } })),
+  setErrors: (errors) => {
+    plog.store('setErrors', { count: errors?.length || 0, severities: [...new Set((errors||[]).map(e=>e.severity))] })
+    set(state => ({ pipelineState: { ...state.pipelineState, errors } }))
+  },
 
   setProgress: (progress) =>
     set(state => ({ pipelineState: { ...state.pipelineState, progress } })),
@@ -523,6 +563,14 @@ const usePipelineStore = create((set, get) => ({
     const store = get()
     const type = event.event
 
+    plog.event(`processEvent type=${type || 'legacy'} action=${event.action || '-'} state=${event.pipeline_state || '-'}`, {
+      type, action: event.action, pipeline_state: event.pipeline_state,
+      has_action_result: !!event.action_result,
+      has_status_view: !!event.status_view,
+      has_panel: !!event.panel,
+      keys: Object.keys(event),
+    })
+
     // ── Legacy format detection (prodo backend returns different shapes) ──
     // Legacy chat-create: { status: "ok", message: "...", ready_to_apply, updated_html, ... }
     if (!type && event.status === 'ok' && event.message) {
@@ -581,6 +629,21 @@ const usePipelineStore = create((set, get) => ({
         //    triggering history pushes or invalidation cascades ──
         if (action === 'hydrate') {
           const r = event.action_result || {}
+          plog.hydrate('hydrate action_result', {
+            has_template: !!r.template?.html,
+            has_mapping: !!r.mapping?.mapping,
+            mapping_keys: r.mapping?.mapping ? Object.keys(r.mapping.mapping).length : 0,
+            has_confidence: !!r.mapping?.confidence,
+            has_candidates: !!r.mapping?.candidates,
+            has_contract: !!r.contract,
+            contract_has_fields: !!r.contract?.contract?.fields,
+            contract_has_joins: !!r.contract?.contract?.joins,
+            has_validation: !!r.validation,
+            validation_result: r.validation?.result,
+            issue_count: r.validation?.issues?.length || 0,
+            has_generation: !!r.generation,
+            has_history: !!r.history?.length,
+          })
           set(state => {
             const d = { ...state.pipelineState.data }
             if (r.template?.html) d.template = { ...d.template, ...r.template }
@@ -593,6 +656,7 @@ const usePipelineStore = create((set, get) => ({
             return { pipelineState: { ...state.pipelineState, data: d, history } }
           })
           if (event.template_id) set({ templateId: event.template_id })
+          if (event.template_kind) set({ templateKind: event.template_kind })
           if (event.connection_id) set({ connectionId: event.connection_id })
           if (event.status_view) store.setStatusView(event.status_view)
           if (event.column_stats) store.setColumnStats(event.column_stats)
@@ -605,6 +669,14 @@ const usePipelineStore = create((set, get) => ({
           if (event.temporal_data) store.setColumnStats({ ...store.columnStats, _temporalCache: event.temporal_data })
           // Populate errors from validation issues (used by ErrorsTab, PipelineStrip)
           if (r.validation?.issues) store.setErrors(r.validation.issues)
+          plog.hydrate('hydrate complete', {
+            panels: event.panel?.available,
+            has_status_view: !!event.status_view,
+            has_learning_signal: !!event.learning_signal,
+            patterns_count: event.learning_signal?.patterns?.length || 0,
+            error_count: r.validation?.issues?.length || 0,
+            phase: derivePhase(get().pipelineState.data),
+          })
           // Note: pipeline phase is derived by getPhase() from pipelineState.data,
           // so no explicit phase write is needed — setting the data fields is enough.
           break  // Skip normal chat_complete processing
@@ -621,6 +693,10 @@ const usePipelineStore = create((set, get) => ({
           }, 'structural')
           if (event.action_result.token_signatures) {
             store.registerTokenColors(event.action_result.token_signatures)
+          }
+          if (event.action_result.kind) {
+            set({ templateKind: event.action_result.kind })
+            plog.store(`templateKind → ${event.action_result.kind}`)
           }
         }
 
@@ -689,12 +765,12 @@ const usePipelineStore = create((set, get) => ({
   setTemplateKind: (kind) => set({ templateKind: kind }),
   setSidebarForcePanel: (panel) => set({ sidebarForcePanel: panel }),
   toggleWorkspaceMode: () => set(s => ({ workspaceMode: !s.workspaceMode })),
-  setActivePanel: (p) => set(s => ({ activePanel: s.activePanel === p ? null : p })), // toggle
-  setAvailablePanels: (p) => set({ availablePanels: p }),
-  setStatusView: (sv) => set({ statusView: sv }),
-  setHighlightedField: (f) => set({ highlightedField: f }),
+  setActivePanel: (p) => { plog.action(`setActivePanel → ${p}`); set(s => ({ activePanel: s.activePanel === p ? null : p })) },
+  setAvailablePanels: (p) => { plog.store('setAvailablePanels', p); set({ availablePanels: p }) },
+  setStatusView: (sv) => { plog.store('setStatusView', { step: sv?.step, cards: sv?.cards?.length, problems: sv?.problems?.length, has_example: !!sv?.example, has_row_counts: !!sv?.row_counts }); set({ statusView: sv }) },
+  setHighlightedField: (f) => { if (f) plog.action(`highlightField → ${f}`); set({ highlightedField: f }) },
   clearHighlightedField: () => set({ highlightedField: null }),
-  setLearningSignal: (signal) => set({ learningSignal: signal }),
+  setLearningSignal: (signal) => { plog.store('setLearningSignal', { patterns: signal?.patterns?.length || 0 }); set({ learningSignal: signal }) },
   // Timeline scrubber state replay
   historyPreview: null,
   previewHistoryAt: (index) => set(s => ({

@@ -285,8 +285,13 @@ def build_hydration_payload(session) -> dict:
     if ls:
         payload["learning_signal"] = ls
 
-    # ── 10. Template ID (from directory name) ────────────────────────
+    # ── 10. Template ID + kind ──────────────────────────────────────
     payload["template_id"] = tdir.name
+    try:
+        from backend.app.services.legacy_services import resolve_template_kind
+        payload["template_kind"] = resolve_template_kind(tdir.name) or "pdf"
+    except Exception:
+        payload["template_kind"] = "pdf"
 
     # ── 11. Pipeline history (for D12 action replay) ─────────────────
     hist = _read_json(tdir / "pipeline_history.json")

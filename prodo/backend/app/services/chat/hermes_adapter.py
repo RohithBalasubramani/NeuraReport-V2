@@ -391,6 +391,10 @@ class CallbackBridge:
         import time
         self._tool_timings[tc_id] = time.monotonic()
         is_internal = name in _HERMES_INTERNAL_TOOLS
+        logger.info("tool_start", extra={
+            "tool": name, "tc_id": tc_id, "internal": is_internal,
+            "args_keys": list(args.keys()) if isinstance(args, dict) else [],
+        })
         self._push({
             "event": "stage",
             "stage": name,
@@ -403,6 +407,12 @@ class CallbackBridge:
         import time
         start = self._tool_timings.pop(tc_id, None)
         duration_ms = int((time.monotonic() - start) * 1000) if start else 0
+        result_preview = (result[:200] + '...') if isinstance(result, str) and len(result) > 200 else result
+        logger.info("tool_complete", extra={
+            "tool": name, "tc_id": tc_id, "duration_ms": duration_ms,
+            "result_len": len(result) if isinstance(result, str) else 0,
+            "result_preview": result_preview if isinstance(result_preview, str) else str(result_preview)[:200],
+        })
         self._perf_metrics.append({
             "step": name,
             "durationMs": duration_ms,

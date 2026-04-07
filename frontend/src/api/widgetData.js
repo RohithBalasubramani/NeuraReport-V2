@@ -3,6 +3,7 @@
  *
  * These bypass the chat pipeline so widget data is available immediately on mount.
  */
+import plog from './pipelineLogger'
 
 const BASE = '/api/v1/pipeline/data'
 
@@ -10,21 +11,33 @@ const get = (path, params = {}) => {
   const qs = new URLSearchParams(
     Object.entries(params).filter(([, v]) => v != null && v !== '')
   ).toString()
-  return fetch(`${BASE}${path}${qs ? '?' + qs : ''}`).then(r => {
-    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`)
+  const url = `${BASE}${path}${qs ? '?' + qs : ''}`
+  plog.api(`GET ${path}`, params)
+  const start = performance.now()
+  return fetch(url).then(r => {
+    if (!r.ok) { plog.error(`GET ${path} → ${r.status}`, params); throw new Error(`${r.status} ${r.statusText}`) }
     return r.json()
+  }).then(data => {
+    plog.api(`GET ${path} → OK (${Math.round(performance.now()-start)}ms)`, { keys: Object.keys(data) })
+    return data
   })
 }
 
-const post = (path, body) =>
-  fetch(`${BASE}${path}`, {
+const post = (path, body) => {
+  plog.api(`POST ${path}`, { keys: Object.keys(body) })
+  const start = performance.now()
+  return fetch(`${BASE}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   }).then(r => {
-    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`)
+    if (!r.ok) { plog.error(`POST ${path} → ${r.status}`, body); throw new Error(`${r.status} ${r.statusText}`) }
     return r.json()
+  }).then(data => {
+    plog.api(`POST ${path} → OK (${Math.round(performance.now()-start)}ms)`, { keys: Object.keys(data) })
+    return data
   })
+}
 
 /** D2 — Column stats (NULL%, unique, distribution) for a table */
 export const fetchColumnStats = (sessionId, table, columns) =>

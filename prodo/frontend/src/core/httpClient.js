@@ -36,7 +36,7 @@ function resolveBaseUrl(url) {
   return url
 }
 
-export const API_BASE = envBaseUrl === 'proxy' ? '/api' : (resolveBaseUrl(envBaseUrl) || 'http://127.0.0.1:8000')
+export const API_BASE = envBaseUrl === 'proxy' ? '/api' : (resolveBaseUrl(envBaseUrl) || 'http://127.0.0.1:8500')
 
 export const API_V1_BASE =
   API_BASE.endsWith('/api/v1') ? API_BASE

@@ -69,7 +69,7 @@ function Connector({ fromDone, toDone, toActive, index }) {
   const fillRatio = fromDone && toDone ? 1 : fromDone && toActive ? 0.5 : 0
 
   return (
-    <Box sx={{ flex: '0 0 auto', width: 32, display: 'flex', alignItems: 'center', position: 'relative' }}>
+    <Box sx={{ flex: '0 0 auto', width: 20, display: 'flex', alignItems: 'center', position: 'relative' }}>
       {/* Background track */}
       <Box sx={{ width: '100%', height: 2, bgcolor: COLORS.connector, borderRadius: 1 }} />
       {/* Progress fill */}
@@ -160,13 +160,15 @@ const StepNode = React.memo(function StepNode({ step, index, hasProblem, onClick
         }}
         onClick={onClick}
         style={{
-          flex: 1,
+          flex: '1 1 0',
+          minWidth: 0,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 6,
+          gap: 4,
           cursor: step.canEnter ? 'pointer' : 'not-allowed',
           userSelect: 'none',
+          overflow: 'visible',
         }}
         whileHover={step.canEnter ? { y: -2 } : undefined}
         whileTap={step.canEnter ? { scale: 0.95 } : undefined}
@@ -174,8 +176,8 @@ const StepNode = React.memo(function StepNode({ step, index, hasProblem, onClick
         {/* Circle node */}
         <Box
           sx={{
-            width: 42,
-            height: 42,
+            width: 36,
+            height: 36,
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
@@ -277,7 +279,8 @@ export default function PipelineStrip() {
         alignItems: 'center',
         width: '100%',
         py: 1.5,
-        px: 1,
+        px: 0,
+        minWidth: 0,
       }}
     >
       {steps.map((step, i) => {

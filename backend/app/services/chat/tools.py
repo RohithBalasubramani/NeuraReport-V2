@@ -904,9 +904,11 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
 
         await _push_stage(ctx, "verify.complete", "complete", 100)
 
+        _kind = "excel" if is_excel else "pdf"
         return {
             "status": "ok",
             "template_id": template_id,
+            "kind": _kind,
             "tokens": template_tokens,
             "token_count": len(template_tokens),
             "html_length": len(template_html),
