@@ -33,8 +33,17 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import re
+import sys
+from pathlib import Path
 from typing import Any, AsyncIterator
+
+# Ensure vendor/hermes-agent is on sys.path so `from run_agent import AIAgent`
+# and `from hermes_state import SessionDB` resolve correctly.
+_VENDOR_DIR = str(Path(__file__).resolve().parents[4] / "vendor" / "hermes-agent")
+if _VENDOR_DIR not in sys.path:
+    sys.path.insert(0, _VENDOR_DIR)
 
 from starlette.requests import Request
 
@@ -90,6 +99,69 @@ def _stage_event(stage: str, status: str, progress: int = 0, **kw) -> dict:
     return _chat_event("stage", stage=stage, status=status, progress=progress, **kw)
 
 
+# ── Reasoning stripper (belt + suspenders for <think> and bare CoT) ──
+
+# Patterns that indicate leaked chain-of-thought (case-insensitive first line)
+_COT_OPENERS = re.compile(
+    r"^("
+    r"the user (greeted|asked|wants|is asking|said|mentioned|provided|uploaded|seems)"
+    r"|i (should|need to|will|can|must|'ll|am going to|have to)"
+    r"|since (the|this|we|i|there)"
+    r"|let me (think|analyze|check|consider|plan|figure|look)"
+    r"|my (approach|plan|reasoning|thought|analysis|strategy)"
+    r"|first,? (i|let|we)"
+    r"|okay,? so"
+    r"|now (i|let|we)"
+    r"|based on (the|this|my|what)"
+    r"|looking at (the|this)"
+    r"|so,? (the|i|we|this)"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def _strip_reasoning(raw: str) -> str:
+    """Remove <think> blocks AND bare chain-of-thought leaked by the LLM.
+
+    Strategy:
+    1. Remove <think>...</think> blocks (including content).
+    2. Remove orphan <think>/<think> tags.
+    3. If the remaining text starts with a CoT-style opener paragraph,
+       strip paragraphs until we hit one that looks user-facing.
+    """
+    # Step 1: Remove <think>…</think> blocks (greedy within each block)
+    text = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
+    # Step 2: Orphan tags
+    text = re.sub(r"</?think>", "", text)
+    text = text.strip()
+
+    if not text:
+        return text
+
+    # Step 3: Strip leading CoT paragraphs
+    # Split on double-newline to get paragraphs
+    paragraphs = re.split(r"\n{2,}", text)
+    stripped = 0
+    for i, para in enumerate(paragraphs):
+        first_line = para.strip().split("\n")[0].strip()
+        if _COT_OPENERS.match(first_line):
+            stripped += 1
+        else:
+            break
+
+    if stripped > 0 and stripped < len(paragraphs):
+        # Keep everything from the first non-CoT paragraph onward
+        text = "\n\n".join(paragraphs[stripped:]).strip()
+        logger.debug("stripped_leaked_reasoning", extra={"paragraphs_removed": stripped})
+    elif stripped > 0 and stripped == len(paragraphs):
+        # ALL paragraphs look like CoT — this is a pure reasoning dump.
+        # Return the last paragraph as a fallback (likely the closest to a response).
+        text = paragraphs[-1].strip()
+        logger.warning("all_paragraphs_look_like_cot", extra={"count": stripped})
+
+    return text
+
+
 # ── Status View builder (plain-language panel data for frontend) ─────
 
 _STATE_LABELS = {
@@ -104,6 +176,8 @@ _STATE_LABELS = {
     "validating": "Testing with your real data",
     "validated": "Everything looks good — ready to create reports",
     "ready": "Your reports are ready",
+    "correcting": "Fixing data connections...",
+    "generating": "Creating your reports...",
 }
 
 _PANEL_AVAILABILITY = {
@@ -114,10 +188,12 @@ _PANEL_AVAILABILITY = {
     "mapped": ["template", "data", "mappings"],
     "approving": ["template", "data", "mappings"],
     "approved": ["template", "data", "mappings", "logic"],
-    "building_assets": ["template", "data", "mappings", "logic"],
+    "correcting": ["template", "data", "mappings"],
+    "building_assets": ["template", "data", "mappings", "logic", "errors"],
     "validating": ["template", "data", "mappings", "logic", "errors"],
     "validated": ["template", "data", "mappings", "logic", "preview", "errors"],
     "ready": ["template", "data", "mappings", "logic", "preview", "errors"],
+    "generating": ["template", "data", "mappings", "logic", "preview", "errors"],
 }
 
 
@@ -475,11 +551,13 @@ class HermesAgent:
             # Tool filtering — workspace gets ALL tools, pipeline gets state-specific
             enabled_toolsets=_toolsets,
 
-            # Persistent learning
+            # Persistent learning — disable memory/compression in pipeline mode
+            # to prevent auxiliary LLM calls from blocking the response.
+            # Trajectories are still saved; memory is flushed post-conversation.
             save_trajectories=True,    # Trajectory persistence
             skip_context_files=True,   # We use our own system prompt
-            skip_memory=False,         # Enable Hermes persistent memory (MEMORY.md + USER.md)
-            persist_session=True,      # Session persistence to SQLite
+            skip_memory=not self.workspace_mode,  # Memory only in workspace mode
+            persist_session=False,     # Disable session DB persistence (we use ChatSession)
 
             # Session linkage — connects to our ChatSession
             session_id=self.session.session_id,
@@ -503,7 +581,13 @@ class HermesAgent:
         )
         agent.background_review_callback = bridge.on_background_review
 
-        # ── 7b. Tighten memory limits for Qwen's context budget ──
+        # ── 7b. Disable auxiliary LLM features in pipeline mode ──
+        # Context compression and background review make extra LLM calls that
+        # can timeout/loop and block the response. Only enable in workspace mode.
+        if not self.workspace_mode:
+            agent.compression_enabled = False
+            agent.background_review_callback = None
+
         if hasattr(agent, '_memory_store') and agent._memory_store:
             agent._memory_store.memory_char_limit = min(agent._memory_store.memory_char_limit, 1500)
             agent._memory_store.user_char_limit = min(agent._memory_store.user_char_limit, 1000)
@@ -579,14 +663,16 @@ class HermesAgent:
             )
             return
 
-        # ── 13. Flush memories (force write before we yield chat_complete) ──
-        try:
-            await asyncio.to_thread(agent.flush_memories)
-        except Exception:
-            logger.debug("flush_memories_failed", exc_info=True)
+        # ── 13. Flush memories (only in workspace mode — pipeline mode skips
+        #    to avoid auxiliary LLM calls that can block/loop indefinitely) ──
+        if self.workspace_mode:
+            try:
+                await asyncio.to_thread(agent.flush_memories)
+            except Exception:
+                logger.debug("flush_memories_failed", exc_info=True)
 
-        # ── 14. Strip thinking tags ──
-        clean_content = re.sub(r"</?think>", "", final_response).strip()
+        # ── 14. Strip thinking tags + leaked reasoning ──
+        clean_content = _strip_reasoning(final_response)
 
         # ── 15. Extract structured fields from JSON code blocks ──
         extra_fields = self._extract_structured_fields(clean_content)

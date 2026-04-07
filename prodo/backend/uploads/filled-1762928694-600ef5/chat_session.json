@@ -1,0 +1,14 @@
+{
+  "session_id": "3be3e72a5cbf",
+  "pipeline_state": "html_ready",
+  "connection_id": "4494588d-38a4-4040-97ff-0b6495205c76",
+  "completed_stages": [
+    "verify"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": "verify",
+  "created_at": "2026-04-06T11:39:51.534523+00:00",
+  "updated_at": "2026-04-06T12:09:42.988629+00:00"
+}

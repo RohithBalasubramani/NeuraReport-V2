@@ -52,6 +52,7 @@ from .routes import (
     synthesis,
     templates,
     visualization,
+    pipeline_data,
     widgets,
     workflows,
 )
@@ -158,6 +159,9 @@ def _build_v1_router() -> APIRouter:
     # Unified chat pipeline
     from backend.app.api.routes.routes_a import pipeline_router
     v1.include_router(pipeline_router, prefix="/pipeline", tags=["pipeline"])
+
+    # Widget data endpoints (non-LLM backend widgets)
+    v1.include_router(pipeline_data.router, prefix="/pipeline/data", tags=["pipeline-data"])
 
     return v1
 

@@ -234,10 +234,36 @@ async def lifespan(app: FastAPI):
         except Exception as exc:
             logger.warning("recovery_daemon_start_failed", extra={"event": "recovery_daemon_start_failed", "error": str(exc)})
 
+    # Start hydration daemon — pre-builds widget data cache on state changes
+    try:
+        from backend.app.services.hydration_daemon import hydration_daemon
+        await hydration_daemon.start()
+    except Exception as exc:
+        logger.warning("hydration_daemon_start_failed", extra={"event": "hydration_daemon_start_failed", "error": str(exc)})
+
+    # Start widget data daemon — pre-computes column stats, temporal, batches, problems
+    try:
+        from backend.app.services.widget_data_daemon import widget_data_daemon
+        await widget_data_daemon.start()
+    except Exception as exc:
+        logger.warning("widget_data_daemon_start_failed", extra={"event": "widget_data_daemon_start_failed", "error": str(exc)})
+
     yield
 
     # Shutdown: stop each component with individual error handling so that
     # a failure in one does not prevent cleanup of the others.
+    try:
+        from backend.app.services.widget_data_daemon import widget_data_daemon as _wdd
+        await _wdd.stop()
+    except Exception as exc:
+        logger.warning("widget_data_daemon_stop_failed", extra={"error": str(exc)})
+
+    try:
+        from backend.app.services.hydration_daemon import hydration_daemon as _hd
+        await _hd.stop()
+    except Exception as exc:
+        logger.warning("hydration_daemon_stop_failed", extra={"error": str(exc)})
+
     try:
         stop_recovery_daemon(timeout_seconds=5)
     except Exception as exc:

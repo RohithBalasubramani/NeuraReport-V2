@@ -106,6 +106,9 @@ legacy = types.SimpleNamespace(router=legacy_router)
 charts = types.SimpleNamespace(router=charts_router)
 widgets = types.SimpleNamespace(router=widgets_router)
 
+from .routes_pipeline_data import pipeline_data_router
+pipeline_data = types.SimpleNamespace(router=pipeline_data_router)
+
 __all__ = [
     "agents", "agents_v2", "ai", "assistant", "analytics", "audit",
     "charts", "connections", "connectors", "dashboards", "design",
@@ -114,5 +117,5 @@ __all__ = [
     "jobs", "knowledge", "legacy", "logger", "nl2sql", "notifications",
     "recommendations", "reports", "schedules", "search", "settings",
     "spreadsheets", "state", "summary", "synthesis", "templates",
-    "visualization", "widgets", "workflows",
+    "pipeline_data", "visualization", "widgets", "workflows",
 ]

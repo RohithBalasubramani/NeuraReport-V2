@@ -31,7 +31,15 @@ export default function PipelineChatPage() {
     if (urlSessionId && urlSessionId !== sessionId) {
       fetch(`/api/v1/pipeline/${urlSessionId}`)
         .then(r => r.json())
-        .then(data => store.resumeSession(data))
+        .then(data => {
+          store.resumeSession(data)
+          // Hydrate full store with all session artifacts so widgets
+          // have data immediately (template, mapping, contract, etc.)
+          fetch(`/api/v1/pipeline/${urlSessionId}/hydrate`)
+            .then(r => r.json())
+            .then(hydration => { if (hydration) store.processEvent(hydration) })
+            .catch(err => console.warn('Hydration failed, widgets will populate via chat:', err))
+        })
         .catch(() => store.initSession())
     } else if (!sessionId) {
       store.initSession()

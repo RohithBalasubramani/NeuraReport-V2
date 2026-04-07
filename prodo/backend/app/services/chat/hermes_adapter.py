@@ -18,7 +18,15 @@ import asyncio
 import contextvars
 import json
 import logging
+import sys
+from pathlib import Path
 from typing import Any, Callable
+
+# Ensure vendor/hermes-agent is on sys.path so `from tools.registry import registry`
+# and `from toolsets import TOOLSETS` resolve when this module is imported independently.
+_VENDOR_DIR = str(Path(__file__).resolve().parents[4] / "vendor" / "hermes-agent")
+if _VENDOR_DIR not in sys.path:
+    sys.path.insert(0, _VENDOR_DIR)
 
 from .tools import (
     TOOL_DISPATCH,
@@ -196,10 +204,11 @@ _registered = False
 # ── State-based tool groups ─────────────────────────────────────────
 # Smaller tool sets = fewer tokens in Hermes's LLM context = faster thinking
 
-# Core tools always available
-_CORE_TOOLS = {
-    "session_transition",
-}
+# Core tools always available — intentionally empty.
+# session_transition was removed: it let the LLM manually skip required
+# pipeline steps (e.g., jump APPROVED → BUILDING_ASSETS without running
+# build_generator_assets). Pipeline tools handle their own transitions.
+_CORE_TOOLS: set[str] = set()
 
 # Tools per pipeline state (only these + core are registered)
 STATE_TOOLS: dict[str, set[str]] = {
@@ -225,6 +234,19 @@ STATE_TOOLS: dict[str, set[str]] = {
         "dry_run_preview", "get_column_stats",
     },
     "ready": _CORE_TOOLS | {
+        "generate_report", "discover_batches", "get_key_options",
+    },
+    # Transient states — agent may get invoked mid-transition
+    "correcting": _CORE_TOOLS | {
+        "refine_mapping", "edit_mapping", "read_mapping", "get_column_stats",
+    },
+    "approving": _CORE_TOOLS | {
+        "build_contract", "read_mapping",
+    },
+    "validating": _CORE_TOOLS | {
+        "validate_pipeline", "auto_fix_issues", "dry_run_preview",
+    },
+    "generating": _CORE_TOOLS | {
         "generate_report", "discover_batches", "get_key_options",
     },
 }
@@ -289,7 +311,7 @@ def register_pipeline_tools(event_loop: asyncio.AbstractEventLoop) -> None:
             toolset = f"nr_{state}"
             _TS[toolset] = {
                 "tools": sorted(tool_names & set(handlers.keys())),
-                "includes": _HERMES_NATIVE_TOOLSETS,
+                "includes": list(_HERMES_NATIVE_TOOLSETS),
             }
             logger.debug("state_toolset_defined", extra={
                 "state": state, "toolset": toolset,

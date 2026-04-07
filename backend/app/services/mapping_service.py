@@ -503,6 +503,10 @@ def _normalize_token_samples(
     extras = sorted(set(normalized) - expected_tokens)
     if extras:
         if allow_missing_tokens:
+            logger.warning(
+                "token_samples_hallucinated_stripped",
+                extra={"stripped": extras, "count": len(extras)},
+            )
             for extra in extras:
                 normalized.pop(extra, None)
         else:

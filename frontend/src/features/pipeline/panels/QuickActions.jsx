@@ -1,10 +1,21 @@
 /**
- * QuickActions — Right-click context menu overlay using:
- * - react-contexify (context menu)
- * - @floating-ui/react (positioning)
+ * QuickActions — Right-click context menu overlay.
  *
- * Wraps panel content and provides context-aware actions
- * based on what element was right-clicked.
+ * References:
+ *   - react-contexify: context menu library
+ *   - @floating-ui/react: tooltip positioning
+ *   - VS Code context menu: action-aware based on click target
+ *
+ * Covers:
+ *   10: Quick actions overlay (react-contexify with 6 context-aware actions)
+ *
+ * Right-click any element in the panel → context menu with:
+ *   - Remap field (if token detected)
+ *   - Trace data source (→ logic panel)
+ *   - Preview with data (→ preview panel)
+ *   - Change formatting
+ *   - Copy value
+ *   - Open in panel
  */
 import React, { useCallback, useRef } from 'react'
 import { Menu, Item, Separator, useContextMenu } from 'react-contexify'
@@ -13,19 +24,15 @@ import {
   useFloating, autoPlacement, offset, shift,
 } from '@floating-ui/react'
 import {
-  SwapHoriz as RemapIcon,
-  AccountTree as TraceIcon,
-  Visibility as PreviewIcon,
-  TextFormat as FormatIcon,
-  ContentCopy as CopyIcon,
-  OpenInNew as JumpIcon,
+  SwapHoriz as RemapIcon, AccountTree as TraceIcon,
+  Visibility as PreviewIcon, TextFormat as FormatIcon,
+  ContentCopy as CopyIcon, OpenInNew as JumpIcon,
 } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import usePipelineStore from '@/stores/pipeline'
 
 const MENU_ID = 'neura-quick-actions'
 
-// ── Context Menu Items ──
 const ACTIONS = {
   remap: { label: 'Remap this field', icon: <RemapIcon sx={{ fontSize: 16 }} /> },
   trace: { label: 'Trace data source', icon: <TraceIcon sx={{ fontSize: 16 }} /> },
@@ -35,88 +42,56 @@ const ACTIONS = {
   jump: { label: 'Open in panel', icon: <JumpIcon sx={{ fontSize: 16 }} /> },
 }
 
-// Determine available actions based on context
-function getAvailableActions(context) {
-  const actions = []
-
-  if (context.token || context.field) {
-    actions.push('remap', 'trace', 'preview')
-  }
-  if (context.text) {
-    actions.push('copy')
-  }
-  if (context.panel) {
-    actions.push('jump')
-  }
-  if (context.token) {
-    actions.push('format')
-  }
-
-  // Always show at least copy
-  if (actions.length === 0) actions.push('copy')
-
-  return actions
+// Determine which actions are relevant for the clicked context
+function getActions(ctx) {
+  const a = []
+  if (ctx.token || ctx.field) a.push('remap', 'trace', 'preview')
+  if (ctx.text) a.push('copy')
+  if (ctx.panel) a.push('jump')
+  if (ctx.token) a.push('format')
+  if (!a.length) a.push('copy')
+  return a
 }
 
-// Extract context from right-clicked element
-function extractContext(element) {
-  const context = {}
-
-  // Walk up DOM to find data attributes
-  let el = element
-  while (el && el !== document.body) {
-    if (el.dataset?.token) context.token = el.dataset.token
-    if (el.dataset?.field) context.field = el.dataset.field
-    if (el.dataset?.panel) context.panel = el.dataset.panel
-    if (el.dataset?.column) context.column = el.dataset.column
-    el = el.parentElement
+// Walk DOM upward to extract data-* attributes
+function extractContext(el) {
+  const ctx = {}
+  let node = el
+  while (node && node !== document.body) {
+    if (node.dataset?.token) ctx.token = node.dataset.token
+    if (node.dataset?.field) ctx.field = node.dataset.field
+    if (node.dataset?.panel) ctx.panel = node.dataset.panel
+    if (node.dataset?.column) ctx.column = node.dataset.column
+    node = node.parentElement
   }
-
-  // Get selected text or element text
-  const selection = window.getSelection()?.toString()
-  context.text = selection || element?.textContent?.slice(0, 100) || ''
-
-  return context
+  ctx.text = window.getSelection()?.toString() || el?.textContent?.slice(0, 100) || ''
+  return ctx
 }
 
-// ── Menu Component ──
+// ── Menu ──
 function QuickActionsMenu({ onAction }) {
   const setActivePanel = usePipelineStore(s => s.setActivePanel)
   const setHighlightedField = usePipelineStore(s => s.setHighlightedField)
 
-  const handleAction = useCallback((actionType, context) => {
-    switch (actionType) {
+  const handle = useCallback((type, ctx) => {
+    switch (type) {
       case 'remap':
-        if (context.token) {
-          onAction?.({ type: 'remap_field', token: context.token })
-        }
+        if (ctx.token) onAction?.({ type: 'remap_field', token: ctx.token })
         break
       case 'trace':
-        if (context.token || context.field) {
-          setActivePanel('logic')
-          setHighlightedField(context.token || context.field)
-        }
+        if (ctx.token || ctx.field) { setActivePanel('logic'); setHighlightedField(ctx.token || ctx.field) }
         break
       case 'preview':
-        if (context.token) {
-          setActivePanel('preview')
-          setHighlightedField(context.token)
-        }
+        if (ctx.token) { setActivePanel('preview'); setHighlightedField(ctx.token) }
         break
       case 'format':
-        if (context.token) {
-          onAction?.({ type: 'format_field', token: context.token })
-        }
+        if (ctx.token) onAction?.({ type: 'format_field', token: ctx.token })
         break
       case 'copy':
-        if (context.text) {
-          navigator.clipboard?.writeText(context.text)
-        }
+        if (ctx.text) navigator.clipboard?.writeText(ctx.text)
         break
       case 'jump':
-        if (context.panel) {
-          setActivePanel(context.panel)
-        }
+        if (ctx.panel) setActivePanel(ctx.panel)
         break
     }
   }, [onAction, setActivePanel, setHighlightedField])
@@ -124,34 +99,26 @@ function QuickActionsMenu({ onAction }) {
   return (
     <Menu id={MENU_ID} animation="fade" theme="light">
       {({ props: menuProps }) => {
-        const context = menuProps?.context || {}
-        const availableActions = getAvailableActions(context)
-
+        const ctx = menuProps?.context || {}
+        const available = getActions(ctx)
         return (
           <>
-            {context.token && (
+            {ctx.token && (
               <>
                 <Box sx={{ px: 1.5, py: 0.5 }}>
-                  <Typography variant="caption" color="text.disabled" fontWeight={600}>
-                    {context.token}
-                  </Typography>
+                  <Typography variant="caption" color="text.disabled" fontWeight={600}>{ctx.token}</Typography>
                 </Box>
                 <Separator />
               </>
             )}
-            {availableActions.map(actionKey => {
-              const action = ACTIONS[actionKey]
-              if (!action) return null
+            {available.map(key => {
+              const a = ACTIONS[key]
+              if (!a) return null
               return (
-                <Item
-                  key={actionKey}
-                  onClick={() => handleAction(actionKey, context)}
-                >
+                <Item key={key} onClick={() => handle(key, ctx)}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {action.icon}
-                    <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                      {action.label}
-                    </Typography>
+                    {a.icon}
+                    <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{a.label}</Typography>
                   </Box>
                 </Item>
               )
@@ -163,30 +130,24 @@ function QuickActionsMenu({ onAction }) {
   )
 }
 
-// ── Provider Wrapper ──
+// ── Provider ──
 export default function QuickActionsProvider({ children, onAction }) {
   const { show } = useContextMenu({ id: MENU_ID })
-  const containerRef = useRef(null)
 
-  const handleContextMenu = useCallback((e) => {
+  const handleContextMenu = useCallback(e => {
     e.preventDefault()
-    const context = extractContext(e.target)
-    show({ event: e, props: { context } })
+    show({ event: e, props: { context: extractContext(e.target) } })
   }, [show])
 
   return (
-    <Box
-      ref={containerRef}
-      onContextMenu={handleContextMenu}
-      sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
-    >
+    <Box onContextMenu={handleContextMenu} sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {children}
       <QuickActionsMenu onAction={onAction} />
     </Box>
   )
 }
 
-// ── Floating Tooltip (reusable) ──
+// ── Reusable Floating Tooltip ──
 export function FloatingTooltip({ children, content, placement = 'bottom' }) {
   const { refs, floatingStyles } = useFloating({
     placement,
@@ -195,24 +156,10 @@ export function FloatingTooltip({ children, content, placement = 'bottom' }) {
 
   return (
     <>
-      <Box ref={refs.setReference} sx={{ display: 'inline-flex' }}>
-        {children}
-      </Box>
+      <Box ref={refs.setReference} sx={{ display: 'inline-flex' }}>{children}</Box>
       {content && (
-        <Box
-          ref={refs.setFloating}
-          style={floatingStyles}
-          sx={{
-            bgcolor: 'background.paper',
-            border: 1,
-            borderColor: 'divider',
-            borderRadius: 1,
-            boxShadow: 2,
-            p: 1,
-            zIndex: 1500,
-            fontSize: '0.75rem',
-          }}
-        >
+        <Box ref={refs.setFloating} style={floatingStyles}
+          sx={{ bgcolor: 'background.paper', border: 1, borderColor: 'divider', borderRadius: 1, boxShadow: 2, p: 1, zIndex: 1500, fontSize: '0.75rem' }}>
           {content}
         </Box>
       )}

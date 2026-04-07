@@ -1,10 +1,18 @@
 /**
- * MappingsTab — Full-featured mapping table with:
- * - @tanstack/react-table (sorting, row selection, bulk actions)
- * - @tippyjs/react (column stats popover)
- * - react-sparklines (inline distribution charts)
- * - MUI Autocomplete (column search)
- * - clsx (conditional styling)
+ * MappingsTab — Field-to-column mapping table.
+ *
+ * References:
+ *   - @tanstack/react-table: headless table with sorting, filtering, selection
+ *   - @tippyjs/react: tooltip/popover for column statistics
+ *   - react-sparklines: inline distribution charts
+ *   - MUI Autocomplete: searchable dropdown for column remapping
+ *
+ * Covers:
+ *   2a: Field mapping table (TanStack Table, sorting, filtering, selection)
+ *   2b: Color-coded confidence (chips colored by threshold)
+ *   2c: Dropdown remap + search (MUI Autocomplete with all DB columns)
+ *   2d: Sample values + column stats (Tippy popover with null%, unique, distribution)
+ *   2e: Bulk actions (Set Unresolved, Auto-remap, Accept All)
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import {
@@ -18,20 +26,17 @@ import {
 import {
   Check as ApproveIcon, Warning as WarningIcon,
   ArrowUpward as SortAscIcon, ArrowDownward as SortDescIcon,
-  Queue as QueueIcon, SelectAll as SelectAllIcon,
-  Deselect as DeselectIcon,
+  Queue as QueueIcon,
 } from '@mui/icons-material'
 import Tippy from '@tippyjs/react'
 import { Sparklines, SparklinesBars } from 'react-sparklines'
 import clsx from 'clsx'
 import usePipelineStore from '@/stores/pipeline'
 import { humanizeToken, humanizeColumn } from '../../utils'
-// confidenceSx inlined in cell renderer to avoid hooks-in-render violation
 
-// ── Column Stats Popover ──
+// ── 2d: Column Stats Popover ──
 function ColumnStatsPopover({ column, stats }) {
   if (!stats) return <Typography variant="caption" color="text.secondary">{humanizeColumn(column)}</Typography>
-
   return (
     <Box sx={{ p: 1.5, maxWidth: 260, fontSize: '0.75rem' }}>
       <Typography variant="subtitle2" sx={{ mb: 0.5 }}>{humanizeColumn(column)}</Typography>
@@ -73,7 +78,7 @@ function ColumnStatsPopover({ column, stats }) {
   )
 }
 
-// ── Inline Sparkline Cell ──
+// Inline sparkline cell for distribution column
 function SparklineCell({ distribution }) {
   if (!distribution?.length) return <Typography variant="caption" color="text.disabled">—</Typography>
   return (
@@ -83,14 +88,11 @@ function SparklineCell({ distribution }) {
   )
 }
 
-// ── Bulk Actions Bar ──
+// ── 2e: Bulk Actions Bar ──
 function BulkActionsBar({ selectedCount, onBulkAction }) {
-  if (selectedCount === 0) return null
+  if (!selectedCount) return null
   return (
-    <Box sx={{
-      px: 2, py: 1, bgcolor: 'primary.50', borderBottom: 1, borderColor: 'primary.light',
-      display: 'flex', alignItems: 'center', gap: 1,
-    }}>
+    <Box sx={{ px: 2, py: 0.75, bgcolor: '#e3f2fd', borderBottom: 1, borderColor: '#90caf9', display: 'flex', alignItems: 'center', gap: 1 }}>
       <Typography variant="caption" fontWeight={600}>{selectedCount} selected</Typography>
       <Button size="small" variant="outlined" onClick={() => onBulkAction('unresolve')} sx={{ textTransform: 'none', fontSize: '0.7rem' }}>
         Set Unresolved
@@ -126,10 +128,9 @@ export default function MappingsTab({ onAction }) {
   const confidence = mapping?.confidence || {}
   const confidenceReason = mapping?.confidence_reason || {}
   const errorTokens = useMemo(() => new Set(errors.filter(e => e.severity === 'error').map(e => e.token_name)), [errors])
-
   const finalMapping = useMemo(() => ({ ...mappingDict, ...edits }), [mappingDict, edits])
 
-  // All DB columns for autocomplete
+  // All DB columns for autocomplete dropdown
   const allColumns = useMemo(() => {
     const catalog = mapping?.catalog
     if (!catalog) return []
@@ -139,38 +140,26 @@ export default function MappingsTab({ onAction }) {
     )
   }, [mapping?.catalog])
 
-  // Table data
+  // Table row data
   const data = useMemo(() =>
     Object.entries(finalMapping).map(([token, column]) => ({
-      token,
-      column,
+      token, column,
       sample: mapping?.token_samples?.[token] || '',
       conf: confidence[token] ?? null,
       confReason: confidenceReason[token] || '',
       isError: column === 'UNRESOLVED' || errorTokens.has(token),
       isEdited: token in edits,
-      signature: mapping?.token_signatures?.[token] || token,
       distribution: columnStats[column]?.distribution || null,
       stats: columnStats[column] || null,
       candidates: candidates[token] || [],
     })),
   [finalMapping, mapping, confidence, confidenceReason, errorTokens, edits, columnStats, candidates])
 
-  const handleEdit = useCallback((token, value) => {
-    setEdits(prev => ({ ...prev, [token]: value }))
-  }, [])
+  const handleEdit = useCallback((token, value) => setEdits(prev => ({ ...prev, [token]: value })), [])
 
   const handleApprove = useCallback((force = false) => {
-    setMappingData({
-      mapping: finalMapping,
-      status: force ? 'approved_with_warnings' : 'approved',
-    })
+    setMappingData({ mapping: finalMapping, status: force ? 'approved_with_warnings' : 'approved' })
     onAction?.({ type: 'approve_mapping', mapping: finalMapping, force })
-  }, [finalMapping, setMappingData, onAction])
-
-  const handleQueueContinue = useCallback(() => {
-    setMappingData({ mapping: finalMapping, status: 'approved' })
-    onAction?.({ type: 'approve_and_continue', mapping: finalMapping })
   }, [finalMapping, setMappingData, onAction])
 
   const handleBulkAction = useCallback((action) => {
@@ -179,236 +168,130 @@ export default function MappingsTab({ onAction }) {
       const newEdits = { ...edits }
       selectedTokens.forEach(t => { newEdits[t] = 'UNRESOLVED' })
       setEdits(newEdits)
-    } else if (action === 'accept') {
-      // no-op: keep current values
     } else if (action === 'remap') {
       onAction?.({ type: 'remap_selected', tokens: selectedTokens })
     }
     setRowSelection({})
   }, [rowSelection, data, edits, onAction])
 
-  // TanStack Table columns
+  // TanStack Table columns definition
   const columns = useMemo(() => [
     {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          size="small"
-          checked={table.getIsAllRowsSelected()}
-          indeterminate={table.getIsSomeRowsSelected()}
-          onChange={table.getToggleAllRowsSelectedHandler()}
-          sx={{ p: 0 }}
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          size="small"
-          checked={row.getIsSelected()}
-          onChange={row.getToggleSelectedHandler()}
-          sx={{ p: 0 }}
-        />
-      ),
-      size: 36,
-      enableSorting: false,
+      id: 'select', size: 36, enableSorting: false,
+      header: ({ table }) => <Checkbox size="small" checked={table.getIsAllRowsSelected()} indeterminate={table.getIsSomeRowsSelected()} onChange={table.getToggleAllRowsSelectedHandler()} sx={{ p: 0 }} />,
+      cell: ({ row }) => <Checkbox size="small" checked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} sx={{ p: 0 }} />,
     },
     {
-      accessorKey: 'token',
-      header: 'Field',
+      accessorKey: 'token', header: 'Field', size: 160,
       cell: ({ row }) => {
-        const { token, signature } = row.original
-        const isHighlighted = highlightedField === token
+        const { token } = row.original
+        const isHL = highlightedField === token
         return (
-          <Box
-            sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer' }}
-            onClick={() => setHighlightedField(isHighlighted ? null : token)}
-          >
-            <Box sx={{ width: 4, height: 16, borderRadius: 1, bgcolor: getTokenColor(signature) }} />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer' }}
+            onClick={() => setHighlightedField(isHL ? null : token)}>
+            <Box sx={{ width: 4, height: 16, borderRadius: 1, bgcolor: getTokenColor(token) }} />
             <Tooltip title={`{{${token}}}`} placement="right">
-              <Typography
-                variant="body2"
-                fontSize="0.8rem"
-                fontWeight={isHighlighted ? 700 : 400}
-                sx={isHighlighted ? { textDecoration: 'underline' } : {}}
-              >
+              <Typography variant="body2" fontSize="0.8rem" fontWeight={isHL ? 700 : 400} sx={isHL ? { textDecoration: 'underline' } : {}}>
                 {humanizeToken(token)}
               </Typography>
             </Tooltip>
           </Box>
         )
       },
-      size: 160,
     },
     {
-      accessorKey: 'column',
-      header: 'Source Column',
+      accessorKey: 'column', header: 'Source Column', size: 200,
       cell: ({ row }) => {
-        const { token, column, candidates: tokenCandidates, stats } = row.original
-        const isApproved = mapping?.status
-
-        if (isApproved) {
+        const { token, column, candidates: cands, stats } = row.original
+        if (mapping?.status) {
           return (
-            <Tippy
-              content={<ColumnStatsPopover column={column} stats={stats} />}
-              delay={[300, 0]}
-              interactive
-              placement="bottom"
-              appendTo={() => document.body}
-            >
-              <Typography variant="body2" fontSize="0.8rem" noWrap sx={{ cursor: 'help' }}>
-                {humanizeColumn(column)}
-              </Typography>
+            <Tippy content={<ColumnStatsPopover column={column} stats={stats} />} delay={[300, 0]} interactive placement="bottom" appendTo={() => document.body}>
+              <Typography variant="body2" fontSize="0.8rem" noWrap sx={{ cursor: 'help' }}>{humanizeColumn(column)}</Typography>
             </Tippy>
           )
         }
-
         return (
-          <Autocomplete
-            size="small"
-            freeSolo
-            value={column === 'UNRESOLVED' ? '' : column}
-            options={[...new Set([...tokenCandidates, ...allColumns])]}
-            getOptionLabel={o => humanizeColumn(o)}
+          <Autocomplete size="small" freeSolo value={column === 'UNRESOLVED' ? '' : column}
+            options={[...new Set([...cands, ...allColumns])]} getOptionLabel={o => humanizeColumn(o)}
             onChange={(_, val) => handleEdit(token, val || 'UNRESOLVED')}
-            onInputChange={(_, val) => { if (val) handleEdit(token, val) }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                placeholder={tokenCandidates[0] ? humanizeColumn(tokenCandidates[0]) : 'Select...'}
-                sx={{ fontSize: '0.8rem' }}
-              />
-            )}
+            renderInput={params => <TextField {...params} variant="standard" placeholder={cands[0] ? humanizeColumn(cands[0]) : 'Select...'} sx={{ fontSize: '0.8rem' }} />}
             sx={{ minWidth: 140 }}
           />
         )
       },
-      size: 200,
     },
     {
-      accessorKey: 'sample',
-      header: 'Sample',
-      cell: ({ getValue }) => (
-        <Typography variant="caption" color="text.secondary" noWrap>{getValue() || '—'}</Typography>
-      ),
-      size: 100,
+      accessorKey: 'sample', header: 'Sample', size: 100,
+      cell: ({ getValue }) => <Typography variant="caption" color="text.secondary" noWrap>{getValue() || '—'}</Typography>,
     },
     {
-      id: 'sparkline',
-      header: 'Dist.',
+      id: 'sparkline', header: 'Dist.', size: 70, enableSorting: false,
       cell: ({ row }) => <SparklineCell distribution={row.original.distribution} />,
-      size: 70,
-      enableSorting: false,
     },
     {
-      accessorKey: 'conf',
-      header: 'Conf.',
+      accessorKey: 'conf', header: 'Conf.', size: 70,
       cell: ({ row }) => {
         const { conf, confReason } = row.original
         if (conf == null) return null
+        const color = conf >= 0.8 ? 'success' : conf >= 0.5 ? 'warning' : 'error'
         return (
           <Tooltip title={confReason}>
-            <Chip
-              label={`${Math.round(conf * 100)}%`}
-              size="small"
-              color={conf >= 0.8 ? 'success' : conf >= 0.5 ? 'warning' : 'error'}
-              variant="outlined"
-              sx={{
-                height: 20, fontSize: '0.7rem',
-                ...(conf < 0.8 && { opacity: conf >= 0.5 ? 0.65 : 0.35, filter: conf >= 0.5 ? 'saturate(0.6)' : 'saturate(0.3)' }),
-              }}
-            />
+            <Chip label={`${Math.round(conf * 100)}%`} size="small" color={color} variant="outlined"
+              sx={{ height: 20, fontSize: '0.7rem', opacity: conf >= 0.8 ? 1 : conf >= 0.5 ? 0.65 : 0.35 }} />
           </Tooltip>
         )
       },
       sortingFn: (a, b) => (a.original.conf ?? 0) - (b.original.conf ?? 0),
-      size: 70,
     },
     {
-      id: 'status',
-      header: 'Status',
+      id: 'status', header: 'Status', size: 70,
       cell: ({ row }) => {
         const { isError, isEdited } = row.original
         if (isError) return <Chip label="Error" size="small" color="error" sx={{ height: 20, fontSize: '0.7rem' }} />
         if (isEdited) return <Chip label="Edited" size="small" color="warning" sx={{ height: 20, fontSize: '0.7rem' }} />
         return <Chip label="OK" size="small" color="success" sx={{ height: 20, fontSize: '0.7rem' }} />
       },
-      sortingFn: (a, b) => {
-        const score = (r) => r.original.isError ? 0 : r.original.isEdited ? 1 : 2
-        return score(a) - score(b)
-      },
-      size: 70,
     },
   ], [mapping?.status, highlightedField, getTokenColor, setHighlightedField, allColumns, handleEdit])
 
   const table = useReactTable({
-    data,
-    columns,
+    data, columns,
     state: { sorting, globalFilter, rowSelection },
-    onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
-    onRowSelectionChange: setRowSelection,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting, onGlobalFilterChange: setGlobalFilter, onRowSelectionChange: setRowSelection,
+    getCoreRowModel: getCoreRowModel(), getSortedRowModel: getSortedRowModel(), getFilteredRowModel: getFilteredRowModel(),
     enableRowSelection: true,
   })
 
-  // Summary stats
   const totalTokens = template?.tokens?.length || 0
   const unresolvedCount = Object.values(finalMapping).filter(v => v === 'UNRESOLVED').length
   const resolvedCount = Object.keys(finalMapping).length - unresolvedCount
-  const editedCount = Object.keys(edits).length
-  const lowConfCount = Object.values(confidence).filter(c => c < 0.5).length
   const hasErrors = unresolvedCount > 0 || errors.some(e => e.severity === 'error')
   const selectedCount = Object.keys(rowSelection).length
 
   if (!Object.keys(mappingDict).length) {
-    if (isProcessing) {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
-          <Typography color="text.secondary" fontStyle="italic">Mapping in progress...</Typography>
-        </Box>
-      )
-    }
     return (
       <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
-        <Typography color="text.secondary">No mapping yet. Say "map" in the chat to auto-map fields.</Typography>
+        <Typography color="text.secondary">{isProcessing ? 'Mapping in progress...' : 'No mapping yet. Say "map" in chat to auto-map fields.'}</Typography>
       </Box>
     )
   }
 
   return (
     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      {/* Header */}
+      {/* Summary header */}
       <Box sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.75 }}>
-          <Typography variant="subtitle2" sx={{ flex: 1 }}>Field Mapping</Typography>
-          {mapping?.status === 'approved_with_warnings' && (
-            <Chip icon={<WarningIcon />} label="Approved with warnings" size="small" color="warning" />
-          )}
-        </Box>
-        <Stack direction="row" spacing={0.5} flexWrap="wrap" gap={0.5}>
+        <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
           <Chip label={`${resolvedCount}/${totalTokens} mapped`} size="small" color={resolvedCount === totalTokens ? 'success' : 'default'} variant="outlined" />
           {unresolvedCount > 0 && <Chip label={`${unresolvedCount} unresolved`} size="small" color="error" />}
-          {editedCount > 0 && <Chip label={`${editedCount} edited`} size="small" color="warning" variant="outlined" />}
-          {lowConfCount > 0 && <Chip label={`${lowConfCount} low confidence`} size="small" color="warning" variant="outlined" />}
         </Stack>
       </Box>
 
       {/* Search */}
       <Box sx={{ px: 2, py: 0.75, borderBottom: 1, borderColor: 'divider' }}>
-        <TextField
-          size="small"
-          variant="outlined"
-          placeholder="Search fields..."
-          value={globalFilter ?? ''}
-          onChange={e => setGlobalFilter(e.target.value)}
-          fullWidth
-          sx={{ '& .MuiInputBase-root': { height: 32, fontSize: '0.8rem' } }}
-        />
+        <TextField size="small" variant="outlined" placeholder="Search fields..." value={globalFilter ?? ''} onChange={e => setGlobalFilter(e.target.value)}
+          fullWidth sx={{ '& .MuiInputBase-root': { height: 32, fontSize: '0.8rem' } }} />
       </Box>
 
-      {/* Bulk Actions */}
       <BulkActionsBar selectedCount={selectedCount} onBulkAction={handleBulkAction} />
 
       {/* Table */}
@@ -418,24 +301,9 @@ export default function MappingsTab({ onAction }) {
             {table.getHeaderGroups().map(hg => (
               <tr key={hg.id}>
                 {hg.headers.map(header => (
-                  <th
-                    key={header.id}
+                  <th key={header.id}
                     onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
-                    style={{
-                      width: header.getSize(),
-                      padding: '6px 8px',
-                      textAlign: 'left',
-                      fontWeight: 600,
-                      fontSize: '0.75rem',
-                      borderBottom: '2px solid #e0e0e0',
-                      cursor: header.column.getCanSort() ? 'pointer' : 'default',
-                      userSelect: 'none',
-                      position: 'sticky',
-                      top: 0,
-                      background: '#fafafa',
-                      zIndex: 1,
-                    }}
-                  >
+                    style={{ width: header.getSize(), padding: '6px 8px', textAlign: 'left', fontWeight: 600, fontSize: '0.75rem', borderBottom: '2px solid #e0e0e0', cursor: header.column.getCanSort() ? 'pointer' : 'default', position: 'sticky', top: 0, background: '#fafafa', zIndex: 1 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getIsSorted() === 'asc' && <SortAscIcon sx={{ fontSize: 14 }} />}
@@ -449,25 +317,12 @@ export default function MappingsTab({ onAction }) {
           <tbody>
             {table.getRowModel().rows.map(row => {
               const { isError, token } = row.original
-              const isHighlighted = highlightedField === token
+              const isHL = highlightedField === token
               return (
-                <tr
-                  key={row.id}
-                  className={clsx({ 'row-error': isError, 'row-highlighted': isHighlighted })}
-                  style={{
-                    backgroundColor: isError ? '#fef2f2' : isHighlighted ? '#e3f2fd' : undefined,
-                    transition: 'background-color 0.15s',
-                  }}
-                >
+                <tr key={row.id} className={clsx({ 'row-error': isError, 'row-hl': isHL })}
+                  style={{ backgroundColor: isError ? '#fef2f2' : isHL ? '#e3f2fd' : undefined, transition: 'background-color 0.15s' }}>
                   {row.getVisibleCells().map(cell => (
-                    <td
-                      key={cell.id}
-                      style={{
-                        padding: '4px 8px',
-                        borderBottom: '1px solid #f0f0f0',
-                        verticalAlign: 'middle',
-                      }}
-                    >
+                    <td key={cell.id} style={{ padding: '4px 8px', borderBottom: '1px solid #f0f0f0', verticalAlign: 'middle' }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -478,44 +333,17 @@ export default function MappingsTab({ onAction }) {
         </table>
       </Box>
 
-      {/* Actions */}
+      {/* Approve actions */}
       {!mapping?.status && (
         <Box sx={{ px: 2, py: 1.5, borderTop: 1, borderColor: 'divider' }}>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
-            <Button
-              variant="contained"
-              size="small"
-              startIcon={<ApproveIcon />}
-              onClick={() => handleApprove(false)}
-              disabled={hasErrors || isProcessing}
-            >
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" size="small" startIcon={<ApproveIcon />} onClick={() => handleApprove(false)} disabled={hasErrors || isProcessing}>
               Approve Mapping
             </Button>
-            {!hasErrors && (
-              <Button
-                variant="contained"
-                size="small"
-                color="secondary"
-                startIcon={<QueueIcon />}
-                onClick={handleQueueContinue}
-                disabled={isProcessing}
-              >
-                Approve & Continue
-              </Button>
-            )}
             {hasErrors && (
-              <Tooltip title="Override errors — validation will run in strict mode">
-                <Button
-                  variant="outlined"
-                  size="small"
-                  color="warning"
-                  startIcon={<WarningIcon />}
-                  onClick={() => handleApprove(true)}
-                  disabled={isProcessing}
-                >
-                  Force Approve
-                </Button>
-              </Tooltip>
+              <Button variant="outlined" size="small" color="warning" startIcon={<WarningIcon />} onClick={() => handleApprove(true)} disabled={isProcessing}>
+                Force Approve
+              </Button>
             )}
           </Stack>
         </Box>

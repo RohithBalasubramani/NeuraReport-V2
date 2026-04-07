@@ -8074,13 +8074,13 @@ async def pipeline_chat_upload(request: Request):
         },
     )
 
-@pipeline_router.get("/{session_id}")
-async def pipeline_session_get(session_id: str):
-    """Read session state for resume after page reload."""
-    from backend.app.services.chat.session import ChatSession
-    from backend.app.services.legacy_services import template_dir as _template_dir
+def _find_session(session_id: str):
+    """Scan upload dirs for a session, return (session, template_dir).
 
-    # Search for the session across template directories
+    Raises HTTPException(404) if not found.  Guarantees session_id match
+    (session isolation).
+    """
+    from backend.app.services.chat.session import ChatSession
     from backend.app.services.legacy_services import UPLOAD_ROOT, EXCEL_UPLOAD_ROOT
 
     for base in (UPLOAD_ROOT, EXCEL_UPLOAD_ROOT):
@@ -8094,11 +8094,66 @@ async def pipeline_session_get(session_id: str):
                 try:
                     session = ChatSession.load(tdir)
                     if session.session_id == session_id:
-                        return session.to_dict()
+                        return session, tdir
                 except Exception:
                     continue
 
     raise HTTPException(status_code=404, detail="Session not found")
+
+
+@pipeline_router.get("/{session_id}")
+async def pipeline_session_get(session_id: str):
+    """Read session state for resume after page reload."""
+    session, _tdir = _find_session(session_id)
+    return session.to_dict()
+
+
+@pipeline_router.get("/{session_id}/hydrate")
+async def pipeline_session_hydrate(session_id: str):
+    """Full store hydration — returns all cached session artifacts.
+
+    The frontend calls this on page load to populate the Zustand store
+    so all 28 pure-frontend widgets have data immediately without needing
+    a chat round-trip.
+
+    Uses a file-based cache (``hydration_cache.json``) that is rebuilt
+    by the background ``HydrationDaemon`` on every state transition.
+    If the cache is stale or missing, builds on-demand.
+    """
+    import asyncio as _asyncio
+    import json as _json
+    from backend.app.services.hydration import build_hydration_payload
+
+    session, tdir = _find_session(session_id)
+
+    # Check for pre-built cache
+    cache_path = tdir / "hydration_cache.json"
+    if cache_path.exists():
+        cache_mtime = cache_path.stat().st_mtime
+        artifact_names = [
+            "template_p1.html", "mapping_step3.json", "contract.json",
+            "validation_result.json", "dry_run_result.json",
+            "column_stats.json", "performance_metrics.json",
+            "constraint_violations.json", "chat_session.json",
+        ]
+        latest_artifact = max(
+            ((tdir / f).stat().st_mtime for f in artifact_names if (tdir / f).exists()),
+            default=0,
+        )
+        if cache_mtime >= latest_artifact:
+            return _json.loads(cache_path.read_text(encoding="utf-8"))
+
+    # Cache miss — build on-demand and persist for next call
+    payload = await _asyncio.to_thread(build_hydration_payload, session)
+
+    try:
+        tmp = cache_path.with_suffix(".tmp")
+        tmp.write_text(_json.dumps(payload, ensure_ascii=False))
+        tmp.rename(cache_path)
+    except Exception:
+        pass  # Non-fatal: cache write failure doesn't block response
+
+    return payload
 
 def _get_or_create_session(payload, template_id: str | None):
     """Resolve or create a ChatSession from the payload."""

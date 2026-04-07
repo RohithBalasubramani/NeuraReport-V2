@@ -1,11 +1,19 @@
 /**
- * FieldConnectionGraph (#2 + #8) — React Flow-based field connection visualization.
- * Template fields (left) <-> DB columns (right), edges connecting them.
- * Uses @xyflow/react with dagre auto-layout for production-grade graph rendering.
- * Thick = strong confidence, dotted = weak, glow = highlighted field.
+ * FieldConnectionGraph — ReactFlow field connection visualization.
+ *
+ * References:
+ *   - @xyflow/react: production node-edge graph (Stripe, Vercel)
+ *   - dagre: hierarchical LR layout algorithm
+ *   - Figma connectors: bezier curves, confidence thickness, hover tooltips
+ *
+ * Covers: V2 (field connection animation), V8 (data source glow from template clicks)
+ *
+ * Template fields (left) ←→ DB columns (right)
+ * Edge style: thick=high confidence, dashed=low, glow=highlighted
+ * Line-drawing animation on mount via stroke-dashoffset.
  */
-import React, { useMemo, useCallback, useEffect, useState } from 'react'
-import { Box, Typography } from '@mui/material'
+import React, { useMemo, useCallback, useEffect, useState, useRef } from 'react'
+import { Box, Typography, Chip } from '@mui/material'
 import {
   ReactFlow,
   Background,
@@ -13,7 +21,6 @@ import {
   useNodesState,
   useEdgesState,
   getBezierPath,
-  BaseEdge,
   Handle,
   Position,
   reconnectEdge,
@@ -26,61 +33,71 @@ import { humanizeToken, humanizeColumn } from '../../utils'
 // ── Dagre auto-layout ──
 function getLayoutedElements(nodes, edges) {
   const g = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}))
-  g.setGraph({ rankdir: 'LR', nodesep: 8, ranksep: 150, marginx: 10, marginy: 10 })
-
-  nodes.forEach((n) => g.setNode(n.id, { width: 140, height: 32 }))
-  edges.forEach((e) => g.setEdge(e.source, e.target))
+  g.setGraph({ rankdir: 'LR', nodesep: 10, ranksep: 160, marginx: 12, marginy: 12 })
+  nodes.forEach(n => g.setNode(n.id, { width: 140, height: 34 }))
+  edges.forEach(e => g.setEdge(e.source, e.target))
   dagre.layout(g)
-
   return {
-    nodes: nodes.map((n) => {
+    nodes: nodes.map(n => {
       const pos = g.node(n.id)
-      return { ...n, position: { x: pos.x - 70, y: pos.y - 16 } }
+      return { ...n, position: { x: pos.x - 70, y: pos.y - 17 } }
     }),
     edges,
   }
 }
 
-// ── Custom Nodes ──
-function TemplateFieldNode({ data, selected }) {
-  const isUnresolved = data.isUnresolved
-  const isGlowing = data.isGlowing
-  const isDimmed = data.isDimmed
+// ── Confidence color helper ──
+function confColor(conf) {
+  if (conf >= 0.8) return '#4caf50'
+  if (conf >= 0.5) return '#ff9800'
+  return '#f44336'
+}
 
+// ── Custom Node: Template Field (left side) ──
+function TemplateFieldNode({ data }) {
   return (
     <Box
       sx={{
         px: 1.5, py: 0.5,
-        borderRadius: 1,
-        border: '1.5px solid',
+        borderRadius: 1.5,
+        border: '2px solid',
         borderColor: data.color,
-        bgcolor: `${data.color}15`,
-        fontSize: '0.75rem',
-        fontWeight: isGlowing ? 700 : 500,
-        color: isDimmed ? '#ccc' : '#333',
-        opacity: isDimmed ? 0.15 : 1,
-        transition: 'all 0.3s ease',
+        bgcolor: `${data.color}12`,
+        fontSize: '0.72rem',
+        fontWeight: data.isGlowing ? 700 : 500,
+        color: data.isDimmed ? '#ccc' : '#333',
+        opacity: data.isDimmed ? 0.15 : 1,
+        transition: 'all 0.25s ease',
         cursor: 'pointer',
         position: 'relative',
         minWidth: 110,
         textAlign: 'center',
-        ...(isGlowing && {
-          boxShadow: `0 0 12px 4px ${data.color}66`,
-          borderWidth: 2,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        ...(data.isGlowing && {
+          boxShadow: `0 0 14px 4px ${data.color}55`,
+          borderWidth: 2.5,
+          fontWeight: 700,
         }),
+        '&:hover': {
+          borderColor: data.color,
+          bgcolor: `${data.color}22`,
+          transform: 'scale(1.02)',
+        },
       }}
     >
       {data.label}
-      {isUnresolved && (
+      {data.isUnresolved && (
         <Box
           sx={{
-            position: 'absolute', top: -4, right: -4,
-            width: 8, height: 8, borderRadius: '50%',
+            position: 'absolute', top: -3, right: -3,
+            width: 7, height: 7, borderRadius: '50%',
             bgcolor: '#f44336',
-            animation: 'pulse 2s infinite',
-            '@keyframes pulse': {
-              '0%, 100%': { opacity: 0.4 },
-              '50%': { opacity: 1 },
+            animation: 'unmappedPulse 2s infinite',
+            '@keyframes unmappedPulse': {
+              '0%, 100%': { opacity: 0.4, transform: 'scale(1)' },
+              '50%': { opacity: 1, transform: 'scale(1.3)' },
             },
           }}
         />
@@ -91,29 +108,34 @@ function TemplateFieldNode({ data, selected }) {
   )
 }
 
+// ── Custom Node: DB Column (right side) ──
 function DbColumnNode({ data }) {
-  const isGlowing = data.isGlowing
-  const isDimmed = data.isDimmed
-
   return (
     <Box
       sx={{
         px: 1.5, py: 0.5,
-        borderRadius: 1,
+        borderRadius: 1.5,
         border: '1.5px solid',
-        borderColor: isGlowing ? '#1976D2' : '#e0e0e0',
-        bgcolor: isGlowing ? '#E3F2FD' : '#f5f5f5',
-        fontSize: '0.75rem',
-        fontWeight: isGlowing ? 600 : 400,
-        color: isDimmed ? '#ccc' : '#666',
-        opacity: isDimmed ? 0.15 : 1,
-        transition: 'all 0.3s ease',
+        borderColor: data.isGlowing ? '#1565c0' : '#e0e0e0',
+        bgcolor: data.isGlowing ? '#e3f2fd' : '#fafafa',
+        fontSize: '0.72rem',
+        fontWeight: data.isGlowing ? 600 : 400,
+        color: data.isDimmed ? '#ccc' : '#666',
+        opacity: data.isDimmed ? 0.15 : 1,
+        transition: 'all 0.25s ease',
         cursor: 'pointer',
         minWidth: 110,
         textAlign: 'center',
-        ...(isGlowing && {
-          boxShadow: '0 0 12px 4px rgba(25, 118, 210, 0.4)',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        ...(data.isGlowing && {
+          boxShadow: '0 0 12px 4px rgba(21, 101, 192, 0.35)',
         }),
+        '&:hover': {
+          borderColor: '#90caf9',
+          bgcolor: '#e3f2fd',
+        },
       }}
     >
       {data.label}
@@ -123,76 +145,127 @@ function DbColumnNode({ data }) {
   )
 }
 
-// ── Custom Edge with confidence styling ──
-function ConfidenceEdge({ id, sourceX, sourceY, targetX, targetY, data, style }) {
+// ── Custom Edge: confidence-styled with tooltip + line-drawing animation ──
+function ConfidenceEdge({ sourceX, sourceY, targetX, targetY, data, style }) {
   const [path] = getBezierPath({ sourceX, sourceY, targetX, targetY })
+  const [hovered, setHovered] = useState(false)
+  const [pathLength, setPathLength] = useState(0)
+  const pathRef = useRef(null)
+
   const conf = data?.confidence ?? 0.5
-  const color = data?.color || '#90CAF9'
+  const color = data?.color || '#90caf9'
   const isGlowing = data?.isGlowing
   const isDimmed = data?.isDimmed
 
-  const strokeWidth = isGlowing ? 4 : conf >= 0.8 ? 2.5 : 1.5
+  const strokeWidth = isGlowing ? 3.5 : conf >= 0.8 ? 2.5 : 1.5
   const dashArray = conf >= 0.8 ? 'none' : '6,3'
-  const opacity = isDimmed ? 0.08 : isGlowing ? 1 : 0.65
+  const opacity = isDimmed ? 0.06 : isGlowing ? 1 : 0.6
+
+  useEffect(() => {
+    if (pathRef.current) setPathLength(pathRef.current.getTotalLength())
+  }, [path])
+
+  const tooltip = data?.sourceLabel && data?.targetLabel
+    ? `${data.sourceLabel} ← ${data.targetLabel} (${Math.round(conf * 100)}%)`
+    : `${Math.round(conf * 100)}% confidence`
 
   return (
-    <>
-      <BaseEdge
-        id={id}
-        path={path}
+    <g onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      {/* Animated edge path */}
+      <path
+        ref={pathRef}
+        d={path}
+        fill="none"
+        stroke={isGlowing ? color : confColor(conf)}
+        strokeWidth={strokeWidth}
+        strokeDasharray={dashArray !== 'none' ? dashArray : `${pathLength || 500}`}
+        strokeDashoffset={0}
+        opacity={opacity}
         style={{
-          stroke: color,
-          strokeWidth,
-          strokeDasharray: dashArray,
-          opacity,
-          transition: 'all 0.3s ease',
+          transition: 'stroke-width 0.2s, opacity 0.2s',
           filter: isGlowing ? `drop-shadow(0 0 6px ${color})` : 'none',
+          animation: pathLength ? 'edgeDraw 0.7s ease-out forwards' : 'none',
           ...style,
         }}
       />
-      {/* Wider invisible hit target */}
-      <path d={path} fill="none" stroke="transparent" strokeWidth={14} style={{ cursor: 'pointer' }} />
-    </>
+      {/* Wide invisible hit area */}
+      <path d={path} fill="none" stroke="transparent" strokeWidth={16} style={{ cursor: 'pointer' }} />
+      {/* Hover tooltip via foreignObject */}
+      {hovered && (
+        <foreignObject
+          x={(sourceX + targetX) / 2 - 90}
+          y={(sourceY + targetY) / 2 - 30}
+          width={180}
+          height={36}
+          style={{ pointerEvents: 'none', overflow: 'visible' }}
+        >
+          <div
+            style={{
+              background: '#fff',
+              border: '1px solid #e0e0e0',
+              borderRadius: 6,
+              padding: '4px 10px',
+              fontSize: '0.68rem',
+              fontWeight: 500,
+              color: '#333',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {tooltip}
+          </div>
+        </foreignObject>
+      )}
+    </g>
   )
 }
 
 const nodeTypes = { templateField: TemplateFieldNode, dbColumn: DbColumnNode }
 const edgeTypes = { confidence: ConfidenceEdge }
 
+// ── Main Component ──
 export default function FieldConnectionGraph({ compact = true }) {
-  const template = usePipelineStore((s) => s.pipelineState.data.template)
-  const mapping = usePipelineStore((s) => s.pipelineState.data.mapping)
-  const highlightedField = usePipelineStore((s) => s.highlightedField)
-  const setHighlightedField = usePipelineStore((s) => s.setHighlightedField)
-  const setActivePanel = usePipelineStore((s) => s.setActivePanel)
-  const getTokenColor = usePipelineStore((s) => s.getTokenColor)
+  const template = usePipelineStore(s => s.pipelineState.data.template)
+  const mapping = usePipelineStore(s => s.pipelineState.data.mapping)
+  const highlightedField = usePipelineStore(s => s.highlightedField)
+  const setHighlightedField = usePipelineStore(s => s.setHighlightedField)
+  const setActivePanel = usePipelineStore(s => s.setActivePanel)
+  const getTokenColor = usePipelineStore(s => s.getTokenColor)
 
   const tokens = template?.tokens || []
   const mappingData = mapping?.mapping || {}
   const confidence = mapping?.confidence || {}
 
-  // Build React Flow nodes + edges
-  const { initialNodes, initialEdges, connectedCount } = useMemo(() => {
-    if (tokens.length === 0 || Object.keys(mappingData).length === 0) {
-      return { initialNodes: [], initialEdges: [], connectedCount: 0 }
+  // Build nodes + edges from store data
+  const { layoutNodes, layoutEdges, stats } = useMemo(() => {
+    if (!tokens.length || !Object.keys(mappingData).length) {
+      return { layoutNodes: [], layoutEdges: [], stats: { total: 0, connected: 0, unresolved: 0 } }
     }
 
     const isHighlighting = !!highlightedField
     const nodes = []
     const edges = []
     const dbColSet = new Set()
+    let connected = 0
+    let unresolved = 0
 
     // Collect unique DB columns
-    Object.values(mappingData).forEach((v) => {
+    Object.values(mappingData).forEach(v => {
       if (v && v !== 'UNRESOLVED' && !v.startsWith('RESHAPE:') && !v.startsWith('COMPUTED:')) {
         dbColSet.add(v)
       }
     })
 
-    // Left nodes (template fields, max 15)
-    tokens.slice(0, 15).forEach((t) => {
+    const maxNodes = compact ? 12 : 20
+    const visibleTokens = tokens.slice(0, maxNodes)
+    const visibleCols = [...dbColSet].slice(0, maxNodes)
+
+    // Left nodes: template fields
+    visibleTokens.forEach(t => {
       const color = getTokenColor(t)
-      const isUnresolved = !mappingData[t] || mappingData[t] === 'UNRESOLVED'
+      const isUnmapped = !mappingData[t] || mappingData[t] === 'UNRESOLVED'
+      if (isUnmapped) unresolved++
       const isGlowing = highlightedField === t
       const isDimmed = isHighlighting && !isGlowing
 
@@ -200,19 +273,12 @@ export default function FieldConnectionGraph({ compact = true }) {
         id: `tf-${t}`,
         type: 'templateField',
         position: { x: 0, y: 0 },
-        data: {
-          label: humanizeToken(t).slice(0, 16),
-          color,
-          isUnresolved,
-          isGlowing,
-          isDimmed,
-          tokenId: t,
-        },
+        data: { label: humanizeToken(t).slice(0, 18), color, isUnresolved: isUnmapped, isGlowing, isDimmed, tokenId: t },
       })
     })
 
-    // Right nodes (DB columns, max 15)
-    ;[...dbColSet].slice(0, 15).forEach((col) => {
+    // Right nodes: DB columns
+    visibleCols.forEach(col => {
       const isGlowing = isHighlighting && Object.entries(mappingData).some(
         ([k, v]) => v === col && k === highlightedField
       )
@@ -222,20 +288,15 @@ export default function FieldConnectionGraph({ compact = true }) {
         id: `db-${col}`,
         type: 'dbColumn',
         position: { x: 0, y: 0 },
-        data: {
-          label: humanizeColumn(col).slice(0, 16),
-          isGlowing,
-          isDimmed,
-        },
+        data: { label: humanizeColumn(col).slice(0, 18), isGlowing, isDimmed },
       })
     })
 
-    // Edges
-    let connected = 0
-    tokens.slice(0, 15).forEach((t) => {
+    // Edges: field → column
+    visibleTokens.forEach(t => {
       const target = mappingData[t]
       if (!target || target === 'UNRESOLVED' || target.startsWith('RESHAPE:') || target.startsWith('COMPUTED:')) return
-      if (![...dbColSet].slice(0, 15).includes(target)) return
+      if (!visibleCols.includes(target)) return
 
       const color = getTokenColor(t)
       const conf = confidence[t] ?? 0.5
@@ -247,41 +308,43 @@ export default function FieldConnectionGraph({ compact = true }) {
         source: `tf-${t}`,
         target: `db-${target}`,
         type: 'confidence',
-        data: { confidence: conf, color, isGlowing, isDimmed },
+        data: { confidence: conf, color, isGlowing, isDimmed, sourceLabel: humanizeToken(t), targetLabel: humanizeColumn(target) },
       })
       connected++
     })
 
-    // Apply dagre layout
     const laid = getLayoutedElements(nodes, edges)
-    return { initialNodes: laid.nodes, initialEdges: laid.edges, connectedCount: connected }
-  }, [tokens, mappingData, confidence, getTokenColor, highlightedField])
+    return {
+      layoutNodes: laid.nodes,
+      layoutEdges: laid.edges,
+      stats: { total: tokens.length, connected, unresolved },
+    }
+  }, [tokens, mappingData, confidence, getTokenColor, highlightedField, compact])
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [nodes, setNodes, onNodesChange] = useNodesState(layoutNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutEdges)
 
-  // Sync nodes/edges when data changes
   useEffect(() => {
-    setNodes(initialNodes)
-    setEdges(initialEdges)
-  }, [initialNodes, initialEdges, setNodes, setEdges])
+    setNodes(layoutNodes)
+    setEdges(layoutEdges)
+  }, [layoutNodes, layoutEdges, setNodes, setEdges])
 
-  const onNodeClick = useCallback((_event, node) => {
+  // Click node → highlight field (V8: cross-panel glow)
+  const onNodeClick = useCallback((_e, node) => {
     const tokenId = node.data?.tokenId
-    if (tokenId) setHighlightedField(tokenId)
-  }, [setHighlightedField])
+    if (tokenId) {
+      setHighlightedField(highlightedField === tokenId ? null : tokenId)
+    }
+  }, [setHighlightedField, highlightedField])
 
   const onReconnect = useCallback((oldEdge, newConnection) => {
-    setEdges((eds) => reconnectEdge(oldEdge, newConnection, eds))
+    setEdges(eds => reconnectEdge(oldEdge, newConnection, eds))
   }, [setEdges])
 
-  const onPaneClick = useCallback(() => {
-    setHighlightedField(null)
-  }, [setHighlightedField])
+  // Click background → clear highlight
+  const onPaneClick = useCallback(() => setHighlightedField(null), [setHighlightedField])
 
-  if (tokens.length === 0 || Object.keys(mappingData).length === 0) return null
-
-  const graphHeight = compact ? 200 : 400
+  if (!tokens.length || !Object.keys(mappingData).length) return null
 
   return (
     <Box
@@ -292,26 +355,34 @@ export default function FieldConnectionGraph({ compact = true }) {
         overflow: 'hidden',
         '&:hover': { borderColor: 'primary.light' },
         transition: 'border-color 0.2s',
+        '@keyframes edgeDraw': {
+          from: { strokeDashoffset: 500 },
+          to: { strokeDashoffset: 0 },
+        },
       }}
     >
+      {/* Header */}
       <Box
         sx={{
           px: 1.5, py: 0.75,
           borderBottom: 1, borderColor: 'divider',
-          display: 'flex', alignItems: 'center',
+          display: 'flex', alignItems: 'center', gap: 1,
           cursor: 'pointer',
+          '&:hover': { bgcolor: 'action.hover' },
         }}
         onClick={() => setActivePanel('mappings')}
       >
         <Typography variant="caption" fontWeight={600} sx={{ flex: 1 }}>
           Field Connections
         </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {connectedCount} connected
-        </Typography>
+        <Chip label={`${stats.connected}/${stats.total}`} size="small" color="primary" variant="outlined" sx={{ height: 20, fontSize: '0.6rem' }} />
+        {stats.unresolved > 0 && (
+          <Chip label={`${stats.unresolved} unmapped`} size="small" color="warning" variant="outlined" sx={{ height: 20, fontSize: '0.6rem' }} />
+        )}
       </Box>
 
-      <Box sx={{ height: graphHeight }}>
+      {/* Graph */}
+      <Box sx={{ height: compact ? 200 : 400 }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -328,7 +399,7 @@ export default function FieldConnectionGraph({ compact = true }) {
           maxZoom={compact ? 1 : 1.5}
           nodesDraggable={!compact}
           nodesConnectable={!compact}
-          elementsSelectable={true}
+          elementsSelectable
           panOnDrag={!compact}
           zoomOnScroll={!compact}
           preventScrolling={compact}

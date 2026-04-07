@@ -1657,6 +1657,70 @@ def chat_template_create(
     return result
 
 
+def _classify_tokens_from_html(html: str) -> dict:
+    """Classify tokens in HTML as scalars, row_tokens, or totals by structure.
+
+    Tokens inside <tbody> <tr> rows → row_tokens.
+    Tokens inside <tfoot> or rows with "total"/"sum" → totals.
+    Everything else → scalars.
+    Also recognizes BLOCK_REPEAT markers.
+    """
+    import re as _re
+    _TOKEN_RE = _re.compile(r"\{\{?\s*([A-Za-z0-9_\-\.]+)\s*\}\}?")
+    _TR_RE = _re.compile(r"<tr\b[^>]*>(.*?)</tr>", _re.IGNORECASE | _re.DOTALL)
+    _THEAD_RE = _re.compile(r"<thead\b[^>]*>.*?</thead>", _re.IGNORECASE | _re.DOTALL)
+    _TFOOT_RE = _re.compile(r"<tfoot\b[^>]*>(.*?)</tfoot>", _re.IGNORECASE | _re.DOTALL)
+    _TABLE_RE = _re.compile(r"<table\b[^>]*>(.*?)</table>", _re.IGNORECASE | _re.DOTALL)
+    _BLOCK_SECTION_RE = _re.compile(
+        r"<!--\s*BEGIN:BLOCK_REPEAT\b.*?-->(.+?)<!--\s*END:BLOCK_REPEAT\s*-->",
+        _re.IGNORECASE | _re.DOTALL,
+    )
+
+    tokens_found = sorted(set(_TOKEN_RE.findall(html)))
+    if not tokens_found:
+        return {"scalars": [], "row_tokens": [], "totals": []}
+
+    totals_tokens: set[str] = set()
+    table_row_tokens: set[str] = set()
+
+    # tfoot → totals
+    for tfoot_match in _TFOOT_RE.finditer(html):
+        for tok in _TOKEN_RE.findall(tfoot_match.group(1)):
+            totals_tokens.add(tok)
+
+    # tbody rows (excluding thead, tfoot)
+    for table_match in _TABLE_RE.finditer(html):
+        body_html = _THEAD_RE.sub("", table_match.group(1))
+        body_html = _TFOOT_RE.sub("", body_html)
+        for tr_match in _TR_RE.finditer(body_html):
+            row_text = tr_match.group(1)
+            row_lower = row_text.lower()
+            for tok in _TOKEN_RE.findall(row_text):
+                if tok in totals_tokens:
+                    continue
+                if "total" in row_lower or "grand" in row_lower or "sum" in row_lower:
+                    totals_tokens.add(tok)
+                else:
+                    table_row_tokens.add(tok)
+
+    # BLOCK_REPEAT sections → row_tokens
+    for block_match in _BLOCK_SECTION_RE.finditer(html):
+        for tok in _TOKEN_RE.findall(block_match.group(1)):
+            if tok not in totals_tokens:
+                table_row_tokens.add(tok)
+
+    scalars, row_tokens, totals = [], [], []
+    for tok in tokens_found:
+        if tok in totals_tokens:
+            totals.append(tok)
+        elif tok in table_row_tokens:
+            row_tokens.append(tok)
+        else:
+            scalars.append(tok)
+
+    return {"scalars": scalars, "row_tokens": row_tokens, "totals": totals}
+
+
 def create_template_from_chat(payload: TemplateCreateFromChatPayload, request: Request):
     """
     Persist a template created from the chat conversation.
@@ -1703,65 +1767,11 @@ def create_template_from_chat(payload: TemplateCreateFromChatPayload, request: R
     tokens_found = sorted(set(_TOKEN_RE.findall(html)))
     has_block_repeat = bool(_BLOCK_RE.search(html))
 
-    # --- Build schema_ext.json by classifying tokens from HTML structure ---
-    # Tokens inside <table> rows (between <tr>...</tr>) → row_tokens
-    # Tokens near totals (tfoot, or rows with "total" in nearby text) → totals
-    # Everything else → scalars
-    scalars, row_tokens, totals = [], [], []
-
-    # Identify tokens that appear inside table body rows
-    _TR_RE = _re.compile(r"<tr\b[^>]*>(.*?)</tr>", _re.IGNORECASE | _re.DOTALL)
-    _THEAD_RE = _re.compile(r"<thead\b[^>]*>.*?</thead>", _re.IGNORECASE | _re.DOTALL)
-    _TFOOT_RE = _re.compile(r"<tfoot\b[^>]*>(.*?)</tfoot>", _re.IGNORECASE | _re.DOTALL)
-    _TABLE_RE = _re.compile(r"<table\b[^>]*>(.*?)</table>", _re.IGNORECASE | _re.DOTALL)
-
-    table_row_tokens = set()
-    totals_tokens = set()
-
-    # Check tokens in tfoot first (these are totals)
-    for tfoot_match in _TFOOT_RE.finditer(html):
-        tfoot_text = tfoot_match.group(1)
-        for tok in _TOKEN_RE.findall(tfoot_text):
-            totals_tokens.add(tok)
-
-    # Check tokens in table rows (excluding thead, tfoot)
-    for table_match in _TABLE_RE.finditer(html):
-        table_html = table_match.group(1)
-        # Strip thead and tfoot to get tbody content
-        body_html = _THEAD_RE.sub("", table_html)
-        body_html = _TFOOT_RE.sub("", body_html)
-        for tr_match in _TR_RE.finditer(body_html):
-            row_text = tr_match.group(1)
-            row_lower = row_text.lower()
-            for tok in _TOKEN_RE.findall(row_text):
-                if tok in totals_tokens:
-                    continue
-                # If row contains "total" text, classify as totals
-                if "total" in row_lower or "grand" in row_lower or "sum" in row_lower:
-                    totals_tokens.add(tok)
-                else:
-                    table_row_tokens.add(tok)
-
-    # Also check for BLOCK_REPEAT tokens → row_tokens
-    _BLOCK_SECTION_RE = _re.compile(
-        r"<!--\s*BEGIN:BLOCK_REPEAT\b.*?-->(.+?)<!--\s*END:BLOCK_REPEAT\s*-->",
-        _re.IGNORECASE | _re.DOTALL,
-    )
-    for block_match in _BLOCK_SECTION_RE.finditer(html):
-        block_text = block_match.group(1)
-        for tok in _TOKEN_RE.findall(block_text):
-            if tok not in totals_tokens:
-                table_row_tokens.add(tok)
-
-    for tok in tokens_found:
-        if tok in totals_tokens:
-            totals.append(tok)
-        elif tok in table_row_tokens:
-            row_tokens.append(tok)
-        else:
-            scalars.append(tok)
-
-    schema_ext = {"scalars": scalars, "row_tokens": row_tokens, "totals": totals}
+    # Classify tokens by HTML structure (reusable function)
+    schema_ext = _classify_tokens_from_html(html)
+    scalars = schema_ext["scalars"]
+    row_tokens = schema_ext["row_tokens"]
+    totals = schema_ext["totals"]
     schema_path = template_dir_path / "schema_ext.json"
     write_json_atomic(schema_path, schema_ext, indent=2, ensure_ascii=False, step="create_template_schema_ext")
 
@@ -2227,6 +2237,20 @@ def verify_template(file: UploadFile, connection_id: str | None, request: Reques
                 token_signatures[tok] = _stable_token_signature(tok, html_text, 0)
 
             schema_path = tdir / "schema_ext.json"
+
+            # If LLM schema has no row_tokens (common with filled PDFs), use
+            # structural HTML analysis to classify tokens by position in the DOM.
+            if not schema_payload:
+                schema_payload = {}
+            if not schema_payload.get("row_tokens"):
+                structural = _classify_tokens_from_html(html_text)
+                if structural.get("row_tokens") or structural.get("totals"):
+                    schema_payload = {**schema_payload, **structural}
+                    logger.info("verify_schema_structural_fallback", extra={
+                        "row_tokens": len(structural.get("row_tokens", [])),
+                        "totals": len(structural.get("totals", [])),
+                    })
+
             if schema_payload:
                 try:
                     write_json_atomic(
@@ -4461,6 +4485,7 @@ def _mapping_preview_pipeline(
                 cache_key,
                 rich_catalog_text=_rich_catalog_text,
                 ocr_context=ocr_context,
+                allow_missing_tokens=True,  # Strip LLM-hallucinated tokens instead of rejecting
             )
         except MappingInlineValidationError as exc:
             logger.exception("mapping_llm_validation_error")

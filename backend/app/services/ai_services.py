@@ -6945,7 +6945,8 @@ CONSTANT PLACEHOLDERS
 - Remove constant tokens from "mapping" but keep them in "token_samples".
 
 TOKEN SNAPSHOT
-- Emit a "token_samples" dict listing EVERY placeholder token from the HTML (exact name, no braces).
+- Emit a "token_samples" dict listing ONLY placeholder tokens that actually appear as {token_name} in the HTML above (exact name, no braces).
+- Do NOT invent tokens from the catalog or schema — only use tokens you can find wrapped in curly braces in the HTML.
 - For each token, output the literal string visible on the PDF. Use "NOT_VISIBLE" or "UNREADABLE" as fallback — never leave blank.
 
 INPUTS
@@ -7936,7 +7937,7 @@ CONSTANT PLACEHOLDERS
 - Remove constant tokens from "mapping" but keep them in "token_samples".
 
 TOKEN SNAPSHOT
-- Emit a "token_samples" dict listing EVERY placeholder token. Use "NOT_VISIBLE" as fallback.
+- Emit a "token_samples" dict listing ONLY tokens found as {token_name} in the HTML. Do NOT invent tokens from the catalog. Use "NOT_VISIBLE" as fallback.
 
 INPUTS
 [FULL_HTML]

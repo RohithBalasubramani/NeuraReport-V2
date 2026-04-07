@@ -1,0 +1,190 @@
+
+
+
+<meta charset="UTF-8">
+<title>Consumption Report</title>
+<style>
+    :root {
+        --font-main: "Times New Roman", Times, serif;
+        --font-table: "Times New Roman", Times, serif;
+        --border-color: #000;
+        --page-width: 210mm;
+        --page-height: 297mm;
+    }
+
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: var(--font-main);
+        background: #fff;
+        color: #000;
+        -webkit-print-color-adjust: exact;
+    }
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    .container {
+        max-width: var(--page-width);
+        margin: 0 auto;
+    }
+
+    /* Header Box */
+    #report-header {
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        min-height: 150px;
+    }
+
+    .header-top-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .header-left, .header-right {
+        width: 45%;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .header-left div, .header-right div {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .label {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .header-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+    }
+
+    #report_title {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .header-footer-right {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-weight: bold;
+    }
+
+    /* Data Table */
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: var(--font-table);
+        font-size: 14px;
+        table-layout: fixed;
+    }
+
+    #data-table th, #data-table td {
+        border: 1px solid var(--border-color);
+        padding: 4px 8px;
+        text-align: right; /* Default right align for numbers */
+    }
+
+    #data-table th {
+        font-weight: bold;
+        text-align: center; /* Headers centered */
+        background-color: #fff;
+    }
+
+    /* Specific Column Alignments */
+    .col-sl-no { text-align: center; width: 8%; }
+    .col-material { text-align: left; width: 35%; }
+    .col-set-wt { text-align: right; width: 15%; }
+    .col-ach-wt { text-align: right; width: 15%; }
+    .col-error { text-align: right; width: 15%; }
+    .col-error-pct { text-align: right; width: 12%; }
+
+    /* Total Row */
+    .total-row td {
+        font-weight: bold;
+        background-color: #fff;
+    }
+    
+    .total-label {
+        text-align: left;
+        padding-left: 10px;
+    }
+
+</style>
+
+
+
+<div class="container">
+    
+    <div id="report-header">
+        <div class="header-top-row">
+            <div class="header-left">
+                <div><span class="label">Plant name</span> : </div>
+                <div><span class="label">Location</span> : </div>
+                <div><span class="label">Print Date</span> : {print_date}</div>
+            </div>
+            <div class="header-right">
+                <div><span class="label">From</span> Date: {from_date}</div>
+                <div><span class="label">To</span> {to_date}</div>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <h1 id="report_title">{report_title}</h1>
+        </div>
+
+        <div class="header-footer-right">
+            <span class="label">Recipe code</span> : {recipe_code}
+        </div>
+    </div>
+
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th class="col-sl-no" data-label="sl_no">Sl. No.</th>
+                <th class="col-material" data-label="material_name">Material name</th>
+                <th class="col-set-wt" data-label="set_wt_kg">Set. wt(Kg)</th>
+                <th class="col-ach-wt" data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                <th class="col-error" data-label="error_kg">Error(Kg)</th>
+                <th class="col-error-pct" data-label="error_pct">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td class="col-sl-no">{row_sl_no}</td>
+                <td class="col-material">{row_material_name}</td>
+                <td class="col-set-wt">{row_set_wt_kg}</td>
+                <td class="col-ach-wt">{row_ach_wt_kg}</td>
+                <td class="col-error">{row_error_kg}</td>
+                <td class="col-error-pct">{row_error_pct}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="2" class="total-label">Total</td>
+                <td class="col-set-wt">{total_set_wt_kg}</td>
+                <td class="col-ach-wt">{total_ach_wt_kg}</td>
+                <td class="col-error">{total_error_kg}</td>
+                <td class="col-error-pct">{total_error_pct}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+

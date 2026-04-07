@@ -73,7 +73,7 @@ class ToolContext:
         "auto_fix_issues": 3,
         "refine_mapping": 5,
         "call_qwen_vision": 5,
-        "auto_map_tokens": 1,       # No point retrying — same input = same output
+        "auto_map_tokens": 2,       # Allow retry after mapping adjustment (hallucinated tokens stripped)
         "resolve_mapping_pipeline": 1,  # Same — uses auto_map internally
         "simulate_mapping": 1,      # Read-only preview, once is enough
     }
@@ -887,6 +887,7 @@ async def tool_get_column_stats(
 ) -> dict:
     """Get detailed column statistics: distribution, null%, unique count, top values.
     Used by frontend MappingsTab sparklines and column stats popovers."""
+    _require_state(ctx.session, {"mapped", "approved", "building_assets", "validated", "ready"}, "get_column_stats")
     import json as _json
     from pathlib import Path
     from backend.app.repositories import resolve_db_path, SQLiteDataFrameLoader
@@ -1737,7 +1738,7 @@ async def tool_validate_pipeline(
 
 async def tool_auto_fix_issues(ctx: ToolContext, issues: list[dict], template_id: str) -> dict:
     """Attempt to auto-fix validation issues using LLM reasoning."""
-    _require_state(ctx.session, {"approved", "validated"}, "auto_fix_issues")
+    _require_state(ctx.session, {"building_assets", "approved", "validated"}, "auto_fix_issues")
 
     # Delegate to Qwen via the existing LLM infrastructure
     from backend.app.services.infra_services import call_chat_completion
@@ -2246,7 +2247,7 @@ async def tool_dry_run_preview(
         if verdict == "PASS":
             ctx.session.complete_stage("dry_run")
             try:
-                if ctx.session.pipeline_state == PipelineState.APPROVED:
+                if ctx.session.pipeline_state == PipelineState.BUILDING_ASSETS:
                     ctx.session.transition(PipelineState.VALIDATING)
                 if ctx.session.pipeline_state == PipelineState.VALIDATING:
                     ctx.session.transition(PipelineState.VALIDATED)
@@ -2315,6 +2316,7 @@ async def tool_dry_run_preview(
 
 async def tool_read_template(ctx: ToolContext) -> dict:
     """Read the current template HTML. Use this to see what the template looks like before making changes."""
+    _require_state(ctx.session, {"html_ready", "mapped", "approved", "building_assets", "validated", "ready"}, "read_template")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}
     try:
@@ -2339,6 +2341,7 @@ async def tool_read_template(ctx: ToolContext) -> dict:
 
 async def tool_read_mapping(ctx: ToolContext) -> dict:
     """Read the current token-to-column mapping. Use this to review the mapping before corrections."""
+    _require_state(ctx.session, {"mapped", "approved", "building_assets", "validated", "ready"}, "read_mapping")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}
     try:
@@ -2370,6 +2373,7 @@ async def tool_read_mapping(ctx: ToolContext) -> dict:
 
 async def tool_read_contract(ctx: ToolContext) -> dict:
     """Read the current contract JSON. Use this to review contract structure before validation."""
+    _require_state(ctx.session, {"approved", "building_assets", "validated", "ready"}, "read_contract")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}
     try:
@@ -2404,6 +2408,7 @@ async def tool_edit_template(ctx: ToolContext, instruction: str) -> dict:
     gets back modified HTML, and saves it. This enables freeform template editing
     (change fonts, colors, layout, borders, etc.) without predefined tools.
     """
+    _require_state(ctx.session, {"html_ready", "mapped", "approved", "building_assets", "validated", "ready"}, "edit_template")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}
 
@@ -2507,6 +2512,7 @@ async def tool_edit_mapping(ctx: ToolContext, changes: dict[str, str]) -> dict:
     Unlike refine_mapping which can call the LLM, this directly writes the changes.
     Use for quick fixes like: {"row_error_kg": "COMPUTED:row_ach_wt_kg-row_set_wt_kg"}
     """
+    _require_state(ctx.session, {"html_ready", "mapped", "approved", "building_assets"}, "edit_mapping")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}
 

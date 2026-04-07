@@ -158,6 +158,7 @@ const usePipelineStore = create((set, get) => ({
   availablePanels: [],        // Progressive — driven by backend
   statusView: null,           // Plain-language status from backend
   highlightedField: null,     // Cross-panel field highlighting
+  learningSignal: null,       // Pipeline learning signal from backend
 
   // Token signature → color mapping
   tokenColorMap: {},
@@ -186,9 +187,19 @@ const usePipelineStore = create((set, get) => ({
     templateOriginalHtml: s.templateOriginalHtml ?? html, // Only set once (first load)
   })),
 
-  // Widget ordering for dnd-kit reordering in StatusView
-  widgetOrder: ['pipeline', 'connections', 'rowflow', 'injection', 'morph', 'reality', 'errors', 'cards', 'actions', 'next', 'timeline'],
+  // Widget ordering for dnd-kit reordering in StatusView (C1: added 'memory')
+  widgetOrder: ['pipeline', 'connections', 'rowflow', 'injection', 'morph', 'reality', 'errors', 'memory', 'cards', 'actions', 'next', 'timeline'],
   setWidgetOrder: (order) => set({ widgetOrder: order }),
+
+  // B9: Custom constraint rules for json-rules-engine
+  customConstraintRules: [],
+  setCustomConstraintRules: (rules) => set({ customConstraintRules: rules }),
+
+  // C3: Transformation pipeline step toggle state
+  transformDisabledSteps: {},
+  setTransformStepDisabled: (field, step, disabled) => set(s => ({
+    transformDisabledSteps: { ...s.transformDisabledSteps, [`${field}.${step}`]: disabled },
+  })),
 
   // Timeline scrubber preview
   historyPreview: null,
@@ -387,6 +398,23 @@ const usePipelineStore = create((set, get) => ({
 
   canUndo: () => get().pipelineState.history.length > 0,
 
+  // B10: Revert to a specific history point (restore all snapshots after that index)
+  revertToHistory: (targetIndex) =>
+    set(state => {
+      const ps = { ...state.pipelineState }
+      const history = [...ps.history]
+      if (targetIndex < 0 || targetIndex >= history.length) return state
+      const d = { ...ps.data }
+      // Replay backwards from end to targetIndex+1, restoring each snapshot
+      for (let i = history.length - 1; i > targetIndex; i--) {
+        const entry = history[i]
+        if (entry?.field && entry.before) {
+          d[entry.field] = entry.before
+        }
+      }
+      return { pipelineState: { ...ps, data: d, history: history.slice(0, targetIndex + 1) } }
+    }),
+
   // ─── Token colors ───
   registerTokenColors: (tokenSignatures) =>
     set(state => {
@@ -532,6 +560,34 @@ const usePipelineStore = create((set, get) => ({
         // Route structured data to pipelineState.data (NOT to messages)
         const action = event.action
 
+        // ── Hydration: bulk-restore all session artifacts without
+        //    triggering history pushes or invalidation cascades ──
+        if (action === 'hydrate') {
+          const r = event.action_result || {}
+          set(state => {
+            const d = { ...state.pipelineState.data }
+            if (r.template?.html) d.template = { ...d.template, ...r.template }
+            if (r.mapping?.mapping) d.mapping = { ...d.mapping, ...r.mapping }
+            if (r.contract) d.contract = { ...d.contract, ...r.contract }
+            if (r.validation) d.validation = { ...d.validation, ...r.validation }
+            if (r.generation) d.generation = { ...d.generation, ...r.generation }
+            return { pipelineState: { ...state.pipelineState, data: d } }
+          })
+          if (event.template_id) set({ templateId: event.template_id })
+          if (event.connection_id) set({ connectionId: event.connection_id })
+          if (event.status_view) store.setStatusView(event.status_view)
+          if (event.column_stats) store.setColumnStats(event.column_stats)
+          if (event.performance_metrics) store.setPerformanceMetrics(event.performance_metrics)
+          if (event.constraint_violations) store.setConstraintViolations(event.constraint_violations)
+          if (event.panel?.available) store.setAvailablePanels(event.panel.available)
+          if (event.token_color_map) set({ tokenColorMap: event.token_color_map })
+          // Populate errors from validation issues (used by ErrorsTab, PipelineStrip)
+          if (r.validation?.issues) store.setErrors(r.validation.issues)
+          // Note: pipeline phase is derived by getPhase() from pipelineState.data,
+          // so no explicit phase write is needed — setting the data fields is enough.
+          break  // Skip normal chat_complete processing
+        }
+
         if (event.updated_html) {
           store.setTemplateData({ html: event.updated_html })
         }
@@ -578,6 +634,9 @@ const usePipelineStore = create((set, get) => ({
         if (event.panel?.available) store.setAvailablePanels(event.panel.available)
         if (event.panel?.show) store.setActivePanel(event.panel.show)
 
+        // Learning signal for pipeline health diagnostics
+        if (event.learning_signal) store.setLearningSignal(event.learning_signal)
+
         // Extended data for OSS panel features
         if (event.column_stats) store.setColumnStats(event.column_stats)
         if (event.performance_metrics) store.setPerformanceMetrics(event.performance_metrics)
@@ -613,6 +672,7 @@ const usePipelineStore = create((set, get) => ({
   setStatusView: (sv) => set({ statusView: sv }),
   setHighlightedField: (f) => set({ highlightedField: f }),
   clearHighlightedField: () => set({ highlightedField: null }),
+  setLearningSignal: (signal) => set({ learningSignal: signal }),
   // Timeline scrubber state replay
   historyPreview: null,
   previewHistoryAt: (index) => set(s => ({

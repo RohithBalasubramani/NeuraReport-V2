@@ -186,6 +186,7 @@ class ChatSession:
         self.pipeline_state = target
         self._previous_state = None
         self._touch()
+        self._notify_hydration(f"state:{target.value}")
 
     def complete_stage(self, stage_name: str) -> None:
         """Mark a pipeline stage as completed."""
@@ -196,6 +197,7 @@ class ChatSession:
             self.invalidated_stages.remove(stage_name)
         self.last_action = stage_name
         self._touch()
+        self._notify_hydration(f"stage:{stage_name}")
 
     def record_turn(self) -> None:
         """Increment turn counter."""
@@ -312,6 +314,25 @@ class ChatSession:
 
     def _touch(self) -> None:
         self.updated_at = datetime.now(timezone.utc).isoformat()
+
+    def _notify_hydration(self, reason: str) -> None:
+        """Tell background daemons to rebuild caches.  Never blocks."""
+        _notify_kwargs = dict(
+            session_id=self.session_id,
+            template_dir=str(self.template_dir),
+            connection_id=self.connection_id,
+            reason=reason,
+        )
+        try:
+            from backend.app.services.hydration_daemon import hydration_daemon
+            hydration_daemon.notify(**_notify_kwargs)
+        except Exception:
+            pass
+        try:
+            from backend.app.services.widget_data_daemon import widget_data_daemon
+            widget_data_daemon.notify(**_notify_kwargs)
+        except Exception:
+            pass
 
     @property
     def is_at_least(self) -> dict[str, bool]:

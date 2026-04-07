@@ -1,0 +1,26 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "report_title",
+    "recipe_code"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "Header layout uses flexbox for top row and absolute positioning for title. Table uses fixed layout. Total row spans first two columns."
+}

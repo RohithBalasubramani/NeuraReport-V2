@@ -1,0 +1,527 @@
+
+
+1. Template Layer (Visual + Editable)
+Visual
+Rendered report preview (paged, PDF-like)
+Section boundaries (Header / Body / Footer)
+Field placeholders highlighted (e.g., {Batch_Number})
+Grid/spacing overlay toggle
+Typography inspector (font, size, weight)
+Interactive
+Click field → shows:
+Source mapping
+Data type
+Transformation logic
+Drag to reposition elements
+Resize sections (table height, margins)
+Inline edit:
+Text labels
+Font styles
+Toggle:
+Show raw placeholders vs final values
+2. Field Mapping Layer (Core Debug Surface)
+Visual
+Table: Template Field ↔ DB Column
+Color-coded confidence:
+Green (auto high confidence)
+Yellow (ambiguous)
+Red (unmapped)
+Interactive
+Dropdown to remap fields
+Search DB columns
+Show:
+Sample values from column
+Column stats (null %, unique count)
+Bulk actions:
+“Auto-rematch”
+“Clear all mappings”
+3. Database Explorer (Ground Reality)
+Visual
+Tables list (left)
+Selected table preview (rows)
+Column metadata:
+Type
+Sample values
+Distribution
+Interactive
+Query builder (no-code):
+Filters
+Group by
+Aggregations
+“Preview this in report” button
+Column tagging:
+Mark as ID / Date / Metric
+4. Contract Layer (Most Important — Make It Visible)
+Visual
+
+Readable logic blocks:
+
+Batch Number → production.batch_id
+Material Weight → SUM(material.weight)
+Grouped by → batch_id
+Filter → date BETWEEN X and Y
+Interactive
+Edit mapping logic directly
+Add transformation:
+sum / avg / count
+format (date, decimals)
+Toggle:
+Raw SQL view (advanced users)
+Validation indicator per rule
+5. Data Flow Graph (Optional but High Value)
+Visual
+
+Node graph:
+
+[DB Tables] → [Transformations] → [Template Fields]
+Interactive
+Click node → inspect details
+Highlight lineage:
+“Where does this value come from?”
+Detect:
+Unused columns
+Broken links
+6. Real Data Preview (Before Final Generation)
+Visual
+Rendered report with actual DB data
+Pagination preview
+Row counts
+Interactive
+Change sample:
+Select batch/date
+Highlight:
+Missing/null values
+Toggle:
+Raw vs formatted values
+7. Validation / Errors Panel
+Visual
+Structured list:
+Missing mappings
+Type mismatches
+Empty outputs
+Interactive
+Click error → jump to location
+“Auto-fix” vs “Fix manually”
+Show:
+Why it failed
+What assumption was made
+8. Version / Diff Layer
+Visual
+Before vs After comparison:
+Template changes
+Mapping changes
+Interactive
+Revert specific change
+Compare versions side-by-side
+9. Memory / Learned Patterns (Controlled Exposure)
+Visual
+“Applied preferences”:
+Font: Arial
+Layout: Landscape
+Interactive
+Accept / Reject pattern
+Disable memory for this report
+10. Quick Actions Overlay
+
+Context-sensitive actions when selecting anything:
+
+“Remap this field”
+“Change formatting”
+“Trace data source”
+“Preview with real data”
+What to Avoid
+Static preview only → no leverage
+Hidden logic → user loses trust
+Overloaded UI without hierarchy → cognitive drop
+Structure (Final Layout)
+
+Left panel should have tabs or layers:
+
+Template
+Mappings
+Data
+Logic (Contract)
+Preview
+Errors
+
+1. Mapping Confidence Heatmap
+Visual
+Overlay on template:
+Each field shaded by confidence score
+Dark green = high certainty
+Faded/yellow = weak match
+Red = unresolved
+Value
+Instantly shows where system is guessing
+Interactive
+Click weak field → show:
+Top 3 candidate columns
+Why each was considered
+2. Data Quality Visualization
+Visual
+
+Per column:
+
+Null % bar
+Distribution (mini histogram)
+Outlier markers
+Value
+Surfaces silent corruption risk
+e.g., weight column mostly null → totals meaningless
+Interactive
+Click column → filter rows causing issue
+“Exclude nulls” / “Fix logic”
+3. Transformation Pipeline View
+Visual
+
+Stepwise flow per field:
+
+Raw Column → Filter → Group → Aggregate → Format → Template
+Value
+Makes hidden logic visible
+Debug becomes local, not global
+Interactive
+Click any step → edit or disable
+Toggle intermediate outputs
+4. Row Explosion / Collapse Indicator
+Visual
+Show row count at each stage:
+Raw: 12,000 rows → After filter: 2,400 → After group: 78
+Value
+Detects:
+Wrong joins (explosion)
+Over-filtering (data loss)
+Interactive
+Click stage → inspect rows
+5. Join Relationship Graph
+Visual
+Tables as nodes
+Joins as edges
+Labels:
+One-to-one
+One-to-many
+Value
+Exposes duplication risk
+Interactive
+Click edge → see join condition
+Warn:
+“This join multiplies rows”
+6. Temporal Consistency View
+Visual
+Timeline chart of records used in report
+Gaps / spikes highlighted
+Value
+Detects:
+Missing dates
+Incorrect filters
+Interactive
+Adjust date range live
+See impact instantly
+7. Field Lineage Trace
+Visual
+Select a field → full ancestry tree
+Template Field
+   ↑
+Aggregated Value
+   ↑
+Filtered Rows
+   ↑
+Source Column
+Value
+Answers: “Where did this number come from?”
+Interactive
+Jump to any stage
+8. Output Variance Check
+Visual
+Compare:
+Previous report vs current
+Highlight:
+Changed totals
+Missing rows
+Value
+Detects unintended changes
+Interactive
+Click diff → trace cause
+9. Constraint Violations
+Visual
+Rules like:
+“Total weight ≥ 0”
+“Batch ID must exist”
+
+Show:
+
+Violations count
+Affected rows
+Value
+Enforces domain sanity
+Interactive
+Edit/add constraints
+10. Performance / Cost View
+Visual
+Query time per step
+Heavy operations highlighted
+Value
+Prevents slow pipelines at scale
+Interactive
+Optimize suggestions:
+Index
+Pre-aggregate
+11. Template Density Map
+Visual
+Heatmap of content density on report
+Crowded vs empty regions
+Value
+Fix readability issues
+12. User Action Replay (Debug Mode)
+Visual
+Timeline of actions:
+“Mapped field X”
+“Changed font”
+“Edited logic”
+Value
+Enables rollback with context
+What Actually Matters (Priority Order)
+Mapping Confidence Heatmap
+Row Flow (explosion/collapse)
+Transformation Pipeline View
+Data Quality Visualization
+
+Right Panel = “Explain the System State”
+1. Current Step Summary (Top Anchor)
+Visual
+
+Simple sentence:
+
+“We are connecting your data to the report”
+“We are checking if everything works correctly”
+Supporting indicators
+Progress bar
+Completed vs pending steps
+2. What Was Understood
+Visual Cards
+“We found 21 fields in your report”
+“16 fields matched automatically”
+“4 need your input”
+Interaction
+Click → highlights those fields in template (left panel)
+3. What the System Did (Plain Language)
+
+Replace:
+
+“Built contract, validated assets”
+
+With:
+
+“We figured out where each value comes from”
+“We prepared how the data will fill your report”
+“We tested it using real data”
+4. Data Flow (Layman Version)
+Visual
+
+Linear blocks:
+
+Your Database → We Pick Data → We Organize It → We Fill the Report
+
+No technical labels.
+
+Interaction
+Click “We Pick Data” → shows:
+“We selected Batch Number from ‘production table’”
+5. Confidence / Certainty (Critical)
+Visual
+“Most things look correct”
+“Some parts need confirmation”
+Interaction
+“Show me what needs attention”
+
+Avoid percentages. Use language.
+
+6. Live Example (Most Important)
+Visual
+Show 2–3 real rows filled into report
+
+Label:
+
+“Here’s a real example from your data”
+Value
+User understands output without thinking
+7. Problems (If Any)
+Visual
+
+Plain statements:
+
+“We couldn’t find where Batch Number comes from”
+“Some rows are empty”
+Interaction
+“Fix this” → jumps to exact control
+8. What Happens Next
+Visual
+“Next: We will test the report using your data”
+“Then: You can generate final reports”
+
+Removes uncertainty.
+
+9. Control Buttons (Action Layer)
+“Looks good, continue”
+“Review mappings”
+“Fix issues”
+
+Buttons tied to state, not generic.
+
+What to Avoid
+No field IDs, table names by default
+No percentages, metrics, or logs
+No system terminology:
+“contract”
+“pipeline”
+“transformation”
+
+If user wants that → they go to left panel.
+
+Key Mechanism
+
+Every element on right panel should:
+→ Map to something clickable on left panel
+
+Example:
+
+“4 fields need input” → click → highlights 4 fields visually
+
+This creates:
+
+Intuition → Verification loop
+Mental Model You Are Building
+
+
+User sees lines connecting report → data
+1. Living Pipeline Strip (Top → Always Visible)
+Visual
+
+A horizontal strip with 5 blocks:
+
+[Report] → [Match] → [Prepare] → [Check] → [Generate]
+Behavior
+Active step pulses
+Completed steps solid
+Problem step shakes / turns amber
+Interaction
+Click any block → zoom into that stage (left panel sync)
+2. Field Connection Animation (Primary Visual)
+Visual
+Left: report preview (mini)
+Right: database columns (mini list)
+Lines connecting them
+Behavior
+Lines animate in when matching happens
+Strong matches = thick lines
+Weak matches = dotted lines
+Interaction
+Hover line → shows:
+“Batch Number ← production.batch_id”
+Drag line to remap
+
+This replaces “16 fields matched” entirely
+
+3. Before → After Morph (Understanding Transformation)
+Visual
+
+Split view that morphs:
+
+Raw Table Rows → Cleaned Rows → Final Report Table
+Behavior
+Rows collapse / group visually
+Numbers aggregate in front of user
+Example
+100 rows shrink into 5 grouped rows
+Totals appear as merge happens
+4. Real Data Injection (Critical)
+Visual
+
+Template fills progressively:
+
+Empty placeholders
+Data fades in field by field
+Table rows populate
+Behavior
+Sequential fill animation:
+Header → body → totals
+
+User sees:
+
+“This is being filled from real data”
+
+5. Error as Breakage (Not Text)
+Visual
+
+Instead of:
+
+“Missing mapping”
+
+Show:
+
+Broken line (snapped connection)
+Field blinking
+Interaction
+Click broken point → opens fix action
+6. Confidence as Opacity
+Visual
+Strong data = solid, dark
+Weak/uncertain = faded
+
+No numbers.
+
+User instinctively sees:
+
+“this part is unclear”
+7. Row Flow Compression (Powerful + Simple)
+Visual
+1000 rows → 120 rows → 12 rows → Final Report
+
+Represented as shrinking blocks.
+
+Behavior
+Blocks compress as pipeline progresses
+Value
+Shows filtering + grouping without explanation
+8. Data “Source Glow”
+Visual
+
+When user clicks a field in report:
+
+Source column lights up
+Path between them glows
+Value
+
+Answers:
+
+“Where did this come from?” instantly
+
+9. Timeline Scrubber (State Replay)
+Visual
+
+Slider:
+
+Upload ─── Match ─── Prepare ─── Check ─── Output
+Interaction
+Drag → UI rewinds
+Shows system state at that moment
+10. Mini “Reality Snapshot”
+Visual
+
+Card:
+
+“Here’s 3 real entries from your report”
+
+Rendered exactly like final output.
+
+Not table. Not raw data. Final form preview.
+
+11. Interaction Principle
+
+Every visual must support:
+
+Click → inspect
+Drag → change
+Hover → reveal
+
+No dead visuals.
