@@ -9,8 +9,13 @@
  * Covers: S2 (understood cards), S3 (actions taken), S8 (next step), S9 (control via actions)
  *         Plus orchestration of all viz widgets via dnd-kit sortable registry.
  */
-import React, { useCallback, useMemo, useState } from 'react'
-import { Box, Button, Card, CardContent, Chip, Collapse, IconButton, Stack, Typography } from '@mui/material'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  Box, Button, Card, CardContent, Chip, CircularProgress, Collapse,
+  Dialog, DialogTitle, DialogContent, DialogActions, Divider,
+  IconButton, List, ListItemButton, ListItemIcon, ListItemText,
+  Stack, Tooltip, Typography,
+} from '@mui/material'
 import {
   CheckCircle as SuccessIcon,
   Warning as AttentionIcon,
@@ -20,7 +25,13 @@ import {
   ExpandMore as ExpandIcon,
   ExpandLess as CollapseIcon,
   History as HistoryIcon,
+  CloudUpload as UploadIcon,
+  PushPin as PushPinIcon,
+  PushPinOutlined as PushPinOutlinedIcon,
+  Storage as DbIcon,
+  CheckCircleOutline as SelectedIcon,
 } from '@mui/icons-material'
+import { listConnections } from '@/api/client'
 import { motion, AnimatePresence } from 'motion/react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
@@ -141,48 +152,182 @@ function ActionsTakenLog({ actions }) {
 }
 
 // ── S8: Next Step + Action Buttons ──
+// ── Connection Picker Dialog ──
+const STATUS_COLOR = { connected: '#2e7d32', unknown: '#9e9e9e', error: '#d32f2f' }
+
+function ConnectionPickerDialog({ open, onClose, onSelect }) {
+  const [connections, setConnections] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const currentConnId = usePipelineStore(s => s.connectionId)
+
+  useEffect(() => {
+    if (!open) return
+    setLoading(true)
+    setError(null)
+    listConnections()
+      .then(data => setConnections(data.connections || data || []))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [open])
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: 2 } }}>
+      <DialogTitle sx={{ pb: 1 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Connect a Database</Typography>
+        <Typography variant="body2" color="text.secondary">
+          Select a saved connection to map your template fields
+        </Typography>
+      </DialogTitle>
+      <Divider />
+      <DialogContent sx={{ p: 0, minHeight: 120, maxHeight: 360, overflowY: 'auto' }}>
+        {loading && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <CircularProgress size={28} />
+          </Box>
+        )}
+        {error && (
+          <Box sx={{ p: 3, textAlign: 'center' }}>
+            <Typography color="error" variant="body2">{error}</Typography>
+          </Box>
+        )}
+        {!loading && !error && connections.length === 0 && (
+          <Box sx={{ p: 3, textAlign: 'center' }}>
+            <DbIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
+            <Typography color="text.secondary" variant="body2">
+              No saved connections yet.
+            </Typography>
+            <Typography color="text.disabled" variant="caption">
+              Use the chat to connect a new database.
+            </Typography>
+          </Box>
+        )}
+        {!loading && connections.length > 0 && (
+          <List disablePadding>
+            {connections.map((conn) => {
+              const connId = conn.connection_id || conn.id
+              const isSelected = connId === currentConnId
+              const statusColor = STATUS_COLOR[conn.status] || STATUS_COLOR.unknown
+              return (
+                <ListItemButton
+                  key={connId}
+                  onClick={() => onSelect(conn)}
+                  selected={isSelected}
+                  sx={{
+                    py: 1.5,
+                    borderLeft: isSelected ? '3px solid #1565c0' : '3px solid transparent',
+                    '&:hover': { bgcolor: '#e3f2fd' },
+                    '&.Mui-selected': { bgcolor: '#e3f2fd' },
+                  }}
+                >
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    <DbIcon sx={{ color: statusColor }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                        <span>{conn.name || 'Unnamed'}</span>
+                        <Chip
+                          label={conn.status || 'unknown'}
+                          size="small"
+                          sx={{
+                            height: 18,
+                            fontSize: '0.65rem',
+                            bgcolor: statusColor + '18',
+                            color: statusColor,
+                            fontWeight: 600,
+                          }}
+                        />
+                      </Box>
+                    }
+                    secondary={
+                      <span>
+                        {conn.db_type && <span style={{ fontWeight: 500 }}>{conn.db_type}</span>}
+                        {conn.summary && <span> · {conn.summary}</span>}
+                      </span>
+                    }
+                    primaryTypographyProps={{ fontWeight: 500, fontSize: '0.9rem' }}
+                    secondaryTypographyProps={{ fontSize: '0.75rem', component: 'div' }}
+                  />
+                  {isSelected
+                    ? <SelectedIcon sx={{ fontSize: 18, color: '#1565c0' }} />
+                    : <ArrowIcon sx={{ fontSize: 16, color: 'text.disabled' }} />
+                  }
+                </ListItemButton>
+              )
+            })}
+          </List>
+        )}
+      </DialogContent>
+      <DialogActions sx={{ px: 2, pb: 1.5 }}>
+        <Button onClick={onClose} size="small" sx={{ textTransform: 'none' }}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
+
 function NextStepActions({ nextStep, actions, onAction, setActivePanel }) {
+  const [showConnPicker, setShowConnPicker] = useState(false)
+  const setConnection = usePipelineStore(s => s.setConnection)
+
+  const handleConnectionSelect = useCallback((conn) => {
+    const connId = conn.connection_id || conn.id
+    setConnection(connId)
+    setShowConnPicker(false)
+    // Trigger the map action with the selected connection
+    onAction?.({ type: 'map', connection_id: connId })
+  }, [setConnection, onAction])
+
   if (!nextStep) return null
 
   return (
-    <Box sx={{ mt: 'auto', pt: 1.5, borderTop: 1, borderColor: 'divider' }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 1, fontSize: '0.85rem', fontWeight: 500 }}>
-        Next: {nextStep}
-      </Typography>
-      {actions?.length > 0 && (
-        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-          {actions.map((a, i) => (
-            <motion.div
-              key={a.label || i}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <Button
-                variant={i === 0 ? 'contained' : 'outlined'}
-                size="small"
-                disableElevation
-                onClick={() => {
-                  if (a.action === 'show_panel' && a.panel) {
-                    setActivePanel(a.panel)
-                  } else {
-                    onAction?.(a.action)
-                  }
-                }}
-                sx={{
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  fontSize: '0.8rem',
-                  borderRadius: 1.5,
-                }}
+    <>
+      <Box sx={{ mt: 'auto', pt: 1.5, borderTop: 1, borderColor: 'divider' }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1, fontSize: '0.85rem', fontWeight: 500 }}>
+          Next: {nextStep}
+        </Typography>
+        {actions?.length > 0 && (
+          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {actions.map((a, i) => (
+              <motion.div
+                key={a.label || i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
               >
-                {a.label}
-              </Button>
-            </motion.div>
-          ))}
-        </Stack>
-      )}
-    </Box>
+                <Button
+                  variant={i === 0 ? 'contained' : 'outlined'}
+                  size="small"
+                  disableElevation
+                  onClick={() => {
+                    if (a.action === 'connect_database') {
+                      setShowConnPicker(true)
+                    } else if (a.action === 'show_panel' && a.panel) {
+                      setActivePanel(a.panel)
+                    } else {
+                      onAction?.(a.action)
+                    }
+                  }}
+                  sx={{
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    fontSize: '0.8rem',
+                    borderRadius: 1.5,
+                  }}
+                >
+                  {a.label}
+                </Button>
+              </motion.div>
+            ))}
+          </Stack>
+        )}
+      </Box>
+      <ConnectionPickerDialog
+        open={showConnPicker}
+        onClose={() => setShowConnPicker(false)}
+        onSelect={handleConnectionSelect}
+      />
+    </>
   )
 }
 
@@ -293,21 +438,36 @@ export default function StatusView({ onAction }) {
     }
   }, [widgetOrder, setWidgetOrder])
 
-  // ── Empty state ──
+  const pinnedPanels = usePipelineStore(s => s.pinnedPanels)
+  const togglePanelPin = usePipelineStore(s => s.togglePanelPin)
+  const isUploadPinned = pinnedPanels.includes('upload')
+
+  // ── Empty state (no statusView yet) — show strip + upload prompt ──
   if (!statusView) {
     return (
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ px: 1, pt: 2 }}>
-          <PipelineStrip />
-        </Box>
-        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', px: 1, py: 2, gap: 2 }}>
+        <PipelineStrip />
+        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3 }}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Welcome to NeuraReport
+            <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 600, mb: 0.5 }}>
+              Next: Upload a report to get started
             </Typography>
-            <Typography variant="body2" color="text.disabled">
-              Upload a PDF or describe the report you'd like to create.
-            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<UploadIcon />}
+              onClick={() => onAction?.({ type: 'upload_file' })}
+              sx={{
+                mt: 1.5,
+                textTransform: 'none',
+                borderRadius: 2,
+                px: 3,
+                py: 1,
+                bgcolor: '#1a1a2e',
+                '&:hover': { bgcolor: '#16213e' },
+              }}
+            >
+              Upload a file
+            </Button>
           </Box>
         </Box>
       </Box>
@@ -416,6 +576,50 @@ export default function StatusView({ onAction }) {
 
       {/* Timeline Scrubber (when history has 2+ entries) */}
       {hasHistory && <TimelineScrubber />}
+
+      {/* Pinned Upload button — always visible when pinned */}
+      {isUploadPinned && (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 1.5,
+            py: 1,
+            borderRadius: 1.5,
+            border: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'background.paper',
+          }}
+        >
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<UploadIcon sx={{ fontSize: 16 }} />}
+            onClick={() => onAction?.({ type: 'upload_file' })}
+            sx={{
+              flex: 1,
+              textTransform: 'none',
+              borderRadius: 1.5,
+              fontSize: '0.8rem',
+              py: 0.75,
+              bgcolor: '#1a1a2e',
+              '&:hover': { bgcolor: '#16213e' },
+            }}
+          >
+            Upload a file
+          </Button>
+          <Tooltip title={isUploadPinned ? 'Unpin upload button' : 'Pin upload button'}>
+            <IconButton
+              size="small"
+              onClick={() => togglePanelPin('upload')}
+              sx={{ color: isUploadPinned ? '#1565c0' : '#bdbdbd' }}
+            >
+              {isUploadPinned ? <PushPinIcon sx={{ fontSize: 16 }} /> : <PushPinOutlinedIcon sx={{ fontSize: 16 }} />}
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
     </Box>
   )
 }

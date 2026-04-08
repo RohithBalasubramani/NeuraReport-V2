@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "hi"
+  },
+  {
+    "role": "assistant",
+    "content": "The user just said \"hi\". The pipeline state is EMPTY, which means no PDF has been uploaded yet. I should welcome them and ask them to upload their PDF document so we can start building their report.\nHello! I'm NeuraReport, your report-building assistant. I can help you convert PDF documents into automated database-driven reports.\n\nTo get started, please upload your PDF document. Once you do, I'll:\n1. Extract the structure from your PDF\n2. Connect it to your database\n3. Build a template that can generate reports automatically\n\nWhat PDF would you like to work with?"
+  }
+]

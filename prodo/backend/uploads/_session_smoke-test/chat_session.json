@@ -1,0 +1,13 @@
+{
+  "session_id": "smoke-test",
+  "pipeline_state": "empty",
+  "connection_id": null,
+  "completed_stages": [],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": null,
+  "workspace_mode": false,
+  "created_at": "2026-04-08T14:22:53.284520+00:00",
+  "updated_at": "2026-04-08T14:23:00.038800+00:00"
+}

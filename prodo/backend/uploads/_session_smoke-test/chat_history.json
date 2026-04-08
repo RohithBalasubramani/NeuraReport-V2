@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "hi"
+  },
+  {
+    "role": "assistant",
+    "content": "To get started, please upload the PDF file you'd like to convert into a report template. Once you upload it, I'll process it and help you connect it to your database to generate reports."
+  }
+]

@@ -24,6 +24,7 @@ import {
 } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'motion/react'
 import usePipelineStore from '@/stores/pipeline'
+import PanelButtons from '../PanelButtons'
 
 import QuickActionsProvider from './QuickActions'
 import StatusView from './StatusView'
@@ -144,21 +145,22 @@ export default function LivePanel({ onAction }) {
       }
     }
 
-    if (statusView) {
+    // Always show StatusView — it handles empty state gracefully with
+    // PipelineStrip + welcome message.  Legacy panels only used when
+    // explicitly forced via sidebarForcePanel.
+    if (sidebarForcePanel && LEGACY_PANELS[sidebarForcePanel]) {
+      const LegacyPanel = LEGACY_PANELS[sidebarForcePanel]
       return {
-        panelKey: 'status',
+        panelKey: `legacy-${sidebarForcePanel}`,
         direction: 'left',
-        content: <StatusView onAction={onAction} />,
+        content: <LegacyPanel onAction={onAction} />,
       }
     }
 
-    // Legacy fallback
-    const panelType = sidebarForcePanel || getPanelType()
-    const LegacyPanel = LEGACY_PANELS[panelType] || UploadPanel
     return {
-      panelKey: `legacy-${panelType}`,
+      panelKey: 'status',
       direction: 'left',
-      content: <LegacyPanel onAction={onAction} />,
+      content: <StatusView onAction={onAction} />,
     }
   }, [activePanel, detailConfig, statusView, sidebarForcePanel, getPanelType, onAction, setActivePanel])
 
@@ -174,6 +176,8 @@ export default function LivePanel({ onAction }) {
         borderColor: 'divider',
       }}
     >
+      {/* Panel toggle buttons (progressive reveal based on pipeline state) */}
+      <PanelButtons />
       <QuickActionsProvider onAction={onAction}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div

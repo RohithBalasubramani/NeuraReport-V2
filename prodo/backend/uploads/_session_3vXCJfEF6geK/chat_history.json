@@ -1,0 +1,18 @@
+[
+  {
+    "role": "user",
+    "content": "Hi"
+  },
+  {
+    "role": "assistant",
+    "content": "To get started, please upload your PDF document that you'd like to convert into a template. Once uploaded, I'll:\n1. Extract the structure and content from your PDF\n2. Help you connect it to your database\n3. Build an automated report generation system\n\nWhat PDF would you like to work with?"
+  },
+  {
+    "role": "user",
+    "content": "[uploaded: scale-2-consumption-per-batch-2e5e27-pdf (2).pdf] Uploaded file: scale-2-consumption-per-batch-2e5e27-pdf (2).pdf"
+  },
+  {
+    "role": "assistant",
+    "content": "The operation timed out after 1500s. Please try again or simplify your request."
+  }
+]

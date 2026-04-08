@@ -77,24 +77,14 @@ const GATE_REASONS = {
 }
 
 // ─── Phase → action chips (layman-friendly labels) ───
+// Pipeline action chips are shown ONLY on the right panel (StatusView NextStepActions).
+// Left-side ActionChips only get PERSISTENT_CHIPS (search, help).
 const PHASE_CHIPS = {
   upload: [],
-  edit: [
-    { label: 'Connect my Database', action: 'map' },
-    { label: 'Make changes', action: 'edit' },
-  ],
-  map: [
-    { label: 'Looks good, continue', action: 'approve' },
-    { label: 'Go back and edit', action: 'edit' },
-  ],
-  validate: [
-    { label: 'Check again', action: 'validate' },
-    { label: 'Go back and edit', action: 'edit' },
-  ],
-  generate: [
-    { label: 'Create my Reports', action: 'generate' },
-    { label: 'Go back and edit', action: 'edit' },
-  ],
+  edit: [],
+  map: [],
+  validate: [],
+  generate: [],
 }
 
 // ─── Always-visible chips (available in every phase) ───
@@ -172,6 +162,7 @@ const usePipelineStore = create((set, get) => ({
   // Right panel state (status-first architecture)
   activePanel: null,          // null = StatusView, 'template'|'mappings'|'data'|'logic'|'preview'|'errors'
   availablePanels: [],        // Progressive — driven by backend
+  pinnedPanels: ['upload'], // Upload button pinned by default; users can pin/unpin via thumbpin
   statusView: null,           // Plain-language status from backend
   highlightedField: null,     // Cross-panel field highlighting
   learningSignal: null,       // Pipeline learning signal from backend
@@ -262,20 +253,9 @@ const usePipelineStore = create((set, get) => ({
     if (get().workspaceMode) {
       return [...PERSISTENT_CHIPS]
     }
-    const s = get().pipelineState
-    const phase = derivePhase(s.data)
-    const chips = [...(PHASE_CHIPS[phase] || [])]
-    if (s.errors.some(e => e.severity === 'error'))
-      chips.unshift({ label: 'Fix issues', action: 'fix', priority: true })
-    if (s.errors.some(e => e.severity === 'warning'))
-      chips.push({ label: 'Review issues', action: 'review_warnings' })
-    if (s.data.mapping?.confidence) {
-      const lowConf = Object.values(s.data.mapping.confidence).some(c => c < 0.8)
-      if (lowConf) chips.push({ label: 'Review suggestions', action: 'review_confidence' })
-    }
-    // Always-available actions
-    chips.push(...PERSISTENT_CHIPS)
-    return chips
+    // Left-side chips: only chat-related actions (search, help).
+    // All pipeline actions live on the right panel (StatusView).
+    return [...PERSISTENT_CHIPS]
   },
 
   getPanelType: () => {
@@ -539,10 +519,36 @@ const usePipelineStore = create((set, get) => ({
       messages: s.messages.map(m => {
         if (!m.streaming) return m
         const stages = [...(m.data?.stages || [])]
+        const now = Date.now()
         const idx = stages.findIndex(st => st.name === stageName)
-        const update = { name: stageName, status, progress, timestamp: Date.now() }
-        if (idx >= 0) stages[idx] = { ...stages[idx], ...update }
-        else stages.push(update)
+        const isDone = status === 'complete' || status === 'success'
+        if (idx >= 0) {
+          const existing = stages[idx]
+          stages[idx] = {
+            ...existing,
+            status,
+            progress,
+            ...(isDone ? { completedAt: now } : {}),
+          }
+        } else {
+          stages.push({ name: stageName, status, progress, timestamp: now, ...(isDone ? { completedAt: now } : {}) })
+        }
+
+        // When "x.complete" arrives, also mark "x.start" as complete.
+        // When a tool completes (e.g. "verify_template" complete), mark all
+        // its sub-stages (e.g. "verify.start", "verify.upload_pdf") as complete too.
+        if (isDone) {
+          const prefix = stageName.split('.')[0] // "verify.complete" → "verify"
+          stages.forEach((st, i) => {
+            if (st.status !== 'complete' && st.status !== 'success') {
+              const stPrefix = st.name.split('.')[0]
+              if (stPrefix === prefix || st.name === prefix) {
+                stages[i] = { ...st, status: 'complete', completedAt: now }
+              }
+            }
+          })
+        }
+
         return { ...m, data: { ...m.data, stages } }
       }),
     }))
@@ -616,7 +622,8 @@ const usePipelineStore = create((set, get) => ({
       case 'chat_complete': {
         store.finishStreaming()
 
-        // Update template ID
+        // Update session ID + template ID from backend (enables URL sync + hydration)
+        if (event.session_id && event.session_id !== get().sessionId) set({ sessionId: event.session_id })
         if (event.template_id) set({ templateId: event.template_id })
 
         // Chat message (text only)
@@ -767,6 +774,11 @@ const usePipelineStore = create((set, get) => ({
   toggleWorkspaceMode: () => set(s => ({ workspaceMode: !s.workspaceMode })),
   setActivePanel: (p) => { plog.action(`setActivePanel → ${p}`); set(s => ({ activePanel: s.activePanel === p ? null : p })) },
   setAvailablePanels: (p) => { plog.store('setAvailablePanels', p); set({ availablePanels: p }) },
+  togglePanelPin: (id) => set(s => ({
+    pinnedPanels: s.pinnedPanels.includes(id)
+      ? s.pinnedPanels.filter(p => p !== id)
+      : [...s.pinnedPanels, id],
+  })),
   setStatusView: (sv) => { plog.store('setStatusView', { step: sv?.step, cards: sv?.cards?.length, problems: sv?.problems?.length, has_example: !!sv?.example, has_row_counts: !!sv?.row_counts }); set({ statusView: sv }) },
   setHighlightedField: (f) => { if (f) plog.action(`highlightField → ${f}`); set({ highlightedField: f }) },
   clearHighlightedField: () => set({ highlightedField: null }),

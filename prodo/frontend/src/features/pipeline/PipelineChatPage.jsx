@@ -7,8 +7,8 @@
  * Chat = intent + narration. Panel = state + control + execution.
  * Messages never contain interactive UI — all structured data lives in the panel.
  */
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import React, { useCallback, useEffect, useRef, useState, createRef } from 'react'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { Box, Button, Snackbar, Stack, Switch, Typography } from '@mui/material'
 
 import PipelineBar from './PipelineBar'
@@ -18,34 +18,59 @@ import ActionChips from './ActionChips'
 import PanelButtons from './PanelButtons'
 import LivePanel from './panels/LivePanel'
 import usePipelineStore from '@/stores/pipeline'
-import { pipelineChat, pipelineChatUpload } from '@/api/client'
+import { pipelineChat, pipelineChatUpload, pipelineChatWithAttachments } from '@/api/client'
 import plog from '@/api/pipelineLogger'
 
 export default function PipelineChatPage() {
   const { sessionId: urlSessionId } = useParams()
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const store = usePipelineStore()
   const { sessionId, templateId, connectionId } = store
+  const hydrationDone = useRef(false)
+  const backendAware = useRef(false)  // true after backend has seen this session
+  const fileInputRef = useRef(null)
+
+  // ─── Hydrate a session: fetch metadata + full artifacts ───
+  const hydrateSession = useCallback((sid) => {
+    if (!sid || hydrationDone.current) return
+    hydrationDone.current = true
+    plog.api(`GET /pipeline/${sid} (resume)`)
+    fetch(`/api/v1/pipeline/${sid}`)
+      .then(r => {
+        if (r.status === 404) {
+          // Session doesn't exist on backend — new session, just init locally.
+          // This is normal on page refresh for sessions that haven't uploaded yet.
+          store.initSession(sid)
+          return null
+        }
+        if (!r.ok) throw new Error(r.status)
+        return r.json()
+      })
+      .then(data => {
+        if (!data) return
+        store.resumeSession(data)
+        backendAware.current = true
+        plog.api(`GET /hydrate session=${sid}`)
+        return fetch(`/api/v1/pipeline/${sid}/hydrate`)
+          .then(r => r.ok ? r.json() : null)
+          .then(hydration => {
+            if (hydration) {
+              plog.hydrate('hydration received', { keys: Object.keys(hydration), state: hydration?.pipeline_state })
+              store.processEvent(hydration)
+            }
+          })
+      })
+      .catch(err => {
+        plog.error('Hydration failed', { error: err.message })
+        hydrationDone.current = false
+      })
+  }, [store])
 
   // Initialize or resume session, handle query params from redirects
   useEffect(() => {
     if (urlSessionId && urlSessionId !== sessionId) {
-      fetch(`/api/v1/pipeline/${urlSessionId}`)
-        .then(r => r.json())
-        .then(data => {
-          store.resumeSession(data)
-          // Hydrate full store with all session artifacts so widgets
-          // have data immediately (template, mapping, contract, etc.)
-          plog.api(`GET /hydrate session=${urlSessionId}`)
-          fetch(`/api/v1/pipeline/${urlSessionId}/hydrate`)
-            .then(r => r.json())
-            .then(hydration => {
-              plog.hydrate('hydration response received', { keys: hydration ? Object.keys(hydration) : [], state: hydration?.pipeline_state })
-              if (hydration) store.processEvent(hydration)
-            })
-            .catch(err => { plog.error('Hydration failed', { error: err.message }); console.warn('Hydration failed:', err) })
-        })
-        .catch(() => store.initSession())
+      hydrateSession(urlSessionId)
     } else if (!sessionId) {
       store.initSession()
     }
@@ -73,8 +98,29 @@ export default function PipelineChatPage() {
     if (qPhase === 'generate') store.setSidebarForcePanel('generation')
   }, [urlSessionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ─── Sync URL with session ID ONLY after backend has seen it ───
+  // Don't put a fresh local session ID in the URL — refreshing would 404
+  // because the backend doesn't have a directory for it yet.
+  useEffect(() => {
+    if (sessionId && sessionId !== urlSessionId && backendAware.current) {
+      navigate(`/pipeline/${sessionId}`, { replace: true })
+    }
+  }, [sessionId, urlSessionId, navigate])
+
   // ─── Handle backend response (NDJSON streaming or plain JSON) ───
   const streamResponse = useCallback(async (response) => {
+    // Capture session ID from response header (backend always sets this)
+    const backendSessionId = response.headers.get('X-Session-Id')
+    if (backendSessionId && backendSessionId !== usePipelineStore.getState().sessionId) {
+      plog.store(`session ID from backend: ${backendSessionId}`)
+      usePipelineStore.setState({ sessionId: backendSessionId })
+    }
+    // Backend has seen this session — safe to put ID in URL now
+    backendAware.current = true
+    if (sessionId && sessionId !== urlSessionId) {
+      navigate(`/pipeline/${sessionId}`, { replace: true })
+    }
+
     const contentType = response.headers.get('content-type') || ''
 
     // Plain JSON response (legacy endpoints like /templates/chat-create)
@@ -181,10 +227,38 @@ export default function PipelineChatPage() {
     }
   }, [store, sessionId, buildPayload, streamResponse])
 
+  // ─── Send message with reference attachments (images, docs for context) ───
+  const handleReferenceAttach = useCallback(async (text, files) => {
+    const names = files.map(f => f.name).join(', ')
+    plog.action(`reference.attach: ${names}`, { count: files.length, text: text.slice(0, 80) })
+    store.addUserMessage(
+      text,
+      'file_upload',
+      { fileName: names, fileSize: files.reduce((s, f) => s + f.size, 0), isReference: true }
+    )
+    store.setIsProcessing(true)
+    try {
+      const payload = buildPayload()
+      payload.messages = [...payload.messages, { role: 'user', content: text }]
+      const response = await pipelineChatWithAttachments(sessionId, payload, files)
+      await streamResponse(response)
+    } catch (err) {
+      store.addAssistantMessage(`Attachment failed: ${err.message}`, 'error')
+    } finally {
+      store.setIsProcessing(false)
+    }
+  }, [store, sessionId, buildPayload, streamResponse])
+
   // ─── Handle action (from chips, panel, or slash commands) ───
   const handleAction = useCallback(async (actionOrObj) => {
     const action = typeof actionOrObj === 'string' ? actionOrObj : actionOrObj?.type || actionOrObj?.action
     if (!action) return
+
+    // Upload file: trigger the hidden file input
+    if (action === 'upload_file') {
+      fileInputRef.current?.click()
+      return
+    }
 
     // Pre-fill actions: let user complete their thought before sending
     if (action === 'web_search') {
@@ -277,20 +351,28 @@ export default function PipelineChatPage() {
           {/* Messages */}
           <ChatStream />
 
-          {/* Action chips */}
+          {/* Action chips (chat-related only: search, help) */}
           <ActionChips onAction={handleAction} />
-
-          {/* Panel toggle buttons */}
-          <PanelButtons />
 
           {/* Input */}
           <Box sx={{ px: 2, pb: 2, pt: 0.5 }}>
             <ChatInput
               onSend={handleSend}
-              onFileUpload={handleFileUpload}
-              onSlashCommand={handleAction}
+              onAttach={handleReferenceAttach}
             />
           </Box>
+          {/* Hidden file input for upload_file action from pinned Upload button */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf,.xlsx,.xls"
+            hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) handleFileUpload(file)
+              e.target.value = ''
+            }}
+          />
         </Box>
 
         {/* Live panel (45%) */}

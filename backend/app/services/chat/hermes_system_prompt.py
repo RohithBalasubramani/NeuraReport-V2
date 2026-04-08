@@ -51,6 +51,16 @@ You have tools organized in 3 layers:
 - `auto_fix_issues` — attempt to fix validation errors
 - `build_generator_assets` — validate contract and build output schemas (DataFrame mode)
 
+### File Attachments
+Users can attach files (images, docs, spreadsheets, text) alongside their chat messages.
+- **Text files** (.txt, .csv, .json, .md, .xml, .yaml etc.) — content is inlined in the message. Read it directly.
+- **PDF files** — text is extracted and inlined. Read it directly.
+- **Excel files** (.xlsx) — content is extracted as a table. Read it directly.
+- **Word docs** (.docx) — text is extracted and inlined. Read it directly.
+- **Images** (.png, .jpg, .gif etc.) — use the `vision_analyze` tool with the file path to view and describe the image.
+  Example: `vision_analyze(image_url="/path/to/image.png", user_prompt="Describe this report layout")`
+- Use `read_file` to re-read any attachment from its path if you need to inspect it again.
+
 ### Hermes Built-in Tools (always available in every pipeline state)
 - `memory` — Persist learned patterns across sessions (MEMORY.md + USER.md).
 - `session_search` — Search past pipeline sessions for similar patterns or errors.
@@ -173,7 +183,7 @@ EMPTY → upload PDF → HTML_READY → map tokens → MAPPED → build contract
 
 ### Guidance per state:
 - **EMPTY**: Ask user to upload a PDF. When they do, call `verify_template`. GLM-OCR automatically extracts structured text (headers, scalars, data samples, layout) during verification.
-- **HTML_READY**: Template created + structured OCR extracted. Call `auto_map_tokens` directly — OCR headers, DB schema, and column samples are automatically injected into the mapping prompt. Do NOT call `inspect_data`, `get_schema`, `read_template`, or `read_ocr` before mapping — the mapping tool handles all of that internally. Only use exploration tools AFTER mapping fails, to debug specific issues.
+- **HTML_READY**: Template created + structured OCR extracted. If a database connection exists, call `auto_map_tokens` immediately — do NOT ask the user first. OCR headers, DB schema, and column samples are automatically injected into the mapping prompt. Do NOT call `inspect_data`, `get_schema`, `read_template`, or `read_ocr` before mapping — the mapping tool handles all of that internally. Only use exploration tools AFTER mapping fails, to debug specific issues. If NO database connection exists, tell the user to connect their database.
 - **MAPPED**: Show mapping results. If user says "the PDF shows X not Y", use `read_ocr` to check actual PDF column headers (with positions and normalized names) before correcting via `refine_mapping`. OCR context is automatically prepended to corrections. If mapping looks good, call `build_contract`.
 - **APPROVED**: Contract built. Your ONLY pipeline tool here is `build_generator_assets`. Call it. Do NOT try to call validate_pipeline or dry_run_preview — they are NOT available at this state. They become available AFTER build_generator_assets completes (next turn).
 - **BUILDING_ASSETS**: Generator assets ready. You now have `validate_pipeline`, `dry_run_preview`, and `auto_fix_issues`. Complete template creation:
@@ -215,13 +225,24 @@ Your template is ready! Would you like to generate a report? If so, what date ra
 NEVER show raw JSON, error codes, or technical field names to the user.
 - **READY**: Report generated. Offer to generate more or adjust parameters.
 
-### CRITICAL: One pipeline step per turn, then wait
+### CRITICAL: Flow control
 - Your function list shows ONLY the tools available at the CURRENT pipeline state.
 - Do NOT attempt to call tools that are not in your function list — they will fail.
-- If the user asks for multiple steps (e.g., "validate and generate"), do ONLY the first available step, report results, then STOP. The next step will become available on the next turn.
-- After `verify_template` succeeds → report template details → STOP. Wait for user.
-- After `auto_map_tokens` → report mapping results → STOP. Wait for user. If there are unresolved tokens, ask the user for explicit column mappings. Do NOT retry auto_map_tokens — it will produce the same result.
-- After `refine_mapping` succeeds → report results → STOP. Wait for user.
+- If the user asks for multiple steps (e.g., "validate and generate"), do ONLY the first available step, report results, then proceed to the next if you can.
+
+**Auto-progression rules** (do NOT stop and ask — just proceed):
+- After `verify_template` succeeds AND a database connection exists → call `auto_map_tokens` immediately. Don't ask "what would you like to do?"
+- After `auto_map_tokens` succeeds with ALL tokens resolved → call `build_contract` immediately.
+- After `build_contract` succeeds → call `build_generator_assets` immediately.
+- After `build_generator_assets` succeeds → call `validate_pipeline` immediately.
+- After `validate_pipeline` passes → call `dry_run_preview` immediately.
+
+**Stop and wait for user** only when:
+- After `verify_template` succeeds but NO database connection → tell user to connect their database.
+- After `auto_map_tokens` with UNRESOLVED tokens → show what's unresolved and ask user. Do NOT retry auto_map_tokens — it will produce the same result.
+- After `refine_mapping` → report changes, wait for user to approve.
+- After `dry_run_preview` → report results, ask if they want to generate.
+- When any step FAILS → explain in plain English, ask what to do.
 - After `build_contract` returns status=ok → report success → STOP. Do NOT call more mapping tools.
 - After `build_generator_assets` → report results (scalars, rows, totals, reshape rules) → STOP. Wait for user.
 - After `validate_pipeline` passes → call `dry_run_preview` immediately (both are available at building_assets state). Report combined results → STOP.
@@ -320,8 +341,8 @@ def build_system_prompt(
     # Load template tokens if available
     if template_id:
         try:
-            from backend.app.services.legacy_services import template_dir
-            tdir = template_dir(template_id, must_exist=True)
+            from backend.app.services.legacy_services import resolve_template_dir
+            tdir = resolve_template_dir(template_id)
             context_parts.append(f"Template directory: {tdir}")
             # Read token list
             import re
@@ -486,14 +507,14 @@ def build_workspace_prompt(
 
     if template_id:
         try:
-            from backend.app.services.legacy_services import template_dir
-            tdir = template_dir(template_id, must_exist=True)
+            from backend.app.services.legacy_services import resolve_template_dir
+            tdir = resolve_template_dir(template_id)
             context_parts.append(f"Template directory: {tdir}")
 
             # List key files
             key_files = [
                 "report_final.html", "template_p1.html", "mapping_step3.json",
-                "mapping_pdf_labels.json", "contract.json", "source.pdf",
+                "mapping_pdf_labels.json", "contract.json", "source.pdf", "source.xlsx",
             ]
             existing = [f for f in key_files if (tdir / f).exists()]
             if existing:

@@ -100,15 +100,35 @@ export default function PanelButtons() {
   const setActivePanel = usePipelineStore(s => s.setActivePanel)
   const workspaceMode = usePipelineStore(s => s.workspaceMode)
   const errors = usePipelineStore(s => s.pipelineState.errors)
+  const template = usePipelineStore(s => s.pipelineState.data.template)
+  const mapping = usePipelineStore(s => s.pipelineState.data.mapping)
+  const contract = usePipelineStore(s => s.pipelineState.data.contract)
+  const validation = usePipelineStore(s => s.pipelineState.data.validation)
+  const connectionId = usePipelineStore(s => s.connectionId)
 
   const { errorCount, warningCount } = useMemo(() => ({
     errorCount: (errors || []).filter(e => e.severity === 'error').length,
     warningCount: (errors || []).filter(e => e.severity === 'warning').length,
   }), [errors])
 
+  // Derive available panels from actual store data — don't rely solely on backend
+  const dataAvailable = useMemo(() => {
+    const set = new Set(availablePanels)
+    if (template?.html) set.add('template')
+    if (connectionId) set.add('data')
+    if (mapping?.mapping && Object.keys(mapping.mapping).length > 0) {
+      set.add('mappings')
+      set.add('data')
+    }
+    if (contract?.contract) set.add('logic')
+    if (validation?.result || validation?.issues?.length > 0 || errors?.length > 0) set.add('errors')
+    if (validation?.result) set.add('preview')
+    return set
+  }, [availablePanels, template, mapping, contract, validation, errors, connectionId])
+
   const visible = workspaceMode
     ? PANEL_BUTTONS
-    : PANEL_BUTTONS.filter(b => availablePanels.includes(b.id))
+    : PANEL_BUTTONS.filter(b => dataAvailable.has(b.id))
 
   if (visible.length === 0) return null
 

@@ -947,7 +947,7 @@ class CollaborationService:
         "#84CC16",  # Lime
     ]
 
-    def __init__(self, websocket_base_url: str = "ws://localhost:8000"):
+    def __init__(self, websocket_base_url: str = "ws://localhost:8500"):
         self._sessions: dict[str, CollaborationSession] = {}
         self._presence: dict[str, dict[str, CollaboratorPresence]] = {}
         self._websocket_base_url = websocket_base_url

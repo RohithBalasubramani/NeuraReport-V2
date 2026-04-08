@@ -55,7 +55,7 @@ def _load_version_info() -> dict[str, Any]:
 class Settings(BaseSettings):
     api_title: str = "NeuraReport API"
     api_version: str = "4.0"
-    cors_origins: List[str] = Field(default_factory=lambda: ["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173", "tauri://localhost", "https://tauri.localhost"], validation_alias="NEURA_CORS_ORIGINS")
+    cors_origins: List[str] = Field(default_factory=lambda: ["http://localhost:5190", "http://127.0.0.1:5190", "http://localhost:5173", "http://127.0.0.1:5173", "tauri://localhost", "https://tauri.localhost"], validation_alias="NEURA_CORS_ORIGINS")
     api_key: Optional[str] = Field(default=None, validation_alias="NEURA_API_KEY")
     allow_anonymous_api: bool = Field(default=False, validation_alias="NEURA_ALLOW_ANON_API")
     jwt_secret: SecretStr = Field(default="change-me", validation_alias="NEURA_JWT_SECRET")

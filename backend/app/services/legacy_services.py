@@ -1040,6 +1040,38 @@ def resolve_template_kind(template_id: str) -> str:
     return "excel" if tdir.exists() else "pdf"
 
 
+def resolve_template_dir(template_id: str) -> Path:
+    """Resolve the template directory, auto-detecting PDF vs Excel.
+
+    Checks BOTH upload roots and returns whichever contains template_p1.html.
+    Falls back to any existing directory, then raises 404.
+
+    This is the preferred function when the caller doesn't know the template kind.
+    """
+    kind = resolve_template_kind(template_id)
+    try:
+        tdir = template_dir(template_id, must_exist=True, kind=kind)
+        if (tdir / "template_p1.html").exists():
+            return tdir
+    except Exception:
+        pass
+    # Fallback: try the other kind
+    other = "excel" if kind == "pdf" else "pdf"
+    try:
+        tdir = template_dir(template_id, must_exist=True, kind=other)
+        if (tdir / "template_p1.html").exists():
+            return tdir
+    except Exception:
+        pass
+    # Last resort: return any existing dir
+    for k in ("pdf", "excel"):
+        try:
+            return template_dir(template_id, must_exist=True, kind=k)
+        except Exception:
+            continue
+    raise _http_error(404, "template_not_found", f"Template {template_id} not found in any upload root")
+
+
 def ensure_template_exists(template_id: str, *, kind: str = "pdf") -> Path:
     return template_dir(template_id, must_exist=True, create=False, kind=kind)
 

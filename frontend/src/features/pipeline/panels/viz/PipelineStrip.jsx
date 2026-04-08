@@ -279,8 +279,9 @@ export default function PipelineStrip() {
         alignItems: 'center',
         width: '100%',
         py: 1.5,
-        px: 0,
+        px: 1,
         minWidth: 0,
+        justifyContent: 'center',
       }}
     >
       {steps.map((step, i) => {

@@ -1,0 +1,35 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "report_title"
+  ],
+  "row_tokens": [
+    "batch_id",
+    "batch_start",
+    "batch_end",
+    "row_set_wt_kg_1",
+    "row_ach_wt_kg_1",
+    "row_error_kg_1",
+    "row_error_pct_1",
+    "row_set_wt_kg_2",
+    "row_ach_wt_kg_2",
+    "row_error_kg_2",
+    "row_error_pct_2",
+    "row_set_wt_kg_3",
+    "row_ach_wt_kg_3",
+    "row_error_kg_3",
+    "row_error_pct_3"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "The schema uses specific row tokens for the 3 fixed materials (Fish Oil, Soya Oil, Water) found in every batch, plus tokens for the batch header info and totals."
+}

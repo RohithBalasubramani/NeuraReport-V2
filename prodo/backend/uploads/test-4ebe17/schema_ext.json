@@ -1,0 +1,26 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "recipe_code",
+    "report_title"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "The report contains a repeating block for batches. The table columns correspond to Sl. No., Material name, Set. wt(Kg), Ach. wt(Kg), Error(Kg), and Error %. The totals row is handled in the tfoot."
+}

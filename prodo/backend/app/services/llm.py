@@ -53,7 +53,7 @@ class LLMConfig:
 
     # Model-specific settings
     temperature: Optional[float] = None
-    max_tokens: Optional[int] = 8192
+    max_tokens: Optional[int] = 32768  # Qwen 3.5 with thinking needs headroom (vLLM max-model-len=32768)
 
     # Extra body fields merged into every chat completion request
     # Used for vLLM-specific params like {"chat_template_kwargs": {"enable_thinking": True}}
@@ -148,7 +148,7 @@ class LLMConfig:
             retry_delay=retry_delay,
             retry_multiplier=retry_multiplier,
             temperature=float(temperature) if temperature else None,
-            max_tokens=int(max_tokens) if max_tokens else 8192,
+            max_tokens=int(max_tokens) if max_tokens else 32768,
             vision_model=vision_model,
             vision_api_base=vision_api_base,
             vision_api_key=vision_api_key,

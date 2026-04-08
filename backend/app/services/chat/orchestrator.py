@@ -264,8 +264,8 @@ class ChatPipelineOrchestrator:
         db_path = None
         if template_id:
             try:
-                from backend.app.services.legacy_services import template_dir, db_path_from_payload_or_default
-                template_dir_path = template_dir(template_id, must_exist=True)
+                from backend.app.services.legacy_services import resolve_template_dir, db_path_from_payload_or_default
+                template_dir_path = resolve_template_dir(template_id)
                 if not current_html:
                     for name in ("report_final.html", "template_p1.html"):
                         p = template_dir_path / name

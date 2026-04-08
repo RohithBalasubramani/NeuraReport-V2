@@ -105,19 +105,24 @@ def _stage_event(stage: str, status: str, progress: int = 0, **kw) -> dict:
 _COT_OPENERS = re.compile(
     r"^("
     r"the user (greeted|asked|wants|is asking|said|mentioned|provided|uploaded|seems)"
-    r"|the .{1,60}(tool|function|endpoint|isn't available|isn't working|didn't|failed|returned|says)"
-    r"|i (should|need to|will|can|must|'ll|am going to|have to)"
+    r"|the .{1,120}(tool|function|endpoint|system|isn't available|isn't working|didn't|failed|failing|returned|returning|says|keeps|error|issue|no results|strange|uploaded)"
+    r"|the file (search|upload|might|is|was|isn)"
+    r"|i (should|need to|will|can|must|'ll|am going to|have to|notice|don't|only have|was|couldn't|cannot|apologize)"
     r"|it (seems|looks like|appears)"
-    r"|since (the|this|we|i|there)"
-    r"|let me (think|analyze|check|consider|plan|figure|look|ask)"
-    r"|my (approach|plan|reasoning|thought|analysis|strategy)"
+    r"|since (the|this|we|i|there|no)"
+    r"|let me (think|analyze|check|consider|plan|figure|look|ask|summarize|see|try)"
+    r"|my (approach|plan|reasoning|thought|analysis|strategy|available)"
     r"|first,? (i|let|we)"
     r"|okay,? so"
     r"|now (i|let|we)"
     r"|based on (the|this|my|what)"
     r"|looking at (the|this)"
     r"|so,? (the|i|we|this)"
-    r"|this (is|means|indicates|suggests|looks)"
+    r"|this (is a|means|indicates|suggests|looks|appears|might|could)"
+    r"|however,? (i|the|it|we|there|this)"
+    r"|but (i|the|it|we|there)"
+    r"|actually,?"
+    r"|thinking (about|through|process)"
     r"|hmm"
     r"|wait,?"
     r")",
@@ -126,28 +131,65 @@ _COT_OPENERS = re.compile(
 
 
 def _strip_reasoning(raw: str) -> str:
-    """Remove <think> blocks AND bare chain-of-thought leaked by the LLM.
+    """Extract only the user-facing response, discarding all thinking/reasoning.
 
-    Strategy:
-    1. Remove <think>...</think> blocks (including content).
-    2. Remove orphan <think>/<think> tags.
-    3. If the remaining text starts with a CoT-style opener paragraph,
-       strip paragraphs until we hit one that looks user-facing.
+    Qwen3.5 via vLLM produces output like:
+        Thinking Process:\n...(reasoning)...\n</think>\n\nActual response here
+
+    The opening <think> tag is often missing — only </think> marks the boundary.
     """
-    # Step 1: Remove <think>…</think> blocks (greedy within each block)
-    text = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
-    # Step 2: Orphan tags
-    text = re.sub(r"</?think>", "", text)
-    text = text.strip()
+    text = raw
 
-    if not text:
-        return text
+    # ── 1. Split on </think> — take everything after the LAST </think> ──
+    if "</think>" in text:
+        parts = text.rsplit("</think>", 1)
+        after = parts[-1].strip()
+        if after:
+            return after
 
-    # Step 3: Strip leading CoT paragraphs
-    # Split on double-newline to get paragraphs
+    # ── 2. Paired <think>...</think> blocks ──
+    cleaned = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
+    cleaned = re.sub(r"</?think>", "", cleaned).strip()
+    if cleaned and cleaned != text.strip():
+        text = cleaned
+
+    # ── 3. "Thinking Process:" header block ──
+    # Everything from this header through numbered/indented lines is thinking.
+    # The actual response starts at the first non-indented, non-numbered line
+    # after a blank line gap.
+    tp_match = re.match(r"^Thinking Process:\s*\n", text, re.IGNORECASE)
+    if tp_match:
+        lines = text.split("\n")
+        response_start = None
+        blank_run = 0
+        for i, line in enumerate(lines):
+            if i == 0:
+                continue  # skip "Thinking Process:" header
+            stripped_line = line.strip()
+            if not stripped_line:
+                blank_run += 1
+                continue
+            # Still in thinking: numbered items, indented, bullet points
+            if (stripped_line[0].isdigit() or line.startswith("    ")
+                    or line.startswith("\t") or stripped_line.startswith("*")
+                    or stripped_line.startswith("-")):
+                blank_run = 0
+                continue
+            # Non-thinking line after a blank gap = start of response
+            if blank_run >= 1:
+                response_start = i
+                break
+            blank_run = 0
+
+        if response_start is not None:
+            result = "\n".join(lines[response_start:]).strip()
+            if result:
+                return result
+
+    # ── 4. Fallback — strip leading CoT paragraphs by opener patterns ──
     paragraphs = re.split(r"\n{2,}", text)
     stripped = 0
-    for i, para in enumerate(paragraphs):
+    for para in paragraphs:
         first_line = para.strip().split("\n")[0].strip()
         if _COT_OPENERS.match(first_line):
             stripped += 1
@@ -155,12 +197,9 @@ def _strip_reasoning(raw: str) -> str:
             break
 
     if stripped > 0 and stripped < len(paragraphs):
-        # Keep everything from the first non-CoT paragraph onward
         text = "\n\n".join(paragraphs[stripped:]).strip()
         logger.debug("stripped_leaked_reasoning", extra={"paragraphs_removed": stripped})
     elif stripped > 0 and stripped == len(paragraphs):
-        # ALL paragraphs look like CoT — this is a pure reasoning dump.
-        # Return the last paragraph as a fallback (likely the closest to a response).
         text = paragraphs[-1].strip()
         logger.warning("all_paragraphs_look_like_cot", extra={"count": stripped})
 
@@ -410,7 +449,7 @@ def _set_next_step(view: dict, state: str) -> None:
     elif state == "html_ready":
         view["next_step"] = "Connect your database to fill in the data"
         view["actions"] = [
-            {"label": "Connect my Database", "action": "map"},
+            {"label": "Connect my Database", "action": "connect_database"},
             {"label": "Make changes", "action": "edit"},
         ]
     elif state in ("mapping", "mapped"):
@@ -463,8 +502,18 @@ class HermesAgent:
         payload: Any,
         *,
         upload_file: Any = None,
+        attachments: list[dict] | None = None,
     ) -> AsyncIterator[dict]:
-        """Main entry point. Yields NDJSON events compatible with frontend."""
+        """Main entry point. Yields NDJSON events compatible with frontend.
+
+        Parameters
+        ----------
+        upload_file : UploadFile or None
+            Template file (PDF/Excel) for verify_template tool.
+        attachments : list[dict] or None
+            Reference files saved to disk. Each dict has: name, path, size, content_type.
+            These are injected as context in the user message, not as pipeline templates.
+        """
         from run_agent import AIAgent
         from .hermes_adapter import (
             _current_ctx,
@@ -621,7 +670,7 @@ class HermesAgent:
             ]
 
         # ── 9. Build user message ──
-        user_message = self._build_user_message(payload, upload_file)
+        user_message = self._build_user_message(payload, upload_file, attachments)
 
         # ── 10. Yield chat_start ──
         yield _chat_start(action="agent", message="Processing your request...")
@@ -747,6 +796,7 @@ class HermesAgent:
             extra_fields["constraint_violations"] = status_view.pop("constraint_violations")
 
         extra_fields["status_view"] = status_view
+        extra_fields["session_id"] = self.session.session_id
         extra_fields["panel"] = {
             "available": available_panels,
             "show": None,  # Hermes doesn't force a panel — user clicks through
@@ -798,8 +848,27 @@ class HermesAgent:
                 parts.append("contract=exists")
         return ", ".join(parts)
 
-    def _build_user_message(self, payload: Any, upload_file: Any = None) -> str:
-        """Build user message from payload."""
+    # File extensions we can inline as text
+    _TEXT_EXTENSIONS = {
+        ".txt", ".csv", ".json", ".md", ".xml", ".html", ".htm", ".yaml",
+        ".yml", ".toml", ".ini", ".cfg", ".log", ".sql", ".py", ".js",
+        ".ts", ".sh", ".bat", ".env", ".conf",
+    }
+    _IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".svg"}
+    _MAX_INLINE_SIZE = 8000  # chars per file
+
+    def _build_user_message(
+        self, payload: Any, upload_file: Any = None,
+        attachments: list[dict] | None = None,
+    ) -> str:
+        """Build user message from payload, template upload, and reference attachments.
+
+        Text-based attachments are inlined so the LLM can read them directly.
+        Images are described with path + instruction to use vision_analyze tool.
+        Binary files (PDF, docx, xlsx) are read with appropriate extractors.
+        """
+        from pathlib import Path as _P
+
         user_message = ""
         if payload.messages:
             user_message = payload.messages[-1].content
@@ -811,6 +880,109 @@ class HermesAgent:
                 f"[uploaded: {filename}] "
                 f"{user_message or 'Create a template from this file.'}"
             )
+
+        if not attachments:
+            return user_message
+
+        att_sections = []
+        image_paths = []
+
+        for att in attachments:
+            name = att.get("name", "file")
+            path = att.get("path", "")
+            size = att.get("size", 0)
+            ext = _P(name).suffix.lower()
+
+            # ── Text files: inline content directly ──
+            if ext in self._TEXT_EXTENSIONS:
+                try:
+                    content = _P(path).read_text(encoding="utf-8", errors="ignore")
+                    if len(content) > self._MAX_INLINE_SIZE:
+                        content = content[:self._MAX_INLINE_SIZE] + f"\n... (truncated, {size} bytes total)"
+                    att_sections.append(
+                        f"📄 **{name}**\n```\n{content}\n```"
+                    )
+                except Exception:
+                    att_sections.append(f"📄 {name} — could not read (path: {path})")
+                continue
+
+            # ── Images: collect for vision_analyze instruction ──
+            if ext in self._IMAGE_EXTENSIONS:
+                image_paths.append((name, path))
+                continue
+
+            # ── PDF: extract text with pdfplumber or fallback ──
+            if ext == ".pdf":
+                try:
+                    import pdfplumber
+                    text_parts = []
+                    with pdfplumber.open(path) as pdf:
+                        for i, page in enumerate(pdf.pages[:10]):  # max 10 pages
+                            page_text = page.extract_text() or ""
+                            if page_text.strip():
+                                text_parts.append(f"--- Page {i+1} ---\n{page_text}")
+                    if text_parts:
+                        content = "\n\n".join(text_parts)
+                        if len(content) > self._MAX_INLINE_SIZE:
+                            content = content[:self._MAX_INLINE_SIZE] + "\n... (truncated)"
+                        att_sections.append(f"📄 **{name}** (PDF)\n```\n{content}\n```")
+                    else:
+                        att_sections.append(f"📄 {name} — PDF with no extractable text (path: {path})")
+                except ImportError:
+                    att_sections.append(f"📄 {name} — PDF file at: {path} (use read_file to view)")
+                except Exception:
+                    att_sections.append(f"📄 {name} — could not extract PDF text (path: {path})")
+                continue
+
+            # ── Excel/CSV: extract as text table ──
+            if ext in (".xlsx", ".xls", ".xlsm"):
+                try:
+                    import openpyxl
+                    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+                    rows = []
+                    ws = wb.active
+                    for i, row in enumerate(ws.iter_rows(values_only=True)):
+                        if i >= 50: break  # max 50 rows
+                        rows.append("\t".join(str(c) if c is not None else "" for c in row))
+                    wb.close()
+                    content = "\n".join(rows)
+                    if len(content) > self._MAX_INLINE_SIZE:
+                        content = content[:self._MAX_INLINE_SIZE] + "\n... (truncated)"
+                    att_sections.append(f"📊 **{name}** (Excel)\n```\n{content}\n```")
+                except Exception:
+                    att_sections.append(f"📊 {name} — Excel file at: {path} (use read_file to view)")
+                continue
+
+            # ── Word docs: extract text ──
+            if ext in (".doc", ".docx"):
+                try:
+                    import docx
+                    doc = docx.Document(path)
+                    content = "\n".join(p.text for p in doc.paragraphs if p.text.strip())
+                    if len(content) > self._MAX_INLINE_SIZE:
+                        content = content[:self._MAX_INLINE_SIZE] + "\n... (truncated)"
+                    att_sections.append(f"📄 **{name}** (Word)\n```\n{content}\n```")
+                except Exception:
+                    att_sections.append(f"📄 {name} — Word file at: {path}")
+                continue
+
+            # ── Unknown: just mention path ──
+            att_sections.append(f"📎 {name} ({size} bytes) — file at: {path}")
+
+        # Build the attachment block
+        parts = []
+        if att_sections:
+            parts.append("\n\n".join(att_sections))
+        if image_paths:
+            img_list = "\n".join(f"  - {n}: {p}" for n, p in image_paths)
+            parts.append(
+                f"🖼️ **Attached images** (use `vision_analyze` tool with the file path to view):\n{img_list}"
+            )
+
+        if parts:
+            att_block = "\n\n".join(parts)
+            user_message = f"{user_message}\n\n--- Attached files ---\n{att_block}"
+
         return user_message
 
     def _extract_structured_fields(self, content: str) -> dict:

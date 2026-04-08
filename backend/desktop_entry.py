@@ -262,7 +262,7 @@ def main():
     multiprocessing.freeze_support()
 
     parser = argparse.ArgumentParser(description="NeuraReport desktop backend")
-    parser.add_argument("--port", type=int, default=8000, help="Port to listen on")
+    parser.add_argument("--port", type=int, default=8500, help="Port to listen on")
     args = parser.parse_args()
 
     # Resolve data directory

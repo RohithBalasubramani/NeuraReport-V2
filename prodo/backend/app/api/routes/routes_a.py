@@ -5797,7 +5797,7 @@ def get_ws_handler() -> YjsWebSocketHandler:
 
 def _resolve_ws_base_url(request: Request) -> str:
     scheme = "wss" if request.url.scheme == "https" else "ws"
-    host = request.headers.get("x-forwarded-host") or request.headers.get("host") or "localhost:8000"
+    host = request.headers.get("x-forwarded-host") or request.headers.get("host") or "localhost:8500"
     return f"{scheme}://{host}"
 
 def get_pdf_service() -> PDFOperationsService:
@@ -8023,14 +8023,18 @@ async def pipeline_chat_upload(request: Request):
     """
     Multipart variant for file uploads within the chat pipeline.
 
-    Accepts multipart/form-data with:
-      - file: The PDF/Excel upload
+    Two upload modes:
+      1. Template upload: form field "file" (PDF/Excel) → pipeline verify_template
+      2. Reference attach: form field "attachments" (images/docs) → saved as chat context
+
+    Common fields:
       - payload_json: JSON string of UnifiedChatPayload fields
     """
     from backend.app.services.legacy_services import UnifiedChatPayload, TemplateChatMessage
+    from pathlib import Path
 
     form = await request.form()
-    upload_file = form.get("file")
+    upload_file = form.get("file")  # Template upload (PDF/Excel)
     payload_raw = form.get("payload_json", "{}")
     if isinstance(payload_raw, bytes):
         payload_raw = payload_raw.decode("utf-8")
@@ -8054,6 +8058,32 @@ async def pipeline_chat_upload(request: Request):
     _workspace = getattr(payload, "workspace_mode", False)
     session.workspace_mode = _workspace
 
+    # ── Handle reference attachments (images, docs — NOT templates) ──
+    attachment_files = form.getlist("attachments")
+    saved_attachments: list[dict] = []
+    if attachment_files and session.template_dir:
+        attach_dir = Path(session.template_dir) / "attachments"
+        attach_dir.mkdir(parents=True, exist_ok=True)
+        for att in attachment_files:
+            if not hasattr(att, 'filename'):
+                continue
+            safe_name = att.filename.replace("/", "_").replace("\\", "_")
+            dest = attach_dir / safe_name
+            content = await att.read()
+            dest.write_bytes(content)
+            saved_attachments.append({
+                "name": safe_name,
+                "path": str(dest),
+                "size": len(content),
+                "content_type": getattr(att, 'content_type', '') or '',
+            })
+        _chat_logger = logging.getLogger("neura.chat.pipeline")
+        _chat_logger.info("reference_attachments_saved", extra={
+            "session_id": session.session_id,
+            "count": len(saved_attachments),
+            "files": [a["name"] for a in saved_attachments],
+        })
+
     from backend.app.services.config import PIPELINE_ORCHESTRATOR
 
     if PIPELINE_ORCHESTRATOR == "hermes":
@@ -8061,7 +8091,11 @@ async def pipeline_chat_upload(request: Request):
         agent = HermesAgent(session, request, workspace_mode=_workspace)
 
         async def _event_stream():
-            async for event in agent.run(payload, upload_file=upload_file):
+            async for event in agent.run(
+                payload,
+                upload_file=upload_file,
+                attachments=saved_attachments if saved_attachments else None,
+            ):
                 event.setdefault("session_id", session.session_id)
                 event.setdefault("template_id", template_id or payload.template_id)
                 yield json.dumps(event, ensure_ascii=False) + "\n"
@@ -8175,10 +8209,13 @@ def _get_or_create_session(payload, template_id: str | None):
 
     if template_id:
         try:
-            from backend.app.services.legacy_services import template_dir as _td
-            tdir = _td(template_id, must_exist=True)
+            from backend.app.services.legacy_services import resolve_template_dir
+            tdir = resolve_template_dir(template_id)
         except Exception:
-            tdir = _td(template_id, must_exist=False, create=True)
+            # Template dir doesn't exist yet — create under the appropriate root
+            from backend.app.services.legacy_services import template_dir as _td
+            _kind = getattr(payload, "template_kind", None) or "pdf"
+            tdir = _td(template_id, must_exist=False, create=True, kind=_kind)
         return ChatSession.load_or_create(
             tdir,
             session_id=payload.session_id,

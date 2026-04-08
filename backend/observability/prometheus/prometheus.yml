@@ -10,7 +10,7 @@ scrape_configs:
     # Scrape the FastAPI /metrics endpoint (OpenMetrics format)
     metrics_path: /metrics
     static_configs:
-      - targets: ["host.docker.internal:8000"]
+      - targets: ["host.docker.internal:8500"]
         labels:
           service: neurareport-backend
           environment: development

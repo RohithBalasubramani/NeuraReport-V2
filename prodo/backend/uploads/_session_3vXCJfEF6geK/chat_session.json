@@ -1,0 +1,13 @@
+{
+  "session_id": "3vXCJfEF6geK",
+  "pipeline_state": "empty",
+  "connection_id": null,
+  "completed_stages": [],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 2,
+  "last_action": null,
+  "workspace_mode": false,
+  "created_at": "2026-04-08T08:53:29.625885+00:00",
+  "updated_at": "2026-04-08T09:19:26.505218+00:00"
+}

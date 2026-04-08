@@ -2455,6 +2455,23 @@ export async function pipelineChatUpload(sessionId, payload, file) {
 }
 
 /**
+ * Send chat message with reference file attachments (images, docs).
+ * These are NOT template uploads — they provide context for the LLM.
+ */
+export async function pipelineChatWithAttachments(sessionId, payload, files) {
+  const url = `${API_V1_BASE}/pipeline/chat/upload`
+  const fd = new FormData()
+  files.forEach((f, i) => fd.append('attachments', f))
+  fd.append('payload_json', JSON.stringify({ ...payload, session_id: sessionId }))
+  const res = await fetch(url, { method: 'POST', body: fd })
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    throw new Error(`Pipeline chat with attachments failed (${res.status}): ${text}`)
+  }
+  return res
+}
+
+/**
  * Fetch pipeline session state for resume.
  */
 

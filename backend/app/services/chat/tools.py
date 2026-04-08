@@ -711,9 +711,8 @@ def _resolve_kind(template_id: str) -> str:
 
 
 def _template_dir(template_id: str) -> Path:
-    from backend.app.services.legacy_services import template_dir
-    kind = _resolve_kind(template_id)
-    return template_dir(template_id, must_exist=True, kind=kind)
+    from backend.app.services.legacy_services import resolve_template_dir
+    return resolve_template_dir(template_id)
 
 
 async def _push_stage(ctx: ToolContext, stage: str, status: str, progress: int = 0) -> None:
@@ -802,7 +801,15 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
 
     upload_file = ctx._upload_file
     if upload_file is None:
-        return {"error": "no_file", "message": "No file provided for verification."}
+        # No file in this request. If template already exists, tell the LLM.
+        if ctx.session.pipeline_state.value != "empty":
+            return {
+                "status": "already_done",
+                "message": "Template already verified. No file was uploaded in this request. "
+                           "Use the existing template — do NOT call verify_template again.",
+                "template_id": ctx.template_id,
+            }
+        return {"error": "no_file", "message": "No file was uploaded. Ask the user to upload a PDF or Excel file."}
 
     # Reset file position for re-reads (Hermes may retry this tool)
     if hasattr(upload_file, 'file') and hasattr(upload_file.file, 'seek'):
@@ -855,16 +862,18 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
             except Exception:
                 pass
 
-            # Migrate session from _session_xxx to the real template directory
+            # Migrate session from _session_xxx to the real template directory.
+            # For Excel: check EXCEL_UPLOAD_ROOT first since template_p1.html
+            # lives there while the session dir may exist under UPLOAD_ROOT.
             try:
                 from backend.app.services.legacy_services import UPLOAD_ROOT, EXCEL_UPLOAD_ROOT
-                # Try both upload roots
-                for root in (UPLOAD_ROOT, EXCEL_UPLOAD_ROOT):
+                roots = (EXCEL_UPLOAD_ROOT, UPLOAD_ROOT) if is_excel else (UPLOAD_ROOT, EXCEL_UPLOAD_ROOT)
+                for root in roots:
                     candidate = root / template_id
-                    if candidate.is_dir():
+                    if candidate.is_dir() and (candidate / "template_p1.html").exists():
                         if candidate.resolve() != ctx.session.template_dir.resolve():
                             ctx.session.migrate_to(candidate)
-                            logger.info("session_migrated template_id=%s", template_id)
+                            logger.info("session_migrated template_id=%s root=%s", template_id, root)
                         break
             except Exception:
                 logger.warning("session_migration_failed", exc_info=True)
@@ -1916,7 +1925,7 @@ async def tool_validate_pipeline(
 # Tool 12: auto_fix_issues
 # ═══════════════════════════════════════════════════════════════════════
 
-async def tool_auto_fix_issues(ctx: ToolContext, issues: list[dict], template_id: str) -> dict:
+async def tool_auto_fix_issues(ctx: ToolContext, issues: list[dict], template_id: str, **_extra) -> dict:
     """Attempt to auto-fix validation issues using LLM reasoning."""
     _require_state(ctx.session, {"building_assets", "approved", "validated"}, "auto_fix_issues")
 
@@ -2244,8 +2253,8 @@ async def tool_dry_run_preview(
         if main_df is not None and date_cols:
             date_col = list(date_cols.values())[0]
             if date_col in main_df.columns:
-                dt_series = pd.to_datetime(main_df[date_col], errors="coerce")
-                mask = dt_series.between(pd.Timestamp(sample_start), pd.Timestamp(sample_end))
+                dt_series = pd.to_datetime(main_df[date_col], errors="coerce", utc=True)
+                mask = dt_series.between(pd.Timestamp(sample_start, tz="UTC"), pd.Timestamp(sample_end, tz="UTC"))
                 sample_df = main_df[mask].head(5)
                 db_sample_rows = sample_df.to_dict("records")
 
@@ -2686,12 +2695,14 @@ async def tool_edit_template(ctx: ToolContext, instruction: str) -> dict:
         return {"error": "edit_failed", "message": str(exc)}
 
 
-async def tool_edit_mapping(ctx: ToolContext, changes: dict[str, str]) -> dict:
+async def tool_edit_mapping(ctx: ToolContext, changes: dict[str, str] | None = None, **_extra) -> dict:
     """Apply specific token→column mapping changes. Lightweight version of refine_mapping.
 
     Unlike refine_mapping which can call the LLM, this directly writes the changes.
     Use for quick fixes like: {"row_error_kg": "COMPUTED:row_ach_wt_kg-row_set_wt_kg"}
     """
+    if not changes:
+        return {"error": "missing_changes", "message": "Provide a 'changes' dict of {token: column} pairs."}
     _require_state(ctx.session, {"html_ready", "mapped", "approved", "building_assets"}, "edit_mapping")
     if not ctx.template_id:
         return {"error": "no_template", "message": "No template_id set."}

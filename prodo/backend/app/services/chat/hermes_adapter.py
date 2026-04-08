@@ -52,18 +52,18 @@ _current_ctx: contextvars.ContextVar[ToolContext] = contextvars.ContextVar(
 # Each adds ~150-200 tokens of schema — total ~1500 tokens overhead.
 _HERMES_NATIVE_TOOLSETS = [
     "memory", "skills", "todo", "clarify", "delegation", "session_search",
-    "file", "code_execution", "web",
+    "file", "code_execution", "web", "vision",
 ]
 
-# Workspace mode: everything available — adds terminal + vision on top
-_WORKSPACE_TOOLSETS = _HERMES_NATIVE_TOOLSETS + ["terminal", "vision"]
+# Workspace mode: everything available — adds terminal on top
+_WORKSPACE_TOOLSETS = _HERMES_NATIVE_TOOLSETS + ["terminal"]
 
 # Tools that are Hermes-internal (not pipeline stages) — frontend styles differently
 _HERMES_INTERNAL_TOOLS = {
     "memory", "todo", "skills_list", "skill_view", "skill_manage",
     "session_search", "clarify", "delegate_task",
     "read_file", "write_file", "patch", "search_files", "execute_code",
-    "web_search", "web_extract",
+    "web_search", "web_extract", "vision_analyze",
 }
 
 # ── Sync handler wrapper ────────────────────────────────────────────
@@ -214,6 +214,7 @@ _CORE_TOOLS: set[str] = set()
 STATE_TOOLS: dict[str, set[str]] = {
     "empty": _CORE_TOOLS | {"verify_template"},
     "html_ready": _CORE_TOOLS | {
+        "verify_template",  # Allow re-upload if user wants to replace the template
         "auto_map_tokens", "resolve_mapping_pipeline",
         "edit_template",
     },

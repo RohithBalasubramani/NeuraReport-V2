@@ -1,0 +1,204 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Consumption Report</title>
+<style>
+    :root {
+        --font-main: "Times New Roman", Times, serif;
+        --font-size-base: 12pt;
+        --border-color: #000;
+        --border-width: 1px;
+        --col-sl-w: 60px;
+        --col-material-w: 220px;
+        --col-num-w: 80px;
+        --col-pct-w: 80px;
+    }
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    body {
+        font-family: var(--font-main);
+        font-size: var(--font-size-base);
+        margin: 0;
+        padding: 0;
+        color: #000;
+    }
+
+    /* Header Section */
+    #report-header {
+        width: 100%;
+        margin-bottom: 20px;
+        border: var(--border-width) solid var(--border-color);
+        padding: 15px 20px;
+        box-sizing: border-box;
+    }
+
+    .header-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 20px;
+        margin-bottom: 15px;
+    }
+
+    .header-item {
+        display: flex;
+        align-items: baseline;
+        font-weight: bold;
+    }
+
+    .header-label {
+        margin-right: 10px;
+    }
+
+    .header-value {
+        font-weight: normal;
+    }
+
+    .report-title {
+        text-align: center;
+        font-size: 28pt;
+        font-weight: bold;
+        margin: 10px 0 0 0;
+    }
+
+    /* Batch Block */
+    .batch-block {
+        margin-bottom: 25px;
+        border: var(--border-width) solid var(--border-color);
+        width: 100%;
+    }
+
+    .batch-header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 8px 10px;
+        border-bottom: var(--border-width) solid var(--border-color);
+        font-weight: bold;
+        align-items: center;
+    }
+
+    .batch-left {
+        display: flex;
+        gap: 40px;
+    }
+
+    .batch-right {
+        text-align: right;
+        display: flex;
+        gap: 20px;
+        justify-content: flex-end;
+    }
+
+    /* Table Styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    th, td {
+        border: var(--border-width) solid var(--border-color);
+        padding: 6px 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #fff;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Column Widths */
+    th:nth-child(1), td:nth-child(1) { width: var(--col-sl-w); } /* Sl. No. */
+    th:nth-child(2), td:nth-child(2) { width: var(--col-material-w); text-align: left; } /* Material name */
+    th:nth-child(3), td:nth-child(3) { width: var(--col-num-w); } /* Set. wt */
+    th:nth-child(4), td:nth-child(4) { width: var(--col-num-w); } /* Ach. wt */
+    th:nth-child(5), td:nth-child(5) { width: var(--col-num-w); } /* Error */
+    th:nth-child(6), td:nth-child(6) { width: var(--col-pct-w); } /* Error % */
+
+    /* Total Row */
+    tfoot tr td {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+
+    tfoot tr td:first-child {
+        text-align: left;
+    }
+
+    /* Utilities */
+    .right-align { text-align: right; }
+    .bold { font-weight: bold; }
+</style>
+
+
+
+    <div id="report-header">
+        <div class="header-grid">
+            <div>
+                <div class="header-item"><span class="header-label">Plant name</span> <span class="header-value">: {plant_name}</span></div>
+                <div class="header-item"><span class="header-label">Location</span> <span class="header-value">: {location}</span></div>
+                <div class="header-item"><span class="header-label">Print Date</span> <span class="header-value">: {print_date}</span></div>
+            </div>
+            <div>
+                <div class="header-item"><span class="header-label">From</span> <span class="header-value">: {from_date}</span></div>
+                <div class="header-item"><span class="header-label">To</span> <span class="header-value">: {to_date}</span></div>
+                <div class="header-item"><span class="header-label">Recipe code</span> <span class="header-value">: {recipe_code}</span></div>
+            </div>
+        </div>
+        <div class="report-title">{report_title}</div>
+    </div>
+
+    <!-- BEGIN:BLOCK_REPEAT batches -->
+    <section class="batch-block">
+        <div class="batch-header">
+            <div class="batch-left">
+                <span>{batch_recipe}</span>
+                <span>Batch # {batch_no}</span>
+            </div>
+            <div class="batch-right">
+                <span>Start {batch_start}</span>
+                <span>End {batch_end}</span>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th data-label="sl_no">Sl. No.</th>
+                    <th data-label="material_name">Material name</th>
+                    <th data-label="set_wt_kg" class="right-align">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="right-align">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="right-align">Error(Kg)</th>
+                    <th data-label="error_pct" class="right-align">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{row_sl_no}</td>
+                    <td>{row_material_name}</td>
+                    <td class="right-align">{row_set_wt_kg}</td>
+                    <td class="right-align">{row_ach_wt_kg}</td>
+                    <td class="right-align">{row_error_kg}</td>
+                    <td class="right-align">{row_error_pct}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" style="text-align: left">Total for batch</td>
+                    <td class="right-align">{total_set_wt_kg}</td>
+                    <td class="right-align">{total_ach_wt_kg}</td>
+                    <td class="right-align">{total_error_kg}</td>
+                    <td class="right-align">{total_error_pct}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+    <!-- END:BLOCK_REPEAT -->
+
+
