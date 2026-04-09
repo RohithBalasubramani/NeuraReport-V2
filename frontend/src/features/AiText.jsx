@@ -1047,7 +1047,7 @@ export function SynthesisPage() {
                 {sessions.map((session) => (
                   <ListItem
                     key={session.id}
-                    button
+                    component="div"
                     selected={currentSession?.id === session.id}
                     onClick={() => getSession(session.id)}
                   >

@@ -536,7 +536,7 @@ export function IngestionPageContainer() {
         {/* Method Selection */}
         <Grid container spacing={2} sx={{ mb: 4 }}>
           {INGESTION_METHODS.map((method) => (
-            <Grid item xs={6} sm={4} md={2} key={method.id}>
+            <Grid size={{ xs: 6, sm: 4, md: 2 }} key={method.id}>
               <MethodCard
                 selected={activeMethod === method.id}
                 onClick={() => setActiveMethod(method.id)}
@@ -989,7 +989,7 @@ export function ConnectorsPage() {
                   </Box>
                   <Grid container spacing={2}>
                     {category.connectors.map((connector) => (
-                      <Grid item xs={12} sm={6} md={4} lg={3} key={connector.id}>
+                      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={connector.id}>
                         <ConnectorCard variant="outlined">
                           <CardContent>
                             <ConnectorIcon
@@ -1033,7 +1033,7 @@ export function ConnectorsPage() {
             {connections.length > 0 ? (
               <Grid container spacing={2}>
                 {connections.map((conn) => (
-                  <Grid item xs={12} sm={6} md={4} key={conn.id}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={conn.id}>
                     <ConnectorCard>
                       <CardContent>
                         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>

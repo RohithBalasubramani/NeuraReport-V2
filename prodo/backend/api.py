@@ -161,7 +161,21 @@ async def lifespan(app: FastAPI):
     try:
         await init_auth_db()
     except Exception as exc:
-        logger.warning("auth_db_init_failed", extra={"event": "auth_db_init_failed", "error": str(exc)})
+        logger.info("auth_db_init_skipped", extra={"event": "auth_db_init_skipped", "error": str(exc)})
+
+    # Prune stale template/connection entries whose directories no longer exist on disk
+    try:
+        from backend.app.repositories import state_store
+        _upload_root = os.getenv("UPLOAD_ROOT", "backend/uploads")
+        _excel_root = os.getenv("EXCEL_UPLOAD_ROOT", "backend/uploads_excel")
+        pruned_tpl = state_store.prune_stale_templates(_upload_root, _excel_root) if hasattr(state_store, 'prune_stale_templates') else 0
+        pruned_conn = state_store.prune_stale_connections() if hasattr(state_store, 'prune_stale_connections') else 0
+        if pruned_tpl:
+            logger.info("stale_templates_pruned", extra={"event": "stale_templates_pruned", "count": pruned_tpl})
+        if pruned_conn:
+            logger.info("stale_connections_pruned", extra={"event": "stale_connections_pruned", "count": pruned_conn})
+    except Exception as exc:
+        logger.warning("stale_prune_failed", extra={"event": "stale_prune_failed", "error": str(exc)})
 
     # Seed sample data for new installations
     seed_enabled = os.getenv("NEURA_SEED_DATA", "true").lower() in {"1", "true", "yes"}
@@ -234,10 +248,36 @@ async def lifespan(app: FastAPI):
         except Exception as exc:
             logger.warning("recovery_daemon_start_failed", extra={"event": "recovery_daemon_start_failed", "error": str(exc)})
 
+    # Start hydration daemon — pre-builds widget data cache on state changes
+    try:
+        from backend.app.services.hydration_daemon import hydration_daemon
+        await hydration_daemon.start()
+    except Exception as exc:
+        logger.warning("hydration_daemon_start_failed", extra={"event": "hydration_daemon_start_failed", "error": str(exc)})
+
+    # Start widget data daemon — pre-computes column stats, temporal, batches, problems
+    try:
+        from backend.app.services.widget_data_daemon import widget_data_daemon
+        await widget_data_daemon.start()
+    except Exception as exc:
+        logger.warning("widget_data_daemon_start_failed", extra={"event": "widget_data_daemon_start_failed", "error": str(exc)})
+
     yield
 
     # Shutdown: stop each component with individual error handling so that
     # a failure in one does not prevent cleanup of the others.
+    try:
+        from backend.app.services.widget_data_daemon import widget_data_daemon as _wdd
+        await _wdd.stop()
+    except Exception as exc:
+        logger.warning("widget_data_daemon_stop_failed", extra={"error": str(exc)})
+
+    try:
+        from backend.app.services.hydration_daemon import hydration_daemon as _hd
+        await _hd.stop()
+    except Exception as exc:
+        logger.warning("hydration_daemon_stop_failed", extra={"error": str(exc)})
+
     try:
         stop_recovery_daemon(timeout_seconds=5)
     except Exception as exc:

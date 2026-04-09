@@ -273,6 +273,71 @@ export async function createCollection(data) {
   return response.data;
 }
 
+export async function listCollections() {
+  const response = await api.get('/knowledge/collections');
+  return Array.isArray(response.data) ? response.data : response.data?.collections || [];
+}
+
+export async function getCollection(id) {
+  const response = await api.get(`/knowledge/collections/${id}`);
+  return response.data;
+}
+
+export async function updateCollection(id, data) {
+  const response = await api.put(`/knowledge/collections/${id}`, data);
+  return response.data;
+}
+
+export async function deleteCollection(id) {
+  const response = await api.delete(`/knowledge/collections/${id}`);
+  return response.data;
+}
+
+export async function addDocumentToCollection(collectionId, documentId) {
+  const response = await api.post(`/knowledge/collections/${collectionId}/documents`, { document_id: documentId });
+  return response.data;
+}
+
+export async function removeDocumentFromCollection(collectionId, documentId) {
+  const response = await api.delete(`/knowledge/collections/${collectionId}/documents/${documentId}`);
+  return response.data;
+}
+
+export async function createTag(name, color = null) {
+  const response = await api.post('/knowledge/tags', { name, color });
+  return response.data;
+}
+
+export async function listTags() {
+  const response = await api.get('/knowledge/tags');
+  return Array.isArray(response.data) ? response.data : response.data?.tags || [];
+}
+
+export async function deleteTag(tagId) {
+  const response = await api.delete(`/knowledge/tags/${tagId}`);
+  return response.data;
+}
+
+export async function addTagToDocument(documentId, tagId) {
+  const response = await api.post(`/knowledge/documents/${documentId}/tags`, { tag_id: tagId });
+  return response.data;
+}
+
+export async function removeTagFromDocument(documentId, tagId) {
+  const response = await api.delete(`/knowledge/documents/${documentId}/tags/${tagId}`);
+  return response.data;
+}
+
+export async function getDocumentActivity(documentId) {
+  const response = await api.get(`/knowledge/documents/${documentId}/activity`);
+  return response.data;
+}
+
+export async function getLibraryStats() {
+  const response = await api.get('/knowledge/stats');
+  return response.data;
+}
+
 export async function searchDocuments(query, options = {}) {
   const response = await api.post('/knowledge/search', {
     query,

@@ -17,7 +17,11 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 # IdempotencyMiddleware and IdempotencyStore are defined later in this file
-from backend.app.services.platform_services import PrometheusMiddleware, metrics_endpoint
+try:
+    from backend.app.services.platform_services import PrometheusMiddleware, metrics_endpoint
+except ImportError:
+    PrometheusMiddleware = None  # type: ignore
+    metrics_endpoint = None  # type: ignore
 from backend.app.services.infra_services import set_correlation_id
 from backend.app.services.config import Settings
 # UXGovernanceMiddleware and IntentHeaders are defined later in this file (merged from ux_governance.py)
@@ -311,9 +315,13 @@ def add_middlewares(app: FastAPI, settings: Settings) -> None:
 
     # Prometheus metrics middleware (after correlation ID, before other middleware)
     if settings.metrics_enabled:
-        app.add_middleware(PrometheusMiddleware, app_name=settings.app_name)
-        app.add_route("/metrics", metrics_endpoint, methods=["GET"])
-        logger.info("metrics_enabled", extra={"event": "metrics_enabled", "app_name": settings.app_name})
+        import importlib.util
+        if PrometheusMiddleware is not None and importlib.util.find_spec("prometheus_client") is not None:
+            app.add_middleware(PrometheusMiddleware, app_name=settings.app_name)
+            app.add_route("/metrics", metrics_endpoint, methods=["GET"])
+            logger.info("metrics_enabled", extra={"event": "metrics_enabled", "app_name": settings.app_name})
+        else:
+            logger.info("metrics_skipped", extra={"event": "metrics_skipped", "reason": "prometheus_client not installed"})
 
     # OpenTelemetry tracing (conditional on OTLP endpoint being configured)
     if settings.otlp_endpoint:

@@ -316,7 +316,7 @@ export function SchemaBuilderPage() {
                 {schemas.map((schema) => (
                   <ListItem
                     key={schema.id}
-                    button
+                    component="div"
                     selected={currentSchema?.id === schema.id}
                     onClick={() => setCurrentSchema(schema)}
                     secondaryAction={

@@ -798,7 +798,7 @@ export function OpsConsolePage() {
             subtitle="Provide API key or bearer token to authorize protected endpoints."
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Stack spacing={1}>
                 <Typography variant="caption" color="text.secondary">
                   API Base
@@ -806,7 +806,7 @@ export function OpsConsolePage() {
                 <Chip label={API_BASE} variant="outlined" />
               </Stack>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 label="X-API-Key"
@@ -816,7 +816,7 @@ export function OpsConsolePage() {
                 placeholder="Optional"
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 label="Bearer Token"
@@ -835,7 +835,7 @@ export function OpsConsolePage() {
             subtitle="Register users, obtain tokens, and manage user records."
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Register</Typography>
                 <TextField
@@ -880,7 +880,7 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Login</Typography>
                 <TextField
@@ -927,10 +927,10 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">User Management</Typography>
                 <TextField
@@ -1008,7 +1008,7 @@ export function OpsConsolePage() {
             subtitle="Trigger job runs, inspect active jobs, and manage schedules."
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Run Report Job</Typography>
                 <TemplateSelector
@@ -1028,7 +1028,7 @@ export function OpsConsolePage() {
                   showStatus
                 />
                 <Grid container spacing={1}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="Start Date"
@@ -1038,7 +1038,7 @@ export function OpsConsolePage() {
                       placeholder="YYYY-MM-DD"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
                       fullWidth
                       label="End Date"
@@ -1103,7 +1103,7 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Active Jobs</Typography>
                 <TextField
@@ -1185,7 +1185,7 @@ export function OpsConsolePage() {
             subtitle="Compare analyses, manage comments, create share links, and load config values."
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Compare Analyses</Typography>
                 <TextField
@@ -1224,7 +1224,7 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Comments</Typography>
                 <TextField
@@ -1311,10 +1311,10 @@ export function OpsConsolePage() {
                 </Stack>
               </Stack>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Share Links</Typography>
                 <TextField
@@ -1385,7 +1385,7 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Config Endpoints</Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap">
@@ -1437,7 +1437,7 @@ export function OpsConsolePage() {
             subtitle="Request chart analysis and generation directly."
           />
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Analyze Data</Typography>
                 <TextField
@@ -1478,7 +1478,7 @@ export function OpsConsolePage() {
                 </Button>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={1.5}>
                 <Typography variant="subtitle2">Generate Chart</Typography>
                 <TextField

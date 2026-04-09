@@ -1651,7 +1651,7 @@ export default function DocumentQAPage() {
               {availableRuns.map((run) => (
                 <ListItem
                   key={run.id}
-                  button
+                  component="div"
                   onClick={() => handleSelectReport(run)}
                   sx={{
                     borderRadius: 1,

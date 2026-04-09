@@ -3792,7 +3792,10 @@ async def get_report_summary(
 
 import io
 import json
+from typing import Optional
+from pathlib import Path
 from fastapi import APIRouter, Depends, Request, HTTPException, File, Form, UploadFile
+from pydantic import BaseModel, Field
 
 from backend.app.services.ai_services import DocumentSynthesisService
 from backend.app.schemas import SynthesisDocumentType as DocumentType, SynthesisRequest
@@ -4116,7 +4119,9 @@ async def synthesize_documents(
 """API routes for Document Q&A Chat."""
 
 import threading
+from typing import Optional
 from fastapi import APIRouter, Depends, Query, Request, HTTPException
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger("neura.api.docqa")
 

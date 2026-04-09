@@ -1006,7 +1006,7 @@ function StepTemplate({ wizardState, updateWizardState, onComplete, setLoading }
               const isSelected = selectedGalleryTemplate?.id === template.id
 
               return (
-                <Grid item xs={12} sm={6} md={4} key={template.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={template.id}>
                   <Card
                     variant="outlined"
                     sx={{

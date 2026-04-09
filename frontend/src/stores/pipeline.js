@@ -535,14 +535,20 @@ const usePipelineStore = create((set, get) => ({
         }
 
         // When "x.complete" arrives, also mark "x.start" as complete.
-        // When a tool completes (e.g. "verify_template" complete), mark all
-        // its sub-stages (e.g. "verify.start", "verify.upload_pdf") as complete too.
+        // When a stage completes, also mark related sub-stages as complete.
+        // Relationships: "verify_template" owns "verify.*" sub-stages,
+        // "auto_map_tokens" owns "mapping.*", "build_contract" owns "contract.*", etc.
         if (isDone) {
-          const prefix = stageName.split('.')[0] // "verify.complete" → "verify"
+          // Map tool names to their sub-stage prefixes
+          const toolPrefix = stageName.replace(/_.*/, '') // "verify_template" → "verify", "auto_map_tokens" → "auto"
+          const dotPrefix = stageName.split('.')[0] // "verify.complete" → "verify"
           stages.forEach((st, i) => {
-            if (st.status !== 'complete' && st.status !== 'success') {
-              const stPrefix = st.name.split('.')[0]
-              if (stPrefix === prefix || st.name === prefix) {
+            if (st.status !== 'complete' && st.status !== 'success' && st.name !== stageName) {
+              const stRoot = st.name.split('.')[0]
+              // Match: "verify.start" when "verify_template" completes (stRoot "verify" === toolPrefix "verify")
+              // Match: "verify.start" when "verify.complete" completes (stRoot "verify" === dotPrefix "verify")
+              // Match: "mapping.auto_map" when "auto_map_tokens" completes (stRoot "mapping" relates to "auto_map")
+              if (stRoot === toolPrefix || stRoot === dotPrefix) {
                 stages[i] = { ...st, status: 'complete', completedAt: now }
               }
             }

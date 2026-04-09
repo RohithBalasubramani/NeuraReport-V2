@@ -335,7 +335,7 @@ export function SearchPageContainer() {
           <Collapse in={showFilters}>
             <Paper sx={{ mt: 2, p: 2 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <ConnectionSelector
                     value={selectedConnectionId}
                     onChange={setSelectedConnectionId}
@@ -343,7 +343,7 @@ export function SearchPageContainer() {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <FormControl fullWidth size="small">
                     <InputLabel>Document Type</InputLabel>
                     <Select
@@ -359,7 +359,7 @@ export function SearchPageContainer() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -370,7 +370,7 @@ export function SearchPageContainer() {
                     onChange={(e) => setFilters({ ...filters, dateFrom: e.target.value })}
                   />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -496,7 +496,7 @@ export function SearchPageContainer() {
               {savedSearches.slice(0, 5).map((saved) => (
                 <ListItem
                   key={saved.id}
-                  button
+                  component="div"
                   onClick={() => handleRunSavedSearch(saved)}
                   sx={{ borderRadius: 1 }}
                 >
@@ -528,7 +528,7 @@ export function SearchPageContainer() {
               {searchHistory.slice(0, 5).map((item, index) => (
                 <ListItem
                   key={index}
-                  button
+                  component="div"
                   onClick={() => {
                     setQuery(item.query)
                     handleSearch(item.query)

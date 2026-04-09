@@ -1353,11 +1353,14 @@ export const useSearchStore = create((set) => ({
 // summaryStore
 // ====================================================================
 
-export const useSummaryStore = create((set) => ({
-  summaries: [], currentSummary: null, loading: false, error: null,
+export const useSummaryStore = create((set, get) => ({
+  summary: null, history: [], loading: false, error: null,
 
-  generateSummary: async (data) => { set({ loading: true, error: null }); try { const r = await summaryApi.generateSummary(data); set({ currentSummary: r, loading: false }); return r; } catch (err) { set({ error: err.message, loading: false }); return null; } },
-  reset: () => set({ currentSummary: null, error: null }),
+  generateSummary: async (data) => { set({ loading: true, error: null }); try { const r = await summaryApi.generateSummary(data); const text = typeof r === 'string' ? r : r?.summary || r?.text || JSON.stringify(r); set((s) => ({ summary: text, history: [{ ...data, summary: text, timestamp: new Date().toISOString() }, ...s.history].slice(0, 100), loading: false })); return text; } catch (err) { set({ error: err.message, loading: false }); return null; } },
+  queueSummary: async (data) => { set({ loading: true, error: null }); try { const r = await summaryApi.queueSummary(data); set({ loading: false }); return r; } catch (err) { set({ error: err.message, loading: false }); return null; } },
+  clearSummary: () => set({ summary: null }),
+  clearHistory: () => set({ history: [] }),
+  reset: () => set({ summary: null, history: [], error: null }),
 }));
 
 

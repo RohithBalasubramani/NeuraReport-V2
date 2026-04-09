@@ -161,7 +161,21 @@ async def lifespan(app: FastAPI):
     try:
         await init_auth_db()
     except Exception as exc:
-        logger.warning("auth_db_init_failed", extra={"event": "auth_db_init_failed", "error": str(exc)})
+        logger.info("auth_db_init_skipped", extra={"event": "auth_db_init_skipped", "error": str(exc)})
+
+    # Prune stale template/connection entries whose directories no longer exist on disk
+    try:
+        from backend.app.repositories import state_store
+        _upload_root = os.getenv("UPLOAD_ROOT", "backend/uploads")
+        _excel_root = os.getenv("EXCEL_UPLOAD_ROOT", "backend/uploads_excel")
+        pruned_tpl = state_store.prune_stale_templates(_upload_root, _excel_root) if hasattr(state_store, 'prune_stale_templates') else 0
+        pruned_conn = state_store.prune_stale_connections() if hasattr(state_store, 'prune_stale_connections') else 0
+        if pruned_tpl:
+            logger.info("stale_templates_pruned", extra={"event": "stale_templates_pruned", "count": pruned_tpl})
+        if pruned_conn:
+            logger.info("stale_connections_pruned", extra={"event": "stale_connections_pruned", "count": pruned_conn})
+    except Exception as exc:
+        logger.warning("stale_prune_failed", extra={"event": "stale_prune_failed", "error": str(exc)})
 
     # Seed sample data for new installations
     seed_enabled = os.getenv("NEURA_SEED_DATA", "true").lower() in {"1", "true", "yes"}

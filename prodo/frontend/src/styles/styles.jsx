@@ -166,16 +166,22 @@ export const GlassDialog = styled(Dialog)(({ theme }) => ({
 // GLASS CARD
 // ---------------------------------------------------------------------------
 
-export const GlassCard = styled(Card)(({ theme }) => ({
-  background: alpha(theme.palette.background.paper, 0.7),
+export const GlassCard = styled(Card, {
+  shouldForwardProp: (prop) => !['hover', 'gradient'].includes(prop),
+})(({ theme, hover, gradient }) => ({
+  background: gradient
+    ? `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)}, ${alpha(theme.palette.secondary.main, 0.1)})`
+    : alpha(theme.palette.background.paper, 0.7),
   backdropFilter: 'blur(10px)',
   border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
   borderRadius: theme.shape.borderRadius * 2,
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-  '&:hover': {
-    transform: 'translateY(-2px)',
-    boxShadow: `0 8px 32px ${alpha(theme.palette.common.black, 0.12)}`,
-  },
+  ...(hover !== false && {
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: `0 8px 32px ${alpha(theme.palette.common.black, 0.12)}`,
+    },
+  }),
 }))
 
 export const StyledFormControl = styled(FormControl)(({ theme }) => ({

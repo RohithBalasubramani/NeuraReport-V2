@@ -1605,10 +1605,10 @@ class SQLiteDataFrameLoader:
         with self._lock:
             if self._table_names is not None:
                 return list(self._table_names)
-            with sqlite3.connect(str(self.db_path)) as con:
+            with sqlite3.connect(str(self.db_path), timeout=300) as con:
                 cur = con.execute(
                     "SELECT name FROM sqlite_master "
-                    "WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;"
+                    "WHERE type IN ('table', 'view') AND name NOT LIKE 'sqlite_%' ORDER BY name;"
                 )
                 tables = [str(row[0]) for row in cur.fetchall() if row and row[0]]
             self._table_names = tables
@@ -1651,7 +1651,7 @@ class SQLiteDataFrameLoader:
 
     def _table_row_count(self, table_name: str) -> int:
         quoted = table_name.replace('"', '""')
-        with sqlite3.connect(str(self.db_path)) as con:
+        with sqlite3.connect(str(self.db_path), timeout=300) as con:
             return con.execute(f'SELECT COUNT(*) FROM "{quoted}"').fetchone()[0]
 
     @staticmethod
@@ -1667,11 +1667,19 @@ class SQLiteDataFrameLoader:
                     "table_row_limit",
                     extra={"table": table_name, "rows": row_count, "limit": _MAX_TABLE_ROWS},
                 )
-                query = f'SELECT rowid AS "__rowid__", * FROM "{quoted}" LIMIT {_MAX_TABLE_ROWS}'
+                limit_clause = f" LIMIT {_MAX_TABLE_ROWS}"
             else:
-                query = f'SELECT rowid AS "__rowid__", * FROM "{quoted}"'
-            with sqlite3.connect(str(self.db_path)) as con:
-                df = pd.read_sql_query(query, con)
+                limit_clause = ""
+            with sqlite3.connect(str(self.db_path), timeout=300) as con:
+                # Try with rowid first (tables), fall back to without (views)
+                try:
+                    df = pd.read_sql_query(
+                        f'SELECT rowid AS "__rowid__", * FROM "{quoted}"{limit_clause}', con
+                    )
+                except Exception:
+                    df = pd.read_sql_query(
+                        f'SELECT * FROM "{quoted}"{limit_clause}', con
+                    )
         except Exception as exc:
             raise RuntimeError(f"Failed loading table {table_name!r} into DataFrame: {exc}") from exc
         for col in df.columns:
@@ -1683,24 +1691,98 @@ class SQLiteDataFrameLoader:
                 df.insert(0, "rowid", rowid_series)
         return df
 
+    def frame_date_filtered(
+        self,
+        table_name: str,
+        date_column: str,
+        start_date: str | None = None,
+        end_date: str | None = None,
+    ) -> pd.DataFrame:
+        """Load a table with a date range WHERE clause applied at the SQLite level.
+
+        This bypasses the row_limit truncation by filtering in SQL before loading.
+        Returns a fresh (uncached) DataFrame.
+        """
+        clean = self._assert_table(table_name)
+        quoted_table = clean.replace('"', '""')
+        quoted_col = date_column.replace('"', '""')
+
+        conditions = []
+        params: list[str] = []
+        if start_date:
+            conditions.append(f'"{quoted_col}" >= ?')
+            sd = str(start_date).strip()
+            if " " in sd and "T" not in sd:
+                sd = sd.replace(" ", "T", 1)
+            params.append(sd)
+        if end_date:
+            conditions.append(f'"{quoted_col}" <= ?')
+            ed = str(end_date).strip()
+            if " " in ed and "T" not in ed:
+                ed = ed.replace(" ", "T", 1)
+            if len(ed) == 10:
+                ed = ed + "T23:59:59.999999"
+            elif len(ed) == 16:
+                ed = ed + ":59.999999"
+            elif len(ed) == 19:
+                ed = ed + ".999999"
+            params.append(ed)
+
+        where = f" WHERE {' AND '.join(conditions)}" if conditions else ""
+
+        try:
+            with sqlite3.connect(str(self.db_path), timeout=300) as con:
+                try:
+                    sql = f'SELECT rowid AS "__rowid__", * FROM "{quoted_table}"{where}'
+                    df = pd.read_sql_query(sql, con, params=params)
+                except Exception:
+                    sql = f'SELECT * FROM "{quoted_table}"{where}'
+                    df = pd.read_sql_query(sql, con, params=params)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Failed loading table {table_name!r} with date filter: {exc}"
+            ) from exc
+
+        logger.info(
+            "frame_date_filtered table=%s col=%s start=%s end=%s rows=%d",
+            table_name, date_column, start_date, end_date, len(df),
+        )
+
+        for col in df.columns:
+            if pd.api.types.is_string_dtype(df[col].dtype):
+                df[col] = df[col].astype("object")
+        if "__rowid__" in df.columns:
+            rowid_series = df["__rowid__"].copy()
+            if "rowid" not in df.columns:
+                df.insert(0, "rowid", rowid_series)
+        return df
+
+    def column_names(self, table_name: str) -> list[str]:
+        """Return column names using PRAGMA — no data loaded."""
+        info = self.pragma_table_info(table_name)
+        return [col["name"] for col in info]
+
     def column_type(self, table_name: str, column_name: str) -> str:
-        table = self.frame(table_name)
-        if column_name not in table.columns:
-            return ""
-        series = table[column_name]
-        if pd.api.types.is_datetime64_any_dtype(series):
-            return "DATETIME"
-        if pd.api.types.is_integer_dtype(series):
-            return "INTEGER"
-        if pd.api.types.is_float_dtype(series):
-            return "REAL"
-        if pd.api.types.is_bool_dtype(series):
-            return "INTEGER"
-        return "TEXT"
+        """Return the SQLite declared type for a column (no data loaded)."""
+        info = self.pragma_table_info(table_name)
+        for col in info:
+            if col["name"] == column_name:
+                declared = (col.get("type") or "").upper()
+                if "INT" in declared:
+                    return "INTEGER"
+                if "REAL" in declared or "FLOAT" in declared or "DOUBLE" in declared:
+                    return "REAL"
+                if "DATE" in declared or "TIME" in declared:
+                    return "DATETIME"
+                if "BOOL" in declared:
+                    return "INTEGER"
+                return "TEXT"
+        return ""
 
     def table_info(self, table_name: str) -> list[tuple[str, str]]:
-        table = self.frame(table_name)
-        return [(col, str(table[col].dtype)) for col in table.columns]
+        """Return (name, type) pairs using PRAGMA — no data loaded."""
+        info = self.pragma_table_info(table_name)
+        return [(col["name"], col.get("type") or "TEXT") for col in info]
 
     def _load_table_metadata(
         self, table_name: str
@@ -1716,7 +1798,7 @@ class SQLiteDataFrameLoader:
         info_rows: list[dict[str, Any]] = []
         fk_rows: list[dict[str, Any]] = []
         try:
-            with sqlite3.connect(str(self.db_path)) as con:
+            with sqlite3.connect(str(self.db_path), timeout=300) as con:
                 cur = con.execute(f"PRAGMA table_info('{quoted}')")
                 info_rows = [
                     {
@@ -2169,7 +2251,7 @@ def connect(db_path, **_kwargs) -> DataFrameConnection:
     return DataFrameConnection(Path(db_path))
 
 _pg_logger = logging.getLogger("neura.dataframes.postgres")
-DEFAULT_ROW_LIMIT = 500_000
+DEFAULT_ROW_LIMIT = 0  # 0 = unlimited — SQL date-pre-filtering already limits rows loaded
 
 class PostgresDataFrameLoader:
     """Load PostgreSQL tables into cached pandas DataFrames."""

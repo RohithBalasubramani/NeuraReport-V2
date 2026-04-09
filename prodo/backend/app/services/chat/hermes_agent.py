@@ -99,110 +99,81 @@ def _stage_event(stage: str, status: str, progress: int = 0, **kw) -> dict:
     return _chat_event("stage", stage=stage, status=status, progress=progress, **kw)
 
 
-# ── Reasoning stripper (belt + suspenders for <think> and bare CoT) ──
-
-# Patterns that indicate leaked chain-of-thought (case-insensitive first line)
-_COT_OPENERS = re.compile(
-    r"^("
-    r"the user (greeted|asked|wants|is asking|said|mentioned|provided|uploaded|seems)"
-    r"|the .{1,120}(tool|function|endpoint|system|isn't available|isn't working|didn't|failed|failing|returned|returning|says|keeps|error|issue|no results|strange|uploaded)"
-    r"|the file (search|upload|might|is|was|isn)"
-    r"|i (should|need to|will|can|must|'ll|am going to|have to|notice|don't|only have|was|couldn't|cannot|apologize)"
-    r"|it (seems|looks like|appears)"
-    r"|since (the|this|we|i|there|no)"
-    r"|let me (think|analyze|check|consider|plan|figure|look|ask|summarize|see|try)"
-    r"|my (approach|plan|reasoning|thought|analysis|strategy|available)"
-    r"|first,? (i|let|we)"
-    r"|okay,? so"
-    r"|now (i|let|we)"
-    r"|based on (the|this|my|what)"
-    r"|looking at (the|this)"
-    r"|so,? (the|i|we|this)"
-    r"|this (is a|means|indicates|suggests|looks|appears|might|could)"
-    r"|however,? (i|the|it|we|there|this)"
-    r"|but (i|the|it|we|there)"
-    r"|actually,?"
-    r"|thinking (about|through|process)"
-    r"|hmm"
-    r"|wait,?"
-    r")",
-    re.IGNORECASE,
-)
+# ── Reasoning stripper ──────────────────────────────────────────────
+#
+# Qwen 3.5 via vLLM with enable_thinking=True produces:
+#
+#   Thinking Process:\n\n1. ...\n...\n</think>\n\nActual user-facing response
+#
+# The </think> tag is the definitive boundary. "Thinking Process:" is the
+# header but has no closing tag — </think> marks the end.
+#
+# When the output is NOT truncated (max_tokens is large enough), the
+# </think> tag is ALWAYS present. We rely on this structural marker.
+# The only fallback needed is for rare truncated outputs where </think>
+# never appears.
 
 
 def _strip_reasoning(raw: str) -> str:
-    """Extract only the user-facing response, discarding all thinking/reasoning.
+    """Extract the user-facing response by splitting on the </think> boundary.
 
-    Qwen3.5 via vLLM produces output like:
-        Thinking Process:\n...(reasoning)...\n</think>\n\nActual response here
+    This is the ONLY reliable strategy — Qwen's thinking mode always outputs:
+        Thinking Process:\\n...reasoning...\\n</think>\\n\\nActual response
 
-    The opening <think> tag is often missing — only </think> marks the boundary.
+    When </think> is present (normal case), everything after it is the response.
+    When absent (truncated output), fall back to "Thinking Process:" header parsing.
     """
     text = raw
 
-    # ── 1. Split on </think> — take everything after the LAST </think> ──
+    # ── 1. Split on </think> — the definitive boundary ──
+    # Take everything AFTER the last </think> tag.
     if "</think>" in text:
-        parts = text.rsplit("</think>", 1)
-        after = parts[-1].strip()
+        after = text.rsplit("</think>", 1)[-1].strip()
         if after:
             return after
+        # </think> was at the very end — no response after it.
+        # This means the model used ALL its tokens on thinking.
+        # Fall through to try other methods.
 
-    # ── 2. Paired <think>...</think> blocks ──
+    # ── 2. Remove paired <think>...</think> blocks ──
     cleaned = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
     cleaned = re.sub(r"</?think>", "", cleaned).strip()
     if cleaned and cleaned != text.strip():
         text = cleaned
+        if text:
+            return text
 
-    # ── 3. "Thinking Process:" header block ──
-    # Everything from this header through numbered/indented lines is thinking.
-    # The actual response starts at the first non-indented, non-numbered line
-    # after a blank line gap.
-    tp_match = re.match(r"^Thinking Process:\s*\n", text, re.IGNORECASE)
-    if tp_match:
+    # ── 3. "Thinking Process:" header — output was truncated (no </think>) ──
+    # The response starts after a double-newline gap following the last
+    # indented/numbered reasoning line.
+    if re.match(r"^Thinking Process:", text, re.IGNORECASE):
         lines = text.split("\n")
-        response_start = None
         blank_run = 0
         for i, line in enumerate(lines):
             if i == 0:
-                continue  # skip "Thinking Process:" header
-            stripped_line = line.strip()
-            if not stripped_line:
+                continue  # skip header
+            s = line.strip()
+            if not s:
                 blank_run += 1
                 continue
-            # Still in thinking: numbered items, indented, bullet points
-            if (stripped_line[0].isdigit() or line.startswith("    ")
-                    or line.startswith("\t") or stripped_line.startswith("*")
-                    or stripped_line.startswith("-")):
+            # Reasoning: numbered, indented, bulleted, or starting with **
+            if (s[0].isdigit() or line.startswith("    ") or line.startswith("\t")
+                    or s.startswith("*") or s.startswith("-")):
                 blank_run = 0
                 continue
-            # Non-thinking line after a blank gap = start of response
+            # Non-reasoning line after a gap = start of response
             if blank_run >= 1:
-                response_start = i
-                break
+                result = "\n".join(lines[i:]).strip()
+                if result:
+                    return result
             blank_run = 0
 
-        if response_start is not None:
-            result = "\n".join(lines[response_start:]).strip()
-            if result:
-                return result
-
-    # ── 4. Fallback — strip leading CoT paragraphs by opener patterns ──
-    paragraphs = re.split(r"\n{2,}", text)
-    stripped = 0
-    for para in paragraphs:
-        first_line = para.strip().split("\n")[0].strip()
-        if _COT_OPENERS.match(first_line):
-            stripped += 1
-        else:
-            break
-
-    if stripped > 0 and stripped < len(paragraphs):
-        text = "\n\n".join(paragraphs[stripped:]).strip()
-        logger.debug("stripped_leaked_reasoning", extra={"paragraphs_removed": stripped})
-    elif stripped > 0 and stripped == len(paragraphs):
-        text = paragraphs[-1].strip()
-        logger.warning("all_paragraphs_look_like_cot", extra={"count": stripped})
-
+    # ── 4. No structural markers at all (shouldn't happen with max_tokens=32768) ──
+    # Log it so we know if this path is ever hit.
+    logger.warning("no_thinking_markers_found", extra={
+        "length": len(text),
+        "first_50": text[:50],
+    })
     return text
 
 
@@ -590,7 +561,12 @@ class HermesAgent:
             system_prompt = build_system_prompt(
                 self.session, ctx.template_id, ctx.connection_id
             )
-            _toolsets = [get_toolset_for_state(self.session.pipeline_state.value)]
+            # Use the FULL pipeline toolset — not state-specific.
+            # The state may change mid-turn (e.g. empty→html_ready after verify).
+            # Python-enforced preconditions (_require_state) in each tool already
+            # gate invalid calls, so the LLM having extra tools is safe.
+            # The system prompt guides which tools to call at each state.
+            _toolsets = [get_workspace_toolset()]
             _max_iter = self.MAX_TOOL_ROUNDS
 
         # ── 6. Read LLM config ──

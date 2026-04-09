@@ -1,4 +1,5 @@
 import * as clientApi from '@/api/client'
+import { generateReportFromTask } from '@/api/intelligence'
 import { neutral, palette } from '@/app/theme'
 import { ConnectionSelector, SendToMenu, useToast } from '@/components/core'
 import { InteractionType, Reversibility, useInteraction } from '@/components/governance'
@@ -658,20 +659,17 @@ export default function AgentsPageContainer() {
     tasks,
     currentTask,
     agentTypes,
-    repurposeFormats,
     loading,
-    executing,
+    running: executing,
     error,
-    runResearch,
-    runDataAnalysis,
-    runEmailDraft,
-    runContentRepurpose,
-    runProofreading,
-    runReportAnalyst,
-    generateReportFromTask,
+    runResearchAgent: runResearch,
+    runDataAnalystAgent: runDataAnalysis,
+    runEmailDraftAgent: runEmailDraft,
+    runContentRepurposeAgent: runContentRepurpose,
+    runProofreadingAgent: runProofreading,
+    runReportAnalystAgent: runReportAnalyst,
     fetchTasks,
     fetchAgentTypes,
-    fetchRepurposeFormats,
     reset,
   } = useAgentStore()
 
@@ -690,10 +688,9 @@ export default function AgentsPageContainer() {
 
   useEffect(() => {
     fetchAgentTypes()
-    fetchRepurposeFormats()
     fetchTasks()
     return () => reset()
-  }, [fetchAgentTypes, fetchRepurposeFormats, fetchTasks, reset])
+  }, [fetchAgentTypes, fetchTasks, reset])
 
   // Handle deep-link from Reports page: ?analyzeRunId=<run_id>
   useEffect(() => {
@@ -928,7 +925,7 @@ export default function AgentsPageContainer() {
           </Typography>
           <Grid container spacing={2} sx={{ mb: 4 }}>
             {AGENTS.map((agent) => (
-              <Grid item xs={12} sm={6} md={4} key={agent.type}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={agent.type}>
                 <AgentCard
                   selected={selectedAgent?.type === agent.type}
                   onClick={() => handleSelectAgent(agent)}
@@ -976,7 +973,7 @@ export default function AgentsPageContainer() {
                       const dataSource = formData.dataSource || 'paste_spreadsheet'
                       if (dataSource === 'sample_sales' || dataSource === 'sample_inventory') {
                         return (
-                          <Grid item xs={12} key={field.name}>
+                          <Grid size={12} key={field.name}>
                             <Alert severity="info" sx={{ mt: 1 }}>
                               Using sample {dataSource === 'sample_sales' ? 'sales' : 'inventory'} data. Just enter your question above!
                             </Alert>
@@ -985,7 +982,7 @@ export default function AgentsPageContainer() {
                       }
                       if (dataSource === 'database_connection') {
                         return (
-                          <Grid item xs={12} key={field.name}>
+                          <Grid size={12} key={field.name}>
                             <ConnectionSelector
                               value={selectedConnectionId}
                               onChange={setSelectedConnectionId}
@@ -1005,7 +1002,7 @@ export default function AgentsPageContainer() {
                     }
 
                     return (
-                      <Grid item xs={12} md={field.multiline ? 12 : 6} key={field.name}>
+                      <Grid size={{ xs: 12, md: field.multiline ? 12 : 6 }} key={field.name}>
                         {field.type === 'reportRunPicker' ? (
                           <Autocomplete
                             freeSolo

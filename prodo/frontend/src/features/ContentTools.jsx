@@ -631,7 +631,7 @@ export function DesignPageContainer() {
         {activeTab === 0 && (
           <Grid container spacing={3}>
             {brandKits.map((kit) => (
-              <Grid item xs={12} sm={6} md={4} key={kit.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={kit.id}>
                 <BrandKitCard
                   isDefault={kit.is_default}
                   data-testid={`brand-kit-card-${kit.id}`}
@@ -821,7 +821,7 @@ export function DesignPageContainer() {
             ))}
 
             {brandKits.length === 0 && !loading && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                   <BrushIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
                   <Typography variant="h6" color="text.secondary">
@@ -845,7 +845,7 @@ export function DesignPageContainer() {
         {activeTab === 1 && (
           <Grid container spacing={2}>
             {themes.map((t) => (
-              <Grid item xs={12} sm={6} md={4} key={t.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={t.id}>
                 <ThemeCard isActive={t.is_active} data-testid={`theme-card-${t.id}`}>
                   <Box
                     sx={{
@@ -925,7 +925,7 @@ export function DesignPageContainer() {
             ))}
 
             {themes.length === 0 && !loading && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                   <ColorIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
                   <Typography variant="h6" color="text.secondary">
@@ -949,12 +949,12 @@ export function DesignPageContainer() {
         {activeTab === 2 && (
           <Grid container spacing={3}>
             {/* --- Palette Generator --- */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
                 Palette Generator
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Paper sx={{ p: 3 }}>
                 <TextField
                   fullWidth
@@ -1004,7 +1004,7 @@ export function DesignPageContainer() {
                 </ActionButton>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               {generatedPalette ? (
                 <Paper sx={{ p: 3 }}>
                   <Typography variant="subtitle2" sx={{ mb: 2 }}>
@@ -1054,16 +1054,16 @@ export function DesignPageContainer() {
             </Grid>
 
             {/* --- Contrast Checker --- */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
                 WCAG Contrast Checker
               </Typography>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <Paper sx={{ p: 3 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <TextField
                       fullWidth
                       type="color"
@@ -1075,7 +1075,7 @@ export function DesignPageContainer() {
                       {contrastFg}
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <TextField
                       fullWidth
                       type="color"
@@ -1100,7 +1100,7 @@ export function DesignPageContainer() {
                 </ActionButton>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={7}>
+            <Grid size={{ xs: 12, md: 7 }}>
               {contrastResult ? (
                 <Paper sx={{ p: 3 }}>
                   {/* Preview */}
@@ -1136,7 +1136,7 @@ export function DesignPageContainer() {
                       { label: 'AAA Normal (7:1)', pass: contrastResult.wcag_aaa_normal },
                       { label: 'AAA Large (4.5:1)', pass: contrastResult.wcag_aaa_large },
                     ].map(({ label, pass }) => (
-                      <Grid item xs={6} key={label}>
+                      <Grid size={6} key={label}>
                         <Chip
                           label={label}
                           size="small"
@@ -1169,13 +1169,13 @@ export function DesignPageContainer() {
             </Grid>
 
             {/* --- Accessible Color Suggestions --- */}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
                 Accessible Color Finder
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Paper sx={{ p: 3 }}>
                 <TextField
                   fullWidth
@@ -1200,7 +1200,7 @@ export function DesignPageContainer() {
                 </ActionButton>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               {a11ySuggestions ? (
                 <Paper sx={{ p: 3 }}>
                   <Typography variant="subtitle2" sx={{ mb: 2 }}>
@@ -1297,7 +1297,7 @@ export function DesignPageContainer() {
         {/* =============================================================== */}
         {activeTab === 3 && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={5}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <Paper sx={{ p: 3 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
                   Font Library
@@ -1352,7 +1352,7 @@ export function DesignPageContainer() {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={7}>
+            <Grid size={{ xs: 12, md: 7 }}>
               {selectedFont && fontPairings ? (
                 <Paper sx={{ p: 3 }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
@@ -1507,7 +1507,7 @@ export function DesignPageContainer() {
             Colors
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1517,7 +1517,7 @@ export function DesignPageContainer() {
                 size="small"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1527,7 +1527,7 @@ export function DesignPageContainer() {
                 size="small"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1556,7 +1556,7 @@ export function DesignPageContainer() {
 
           <Collapse in={kitFormExpanded}>
             <Grid container spacing={2} sx={{ mb: 2 }}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   type="color"
@@ -1566,7 +1566,7 @@ export function DesignPageContainer() {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   type="color"
@@ -1604,7 +1604,7 @@ export function DesignPageContainer() {
               )}
             </TextField>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   select
@@ -1624,7 +1624,7 @@ export function DesignPageContainer() {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <TextField
                   fullWidth
                   select
@@ -1717,7 +1717,7 @@ export function DesignPageContainer() {
             Colors
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1727,7 +1727,7 @@ export function DesignPageContainer() {
                 size="small"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1737,7 +1737,7 @@ export function DesignPageContainer() {
                 size="small"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <TextField
                 fullWidth
                 type="color"
@@ -1749,7 +1749,7 @@ export function DesignPageContainer() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 fullWidth
                 type="color"
@@ -1759,7 +1759,7 @@ export function DesignPageContainer() {
                 size="small"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <TextField
                 fullWidth
                 type="color"
@@ -1858,6 +1858,7 @@ const DocumentCard = styled(Card)(({ theme }) => ({
 const CollectionItem = styled(ListItem)(({ theme, selected }) => ({
   borderRadius: 8,
   marginBottom: 4,
+  cursor: 'pointer',
   backgroundColor: selected ? (theme.palette.mode === 'dark' ? alpha(theme.palette.text.primary, 0.1) : neutral[100]) : 'transparent',
   '&:hover': {
     backgroundColor: theme.palette.mode === 'dark' ? alpha(theme.palette.text.primary, 0.05) : neutral[50],
@@ -2238,7 +2239,6 @@ export function KnowledgePageContainer() {
           {/* Quick Filters */}
           <List dense sx={{ px: 1 }}>
             <CollectionItem
-              button
               selected={view === 'all' && !selectedCollection}
               onClick={() => {
                 setView('all')
@@ -2252,7 +2252,6 @@ export function KnowledgePageContainer() {
               <ListItemText primary="All Documents" />
             </CollectionItem>
             <CollectionItem
-              button
               selected={view === 'favorites'}
               onClick={() => {
                 setView('favorites')
@@ -2266,7 +2265,6 @@ export function KnowledgePageContainer() {
               <ListItemText primary="Favorites" />
             </CollectionItem>
             <CollectionItem
-              button
               selected={view === 'graph'}
               onClick={() => setView('graph')}
             >
@@ -2279,7 +2277,6 @@ export function KnowledgePageContainer() {
               />
             </CollectionItem>
             <CollectionItem
-              button
               selected={view === 'faq'}
               onClick={() => setView('faq')}
             >
@@ -2308,7 +2305,6 @@ export function KnowledgePageContainer() {
             {collections.map((collection) => (
               <CollectionItem
                 key={collection.id}
-                button
                 selected={selectedCollection?.id === collection.id}
                 onClick={() => handleSelectCollection(collection)}
               >
@@ -2347,7 +2343,7 @@ export function KnowledgePageContainer() {
           {loading && !documents.length && view !== 'graph' && view !== 'faq' ? (
             <Grid container spacing={2}>
               {Array.from({ length: 6 }).map((_, i) => (
-                <Grid item xs={12} sm={6} md={4} key={i}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
                   <Card variant="outlined" sx={{ p: 2 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
                       <Box sx={{ width: '70%', height: 20, bgcolor: alpha(theme.palette.text.primary, 0.08), borderRadius: 1 }} />
@@ -2390,7 +2386,7 @@ export function KnowledgePageContainer() {
                 </Typography>
                 <Grid container spacing={1.5} sx={{ mb: 3 }}>
                   {knowledgeGraph.nodes?.map((node) => (
-                    <Grid item xs={12} sm={6} md={4} key={node.id}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={node.id}>
                       <Paper
                         variant="outlined"
                         sx={{
@@ -2573,7 +2569,7 @@ export function KnowledgePageContainer() {
             <>
               <Grid container spacing={2}>
                 {displayedDocs.map((doc) => (
-                  <Grid item xs={12} sm={6} md={4} key={doc.id}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={doc.id}>
                     <DocumentCard>
                       <CardContent>
                         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>

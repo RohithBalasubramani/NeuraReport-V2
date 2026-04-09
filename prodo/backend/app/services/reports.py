@@ -2103,7 +2103,105 @@ class ContractAdapter:
                 # Produces rows: machine_name, run_date, start_time, end_time, duration_sec, shift_no, total_time
                 df = self._apply_window_diff(df, rule, loader)
 
+            elif strategy == "HOURLY_PIVOT":
+                # Transpose time-series: sensors become rows, hours become columns.
+                # Config:
+                #   timestamp_col: "timestamp_utc"
+                #   sensors: [{col: "AI_1_PT_1", tag: "AI-1_PT-1", desc: "UF FEED", label: "FEED"}]
+                #   hour_start: 6  (default 6 = 6AM)
+                #   include_stats: true  (add MAX, MAX_DATETIME, MIN, MIN_DATETIME, AVG columns)
+                #   divisor: 100  (divide raw values)
+                df = self._apply_hourly_pivot(df, rule)
+
         return df
+
+    def _apply_hourly_pivot(self, df: "pd.DataFrame", rule: dict) -> "pd.DataFrame":
+        """Transpose time-series: sensors → rows, hours → columns.
+
+        Produces one row per sensor with 24 hourly columns (6AM..5AM) plus
+        optional MAX/MIN/AVG stats.
+        """
+        import pandas as pd
+        import numpy as np
+
+        ts_col = rule.get("timestamp_col", "timestamp_utc")
+        sensors = rule.get("sensors", [])
+        hour_start = int(rule.get("hour_start", 6))
+        include_stats = rule.get("include_stats", False)
+        divisor = float(rule.get("divisor", 1))
+
+        if ts_col not in df.columns or not sensors:
+            logger.warning("hourly_pivot: missing timestamp_col=%s or empty sensors", ts_col)
+            return df
+
+        ts = _coerce_datetime_series(df[ts_col])
+        df = df.copy()
+        df["__ts__"] = ts
+        df["__hour__"] = ts.dt.hour
+
+        # Hour labels: 6AM,7AM,...,5AM
+        hour_labels = []
+        for offset in range(24):
+            h = (hour_start + offset) % 24
+            if h == 0:
+                hour_labels.append("12AM")
+            elif h == 12:
+                hour_labels.append("12PM")
+            elif h < 12:
+                hour_labels.append(f"{h}AM")
+            else:
+                hour_labels.append(f"{h - 12}PM")
+
+        out_rows = []
+        for idx, sensor in enumerate(sensors):
+            col = sensor.get("col", "")
+            tag = sensor.get("tag", col)
+            desc = sensor.get("desc", "")
+            label = sensor.get("label", "")
+
+            if col not in df.columns:
+                logger.warning("hourly_pivot: sensor column %s not found", col)
+                continue
+
+            raw = pd.to_numeric(df[col], errors="coerce")
+            if divisor != 1:
+                raw = raw / divisor
+
+            row = {
+                "row_sr_no": str(idx + 1),
+                "row_tag_name": tag,
+                "row_description": desc,
+                "row_label": label,
+            }
+
+            if include_stats:
+                valid = raw.dropna()
+                if not valid.empty:
+                    max_idx = valid.idxmax()
+                    min_idx = valid.idxmin()
+                    row["row_max"] = f"{valid.max():.2f}"
+                    row["row_max_datetime"] = str(df.at[max_idx, ts_col])[:19] if pd.notna(max_idx) else ""
+                    row["row_min"] = f"{valid.min():.2f}"
+                    row["row_min_datetime"] = str(df.at[min_idx, ts_col])[:19] if pd.notna(min_idx) else ""
+                    row["row_avg"] = f"{valid.mean():.2f}"
+                else:
+                    row.update({"row_max": "", "row_max_datetime": "", "row_min": "", "row_min_datetime": "", "row_avg": ""})
+
+            for offset in range(24):
+                h = (hour_start + offset) % 24
+                mask = df["__hour__"] == h
+                vals = raw[mask].dropna()
+                col_key = f"row_h{offset}"
+                row[col_key] = f"{vals.mean():.2f}" if not vals.empty else ""
+
+            out_rows.append(row)
+
+        if not out_rows:
+            return df
+
+        result = pd.DataFrame(out_rows)
+        logger.info("hourly_pivot: %d sensors → %d rows × %d cols", len(sensors), len(result), len(result.columns))
+        return result
 
     def _apply_window_diff(self, df, rule: dict, loader) -> "pd.DataFrame":
         """Detect machine run intervals from RUNHOURS cumulative counters."""
@@ -8412,6 +8510,13 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
 
+    # Pad all rows to the same width so preface/header rows span the full
+    # sheet width in Excel (prevents narrow preface rows when data has many columns).
+    max_cols = max((len(r) for r in rows if r), default=1)
+    for i, row in enumerate(rows):
+        if row and len(row) < max_cols:
+            rows[i] = row + [""] * (max_cols - len(row))
+
     data_start = data_row_positions[0] if data_row_positions else None
     data_end = data_row_positions[-1] if data_row_positions else None
     data_max_cols = (
@@ -8583,6 +8688,13 @@ def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[
     """Export HTML to XLSX using openpyxl (in-memory — may OOM on large reports)."""
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
+
+    # Pad all rows to the same width so preface/header rows span the full
+    # sheet width in Excel (prevents narrow preface rows when data has many columns).
+    max_cols = max((len(r) for r in rows if r), default=1)
+    for i, row in enumerate(rows):
+        if row and len(row) < max_cols:
+            rows[i] = row + [""] * (max_cols - len(row))
 
     data_start = data_row_positions[0] if data_row_positions else None
     data_end = data_row_positions[-1] if data_row_positions else None

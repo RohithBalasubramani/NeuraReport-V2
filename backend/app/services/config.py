@@ -1447,9 +1447,10 @@ async def seed_connections():
 
     with state_store.transaction() as state:
         connections = state.get("connections", [])
+        seed_flags = state.get("_seed_flags", {})
 
-        if len(connections) > 0:
-            logger.info("Connections already exist, skipping seed")
+        if len(connections) > 0 or seed_flags.get("connections_seeded"):
+            logger.info("Connections already exist or previously seeded, skipping")
             return
 
     logger.info("Seeding sample connections...")
@@ -1494,6 +1495,9 @@ async def seed_connections():
 
     with state_store.transaction() as state:
         state["connections"] = {conn["id"]: conn for conn in sample_connections}
+        flags = state.get("_seed_flags", {})
+        flags["connections_seeded"] = True
+        state["_seed_flags"] = flags
 
     logger.info(f"Seeded {len(sample_connections)} connections")
 
@@ -1504,8 +1508,9 @@ async def seed_templates():
 
     with state_store.transaction() as state:
         templates = state.get("templates", [])
+        seed_flags = state.get("_seed_flags", {})
 
-        if len(templates) > 0:
+        if len(templates) > 0 or seed_flags.get("templates_seeded"):
             logger.info("Templates already exist, skipping seed")
             return
 
@@ -1571,6 +1576,9 @@ async def seed_templates():
 
     with state_store.transaction() as state:
         state["templates"] = {tpl["id"]: tpl for tpl in sample_templates}
+        flags = state.get("_seed_flags", {})
+        flags["templates_seeded"] = True
+        state["_seed_flags"] = flags
 
     logger.info(f"Seeded {len(sample_templates)} templates")
 
