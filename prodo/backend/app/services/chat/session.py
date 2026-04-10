@@ -107,11 +107,13 @@ class ChatSession:
         template_dir: Path,
         session_id: str | None = None,
         connection_id: str | None = None,
+        connection_ids: list[str] | None = None,
     ):
         self.template_dir = Path(template_dir)
         self.session_id = session_id or uuid.uuid4().hex[:12]
         self.pipeline_state = PipelineState.EMPTY
         self.connection_id = connection_id
+        self.connection_ids: list[str] = connection_ids or ([connection_id] if connection_id else [])
         self.completed_stages: list[str] = []
         self.invalidated_stages: list[str] = []
         self.needs_reapproval = False
@@ -276,6 +278,8 @@ class ChatSession:
         session = cls(template_dir=template_dir, session_id=data.get("session_id"))
         session.pipeline_state = PipelineState(data.get("pipeline_state", "empty"))
         session.connection_id = data.get("connection_id")
+        conn_id = data.get("connection_id")
+        session.connection_ids = data.get("connection_ids") or ([conn_id] if conn_id else [])
         session.completed_stages = data.get("completed_stages", [])
         session.invalidated_stages = data.get("invalidated_stages", [])
         session.needs_reapproval = data.get("needs_reapproval", False)
@@ -292,6 +296,7 @@ class ChatSession:
         template_dir: Path,
         session_id: str | None = None,
         connection_id: str | None = None,
+        connection_ids: list[str] | None = None,
     ) -> ChatSession:
         """Load existing session or create a new one."""
         path = Path(template_dir) / _SESSION_FILENAME
@@ -304,6 +309,7 @@ class ChatSession:
             template_dir=template_dir,
             session_id=session_id,
             connection_id=connection_id,
+            connection_ids=connection_ids,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -311,6 +317,7 @@ class ChatSession:
             "session_id": self.session_id,
             "pipeline_state": self.pipeline_state.value,
             "connection_id": self.connection_id,
+            "connection_ids": self.connection_ids,
             "completed_stages": self.completed_stages,
             "invalidated_stages": self.invalidated_stages,
             "needs_reapproval": self.needs_reapproval,

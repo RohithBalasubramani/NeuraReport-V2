@@ -549,6 +549,10 @@ export async function verifyTemplate({
 export async function mappingPreview(templateId, connectionId, options = {}) {
   const kind = options.kind || 'pdf'
   const params = { connection_id: connectionId ?? '' }
+  // Multi-DB: forward connection_ids as comma-separated query param
+  if (options.connectionIds && Array.isArray(options.connectionIds) && options.connectionIds.length > 0) {
+    params.connection_ids = options.connectionIds.join(',')
+  }
   if (Object.prototype.hasOwnProperty.call(options, 'forceRefresh')) {
     params.force_refresh = options.forceRefresh
   }
@@ -564,6 +568,7 @@ export async function mappingApprove(
   mapping,
   {
     connectionId,
+    connectionIds,
     userValuesText = '',
     userInstructions = '',
     keys,
@@ -576,6 +581,9 @@ export async function mappingApprove(
   const payload = { mapping }
 
   if (connectionId) payload.connection_id = connectionId
+  if (connectionIds && Array.isArray(connectionIds) && connectionIds.length > 0) {
+    payload.connection_ids = connectionIds
+  }
 
   if (typeof userValuesText === 'string') payload.user_values_text = userValuesText
 
@@ -1635,6 +1643,7 @@ export async function runReportAsJob({
   templateId,
   templateName,
   connectionId,
+  connectionIds,
   startDate,
   endDate,
   batchIds = null,
@@ -1654,6 +1663,9 @@ export async function runReportAsJob({
     connection_id: connectionId,
     start_date: startDate,
     end_date: endDate,
+  }
+  if (connectionIds && Array.isArray(connectionIds) && connectionIds.length > 0) {
+    payload.connection_ids = connectionIds
   }
   if (Array.isArray(batchIds) && batchIds.length) {
     payload.batch_ids = batchIds

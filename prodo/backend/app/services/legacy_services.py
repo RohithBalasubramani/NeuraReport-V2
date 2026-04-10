@@ -2804,7 +2804,11 @@ def load_schema_ext(template_dir_path: Path) -> Optional[dict[str, Any]]:
 def build_catalog_from_db(db_path) -> list[str]:
     catalog: list[str] = []
     try:
-        loader = get_loader_for_ref(db_path)
+        # Support pre-built loaders (MultiDataFrameLoader) directly
+        if hasattr(db_path, 'table_names') and callable(db_path.table_names):
+            loader = db_path
+        else:
+            loader = get_loader_for_ref(db_path)
         for table in loader.table_names():
             # Use PRAGMA to get column names without loading any data.
             if hasattr(loader, 'column_names'):
@@ -2838,7 +2842,10 @@ def build_rich_catalog_from_db(db_path) -> dict[str, list[dict[str, Any]]]:
     """
     result: dict[str, list[dict[str, Any]]] = {}
     try:
-        loader = get_loader_for_ref(db_path)
+        if hasattr(db_path, 'table_names') and callable(db_path.table_names):
+            loader = db_path
+        else:
+            loader = get_loader_for_ref(db_path)
         for table in loader.table_names():
             # Use PRAGMA for column metadata; only load a small sample for sample values.
             info = loader.pragma_table_info(table) if hasattr(loader, 'pragma_table_info') else []
@@ -2902,6 +2909,11 @@ def format_catalog_rich(rich_catalog: dict[str, list[dict[str, Any]]]) -> str:
 
 
 def compute_db_signature(db_path) -> Optional[str]:
+    # MultiDataFrameLoader: composite signature from all child connections
+    if hasattr(db_path, 'connection_ids') and callable(db_path.connection_ids):
+        import hashlib as _hashlib
+        parts = sorted(db_path.connection_ids())
+        return _hashlib.md5("|".join(parts).encode()).hexdigest()[:16]
     # PostgreSQL connections don't have a file-based signature
     if hasattr(db_path, 'is_postgresql') and db_path.is_postgresql:
         import hashlib as _hashlib
@@ -3443,9 +3455,15 @@ async def run_mapping_approve(
     mapping_dict = payload.mapping or {}
     keys_clean = [key for key in incoming_keys if key in mapping_dict]
 
+    # Multi-DB support: resolve one or many connections
+    _conn_ids = getattr(payload, "connection_ids", None)
     try:
-        db_path = db_path_from_payload_or_default(payload.connection_id)
-        verify_sqlite(db_path)
+        if _conn_ids and len(_conn_ids) > 1:
+            from backend.app.services.connection_utils import build_multi_loader
+            db_path = build_multi_loader(_conn_ids)
+        else:
+            db_path = db_path_from_payload_or_default(payload.connection_id)
+            verify_sqlite(db_path)
     except HTTPException:
         raise
     except Exception as exc:
@@ -4319,6 +4337,7 @@ def _mapping_preview_pipeline(
     force_refresh: bool = False,
     kind: str = "pdf",
     ocr_context: str | None = None,
+    connection_ids: list[str] | None = None,
 ) -> Iterator[dict[str, Any]]:
     try:
         api_mod = importlib.import_module("backend.api")
@@ -4350,8 +4369,13 @@ def _mapping_preview_pipeline(
     template_html = html_path.read_text(encoding="utf-8", errors="ignore")
 
     schema_ext = load_schema_ext(template_dir_path) or {}
-    db_path = db_path_from_payload_or_default(connection_id)
-    verify_sqlite_fn(db_path)
+    # Multi-DB: build merged loader when multiple connections provided
+    if connection_ids and len(connection_ids) > 1:
+        from backend.app.services.connection_utils import build_multi_loader
+        db_path = build_multi_loader(connection_ids)
+    else:
+        db_path = db_path_from_payload_or_default(connection_id)
+        verify_sqlite_fn(db_path)
 
     catalog = list(dict.fromkeys(build_catalog_fn(db_path)))
 
@@ -4683,6 +4707,7 @@ async def run_mapping_preview(
     *,
     kind: str = "pdf",
     ocr_context: str | None = None,
+    connection_ids: list[str] | None = None,
 ) -> dict:
     correlation_id = getattr(request.state, "correlation_id", None)
     logger.info(
@@ -4691,6 +4716,7 @@ async def run_mapping_preview(
             "event": "mapping_preview_start",
             "template_id": template_id,
             "connection_id": connection_id,
+            "connection_ids": connection_ids,
             "force_refresh": force_refresh,
             "template_kind": kind,
             "correlation_id": correlation_id,
@@ -4704,6 +4730,7 @@ async def run_mapping_preview(
         force_refresh=force_refresh,
         kind=kind,
         ocr_context=ocr_context,
+        connection_ids=connection_ids,
     )
     try:
         while True:
@@ -6112,7 +6139,18 @@ def _run_report_internal(
     _ensure_not_cancelled()
     if job_tracker:
         job_tracker.step_running("dataLoad", label="Load database connection")
-    db_path = db_path_from_payload_or_default(p.connection_id)
+    # Multi-DB support: if connection_ids provided, build a MultiDataFrameLoader
+    _conn_ids = getattr(p, "connection_ids", None)
+    if _conn_ids and len(_conn_ids) > 1:
+        from backend.app.services.connection_utils import build_multi_loader
+        try:
+            db_path = build_multi_loader(_conn_ids)
+        except Exception as exc:
+            if job_tracker:
+                job_tracker.step_failed("dataLoad", str(exc))
+            raise _http_error(400, "db_not_found", f"Multi-DB load failed: {exc}")
+    else:
+        db_path = db_path_from_payload_or_default(p.connection_id)
     if not db_path.exists():
         if job_tracker:
             job_tracker.step_failed("dataLoad", "Database not found")

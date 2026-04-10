@@ -9,7 +9,8 @@
  */
 import React, { useCallback, useEffect, useRef, useState, createRef } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { Box, Button, Snackbar, Stack, Switch, Typography } from '@mui/material'
+import { Box, Button, Chip, Snackbar, Stack, Switch, Tooltip, Typography } from '@mui/material'
+import StorageIcon from '@mui/icons-material/Storage'
 
 import PipelineBar from './PipelineBar'
 import ChatStream from './ChatStream'
@@ -26,7 +27,7 @@ export default function PipelineChatPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const store = usePipelineStore()
-  const { sessionId, templateId, connectionId } = store
+  const { sessionId, templateId, connectionId, connectionIds } = store
   const hydrationDone = useRef(false)
   const backendAware = useRef(false)  // true after backend has seen this session
   const fileInputRef = useRef(null)
@@ -183,6 +184,7 @@ export default function PipelineChatPage() {
     session_id: sessionId,
     template_id: templateId,
     connection_id: connectionId,
+    connection_ids: connectionIds?.length > 0 ? connectionIds : undefined,
     template_kind: store.templateKind || 'pdf',
     workspace_mode: store.workspaceMode,
     messages: store.messages
@@ -190,7 +192,7 @@ export default function PipelineChatPage() {
       .map(m => ({ role: m.role, content: m.content })),
     html: store.pipelineState.data.template?.html || null,
     ...extra,
-  }), [sessionId, templateId, connectionId, store])
+  }), [sessionId, templateId, connectionId, connectionIds, store])
 
   // ─── Send text message ───
   const handleSend = useCallback(async (text) => {
@@ -332,7 +334,18 @@ export default function PipelineChatPage() {
             </Typography>
           )}
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pr: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pr: 2 }}>
+          {connectionIds?.length > 1 && (
+            <Tooltip title={`Multi-DB: ${connectionIds.length} databases connected`}>
+              <Chip
+                icon={<StorageIcon sx={{ fontSize: 14 }} />}
+                label={`${connectionIds.length} DBs`}
+                size="small"
+                variant="outlined"
+                sx={{ height: 22, fontSize: '0.7rem' }}
+              />
+            </Tooltip>
+          )}
           <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
             {store.workspaceMode ? 'Workspace' : 'Build Report'}
           </Typography>

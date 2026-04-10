@@ -1784,6 +1784,8 @@ class ContractAdapter:
             df = self._apply_group_aggregate_df(df)
 
         # Apply reshape rules if present
+        # Store db_path for auto-discover in HOURLY_PIVOT
+        self._db_path = getattr(loader, 'db_path', None)
         melt_alias_set: set[str] = set()
         if self._reshape_rules:
             df = self._apply_reshape_df(df, loader, source_table)
@@ -2113,7 +2115,50 @@ class ContractAdapter:
                 #   divisor: 100  (divide raw values)
                 df = self._apply_hourly_pivot(df, rule)
 
+            elif strategy == "RUN_HOURS_DIFF":
+                # Group by description, compute (last - first) total_seconds,
+                # format as H:MM:SS. Produces one row per machine.
+                # Config: group_col, seconds_col, timestamp_col
+                df = self._apply_run_hours_diff(df, rule)
+
         return df
+
+    def _apply_run_hours_diff(self, df: "pd.DataFrame", rule: dict) -> "pd.DataFrame":
+        """Compute running hours diff (last - first) per machine group."""
+        import pandas as pd
+
+        group_col = rule.get("group_col", "description")
+        seconds_col = rule.get("seconds_col", "total_seconds")
+        ts_col = rule.get("timestamp_col", "timestamp_utc")
+
+        if group_col not in df.columns or seconds_col not in df.columns:
+            logger.warning("run_hours_diff: missing columns %s/%s", group_col, seconds_col)
+            return df
+
+        ts = _coerce_datetime_series(df[ts_col])
+        df = df.copy()
+        df["__ts_naive__"] = ts
+        df = df.sort_values(["__ts_naive__"], ascending=True)
+
+        rows = []
+        sr = 0
+        for desc, group in df.groupby(group_col, sort=True):
+            sr += 1
+            secs = pd.to_numeric(group[seconds_col], errors="coerce")
+            first_s = secs.iloc[0] if not secs.empty else 0
+            last_s = secs.iloc[-1] if not secs.empty else 0
+            diff = abs(int(last_s - first_s))
+            h, rem = divmod(diff, 3600)
+            m, s = divmod(rem, 60)
+            rows.append({
+                "row_sr_no": str(sr),
+                "row_description": str(desc),
+                "row_running_hours": f"{h}h {m}m {s}s",
+            })
+
+        result = pd.DataFrame(rows)
+        logger.info("run_hours_diff: %d groups → %d rows", len(rows), len(result))
+        return result
 
     def _apply_hourly_pivot(self, df: "pd.DataFrame", rule: dict) -> "pd.DataFrame":
         """Transpose time-series: sensors → rows, hours → columns.
@@ -2129,6 +2174,60 @@ class ContractAdapter:
         hour_start = int(rule.get("hour_start", 6))
         include_stats = rule.get("include_stats", False)
         divisor = float(rule.get("divisor", 1))
+        auto_discover = rule.get("auto_discover", False)
+
+        # Auto-discover sensors from neuract__device_mappings table if enabled
+        if (auto_discover or not sensors) and self._parent_table:
+            try:
+                import sqlite3 as _sq
+                db_path = getattr(self, '_db_path', None)
+                if db_path is None and hasattr(self, '_loader_ref') and self._loader_ref:
+                    db_path = getattr(self._loader_ref, 'db_path', None)
+                if db_path:
+                    with _sq.connect(str(db_path), timeout=30) as _con:
+                        _rows = _con.execute(
+                            "SELECT field_key FROM neuract__device_mappings WHERE table_name = ? ORDER BY field_key",
+                            (self._parent_table,)
+                        ).fetchall()
+                        if _rows:
+                            # Also fetch the OPC address for description
+                            _detail_rows = _con.execute(
+                                "SELECT field_key, address FROM neuract__device_mappings WHERE table_name = ? ORDER BY field_key",
+                                (self._parent_table,)
+                            ).fetchall()
+                            _addr_map = {r[0]: r[1] for r in _detail_rows}
+
+                            discovered = []
+                            for r in _rows:
+                                col = r[0]
+                                # Skip _TOTAL columns (totalizer/accumulator duplicates)
+                                if col.endswith("_TOTAL"):
+                                    continue
+                                # Format tag: AI_10_RO1_ORP → AI-10_RO1 ORP
+                                parts = col.split("_")
+                                if len(parts) >= 3 and parts[1].isdigit():
+                                    tag = f"{parts[0]}-{parts[1]}_{' '.join(parts[2:])}"
+                                else:
+                                    tag = col.replace("_", " ")
+                                # Description from OPC address path
+                                addr = _addr_map.get(col, "")
+                                desc = ""
+                                if addr:
+                                    addr_parts = addr.split(".")
+                                    if len(addr_parts) >= 2:
+                                        desc = ".".join(addr_parts[-2:])
+                                discovered.append({"col": col, "tag": tag, "desc": desc})
+
+                            # Merge: keep existing sensor configs, add any missing
+                            existing_cols = {s["col"] for s in sensors}
+                            for d in discovered:
+                                if d["col"] not in existing_cols and d["col"] != ts_col:
+                                    sensors.append(d)
+                            if not sensors:
+                                sensors = [s for s in discovered if s["col"] != ts_col]
+                            logger.info("hourly_pivot: auto-discovered %d sensors from device_mappings for %s", len(discovered), self._parent_table)
+            except Exception as exc:
+                logger.debug("hourly_pivot: auto-discover failed: %s", exc)
 
         if ts_col not in df.columns or not sensors:
             logger.warning("hourly_pivot: missing timestamp_col=%s or empty sensors", ts_col)
@@ -3841,9 +3940,11 @@ def discover_batches_and_counts(
             if col_text and not col_text.startswith("__") and col_text not in categorical_fields:
                 categorical_fields.append(col_text)
 
-    # Support both SQLite and PostgreSQL connections via ConnectionRef
-    if hasattr(db_path, 'is_postgresql') and db_path.is_postgresql:
-        from backend.app.services.legacy_services import get_loader_for_ref
+    # Support pre-built loaders (MultiDataFrameLoader), PostgreSQL, and SQLite
+    if hasattr(db_path, 'table_names') and callable(db_path.table_names):
+        loader = db_path
+    elif hasattr(db_path, 'is_postgresql') and db_path.is_postgresql:
+        from backend.app.services.connection_utils import get_loader_for_ref
         loader = get_loader_for_ref(db_path)
     else:
         loader = SQLiteDataFrameLoader(db_path)
@@ -4544,9 +4645,11 @@ def fill_and_print(
         except Exception:
             logger.warning("Failed to inject brand kit CSS", exc_info=True)
 
-    # Support both SQLite and PostgreSQL connections via ConnectionRef
-    if hasattr(DB_PATH, 'is_postgresql') and DB_PATH.is_postgresql:
-        from backend.app.services.legacy_services import get_loader_for_ref
+    # Support pre-built loaders (MultiDataFrameLoader), PostgreSQL, and SQLite
+    if hasattr(DB_PATH, 'table_names') and callable(DB_PATH.table_names):
+        dataframe_loader = DB_PATH  # pre-built loader (e.g. MultiDataFrameLoader)
+    elif hasattr(DB_PATH, 'is_postgresql') and DB_PATH.is_postgresql:
+        from backend.app.services.connection_utils import get_loader_for_ref
         dataframe_loader = get_loader_for_ref(DB_PATH)
     else:
         dataframe_loader = SQLiteDataFrameLoader(DB_PATH)
@@ -6882,9 +6985,11 @@ def fill_and_print_excel(
         except Exception:
             logger.warning("Failed to inject brand kit CSS (Excel path)", exc_info=True)
 
-    # Support both SQLite and PostgreSQL connections via ConnectionRef
-    if hasattr(DB_PATH, 'is_postgresql') and DB_PATH.is_postgresql:
-        from backend.app.services.legacy_services import get_loader_for_ref
+    # Support pre-built loaders (MultiDataFrameLoader), PostgreSQL, and SQLite
+    if hasattr(DB_PATH, 'table_names') and callable(DB_PATH.table_names):
+        dataframe_loader = DB_PATH
+    elif hasattr(DB_PATH, 'is_postgresql') and DB_PATH.is_postgresql:
+        from backend.app.services.connection_utils import get_loader_for_ref
         dataframe_loader = get_loader_for_ref(DB_PATH)
     else:
         dataframe_loader = SQLiteDataFrameLoader(DB_PATH)
@@ -6974,16 +7079,25 @@ def fill_and_print_excel(
             return canonical
         # Use a targeted SQL query instead of loading the entire table
         try:
-            import sqlite3 as _sqlite3
-            quoted_t = table.replace('"', '""')
-            quoted_c = column.replace('"', '""')
-            with _sqlite3.connect(str(dataframe_loader.db_path), timeout=30) as _con:
-                row = _con.execute(
-                    f'SELECT "{quoted_c}" FROM "{quoted_t}" WHERE "{quoted_c}" = ? COLLATE NOCASE LIMIT 1',
-                    (normalized_value,)
-                ).fetchone()
-                if row and row[0] is not None:
-                    canonical = str(row[0])
+            if hasattr(dataframe_loader, 'db_path'):
+                import sqlite3 as _sqlite3
+                quoted_t = table.replace('"', '""')
+                quoted_c = column.replace('"', '""')
+                with _sqlite3.connect(str(dataframe_loader.db_path), timeout=30) as _con:
+                    row = _con.execute(
+                        f'SELECT "{quoted_c}" FROM "{quoted_t}" WHERE "{quoted_c}" = ? COLLATE NOCASE LIMIT 1',
+                        (normalized_value,)
+                    ).fetchone()
+                    if row and row[0] is not None:
+                        canonical = str(row[0])
+            else:
+                # MultiDataFrameLoader or loaders without db_path — use DataFrame
+                df = dataframe_loader.frame(table)
+                if column in df.columns:
+                    mask = df[column].astype(str).str.strip().str.lower() == normalized_value.lower()
+                    matches = df.loc[mask, column]
+                    if not matches.empty:
+                        canonical = str(matches.iloc[0])
         except Exception:
             pass
         _canonicalize_cache[cache_key] = canonical
@@ -7073,11 +7187,11 @@ def fill_and_print_excel(
         if not tokens:
             yield {}
             return
-        max_combos_raw = os.getenv("NEURA_REPORT_MAX_KEY_COMBINATIONS", "50")
+        max_combos_raw = os.getenv("NEURA_REPORT_MAX_KEY_COMBINATIONS", "500")
         try:
             max_combos = int(max_combos_raw)
         except ValueError:
-            max_combos = 50
+            max_combos = 500
         max_combos = max(1, max_combos)
         estimated = 1
         for values in value_lists:
@@ -7097,6 +7211,12 @@ def fill_and_print_excel(
             logger.warning("Playwright not available; skipping PDF generation.")
             return
 
+        # Ensure TMPDIR exists (some systems lack a writable /tmp for Chromium)
+        if not os.environ.get("TMPDIR"):
+            _fallback_tmp = Path.home() / ".tmp"
+            if _fallback_tmp.is_dir():
+                os.environ["TMPDIR"] = str(_fallback_tmp)
+
         html_path_resolved = html_path.resolve()
         html_source = html_path_resolved.read_text(encoding="utf-8", errors="ignore")
         approx_row_count = html_source.lower().count("<tr")
@@ -7110,7 +7230,9 @@ def fill_and_print_excel(
             try:
                 context = await browser.new_context(base_url=base_url)
                 page = await context.new_page()
-                await page.set_content(html_source, wait_until="networkidle")
+                _pdf_timeout_ms = int(os.environ.get("NEURA_PDF_RENDER_TIMEOUT_MS", "600000"))
+                page.set_default_timeout(_pdf_timeout_ms)
+                await page.set_content(html_source, wait_until="load", timeout=_pdf_timeout_ms)
                 await page.emulate_media(media="print")
                 scale_value = pdf_scale or 1.0
                 if not isinstance(scale_value, (int, float)):
@@ -7251,6 +7373,11 @@ def fill_and_print_excel(
         counter_markers = ("serial", "sequence", "seq", "counter")
         if any(marker in normalized for marker in counter_markers):
             return True
+        # Exclude data fields that happen to end with counter-like suffixes
+        # (e.g. row_bin_no is a bin identifier, row_recipe_no is a recipe ref)
+        data_markers = ("bin", "recipe", "batch", "machine")
+        if any(marker in normalized for marker in data_markers):
+            return False
         counter_suffixes = (
             "slno",
             "srno",
@@ -7271,11 +7398,28 @@ def fill_and_print_excel(
         serial_columns = [col for col in columns if col and _is_counter_field(col)]
         if not serial_tokens and not serial_columns:
             return
+
+        def _has_non_numeric(field: str) -> bool:
+            for row in rows:
+                val = row.get(field)
+                if val is None or isinstance(val, (int, float)):
+                    continue
+                try:
+                    float(str(val))
+                except (ValueError, TypeError):
+                    return True
+            return False
+        serial_tokens = [t for t in serial_tokens if not _has_non_numeric(t)]
+        serial_columns = [c for c in serial_columns if not _has_non_numeric(c)]
+        if not serial_tokens and not serial_columns:
+            return
         for idx, row in enumerate(rows, start=1):
             for tok in serial_tokens:
                 row[tok] = idx
             for col in serial_columns:
                 row[col] = idx
+
+    _warned_tokens: set[str] = set()  # log each unresolved token only once per generation
 
     def _value_for_token(row: Mapping[str, Any], token: str) -> Any:
         def _sanitize(v: Any) -> Any:
@@ -7306,6 +7450,14 @@ def fill_and_print_excel(
                 for key in row.keys():
                     if isinstance(key, str) and key.lower() == col.lower():
                         return _sanitize(row[key])
+        if token not in _warned_tokens:
+            _warned_tokens.add(token)
+            logger.warning(
+                "token_unresolved token=%s available_keys=%s",
+                token,
+                list(row.keys())[:10],
+                extra={"event": "token_unresolved", "token": token},
+            )
         return None
 
     def _prune_placeholder_rows(rows: Sequence[Mapping[str, Any]], tokens: Sequence[str]) -> list[dict[str, Any]]:
@@ -7939,7 +8091,14 @@ def fill_and_print_excel(
         target = mapping_value.strip()
         if "." not in target:
             return None
-        return target.split(".", 1)[1].strip() or None
+        # Skip SQL expressions (e.g. "table.col || ' ' || table.col2")
+        if _SQL_EXPR_CHARS.search(target):
+            return None
+        after_dot = target.split(".", 1)[1].strip()
+        if not after_dot:
+            return None
+        col = re.split(r"[,)\s]", after_dot, 1)[0].strip()
+        return col or None
 
     header_cols = sorted({col for t in HEADER_TOKENS for col in [_extract_col_name(PLACEHOLDER_TO_COL.get(t))] if col})
     row_cols = sorted({col for t in ROW_TOKENS for col in [_extract_col_name(PLACEHOLDER_TO_COL.get(t))] if col})
@@ -8498,6 +8657,13 @@ def _parse_html_to_rows(html_text: str):
         if not rows:
             rows = [["Report output unavailable"]]
 
+    # Pad all rows to the same width so preface/header rows span the full
+    # sheet width in Excel (prevents narrow preface rows when data has many columns).
+    max_cols = max((len(r) for r in rows if r), default=1)
+    for i, row in enumerate(rows):
+        if row and len(row) < max_cols:
+            rows[i] = row + [""] * (max_cols - len(row))
+
     return rows, data_row_positions, preface_ranges, data_header_row_idx
 
 
@@ -8509,13 +8675,6 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     """Export HTML to XLSX using xlsxwriter (streaming writer, constant memory)."""
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
-
-    # Pad all rows to the same width so preface/header rows span the full
-    # sheet width in Excel (prevents narrow preface rows when data has many columns).
-    max_cols = max((len(r) for r in rows if r), default=1)
-    for i, row in enumerate(rows):
-        if row and len(row) < max_cols:
-            rows[i] = row + [""] * (max_cols - len(row))
 
     data_start = data_row_positions[0] if data_row_positions else None
     data_end = data_row_positions[-1] if data_row_positions else None
@@ -8530,7 +8689,7 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    wb = _xlsxwriter.Workbook(str(output_path), {"constant_memory": True})
+    wb = _xlsxwriter.Workbook(str(output_path), {"constant_memory": False})
     ws = wb.add_worksheet("Report")
 
     # Pre-define format objects (xlsxwriter requires this)
@@ -8559,7 +8718,7 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
         "bg_color": "#D9E1F2",
         "text_wrap": True,
         "valign": "vcenter",
-        "align": "left",
+        "align": "center",
     })
     fmt_data_header = wb.add_format({
         "bold": True,
@@ -8607,11 +8766,17 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
         else:
             row_fmt = fmt_border
 
-        # Note: constant_memory mode doesn't support merge_cells, so preface
-        # rows are written to column 0 only (still styled correctly).
+        # For preface title/subtitle rows with only 1 non-empty cell,
+        # merge across all data columns so the text spans the full width.
+        non_empty = [i for i, v in enumerate(row) if v and str(v).strip()]
+        if (is_title or (is_preface and len(non_empty) == 1)) and data_max_cols > 1:
+            val = row[non_empty[0]] if non_empty else ""
+            ws.merge_range(r_idx - 1, 0, r_idx - 1, data_max_cols - 1, val, row_fmt)
+        else:
+            for c_idx, value in enumerate(row):
+                ws.write(r_idx - 1, c_idx, value, row_fmt)
+        # Track width
         for c_idx, value in enumerate(row):
-            ws.write(r_idx - 1, c_idx, value, row_fmt)
-            # Track width
             text_len = len(str(value)) if value else 0
             old = col_widths.get(c_idx, 0)
             if text_len > old:
@@ -8688,13 +8853,6 @@ def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[
     """Export HTML to XLSX using openpyxl (in-memory — may OOM on large reports)."""
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
-
-    # Pad all rows to the same width so preface/header rows span the full
-    # sheet width in Excel (prevents narrow preface rows when data has many columns).
-    max_cols = max((len(r) for r in rows if r), default=1)
-    for i, row in enumerate(rows):
-        if row and len(row) < max_cols:
-            rows[i] = row + [""] * (max_cols - len(row))
 
     data_start = data_row_positions[0] if data_row_positions else None
     data_end = data_row_positions[-1] if data_row_positions else None

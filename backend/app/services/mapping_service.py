@@ -1144,7 +1144,11 @@ def get_parent_child_info(db_path) -> Dict[str, object]:
       - Else, pick the first table that declares a foreign key as child and its referenced table as parent.
       - If none of the above applies, raise a clear error.
     """
-    loader = get_loader_for_ref(db_path)
+    # Support pre-built loaders (MultiDataFrameLoader) directly
+    if hasattr(db_path, 'table_names') and callable(db_path.table_names):
+        loader = db_path
+    else:
+        loader = get_loader_for_ref(db_path)
     tables = loader.table_names()
 
     if not tables:

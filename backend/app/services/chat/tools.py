@@ -64,7 +64,8 @@ class ToolContext:
     request: Request
     template_id: str | None
     connection_id: str | None
-    event_queue: asyncio.Queue
+    connection_ids: list[str] | None = None  # Multi-DB support
+    event_queue: asyncio.Queue = field(default=None)
     call_counts: dict[str, int] = field(default_factory=dict)
     _upload_file: Any = None  # stashed by agent loop for verify_template
 
@@ -96,6 +97,23 @@ def _require_state(session: ChatSession, allowed: set[str], tool_name: str) -> N
         return  # Workspace mode: no state restrictions
     if session.pipeline_state.value not in allowed:
         raise PreconditionError(tool_name, session.pipeline_state.value, allowed)
+
+
+def _resolve_loader(ctx: ToolContext, connection_id: str):
+    """Resolve a data loader, supporting multi-DB when connection_ids exist in context.
+
+    Returns (db_path_or_loader, loader) tuple.
+    - Single DB: (ConnectionRef, SQLiteDataFrameLoader)
+    - Multi DB: (MultiDataFrameLoader, MultiDataFrameLoader)
+    """
+    from backend.app.repositories import resolve_db_path, SQLiteDataFrameLoader
+    _cids = ctx.connection_ids or []
+    if len(_cids) > 1:
+        from backend.app.services.connection_utils import build_multi_loader
+        multi = build_multi_loader(_cids)
+        return multi, multi
+    db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
+    return db_path, SQLiteDataFrameLoader(db_path)
 
 
 # ── Canonical directive definitions ───────────────────────────────────
@@ -986,11 +1004,9 @@ async def tool_inspect_data(
     limit: int = 10,
 ) -> dict:
     """Sample column values and basic stats from a DB table. Read-only, no state change."""
-    from backend.app.repositories import resolve_db_path, SQLiteDataFrameLoader
 
     try:
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
-        loader = SQLiteDataFrameLoader(db_path)
+        db_path, loader = _resolve_loader(ctx, connection_id)
         df = loader.frame(table)
 
         if columns:
@@ -1040,12 +1056,10 @@ async def tool_get_column_stats(
     _require_state(ctx.session, {"mapped", "approved", "building_assets", "validated", "ready"}, "get_column_stats")
     import json as _json
     from pathlib import Path
-    from backend.app.repositories import resolve_db_path, SQLiteDataFrameLoader
     from backend.app.services.data_validator import DataValidator
 
     try:
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
-        loader = SQLiteDataFrameLoader(db_path)
+        db_path, loader = _resolve_loader(ctx, connection_id)
         df = loader.frame(table)
 
         validator = DataValidator()
@@ -1808,7 +1822,13 @@ async def tool_validate_pipeline(
 
     try:
         tdir = _template_dir(template_id)
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
+        # Multi-DB: use MultiDataFrameLoader when multiple connections exist
+        _cids = ctx.connection_ids or []
+        if len(_cids) > 1:
+            from backend.app.services.connection_utils import build_multi_loader
+            db_path = build_multi_loader(_cids)
+        else:
+            db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
 
         result = await validate_pipeline(
             template_id=template_id,
@@ -1969,12 +1989,11 @@ async def tool_discover_batches(
     _require_state(ctx.session, {"approved", "validated", "ready"}, "discover_batches")
 
     from backend.app.services.reports import discover_batches_and_counts
-    from backend.app.repositories import resolve_db_path
 
     try:
         tdir = _template_dir(template_id)
         contract = json.loads((tdir / "contract.json").read_text())
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
+        db_path, _ = _resolve_loader(ctx, connection_id)
 
         result = await asyncio.to_thread(
             discover_batches_and_counts,
@@ -2197,13 +2216,21 @@ async def tool_dry_run_preview(
 
     try:
         tdir = _template_dir(template_id)
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
         contract_path = tdir / "contract.json"
         if not contract_path.exists():
             return {"error": "no_contract", "message": "No contract.json found."}
 
         contract = json.loads(contract_path.read_text())
-        loader = SQLiteDataFrameLoader(db_path)
+
+        # Multi-DB: use MultiDataFrameLoader when multiple connections exist
+        _cids = ctx.connection_ids or []
+        if len(_cids) > 1:
+            from backend.app.services.connection_utils import build_multi_loader
+            db_path = build_multi_loader(_cids)
+            loader = db_path  # MultiDataFrameLoader IS the loader
+        else:
+            db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
+            loader = SQLiteDataFrameLoader(db_path)
 
         # ── Step 1: Find dates with actual data ──
         await _push_stage(ctx, "dry_run.find_data", "started", 5)

@@ -3322,6 +3322,7 @@ from pydantic import BaseModel
 class RunPayload(BaseModel):
     template_id: str
     connection_id: Optional[str] = None
+    connection_ids: Optional[list[str]] = None
     start_date: Optional[str] = None
     end_date: Optional[str] = None
     batch_ids: Optional[list[str]] = None
@@ -3338,6 +3339,7 @@ class RunPayload(BaseModel):
 class DiscoverPayload(BaseModel):
     template_id: str
     connection_id: Optional[str] = None
+    connection_ids: Optional[list[str]] = None
     start_date: str
     end_date: str
     key_values: Optional[dict[str, Any]] = None
@@ -3405,6 +3407,7 @@ class TemplateAiEditPayload(BaseModel):
 class MappingPayload(BaseModel):
     mapping: dict[str, str]
     connection_id: Optional[str] = None
+    connection_ids: Optional[list[str]] = None
     user_values_text: Optional[str] = None
     user_instructions: Optional[str] = None
     dialect_hint: Optional[str] = None
@@ -3503,12 +3506,18 @@ class UnifiedChatPayload(BaseModel):
     session_id: Optional[str] = None
     template_id: Optional[str] = None
     connection_id: Optional[str] = None
+    connection_ids: Optional[list[str]] = None  # Multi-DB: list of connection IDs
     messages: list[TemplateChatMessage]
     html: Optional[str] = None
     action: Optional[str] = None          # explicit action hint from UI buttons
     action_params: Optional[dict] = None  # action-specific params
     workspace_mode: bool = False           # True = open workspace (all tools, no pipeline gates)
     model_config = ConfigDict(extra="allow")
+
+
+class MergedSchemaRequest(BaseModel):
+    """Request body for the merged-schema endpoint."""
+    connection_ids: list[str] = Field(..., min_length=1, max_length=10)
 
 class UnifiedChatResponse(BaseModel):
     """Response from the unified chat pipeline endpoint."""
@@ -3646,6 +3655,7 @@ class Template:
     status: TemplateStatus = TemplateStatus.DRAFT
     description: str | None = None
     connection_id: str | None = None
+    connection_ids: list[str] | None = None
     artifacts: dict[str, Any] | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None

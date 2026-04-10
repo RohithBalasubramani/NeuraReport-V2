@@ -71,8 +71,12 @@ async def validate_pipeline(
     t0 = time.time()
 
     try:
-        from backend.app.repositories.dataframes.sqlite_loader import SQLiteDataFrameLoader
-        loader = SQLiteDataFrameLoader(str(db_path))
+        # Support pre-built loaders (MultiDataFrameLoader) via duck-typing
+        if hasattr(db_path, 'table_names') and callable(db_path.table_names):
+            loader = db_path
+        else:
+            from backend.app.repositories.dataframes.sqlite_loader import SQLiteDataFrameLoader
+            loader = SQLiteDataFrameLoader(str(db_path))
     except Exception as exc:
         return ValidationResult(
             passed=False,

@@ -449,6 +449,11 @@ export async function getConnectionSchema(connectionId) {
   return response.data;
 }
 
+export async function getMergedSchema(connectionIds) {
+  const response = await api.post('/connectors/merged-schema', { connection_ids: connectionIds });
+  return response.data;
+}
+
 
 export async function executeQuery(connectionId, query, parameters = null, limit = 1000) {
   const response = await api.post(`/connectors/${connectionId}/query`, {

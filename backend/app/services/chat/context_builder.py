@@ -39,6 +39,7 @@ def build_pipeline_context(
     connection_id: Optional[str] = None,
     template_dir: Optional[Path] = None,
     db_path: Optional[Path] = None,
+    connection_ids: list[str] | None = None,
 ) -> str:
     """
     Build the [PIPELINE_CONTEXT] block for the unified prompt.
@@ -52,7 +53,9 @@ def build_pipeline_context(
     state_parts = [f"Pipeline state: {session.pipeline_state.value}"]
     if session.completed_stages:
         state_parts.append(f"Completed: {', '.join(session.completed_stages)}")
-    if session.connection_id:
+    if session.connection_ids and len(session.connection_ids) > 1:
+        state_parts.append(f"Connections (multi-DB): {', '.join(session.connection_ids)}")
+    elif session.connection_id:
         state_parts.append(f"Connection: {session.connection_id}")
     if session.needs_reapproval:
         state_parts.append("⚠ Template edited after approval — contract needs re-approval")
@@ -83,7 +86,17 @@ def build_pipeline_context(
                 sections.append(_section("SCHEMA", "\n".join(parts), _BUDGET["schema"]))
 
     # ── DATABASE CATALOG ──
-    if db_path and db_path.exists():
+    if connection_ids and len(connection_ids) > 1:
+        # Multi-DB: build catalog from MultiDataFrameLoader
+        try:
+            from backend.app.services.connection_utils import build_multi_loader
+            multi = build_multi_loader(connection_ids)
+            catalog_text = _build_catalog_from_loader(multi)
+            if catalog_text:
+                sections.append(_section("DATABASE", f"(Multi-DB: {len(connection_ids)} connections)\n{catalog_text}", _BUDGET["catalog"]))
+        except Exception:
+            pass
+    elif db_path and (hasattr(db_path, 'exists') and db_path.exists() if not hasattr(db_path, 'table_names') else True):
         catalog_text = _build_catalog(db_path)
         if catalog_text:
             sections.append(_section("DATABASE", catalog_text, _BUDGET["catalog"]))
@@ -214,28 +227,41 @@ def _load_mapping(template_dir: Path) -> Optional[dict]:
     return None
 
 
-def _build_catalog(db_path: Path) -> str:
-    """Build a DB catalog summary with sample values."""
+def _build_catalog_from_loader(loader) -> str:
+    """Build a DB catalog summary from any loader (single or multi)."""
     try:
-        from backend.app.repositories.dataframes.sqlite_loader import SQLiteDataFrameLoader
-        loader = SQLiteDataFrameLoader(str(db_path))
         tables = loader.table_names()
         parts = []
-        for table in tables[:5]:  # Top 5 tables
+        for table in tables[:10]:
             try:
                 df = loader.frame(table)
                 cols = []
-                for col in list(df.columns)[:20]:  # 20 cols per table
+                for col in list(df.columns)[:20]:
                     dtype = str(df[col].dtype)
                     sample = ""
                     non_null = df[col].dropna().head(2)
                     if len(non_null) > 0:
                         sample = f" e.g. {non_null.iloc[0]}"
                     cols.append(f"    {col}({dtype}){sample}")
-                parts.append(f"  {table} ({len(df)} rows):\n" + "\n".join(cols))
+                conn_tag = ""
+                if hasattr(loader, 'connection_id_for_table'):
+                    cid = loader.connection_id_for_table(table)
+                    if cid:
+                        conn_tag = f" [from {cid[:12]}]"
+                parts.append(f"  {table}{conn_tag} ({len(df)} rows):\n" + "\n".join(cols))
             except Exception:
                 parts.append(f"  {table}: (could not load)")
         return "\n".join(parts)
+    except Exception as exc:
+        return f"(catalog unavailable: {exc})"
+
+
+def _build_catalog(db_path: Path) -> str:
+    """Build a DB catalog summary with sample values."""
+    try:
+        from backend.app.repositories.dataframes.sqlite_loader import SQLiteDataFrameLoader
+        loader = SQLiteDataFrameLoader(str(db_path))
+        return _build_catalog_from_loader(loader)
     except Exception as exc:
         return f"(catalog unavailable: {exc})"
 

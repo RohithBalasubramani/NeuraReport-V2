@@ -147,6 +147,7 @@ const usePipelineStore = create((set, get) => ({
   sessionId: null,
   sessionName: 'New Pipeline',
   connectionId: null,
+  connectionIds: [],
   templateId: null,
   templateKind: 'pdf',
 
@@ -486,6 +487,7 @@ const usePipelineStore = create((set, get) => ({
   resumeSession: (sessionData) => set({
     sessionId: sessionData.session_id,
     connectionId: sessionData.connection_id,
+    connectionIds: sessionData.connection_ids || (sessionData.connection_id ? [sessionData.connection_id] : []),
     templateId: sessionData.template_id,
   }),
 
@@ -753,6 +755,9 @@ const usePipelineStore = create((set, get) => ({
         if (event.performance_metrics) store.setPerformanceMetrics(event.performance_metrics)
         if (event.constraint_violations) store.setConstraintViolations(event.constraint_violations)
 
+        // Sync connection_ids from backend (multi-DB support)
+        if (event.connection_ids) store.setConnection(event.connection_ids)
+
         // Follow-up as action chips (not as a message)
         // The LLM's follow_up_questions become suggestions in chat
         if (event.follow_up_questions?.length) {
@@ -773,7 +778,13 @@ const usePipelineStore = create((set, get) => ({
 
   setInputValue: (v) => set({ inputValue: v }),
   setIsProcessing: (v) => set({ isProcessing: v }),
-  setConnection: (id) => set({ connectionId: id }),
+  setConnection: (idOrIds) => {
+    if (Array.isArray(idOrIds)) {
+      set({ connectionIds: idOrIds, connectionId: idOrIds[0] || null })
+    } else {
+      set({ connectionId: idOrIds, connectionIds: idOrIds ? [idOrIds] : [] })
+    }
+  },
   setTemplateId: (id) => set({ templateId: id }),
   setTemplateKind: (kind) => set({ templateKind: kind }),
   setSidebarForcePanel: (panel) => set({ sidebarForcePanel: panel }),

@@ -508,11 +508,13 @@ class HermesAgent:
             "has_upload": upload_file is not None,
             "completed_stages": list(self.session.completed_stages),
         })
+        _conn_ids = getattr(payload, "connection_ids", None) or self.session.connection_ids or []
         ctx = ToolContext(
             session=self.session,
             request=self.request,
             template_id=payload.template_id,
             connection_id=payload.connection_id or self.session.connection_id,
+            connection_ids=_conn_ids if len(_conn_ids) > 1 else None,
             event_queue=self._ndjson_queue,
         )
         if upload_file:
@@ -553,13 +555,15 @@ class HermesAgent:
         # ── 5. Build dynamic system prompt (mode-dependent) ──
         if self.workspace_mode:
             system_prompt = build_workspace_prompt(
-                self.session, ctx.template_id, ctx.connection_id
+                self.session, ctx.template_id, ctx.connection_id,
+                connection_ids=ctx.connection_ids,
             )
             _toolsets = [get_workspace_toolset()]
             _max_iter = 50
         else:
             system_prompt = build_system_prompt(
-                self.session, ctx.template_id, ctx.connection_id
+                self.session, ctx.template_id, ctx.connection_id,
+                connection_ids=ctx.connection_ids,
             )
             # Use the FULL pipeline toolset — not state-specific.
             # The state may change mid-turn (e.g. empty→html_ready after verify).

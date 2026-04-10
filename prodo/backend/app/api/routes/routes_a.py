@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from backend.app.services.config import require_api_key
 from backend.app.services.config import AppError
 from backend.app.services.llm import get_model
-from backend.app.schemas import ConnectionTestRequest, ConnectionUpsertRequest
+from backend.app.schemas import ConnectionTestRequest, ConnectionUpsertRequest, MergedSchemaRequest
 from backend.app.services.infra_services import ConnectionService
 
 logger = logging.getLogger("neura.api.connections")
@@ -136,6 +136,45 @@ async def connection_schema(
         raise
     except Exception as exc:
         _handle_connection_error(exc, "schema")
+
+@connections_router.post("/merged-schema")
+async def merged_schema(
+    request: Request,
+    body: MergedSchemaRequest,
+):
+    """Return unified schema across multiple database connections."""
+    conn_ids = body.connection_ids
+
+    from backend.app.services.connection_utils import build_multi_loader
+    try:
+        multi = build_multi_loader(conn_ids)
+    except Exception as exc:
+        raise HTTPException(400, f"Failed to load connections: {exc}")
+
+    tables = []
+    for table_name in multi.table_names():
+        conn_id = multi.connection_id_for_table(table_name)
+        try:
+            cols = [
+                {"name": col.get("name", ""), "type": col.get("type", "TEXT")}
+                for col in multi.pragma_table_info(table_name)
+                if isinstance(col, dict) and col.get("name")
+            ]
+        except Exception:
+            cols = [{"name": c, "type": "TEXT"} for c in multi.column_names(table_name)]
+        tables.append({
+            "name": table_name,
+            "connection_id": conn_id,
+            "columns": cols,
+        })
+
+    return {
+        "status": "ok",
+        "connection_ids": conn_ids,
+        "tables": tables,
+        "correlation_id": _corr(request),
+    }
+
 
 @connections_router.get("/{connection_id}/preview")
 async def connection_preview(
@@ -632,9 +671,10 @@ def apply_chat_template_edit_route(template_id: str, payload: TemplateManualEdit
 # Mapping Preview/Approve/Corrections
 
 @templates_router.post("/{template_id}/mapping/preview")
-async def mapping_preview(template_id: str, connection_id: str, request: Request, force_refresh: bool = False):
+async def mapping_preview(template_id: str, connection_id: str, request: Request, force_refresh: bool = False, connection_ids: str | None = None):
     """Preview mapping for a PDF template. DEPRECATED: Use /pipeline/chat instead."""
-    return await run_mapping_preview(template_id, connection_id, request, force_refresh, kind="pdf")
+    _conn_ids = [c.strip() for c in connection_ids.split(",") if c.strip()] if connection_ids else None
+    return await run_mapping_preview(template_id, connection_id, request, force_refresh, kind="pdf", connection_ids=_conn_ids)
 
 @templates_router.post("/{template_id}/mapping/approve")
 async def mapping_approve(template_id: str, payload: MappingPayload, request: Request):
@@ -7963,9 +8003,13 @@ async def pipeline_chat(request: Request):
     template_id = payload.template_id
     session = _get_or_create_session(payload, template_id)
 
-    # Update connection if provided
-    if payload.connection_id:
+    # Update connection(s) if provided
+    if payload.connection_ids:
+        session.connection_ids = payload.connection_ids
+        session.connection_id = payload.connection_ids[0]
+    elif payload.connection_id:
         session.connection_id = payload.connection_id
+        session.connection_ids = [payload.connection_id]
 
     # Workspace mode toggle
     _workspace = getattr(payload, "workspace_mode", False)
@@ -8225,6 +8269,7 @@ def _get_or_create_session(payload, template_id: str | None):
             tdir,
             session_id=payload.session_id,
             connection_id=payload.connection_id,
+            connection_ids=getattr(payload, "connection_ids", None),
         )
     else:
         # No template yet — create a temporary session directory
@@ -8232,4 +8277,8 @@ def _get_or_create_session(payload, template_id: str | None):
         from backend.app.services.legacy_services import UPLOAD_ROOT
         tdir = UPLOAD_ROOT / f"_session_{session_id}"
         tdir.mkdir(parents=True, exist_ok=True)
-        return ChatSession.load_or_create(tdir, session_id=session_id, connection_id=payload.connection_id)
+        return ChatSession.load_or_create(
+            tdir, session_id=session_id,
+            connection_id=payload.connection_id,
+            connection_ids=getattr(payload, "connection_ids", None),
+        )

@@ -40,6 +40,7 @@ import {
   LinearProgress,
   MenuItem,
   Paper,
+  Checkbox,
   Radio,
   Select,
   Stack,
@@ -76,9 +77,14 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
   const setActiveConnectionId = useAppStore((s) => s.setActiveConnectionId)
   const activeConnection = useAppStore((s) => s.activeConnection)
 
-  const [selectedId, setSelectedId] = useState(wizardState.connectionId || activeConnection?.id || null)
+  const [selectedIds, setSelectedIds] = useState(() => {
+    const fromWizard = wizardState.connectionIds || (wizardState.connectionId ? [wizardState.connectionId] : [])
+    return fromWizard.length > 0 ? fromWizard : (activeConnection?.id ? [activeConnection.id] : [])
+  })
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
+  // Backward compat: expose first selected as singular for legacy consumers
+  const selectedId = selectedIds[0] || null
   const normalizedConnections = Array.isArray(savedConnections)
     ? savedConnections.filter((conn) => conn && typeof conn === 'object' && conn.id)
     : []
@@ -101,9 +107,14 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
   }, [normalizedConnections.length, setSavedConnections, toast])
 
   const handleSelect = useCallback((connectionId) => {
-    setSelectedId(connectionId)
-    updateWizardState({ connectionId })
-    setActiveConnectionId(connectionId)
+    setSelectedIds((prev) => {
+      const next = prev.includes(connectionId)
+        ? prev.filter((id) => id !== connectionId)
+        : [...prev, connectionId]
+      updateWizardState({ connectionId: next[0] || null, connectionIds: next })
+      setActiveConnectionId(next[0] || null)
+      return next
+    })
   }, [updateWizardState, setActiveConnectionId])
 
   const handleAddConnection = useCallback(() => {
@@ -158,14 +169,14 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
   }, [addSavedConnection, handleSelect, toast, execute])
 
   const handleContinue = useCallback(() => {
-    if (selectedId) {
+    if (selectedIds.length > 0) {
       onComplete()
     }
-  }, [selectedId, onComplete])
+  }, [selectedIds, onComplete])
 
   const handleSelectDemo = useCallback(() => {
-    setSelectedId(DEMO_CONNECTION.id)
-    updateWizardState({ connectionId: DEMO_CONNECTION.id, isDemo: true })
+    setSelectedIds([DEMO_CONNECTION.id])
+    updateWizardState({ connectionId: DEMO_CONNECTION.id, connectionIds: [DEMO_CONNECTION.id], isDemo: true })
     // Add demo connection to store temporarily
     if (!normalizedConnections.find(c => c.id === DEMO_CONNECTION.id)) {
       addSavedConnection(DEMO_CONNECTION)
@@ -176,7 +187,7 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
 
   const handleSkipConnection = useCallback(() => {
     // Allow users to skip if they just want to explore
-    updateWizardState({ connectionId: null, skippedConnection: true })
+    updateWizardState({ connectionId: null, connectionIds: [], skippedConnection: true })
     onComplete()
   }, [updateWizardState, onComplete])
 
@@ -185,9 +196,26 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
       <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
         Connect Your Data
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Choose where your report data comes from. You can always change this later.
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        Choose where your report data comes from. Select one or more databases to combine tables from multiple sources. You can always change this later.
       </Typography>
+
+      {/* Selected connections summary */}
+      {selectedIds.length > 0 && (
+        <Alert
+          severity="info"
+          icon={<StorageIcon />}
+          sx={{ mb: 3 }}
+          action={selectedIds.length > 1 && (
+            <Chip label={`${selectedIds.length} databases`} size="small" color="primary" />
+          )}
+        >
+          {selectedIds.length === 1
+            ? `Connected to: ${normalizedConnections.find(c => c.id === selectedIds[0])?.name || selectedIds[0]}`
+            : `Multi-DB: ${selectedIds.map(id => normalizedConnections.find(c => c.id === id)?.name || id).join(' + ')}`
+          }
+        </Alert>
+      )}
 
       {/* Quick Start Options */}
       <Box sx={{ mb: 4 }}>
@@ -200,8 +228,8 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
             sx={{
               flex: 1,
               border: 2,
-              borderColor: selectedId === DEMO_CONNECTION.id ? (theme) => theme.palette.mode === 'dark' ? neutral[500] : neutral[700] : 'divider',
-              bgcolor: selectedId === DEMO_CONNECTION.id ? (theme) => theme.palette.mode === 'dark' ? alpha(theme.palette.text.primary, 0.04) : neutral[50] : 'transparent',
+              borderColor: selectedIds.includes(DEMO_CONNECTION.id) ? (theme) => theme.palette.mode === 'dark' ? neutral[500] : neutral[700] : 'divider',
+              bgcolor: selectedIds.includes(DEMO_CONNECTION.id) ? (theme) => theme.palette.mode === 'dark' ? alpha(theme.palette.text.primary, 0.04) : neutral[50] : 'transparent',
               transition: 'all 0.2s',
               '&:hover': {
                 borderColor: (theme) => theme.palette.mode === 'dark' ? neutral[500] : neutral[700],
@@ -266,14 +294,14 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
               variant="outlined"
               sx={{
                 border: 2,
-                borderColor: selectedId === conn.id ? (theme) => theme.palette.mode === 'dark' ? neutral[500] : neutral[700] : 'divider',
+                borderColor: selectedIds.includes(conn.id) ? (theme) => theme.palette.mode === 'dark' ? neutral[500] : neutral[700] : 'divider',
                 transition: 'border-color 0.2s',
               }}
             >
               <CardActionArea onClick={() => handleSelect(conn.id)}>
                 <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Radio
-                    checked={selectedId === conn.id}
+                  <Checkbox
+                    checked={selectedIds.includes(conn.id)}
                     sx={{ p: 0 }}
                   />
                   <StorageIcon sx={{ color: 'text.secondary' }} />
@@ -292,7 +320,7 @@ function StepConnection({ wizardState, updateWizardState, onComplete, setLoading
                       variant="outlined"
                       sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? alpha(theme.palette.text.primary, 0.1) : neutral[200], color: 'text.secondary' }}
                     />
-                    {selectedId === conn.id && (
+                    {selectedIds.includes(conn.id) && (
                       <CheckCircleIcon sx={{ color: 'text.secondary' }} />
                     )}
                   </Stack>
@@ -362,6 +390,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
       setLocalLoading(true)
       try {
         const connectionId = wizardState.connectionId || activeConnection?.id
+        const connectionIds = wizardState.connectionIds || []
         await execute({
           type: InteractionType.ANALYZE,
           label: 'Load mapping preview',
@@ -371,6 +400,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
           blocksNavigation: false,
           intent: {
             connectionId,
+            connectionIds,
             templateId,
             templateKind: wizardState.templateKind || 'pdf',
             action: 'mapping_preview',
@@ -379,6 +409,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
             try {
               const result = await api.mappingPreview(templateId, connectionId, {
                 kind: wizardState.templateKind || 'pdf',
+                connectionIds: connectionIds.length > 1 ? connectionIds : undefined,
               })
 
               if (!cancelled) {
@@ -430,6 +461,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
 
     try {
       const connectionId = wizardState.connectionId || activeConnection?.id
+      const connectionIds = wizardState.connectionIds || []
 
       await execute({
         type: InteractionType.UPDATE,
@@ -440,6 +472,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
         blocksNavigation: true,
         intent: {
           connectionId,
+          connectionIds,
           templateId,
           templateKind: wizardState.templateKind || 'pdf',
           action: 'mapping_approve',
@@ -448,6 +481,7 @@ function StepMapping({ wizardState, updateWizardState, onComplete, setLoading })
           try {
             const result = await api.mappingApprove(templateId, mapping, {
               connectionId,
+              connectionIds: connectionIds.length > 1 ? connectionIds : undefined,
               keys,
               kind: wizardState.templateKind || 'pdf',
               onProgress: () => {
@@ -1413,7 +1447,7 @@ export default function SetupWizard() {
   const isNextDisabled = () => {
     switch (currentStep) {
       case 0:
-        return !wizardState.connectionId && !activeConnection?.id
+        return !(wizardState.connectionIds?.length > 0 || wizardState.connectionId || activeConnection?.id)
       case 1:
         return !wizardState.templateId && !templateId
       case 2:

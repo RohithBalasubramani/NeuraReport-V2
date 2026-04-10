@@ -324,6 +324,7 @@ def build_system_prompt(
     session: ChatSession,
     template_id: str | None = None,
     connection_id: str | None = None,
+    connection_ids: list[str] | None = None,
 ) -> str:
     """Build the system prompt with dynamic pipeline context."""
     # Build context section
@@ -333,7 +334,10 @@ def build_system_prompt(
 
     if template_id:
         context_parts.append(f"Template ID: {template_id}")
-    if connection_id or session.connection_id:
+    _cids = connection_ids or session.connection_ids or []
+    if len(_cids) > 1:
+        context_parts.append(f"Connections (multi-DB): {', '.join(_cids)}")
+    elif connection_id or session.connection_id:
         context_parts.append(f"Connection ID: {connection_id or session.connection_id}")
 
     context_parts.append(f"Turn: {session.turn_count}")
@@ -494,13 +498,17 @@ def build_workspace_prompt(
     session: ChatSession,
     template_id: str | None = None,
     connection_id: str | None = None,
+    connection_ids: list[str] | None = None,
 ) -> str:
     """Build the workspace mode system prompt with dynamic context."""
     context_parts = []
 
     if template_id:
         context_parts.append(f"Template ID: {template_id}")
-    if connection_id or session.connection_id:
+    _cids = connection_ids or session.connection_ids or []
+    if len(_cids) > 1:
+        context_parts.append(f"Connections (multi-DB): {', '.join(_cids)}")
+    elif connection_id or session.connection_id:
         context_parts.append(f"Connection ID: {connection_id or session.connection_id}")
     context_parts.append(f"Pipeline state (frozen): {session.pipeline_state.value}")
     context_parts.append(f"Turn: {session.turn_count}")

@@ -208,3 +208,142 @@ def db_path_from_payload_or_default(conn_id: Optional[str]) -> ConnectionRef:
         "db_missing",
         "No database configured. Connect once or set NR_DEFAULT_DB/DB_PATH env.",
     )
+
+
+# ---------------------------------------------------------------------------
+# Multi-connection support
+# ---------------------------------------------------------------------------
+
+import logging
+_logger = logging.getLogger(__name__)
+
+
+class MultiDataFrameLoader:
+    """Wraps multiple DataFrameLoaders (one per connection) behind a single interface.
+
+    Table names are assumed unique across connections.  Each method routes
+    to the child loader that owns the requested table.
+    """
+
+    def __init__(self, loaders: dict[str, object]):
+        """
+        Args:
+            loaders: mapping of ``{connection_id: loader_instance}``
+        """
+        self._loaders = dict(loaders)
+        self._table_to_loader: dict[str, object] = {}
+        self._table_to_conn_id: dict[str, str] = {}
+
+        for conn_id, loader in self._loaders.items():
+            for table in loader.table_names():
+                if table in self._table_to_loader:
+                    _logger.warning(
+                        "MultiDataFrameLoader: table %r from connection %s "
+                        "collides with existing entry from %s — keeping first",
+                        table, conn_id, self._table_to_conn_id[table],
+                    )
+                    continue
+                self._table_to_loader[table] = loader
+                self._table_to_conn_id[table] = conn_id
+
+    # -- routing helper --------------------------------------------------
+
+    def _loader_for(self, table_name: str):
+        loader = self._table_to_loader.get(table_name)
+        if loader is None:
+            raise RuntimeError(
+                f"Table {table_name!r} not found in any connection. "
+                f"Available: {sorted(self._table_to_loader)}"
+            )
+        return loader
+
+    # -- public interface (mirrors SQLiteDataFrameLoader) -----------------
+
+    def table_names(self) -> list[str]:
+        return list(self._table_to_loader.keys())
+
+    def frame(self, table_name: str):
+        return self._loader_for(table_name).frame(table_name)
+
+    def frame_date_filtered(self, table_name: str, date_column: str,
+                            start_date=None, end_date=None):
+        return self._loader_for(table_name).frame_date_filtered(
+            table_name, date_column, start_date, end_date,
+        )
+
+    def column_names(self, table_name: str) -> list[str]:
+        return self._loader_for(table_name).column_names(table_name)
+
+    def table_info(self, table_name: str) -> list[tuple[str, str]]:
+        return self._loader_for(table_name).table_info(table_name)
+
+    def pragma_table_info(self, table_name: str) -> list[dict]:
+        return self._loader_for(table_name).pragma_table_info(table_name)
+
+    def column_type(self, table_name: str, column_name: str) -> str:
+        return self._loader_for(table_name).column_type(table_name, column_name)
+
+    # -- provenance helpers -----------------------------------------------
+
+    def connection_id_for_table(self, table_name: str) -> str | None:
+        return self._table_to_conn_id.get(table_name)
+
+    def connection_ids(self) -> list[str]:
+        return list(self._loaders.keys())
+
+    # -- compatibility shims ----------------------------------------------
+
+    def exists(self) -> bool:
+        """All child loaders are already verified at construction time."""
+        return True
+
+    def __repr__(self) -> str:
+        return (
+            f"MultiDataFrameLoader(connections={list(self._loaders)}, "
+            f"tables={len(self._table_to_loader)})"
+        )
+
+
+# -- factory functions ----------------------------------------------------
+
+def resolve_connection_id_list(
+    connection_id: str | None = None,
+    connection_ids: list[str] | None = None,
+) -> list[str]:
+    """Normalize singular/plural connection params into a list."""
+    if connection_ids:
+        return list(connection_ids)
+    if connection_id:
+        return [connection_id]
+    return []
+
+
+def build_multi_loader(conn_ids: list[str]) -> MultiDataFrameLoader:
+    """Resolve connection IDs and return a MultiDataFrameLoader.
+
+    Each connection is verified at construction time.
+    """
+    loaders: dict[str, object] = {}
+    for cid in conn_ids:
+        ref = db_path_from_payload_or_default(cid)
+        verify_connection(ref)
+        loaders[cid] = get_loader_for_ref(ref)
+    return MultiDataFrameLoader(loaders)
+
+
+def get_loader_or_multi(
+    connection_id: str | None = None,
+    connection_ids: list[str] | None = None,
+):
+    """Return a single loader or MultiDataFrameLoader depending on input.
+
+    - 0 IDs → fall back to db_path_from_payload_or_default(None) (uses last-used)
+    - 1 ID  → regular single loader (ConnectionRef + get_loader_for_ref)
+    - 2+ IDs → MultiDataFrameLoader
+    """
+    ids = resolve_connection_id_list(connection_id, connection_ids)
+    if len(ids) <= 1:
+        ref = db_path_from_payload_or_default(ids[0] if ids else None)
+        return ref, get_loader_for_ref(ref)
+    multi = build_multi_loader(ids)
+    return multi, multi
