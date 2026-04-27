@@ -237,6 +237,7 @@ def _sanitize_for_agent(tool_name: str, raw_result: dict) -> dict:
         sanitized["token_count"] = raw_result.get("token_count", 0)
         sanitized["ocr_extracted"] = raw_result.get("ocr_extracted", False)
         sanitized["ocr_chars"] = raw_result.get("ocr_chars", 0)
+        sanitized["ocr_summary"] = raw_result.get("ocr_summary")
 
     elif tool_name == "simulate_mapping":
         sanitized["overall_score"] = raw_result.get("overall_score")
@@ -929,6 +930,22 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
         except Exception:
             logger.debug("ocr_artifact_check_failed", exc_info=True)
 
+        # Build OCR summary so the agent knows what was extracted
+        ocr_summary = None
+        if ocr_chars > 0:
+            try:
+                sections = ocr_data.get("sections", {})
+                headers = sections.get("column_headers", [])
+                scalars = sections.get("scalar_fields", [])
+                ocr_summary = {
+                    "column_header_count": len(headers),
+                    "scalar_field_count": len(scalars),
+                    "column_headers": [h.get("text", h) if isinstance(h, dict) else str(h) for h in headers[:10]],
+                    "scalar_labels": [s.get("label", s) if isinstance(s, dict) else str(s) for s in scalars[:5]],
+                }
+            except Exception:
+                pass
+
         await _push_stage(ctx, "verify.complete", "complete", 100)
 
         _kind = "excel" if is_excel else "pdf"
@@ -942,6 +959,7 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
             "token_signatures": token_signatures or {},
             "ocr_extracted": ocr_chars > 0,
             "ocr_chars": ocr_chars,
+            "ocr_summary": ocr_summary,
         }
 
     except Exception as exc:

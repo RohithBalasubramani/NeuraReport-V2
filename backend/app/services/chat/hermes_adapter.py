@@ -208,7 +208,7 @@ _registered = False
 # session_transition was removed: it let the LLM manually skip required
 # pipeline steps (e.g., jump APPROVED → BUILDING_ASSETS without running
 # build_generator_assets). Pipeline tools handle their own transitions.
-_CORE_TOOLS: set[str] = set()
+_CORE_TOOLS: set[str] = {"read_ocr"}
 
 # Tools per pipeline state (only these + core are registered)
 STATE_TOOLS: dict[str, set[str]] = {
@@ -216,11 +216,12 @@ STATE_TOOLS: dict[str, set[str]] = {
     "html_ready": _CORE_TOOLS | {
         "verify_template",  # Allow re-upload if user wants to replace the template
         "auto_map_tokens", "resolve_mapping_pipeline",
-        "edit_template",
+        "edit_template", "ocr_pdf_page",
     },
     "mapped": _CORE_TOOLS | {
         "auto_map_tokens", "refine_mapping", "edit_mapping",
         "build_contract", "read_mapping", "get_column_stats",
+        "ocr_pdf_page",
     },
     "approved": _CORE_TOOLS | {
         "build_generator_assets",
@@ -229,10 +230,12 @@ STATE_TOOLS: dict[str, set[str]] = {
     "building_assets": _CORE_TOOLS | {
         "validate_pipeline", "auto_fix_issues", "dry_run_preview",
         "edit_mapping", "edit_template", "get_column_stats",
+        "ocr_pdf_page",
     },
     "validated": _CORE_TOOLS | {
         "generate_report", "discover_batches", "get_key_options",
         "dry_run_preview", "get_column_stats",
+        "ocr_pdf_page",
     },
     "ready": _CORE_TOOLS | {
         "generate_report", "discover_batches", "get_key_options",
@@ -240,6 +243,7 @@ STATE_TOOLS: dict[str, set[str]] = {
     # Transient states — agent may get invoked mid-transition
     "correcting": _CORE_TOOLS | {
         "refine_mapping", "edit_mapping", "read_mapping", "get_column_stats",
+        "ocr_pdf_page",
     },
     "approving": _CORE_TOOLS | {
         "build_contract", "read_mapping",

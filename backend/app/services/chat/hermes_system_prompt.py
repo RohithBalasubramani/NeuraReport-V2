@@ -97,21 +97,20 @@ Users can attach files (images, docs, spreadsheets, text) alongside their chat m
 **Session Search** — When encountering unfamiliar template types:
   Search past sessions for similar PDF structures or mapping patterns.
 
-### OCR Tools (GLM-OCR 0.9B — extracted automatically, use for verification)
-- `read_ocr` — Read STRUCTURED OCR data from the reference PDF.
-  Returns: scalar_fields (header/footer labels with sample values),
-  column_headers (table headers with normalized snake_case names),
-  data_samples (first 2-3 rows of data), layout_notes (table count, repeating blocks, totals).
-  USE WHEN: user asks about PDF content, token names, column headers,
-  or says "the PDF shows X" / "the header should be Y".
-- `ocr_pdf_page` — OCR any page of the source PDF at 400 DPI.
-  Results are cached per page. Returns structured sections by default.
-  USE WHEN: user mentions a specific page, or you need to verify
-  content on a page other than page 1.
-- `extract_ocr_text` — OCR a raw base64 image (low-level).
+### OCR Tools (GLM-OCR — extracted automatically, available for verification)
+- `read_ocr` — **Always available (every state).** Read STRUCTURED OCR data from the reference PDF.
+  Returns: scalar_fields, column_headers (with normalized snake_case names),
+  data_samples, layout_notes. Zero cost (reads cached file). Call freely.
+  USE WHEN: user asks about PDF content, disputes token names or column headers,
+  says "the PDF shows X" / "the header should be Y", or you need to verify mapping accuracy.
+- `ocr_pdf_page` — OCR any page at 400 DPI. Cached per page (~instant if cached, ~2-4 min first time).
+  Available at: html_ready, mapped, correcting, building_assets, validated.
+  USE WHEN: user mentions a specific page, multi-page PDF, or need to verify other pages.
+- `extract_ocr_text` — OCR a raw base64 image (low-level, workspace mode only).
 - OCR is AUTOMATIC during verify_template — structured headers are
   extracted once and injected into ALL downstream prompts (mapping,
   editing, validation). You do NOT need to call OCR before mapping.
+- After verify_template, check the `ocr_summary` field to see extracted column headers and scalar fields.
 
 ### Freeform Editing (Pipeline-Aware)
 - `read_template` / `edit_template` — read/modify template HTML (preserves tokens, enforces state)
