@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: abb_mcb_catalogue.pdf] test"
+  },
+  {
+    "role": "assistant",
+    "content": ""
+  }
+]

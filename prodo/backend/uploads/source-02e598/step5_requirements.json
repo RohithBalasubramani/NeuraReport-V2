@@ -1,0 +1,63 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata and party information including vendor name, customer details, and invoice identifiers.",
+      "columns": [
+        "company_name_placeholder",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "invoice_date",
+        "invoice_no",
+        "payment_terms",
+        "bill_to_name_dept",
+        "bill_to_client_company",
+        "bill_to_address",
+        "bill_to_phone",
+        "payment_payable_to",
+        "venmo_account",
+        "paypal_account"
+      ]
+    },
+    "rows": {
+      "description": "No dynamic row tokens are defined for this template; it relies on static placeholders or pre-aggregated totals.",
+      "columns": [],
+      "grouping": [],
+      "ordering": [
+        "ROWID"
+      ]
+    },
+    "totals": {
+      "description": "Financial summary calculations including subtotal, discounts, taxes, and final balance due.",
+      "columns": [
+        "total_subtotal",
+        "total_discount",
+        "total_subtotal_less_discount",
+        "total_tax_rate",
+        "total_tax",
+        "total_shipping",
+        "total_balance_due"
+      ]
+    }
+  },
+  "semantics": "Scalar tokens map to single values from the `invoices` and `customers` tables. Totals are either direct column references or computed via arithmetic operations on those columns. Filters allow narrowing the dataset by invoice issue date.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Join `invoices` (parent) with `customers` (child) on `customer_id`.",
+    "Format `invoices.issue_date` to 'dd-mm-yyyy HH:MM:SS' for display.",
+    "Compute `total_subtotal_less_discount` as `subtotal` minus `discount_amount`.",
+    "Compute `total_balance_due` as `total_subtotal_less_discount` plus `total_tax` plus `total_shipping`."
+  ]
+}

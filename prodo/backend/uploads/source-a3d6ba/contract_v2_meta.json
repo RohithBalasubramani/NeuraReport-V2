@@ -1,0 +1,96 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "2142d098c911c3c82655da8cda0f4f1f93320b64880e33ea63752ef7a8f66e1a",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777537435,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [],
+      "row_tokens": [
+        "row_description",
+        "row_total"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "row_description": "invoices.vendor_name",
+      "row_total": "invoices.total_amount"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoices",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "issue_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.issue_date"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_description",
+            "from": [
+              "invoices.vendor_name"
+            ]
+          },
+          {
+            "as": "row_total",
+            "from": [
+              "invoices.total_amount"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "row_total": "number(2)",
+      "row_description": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_description ASC"
+      ]
+    },
+    "header_tokens": [],
+    "row_tokens": [
+      "row_description",
+      "row_total"
+    ],
+    "row_order": [
+      "row_description ASC"
+    ],
+    "literals": {},
+    "notes": "Mapping override applied for row_description to use vendor_name instead of item description. Date filters enabled on issue_date.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

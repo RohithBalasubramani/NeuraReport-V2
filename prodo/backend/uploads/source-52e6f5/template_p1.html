@@ -1,0 +1,471 @@
+
+
+
+<meta charset="UTF-8">
+<title>Invoice INV-17</title>
+<style>
+    :root {
+        --primary-color: #5cb85c;
+        --header-bg: #333333;
+        --text-color: #333333;
+        --light-text: #666666;
+        --border-color: #e0e0e0;
+        --table-header-height: 40px;
+        --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        font-family: var(--font-family);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    .container {
+        max-width: 800mm; /* A4 width approx */
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Header Section */
+    .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 40px;
+    }
+
+    .logo-area {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo-img {
+        width: 100px;
+        height: 100px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        color: white;
+        font-size: 60px;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    .company-info h2 {
+        margin: 0 0 5px 0;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .company-info p {
+        margin: 0;
+        color: var(--light-text);
+        font-size: 16px;
+    }
+
+    .invoice-title-area {
+        text-align: right;
+    }
+
+    .invoice-title-area h1 {
+        margin: 0;
+        font-size: 56px;
+        font-weight: 300;
+        letter-spacing: -1px;
+    }
+
+    .invoice-meta {
+        margin-top: 10px;
+        color: var(--light-text);
+        font-size: 18px;
+    }
+
+    .balance-top {
+        margin-top: 30px;
+    }
+
+    .balance-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .balance-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    /* Info Grid (Bill To &amp; Details) */
+    .info-grid {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .bill-to-section {
+        width: 45%;
+    }
+
+    .bill-to-label {
+        color: var(--light-text);
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+
+    .bill-to-details {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .invoice-details-section {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+    }
+
+    .detail-label {
+        color: var(--light-text);
+        font-weight: 500;
+        padding-right: 15px;
+        text-align: right;
+        font-size: 18px;
+    }
+
+    .detail-value {
+        text-align: right;
+        font-size: 18px;
+    }
+
+    /* Table */
+    .table-wrapper {
+        margin-bottom: 30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    thead {
+        background-color: var(--header-bg);
+        color: white;
+    }
+
+    th {
+        padding: 12px 15px;
+        text-align: left;
+        font-weight: normal;
+        font-size: 16px;
+        border-bottom: 1px solid var(--header-bg);
+    }
+
+    th.text-right {
+        text-align: right;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+        padding: 15px;
+        vertical-align: top;
+    }
+
+    .col-no { width: 5%; text-align: center; }
+    .col-desc { width: 45%; }
+    .col-qty { width: 10%; text-align: right; }
+    .col-rate { width: 15%; text-align: right; }
+    .col-disc { width: 10%; text-align: right; }
+    .col-amt { width: 15%; text-align: right; }
+
+    .item-title {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .item-subtitle {
+        color: var(--light-text);
+        font-size: 14px;
+        display: block;
+    }
+
+    /* Totals Section */
+    .totals-area {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 50px;
+    }
+
+    .totals-table {
+        width: 50%;
+        border-collapse: collapse;
+    }
+
+    .totals-table td {
+        padding: 10px 15px;
+        text-align: right;
+    }
+
+    .totals-table .label-col {
+        text-align: right;
+        color: var(--text-color);
+    }
+
+    .totals-table .value-col {
+        text-align: right;
+        font-weight: 500;
+    }
+
+    .total-row {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .payment-made {
+        color: red;
+    }
+
+    .balance-row {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        font-size: 18px;
+        padding: 15px;
+    }
+
+    /* Footer Sections */
+    .footer-sections {
+        margin-top: 40px;
+    }
+
+    .section-title {
+        color: var(--light-text);
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+
+    .section-content {
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .payment-icons {
+        margin-top: 5px;
+    }
+
+    .payment-icons img {
+        height: 25px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .page-footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-color);
+        font-size: 16px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+    }
+
+    .zoho-logo {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px;
+        font-weight: bold;
+        font-family: sans-serif;
+    }
+    
+    .zoho-z { color: #ed1c24; }
+    .zoho-o { color: #1aad39; }
+    .zoho-h { color: #f9a406; }
+    .zoho-o2 { color: #2d8cf0; }
+
+</style>
+
+
+
+<div class="container">
+    
+    <div class="header-top">
+        <div class="logo-area">
+            <div class="logo-img">Z</div>
+            <div class="company-info">
+                <h2>{sender_name}</h2>
+                <p>{sender_address}</p>
+            </div>
+        </div>
+        <div class="invoice-title-area">
+            <h1>Invoice</h1>
+            <div class="invoice-meta">Invoice# {invoice_number}</div>
+            <div class="balance-top">
+                <span class="balance-label">Balance Due</span>
+                <span class="balance-value">{balance_due_top}</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="info-grid">
+        <div class="bill-to-section">
+            <div class="bill-to-label">Bill To</div>
+            <div class="bill-to-details">
+                {bill_to_name}<br>
+                {bill_to_address}
+            </div>
+        </div>
+        <div class="invoice-details-section">
+            <div class="detail-row">
+                <span class="detail-label">Invoice Date :</span>
+                <span class="detail-value">{invoice_date}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Terms :</span>
+                <span class="detail-value">{terms}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Due Date :</span>
+                <span class="detail-value">{due_date}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">P.O.# :</span>
+                <span class="detail-value">{po_number}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Project Name :</span>
+                <span class="detail-value">{project_name}</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="table-wrapper" id="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-no" data-label="item_no">#</th>
+                    <th class="col-desc" data-label="item_description">Item &amp; Description</th>
+                    <th class="col-qty" data-label="qty">Qty</th>
+                    <th class="col-rate" data-label="rate">Rate</th>
+                    <th class="col-disc" data-label="discount">Discount</th>
+                    <th class="col-amt" data-label="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="col-no">1</td>
+                    <td class="col-desc">
+                        <span class="item-title">Brochure Design</span>
+                        <span class="item-subtitle">Brochure Design Single Sided Color</span>
+                    </td>
+                    <td class="col-qty">1.00</td>
+                    <td class="col-rate">300.000</td>
+                    <td class="col-disc">0.00</td>
+                    <td class="col-amt">300.000</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-no">2</td>
+                    <td class="col-desc">
+                        <span class="item-title">Web Design Packages(Template) - Basic</span>
+                        <span class="item-subtitle">Custom Themes for your business. Inclusive of 10 hours of marketing and annual training</span>
+                    </td>
+                    <td class="col-qty">1.00</td>
+                    <td class="col-rate">250.000</td>
+                    <td class="col-disc">0.00</td>
+                    <td class="col-amt">250.000</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-no">3</td>
+                    <td class="col-desc">
+                        <span class="item-title">Print Ad - Basic - Color</span>
+                        <span class="item-subtitle">Print Ad 1/8 size Color</span>
+                    </td>
+                    <td class="col-qty">1.00</td>
+                    <td class="col-rate">80.000</td>
+                    <td class="col-disc">0.00</td>
+                    <td class="col-amt">80.000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div class="totals-area" id="report-totals">
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="label-col">Sub Total</td>
+                <td class="value-col">{sub_total}</td>
+            </tr>
+            <tr>
+                <td class="label-col">{tax1_label}</td>
+                <td class="value-col">{tax1_amount}</td>
+            </tr>
+            <tr>
+                <td class="label-col">{tax2_label}</td>
+                <td class="value-col">{tax2_amount}</td>
+            </tr>
+            <tr class="total-row">
+                <td class="label-col">Total</td>
+                <td class="value-col">{total_amount}</td>
+            </tr>
+            <tr>
+                <td class="label-col">Payment Made</td>
+                <td class="value-col payment-made">(-) {payment_made_val}</td>
+            </tr>
+            <tr class="balance-row">
+                <td class="label-col">Balance Due</td>
+                <td class="value-col">{balance_due_bottom}</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    
+    <div class="footer-sections">
+        <div class="section-title">Notes</div>
+        <div class="section-content">{notes_text}</div>
+
+        <div class="section-title">Payment Options</div>
+        <div class="section-content payment-icons">
+            
+            <span style="font-weight:bold; color:#003087; font-style:italic">PayPal</span>
+            <span style="font-size:10px; display:inline-block; vertical-align:middle">CC</span>
+        </div>
+
+        <div class="section-title">Terms &amp; Conditions</div>
+        <div class="section-content">{terms_text}</div>
+    </div>
+
+    
+    <div class="page-footer">
+        This sample invoice template was created using <span class="zoho-logo"><span class="zoho-z">Z</span><span class="zoho-o">O</span><span class="zoho-h">H</span><span class="zoho-o2">O</span></span> Invoice
+    </div>
+</div>
+
+

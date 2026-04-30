@@ -3512,6 +3512,7 @@ class UnifiedChatPayload(BaseModel):
     action: Optional[str] = None          # explicit action hint from UI buttons
     action_params: Optional[dict] = None  # action-specific params
     workspace_mode: bool = False           # True = open workspace (all tools, no pipeline gates)
+    thinking_enabled: bool = False         # True = Qwen thinking mode (shows reasoning in responses)
     model_config = ConfigDict(extra="allow")
 
 

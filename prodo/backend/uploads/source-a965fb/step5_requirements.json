@@ -1,0 +1,71 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata, company details, and customer billing/shipping information.",
+      "columns": [
+        "company_name",
+        "company_address_line1",
+        "company_address_line2",
+        "phone",
+        "email",
+        "website",
+        "bill_to_name",
+        "bill_to_address_line1",
+        "bill_to_address_line2",
+        "ship_to_name",
+        "ship_to_address_line1",
+        "ship_to_address_line2",
+        "invoice_number",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "customer_message",
+        "subtotal",
+        "sales_tax",
+        "shipping",
+        "total"
+      ]
+    },
+    "rows": {
+      "description": "Line items for the invoice including item code, description, quantity, rate, and total amount.",
+      "columns": [
+        "row_item_service",
+        "row_description",
+        "row_quantity_hrs",
+        "row_rate",
+        "row_amount"
+      ],
+      "grouping": [
+        "invoice_number"
+      ],
+      "ordering": [
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated financial totals for the invoice.",
+      "columns": []
+    }
+  },
+  "semantics": "Scalars represent single values per invoice. Row tokens represent multiple rows per invoice. Totals are pre-aggregated in the source `invoices` table.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Join invoices and invoice_items on invoice_number.",
+    "Format invoice_date and due_date to dd-mm-yyyy HH:MM:SS.",
+    "Calculate row_amount as quantity * unit_price.",
+    "Apply currency formatting to all monetary fields.",
+    "Filter invoices by date range if provided."
+  ]
+}

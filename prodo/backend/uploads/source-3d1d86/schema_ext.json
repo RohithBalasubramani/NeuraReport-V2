@@ -1,0 +1,20 @@
+{
+  "scalars": [
+    "invoice_number",
+    "balance_due_top",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "po_number",
+    "project_name",
+    "sub_total",
+    "tax_1",
+    "tax_2",
+    "grand_total",
+    "payment_made",
+    "final_balance"
+  ],
+  "row_tokens": [],
+  "totals": [],
+  "notes": "Static invoice template with hardcoded rows. Schema captures dynamic header/footer fields and totals."
+}

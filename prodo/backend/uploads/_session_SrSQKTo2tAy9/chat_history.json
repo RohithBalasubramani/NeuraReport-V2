@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: scale-2-consumption-per-batch-2e5e27-pdf (4).pdf] Uploaded file: scale-2-consumption-per-batch-2e5e27-pdf (4).pdf"
+  },
+  {
+    "role": "assistant",
+    "content": "I've hit the limit for auto_map_tokens (2 calls). The mapping is still empty. I need to ask the user for help. Let me explain the situation in plain English and ask them to help with the mapping or check the database connection.\nI've encountered an issue while setting up your report template. The system couldn't automatically connect the data fields from your PDF to the database columns.\n\n**What happened:**\n- Your PDF template was successfully converted to an HTML format with 19 data fields (like plant name, batch numbers, material names, weights, etc.)\n- The automatic mapping to your database failed, possibly due to a connection issue\n\n**What I need from you:**\nCould you help me understand which database connection should be used for this report? I see two connections available. Alternatively, if you know the table names in your database that contain:\n- Batch information (batch numbers, start/end times)\n- Material consumption data (material names, set weights, actual weights)\n- Plant/location information\n\nThis will help me manually map the fields correctly."
+  }
+]

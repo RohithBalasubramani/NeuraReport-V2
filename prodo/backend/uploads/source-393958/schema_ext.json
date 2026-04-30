@@ -1,0 +1,29 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "report_title",
+    "batch_number",
+    "batch_start",
+    "batch_end"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "Schema inferred from PDF_PAGE_TEXT. Batch sections are repeated blocks. Row tokens correspond to table columns."
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "No PDF files are found anywhere. This suggests the file upload didn't work as expected. The user said they uploaded \"source.pdf\" but it doesn't appear to be in the workspace. \n\nI should let the user know that I'm not able to find the PDF file and ask them to try uploading it again.\nI'm unable to find the PDF file in the workspace. It appears the file upload may not have completed successfully. \n\nCould you please try uploading the PDF file again? Once uploaded, I'll be able to convert it into a report template."
+  }
+]

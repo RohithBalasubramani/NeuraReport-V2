@@ -1,0 +1,1309 @@
+
+
+
+    <meta charset="UTF-8">
+    <title>Invoice INV-17</title>
+    <style>
+        :root {
+            --col-id-w: 50px;
+            --col-desc-w: 45%;
+            --col-num-w: 90px;
+            --col-num-w-small: 70px;
+            --header-bg: #333333;
+            --text-color: #333333;
+            --light-text: #777777;
+            --border-color: #e5e5e5;
+            --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 50px 40px 40px;
+            font-family: var(--font-main);
+            color: var(--text-color);
+            background: #fff;
+            font-size: 16px;
+            line-height: 1.4;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Layout Utilities */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .col-left {
+            width: 45%;
+        }
+
+        .col-right {
+            width: 50%;
+            text-align: right;
+        }
+
+        /* Header Section */
+        .header-logo {
+            width: 90px;
+            height: 90px;
+            background-color: #70c06d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 70px;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-logo::after {
+            content: "Z";
+            font-family: serif;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .company-info h1 {
+            margin: 0 0 5px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .company-info p {
+            margin: 0;
+            color: var(--light-text);
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .invoice-title {
+            font-size: 56px;
+            font-weight: 300;
+            margin: 0 0 10px 0;
+            color: #000;
+            letter-spacing: -1px;
+        }
+
+        .invoice-meta {
+            font-size: 20px;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .balance-block {
+            margin-top: 20px;
+        }
+
+        .balance-label {
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            margin-top: 60px;
+        }
+
+        .bill-to {
+            width: 40%;
+        }
+
+        .bill-to h3 {
+            font-size: 18px;
+            color: var(--light-text);
+            margin: 0 0 10px 0;
+            font-weight: normal;
+        }
+
+        .bill-to p {
+            margin: 0 0 3px 0;
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .invoice-details {
+            width: 55%;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .detail-label {
+            color: var(--light-text);
+            margin-right: 20px;
+            text-align: right;
+            flex-shrink: 0;
+            min-width: 140px;
+        }
+
+        .detail-value {
+            text-align: right;
+        }
+
+        /* Table */
+        .table-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead {
+            background-color: var(--header-bg);
+            color: white;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: normal;
+            font-size: 18px;
+            border-bottom: 1px solid var(--header-bg);
+        }
+
+        th:last-child {
+            text-align: right;
+        }
+        
+        th:nth-last-child(2) {
+            text-align: right;
+        }
+        
+        th:nth-last-child(3) {
+            text-align: right;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 16px;
+            vertical-align: top;
+        }
+
+        td:last-child {
+            text-align: right;
+        }
+        
+        td:nth-last-child(2) {
+            text-align: right;
+        }
+        
+        td:nth-last-child(3) {
+            text-align: right;
+        }
+
+        .desc-sub {
+            display: block;
+            color: var(--light-text);
+            font-size: 16px;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* Totals Section */
+        .totals-section {
+            width: 55%;
+            margin-left: auto;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .total-label {
+            margin-right: 40px;
+            text-align: right;
+        }
+
+        .total-value {
+            text-align: right;
+            width: 140px;
+        }
+
+        .total-row.main-total {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .total-row.payment {
+            color: #d00;
+        }
+
+        .total-row.balance {
+            background-color: #f5f5f5;
+            padding: 15px 10px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        /* Footer */
+        .footer-section {
+            margin-top: 80px;
+        }
+
+        .footer-block {
+            margin-bottom: 30px;
+        }
+
+        .footer-block h4 {
+            margin: 0 0 10px 0;
+            color: var(--light-text);
+            font-weight: normal;
+            font-size: 20px;
+        }
+
+        .footer-block p {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .payment-icons {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #555;
+            border: 1px solid #ccc;
+            padding: 2px 5px;
+            display: inline-block;
+            background: #f9f9f9;
+        }
+
+        .page-footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 20px;
+        }
+        
+        .zoho-logo {
+            display: inline-block;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+        
+        .zoho-logo span:nth-child(1) { color: #ed1c24; }
+        .zoho-logo span:nth-child(2) { color: #0085ca; }
+        .zoho-logo span:nth-child(3) { color: #f2c500; }
+        .zoho-logo span:nth-child(4) { color: #0085ca; }
+        .zoho-logo span:nth-child(5) { color: #ed1c24; }
+
+    </style>
+
+
+
+    <div class="row" id="report-header">
+        <div class="col-left">
+            <div class="header-logo"></div>
+            <div class="company-info">
+                <h1>Zylker</h1>
+                <p>4141 Hacienda Dr</p>
+                <p>Pleasanton California 94588</p>
+                <p>U.S.A</p>
+            </div>
+        </div>
+        <div class="col-right">
+            <h2 class="invoice-title">Invoice</h2>
+            <div class="invoice-meta">Invoice# INV-202-00001</div>
+            <div class="balance-block">
+                <div class="balance-label">Balance Due</div>
+                <div class="balance-amount">$</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="bill-to">
+            <h3>Bill To</h3>
+            <p>Customer 1 BluePeak</p>
+            <p>101 Market Street</p>
+            <p>New York</p>
+            <p>10001.00</p>
+            <p>US</p>
+        </div>
+        <div class="invoice-details">
+            <div class="detail-row">
+                <span class="detail-label">Invoice Date :</span>
+                <span class="detail-value">2025-08-04</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Terms :</span>
+                <span class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Due Date :</span>
+                <span class="detail-value">2025-09-03</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">P.O.# :</span>
+                <span class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Project Name :</span>
+                <span class="detail-value"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container" id="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50px" data-label="item_number">#</th>
+                    <th style="width: 45%" data-label="item_description">Item &amp; Description</th>
+                    <th style="width: 90px" data-label="qty">Qty</th>
+                    <th style="width: 110px" data-label="rate">Rate</th>
+                    <th style="width: 90px" data-label="discount">Discount</th>
+                    <th style="width: 130px" data-label="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.00</td>
+                    <td>
+                        Line item 1 for invoice 1
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.09</td>
+                    <td style="text-align: right">395.07</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3196.12</td>
+                </tr>
+<tr>
+                    <td>2.00</td>
+                    <td>
+                        Line item 1 for invoice 2
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">4.59</td>
+                    <td style="text-align: right">154.79</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">710.49</td>
+                </tr>
+<tr>
+                    <td>3.00</td>
+                    <td>
+                        Line item 1 for invoice 4
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.66</td>
+                    <td style="text-align: right">634.31</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">6761.74</td>
+                </tr>
+<tr>
+                    <td>4.00</td>
+                    <td>
+                        Line item 1 for invoice 3
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.56</td>
+                    <td style="text-align: right">703.95</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">7433.71</td>
+                </tr>
+<tr>
+                    <td>5.00</td>
+                    <td>
+                        Line item 1 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.78</td>
+                    <td style="text-align: right">134.81</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1588.06</td>
+                </tr>
+<tr>
+                    <td>6.00</td>
+                    <td>
+                        Line item 1 for invoice 8
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.84</td>
+                    <td style="text-align: right">795.21</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4644.03</td>
+                </tr>
+<tr>
+                    <td>7.00</td>
+                    <td>
+                        Line item 1 for invoice 6
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.31</td>
+                    <td style="text-align: right">696.92</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3700.65</td>
+                </tr>
+<tr>
+                    <td>8.00</td>
+                    <td>
+                        Line item 1 for invoice 5
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">4.29</td>
+                    <td style="text-align: right">332.64</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1427.03</td>
+                </tr>
+<tr>
+                    <td>9.00</td>
+                    <td>
+                        Line item 1 for invoice 13
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.76</td>
+                    <td style="text-align: right">867.15</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3260.48</td>
+                </tr>
+<tr>
+                    <td>10.00</td>
+                    <td>
+                        Line item 1 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.70</td>
+                    <td style="text-align: right">795.17</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">6917.98</td>
+                </tr>
+<tr>
+                    <td>11.00</td>
+                    <td>
+                        Line item 1 for invoice 16
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.71</td>
+                    <td style="text-align: right">636.44</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">5543.39</td>
+                </tr>
+<tr>
+                    <td>12.00</td>
+                    <td>
+                        Line item 1 for invoice 15
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.91</td>
+                    <td style="text-align: right">363.32</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">693.94</td>
+                </tr>
+<tr>
+                    <td>13.00</td>
+                    <td>
+                        Line item 1 for invoice 11
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.35</td>
+                    <td style="text-align: right">192.73</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2187.49</td>
+                </tr>
+<tr>
+                    <td>14.00</td>
+                    <td>
+                        Line item 1 for invoice 12
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">7.21</td>
+                    <td style="text-align: right">461.86</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3330.01</td>
+                </tr>
+<tr>
+                    <td>15.00</td>
+                    <td>
+                        Line item 1 for invoice 10
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.22</td>
+                    <td style="text-align: right">358.85</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1873.2</td>
+                </tr>
+<tr>
+                    <td>16.00</td>
+                    <td>
+                        Line item 1 for invoice 9
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.50</td>
+                    <td style="text-align: right">205.52</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1335.88</td>
+                </tr>
+<tr>
+                    <td>17.00</td>
+                    <td>
+                        Line item 1 for invoice 17
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.59</td>
+                    <td style="text-align: right">165.33</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1916.17</td>
+                </tr>
+<tr>
+                    <td>18.00</td>
+                    <td>
+                        Line item 1 for invoice 20
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.22</td>
+                    <td style="text-align: right">63.52</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">204.53</td>
+                </tr>
+<tr>
+                    <td>19.00</td>
+                    <td>
+                        Line item 1 for invoice 19
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.90</td>
+                    <td style="text-align: right">205.7</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">596.53</td>
+                </tr>
+<tr>
+                    <td>20.00</td>
+                    <td>
+                        Line item 1 for invoice 18
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.53</td>
+                    <td style="text-align: right">111.36</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">281.74</td>
+                </tr>
+<tr>
+                    <td>21.00</td>
+                    <td>
+                        Line item 2 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.87</td>
+                    <td style="text-align: right">359.07</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3544.02</td>
+                </tr>
+<tr>
+                    <td>22.00</td>
+                    <td>
+                        Line item 2 for invoice 10
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.75</td>
+                    <td style="text-align: right">622.06</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4198.9</td>
+                </tr>
+<tr>
+                    <td>23.00</td>
+                    <td>
+                        Line item 2 for invoice 12
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.09</td>
+                    <td style="text-align: right">175.62</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">893.91</td>
+                </tr>
+<tr>
+                    <td>24.00</td>
+                    <td>
+                        Line item 2 for invoice 9
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.86</td>
+                    <td style="text-align: right">589.69</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">5814.34</td>
+                </tr>
+<tr>
+                    <td>25.00</td>
+                    <td>
+                        Line item 2 for invoice 6
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">4.81</td>
+                    <td style="text-align: right">395.01</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1900.0</td>
+                </tr>
+<tr>
+                    <td>26.00</td>
+                    <td>
+                        Line item 2 for invoice 5
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.06</td>
+                    <td style="text-align: right">699.85</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4241.09</td>
+                </tr>
+<tr>
+                    <td>27.00</td>
+                    <td>
+                        Line item 2 for invoice 8
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.89</td>
+                    <td style="text-align: right">665.59</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1923.56</td>
+                </tr>
+<tr>
+                    <td>28.00</td>
+                    <td>
+                        Line item 2 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.11</td>
+                    <td style="text-align: right">189.38</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2104.01</td>
+                </tr>
+<tr>
+                    <td>29.00</td>
+                    <td>
+                        Line item 2 for invoice 3
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.43</td>
+                    <td style="text-align: right">267.91</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">383.11</td>
+                </tr>
+<tr>
+                    <td>30.00</td>
+                    <td>
+                        Line item 2 for invoice 15
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.82</td>
+                    <td style="text-align: right">819.8</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3131.64</td>
+                </tr>
+<tr>
+                    <td>31.00</td>
+                    <td>
+                        Line item 2 for invoice 13
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">7.99</td>
+                    <td style="text-align: right">302.13</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2414.02</td>
+                </tr>
+<tr>
+                    <td>32.00</td>
+                    <td>
+                        Line item 2 for invoice 11
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.47</td>
+                    <td style="text-align: right">446.65</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1549.88</td>
+                </tr>
+<tr>
+                    <td>33.00</td>
+                    <td>
+                        Line item 2 for invoice 16
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.93</td>
+                    <td style="text-align: right">291.98</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2899.36</td>
+                </tr>
+<tr>
+                    <td>34.00</td>
+                    <td>
+                        Line item 2 for invoice 20
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.70</td>
+                    <td style="text-align: right">430.68</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2885.56</td>
+                </tr>
+<tr>
+                    <td>35.00</td>
+                    <td>
+                        Line item 2 for invoice 17
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">12.00</td>
+                    <td style="text-align: right">383.68</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4604.16</td>
+                </tr>
+<tr>
+                    <td>36.00</td>
+                    <td>
+                        Line item 2 for invoice 19
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.82</td>
+                    <td style="text-align: right">618.64</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">6075.04</td>
+                </tr>
+<tr>
+                    <td>37.00</td>
+                    <td>
+                        Line item 2 for invoice 18
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.54</td>
+                    <td style="text-align: right">533.94</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">822.27</td>
+                </tr>
+<tr>
+                    <td>38.00</td>
+                    <td>
+                        Line item 2 for invoice 4
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.20</td>
+                    <td style="text-align: right">417.54</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3423.83</td>
+                </tr>
+<tr>
+                    <td>39.00</td>
+                    <td>
+                        Line item 2 for invoice 2
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.11</td>
+                    <td style="text-align: right">656.54</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4011.46</td>
+                </tr>
+<tr>
+                    <td>40.00</td>
+                    <td>
+                        Line item 2 for invoice 1
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.18</td>
+                    <td style="text-align: right">623.58</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1982.98</td>
+                </tr>
+<tr>
+                    <td>41.00</td>
+                    <td>
+                        Line item 3 for invoice 3
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.94</td>
+                    <td style="text-align: right">827.31</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2432.29</td>
+                </tr>
+<tr>
+                    <td>42.00</td>
+                    <td>
+                        Line item 3 for invoice 15
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.94</td>
+                    <td style="text-align: right">302.86</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3010.43</td>
+                </tr>
+<tr>
+                    <td>43.00</td>
+                    <td>
+                        Line item 3 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.60</td>
+                    <td style="text-align: right">442.66</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2478.9</td>
+                </tr>
+<tr>
+                    <td>44.00</td>
+                    <td>
+                        Line item 3 for invoice 12
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.10</td>
+                    <td style="text-align: right">560.16</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1736.5</td>
+                </tr>
+<tr>
+                    <td>45.00</td>
+                    <td>
+                        Line item 3 for invoice 8
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.89</td>
+                    <td style="text-align: right">684.06</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4029.11</td>
+                </tr>
+<tr>
+                    <td>46.00</td>
+                    <td>
+                        Line item 3 for invoice 10
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.95</td>
+                    <td style="text-align: right">397.43</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">774.99</td>
+                </tr>
+<tr>
+                    <td>47.00</td>
+                    <td>
+                        Line item 3 for invoice 11
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">9.68</td>
+                    <td style="text-align: right">115.81</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1121.04</td>
+                </tr>
+<tr>
+                    <td>48.00</td>
+                    <td>
+                        Line item 3 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.50</td>
+                    <td style="text-align: right">624.17</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">6553.78</td>
+                </tr>
+<tr>
+                    <td>49.00</td>
+                    <td>
+                        Line item 3 for invoice 17
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.24</td>
+                    <td style="text-align: right">302.32</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">374.88</td>
+                </tr>
+<tr>
+                    <td>50.00</td>
+                    <td>
+                        Line item 3 for invoice 4
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.62</td>
+                    <td style="text-align: right">810.31</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2933.32</td>
+                </tr>
+<tr>
+                    <td>51.00</td>
+                    <td>
+                        Line item 3 for invoice 1
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.66</td>
+                    <td style="text-align: right">410.72</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4789.0</td>
+                </tr>
+<tr>
+                    <td>52.00</td>
+                    <td>
+                        Line item 3 for invoice 2
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.79</td>
+                    <td style="text-align: right">76.42</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">671.73</td>
+                </tr>
+<tr>
+                    <td>53.00</td>
+                    <td>
+                        Line item 3 for invoice 5
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.73</td>
+                    <td style="text-align: right">702.49</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">8240.21</td>
+                </tr>
+<tr>
+                    <td>54.00</td>
+                    <td>
+                        Line item 3 for invoice 20
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.37</td>
+                    <td style="text-align: right">221.19</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">745.41</td>
+                </tr>
+<tr>
+                    <td>55.00</td>
+                    <td>
+                        Line item 3 for invoice 18
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.03</td>
+                    <td style="text-align: right">624.59</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3141.69</td>
+                </tr>
+<tr>
+                    <td>56.00</td>
+                    <td>
+                        Line item 3 for invoice 19
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.35</td>
+                    <td style="text-align: right">611.71</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2049.23</td>
+                </tr>
+<tr>
+                    <td>57.00</td>
+                    <td>
+                        Line item 3 for invoice 6
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.65</td>
+                    <td style="text-align: right">796.07</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2905.66</td>
+                </tr>
+<tr>
+                    <td>58.00</td>
+                    <td>
+                        Line item 4 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.57</td>
+                    <td style="text-align: right">550.71</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">864.61</td>
+                </tr>
+<tr>
+                    <td>59.00</td>
+                    <td>
+                        Line item 4 for invoice 10
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.58</td>
+                    <td style="text-align: right">839.55</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">9721.99</td>
+                </tr>
+<tr>
+                    <td>60.00</td>
+                    <td>
+                        Line item 4 for invoice 11
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.28</td>
+                    <td style="text-align: right">81.2</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">266.34</td>
+                </tr>
+<tr>
+                    <td>61.00</td>
+                    <td>
+                        Line item 4 for invoice 6
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.75</td>
+                    <td style="text-align: right">139.97</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1504.68</td>
+                </tr>
+<tr>
+                    <td>62.00</td>
+                    <td>
+                        Line item 4 for invoice 12
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.91</td>
+                    <td style="text-align: right">707.26</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4887.17</td>
+                </tr>
+<tr>
+                    <td>63.00</td>
+                    <td>
+                        Line item 4 for invoice 2
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.73</td>
+                    <td style="text-align: right">262.46</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">978.98</td>
+                </tr>
+<tr>
+                    <td>64.00</td>
+                    <td>
+                        Line item 4 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.54</td>
+                    <td style="text-align: right">303.45</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">3501.81</td>
+                </tr>
+<tr>
+                    <td>65.00</td>
+                    <td>
+                        Line item 4 for invoice 19
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.55</td>
+                    <td style="text-align: right">431.09</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4548.0</td>
+                </tr>
+<tr>
+                    <td>66.00</td>
+                    <td>
+                        Line item 4 for invoice 20
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">1.21</td>
+                    <td style="text-align: right">332.9</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">402.81</td>
+                </tr>
+<tr>
+                    <td>67.00</td>
+                    <td>
+                        Line item 4 for invoice 1
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">10.36</td>
+                    <td style="text-align: right">75.85</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">785.81</td>
+                </tr>
+<tr>
+                    <td>68.00</td>
+                    <td>
+                        Line item 4 for invoice 18
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.38</td>
+                    <td style="text-align: right">287.94</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">685.3</td>
+                </tr>
+<tr>
+                    <td>69.00</td>
+                    <td>
+                        Line item 5 for invoice 2
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.19</td>
+                    <td style="text-align: right">781.76</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4839.09</td>
+                </tr>
+<tr>
+                    <td>70.00</td>
+                    <td>
+                        Line item 5 for invoice 1
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">6.81</td>
+                    <td style="text-align: right">217.33</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1480.02</td>
+                </tr>
+<tr>
+                    <td>71.00</td>
+                    <td>
+                        Line item 5 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">8.19</td>
+                    <td style="text-align: right">849.19</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">6954.87</td>
+                </tr>
+<tr>
+                    <td>72.00</td>
+                    <td>
+                        Line item 5 for invoice 11
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">11.63</td>
+                    <td style="text-align: right">96.36</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1120.67</td>
+                </tr>
+<tr>
+                    <td>73.00</td>
+                    <td>
+                        Line item 5 for invoice 10
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.80</td>
+                    <td style="text-align: right">410.48</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1559.82</td>
+                </tr>
+<tr>
+                    <td>74.00</td>
+                    <td>
+                        Line item 5 for invoice 6
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">3.18</td>
+                    <td style="text-align: right">322.34</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">1025.04</td>
+                </tr>
+<tr>
+                    <td>75.00</td>
+                    <td>
+                        Line item 5 for invoice 12
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">5.94</td>
+                    <td style="text-align: right">373.75</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">2220.08</td>
+                </tr>
+<tr>
+                    <td>76.00</td>
+                    <td>
+                        Line item 5 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">7.08</td>
+                    <td style="text-align: right">717.96</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">5083.16</td>
+                </tr>
+<tr>
+                    <td>77.00</td>
+                    <td>
+                        Line item 6 for invoice 14
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">4.74</td>
+                    <td style="text-align: right">880.52</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">4173.66</td>
+                </tr>
+<tr>
+                    <td>78.00</td>
+                    <td>
+                        Line item 6 for invoice 7
+                        <span class="desc-sub"></span>
+                    </td>
+                    <td style="text-align: right">2.42</td>
+                    <td style="text-align: right">203.26</td>
+                    <td style="text-align: right"></td>
+                    <td style="text-align: right">491.89</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="totals-section" id="report-totals">
+        <div class="total-row">
+            <span class="total-label">Sub Total</span>
+            <span class="total-value">12233.93</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">Sample Tax1 (4.70%)</span>
+            <span class="total-value"></span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">Sample Tax2 (7.00%)</span>
+            <span class="total-value"></span>
+        </div>
+        <div class="total-row main-total">
+            <span class="total-label">Total</span>
+            <span class="total-value">$12978.36</span>
+        </div>
+        <div class="total-row payment">
+            <span class="total-label">Payment Made</span>
+            <span class="total-value">(-) 12978.36</span>
+        </div>
+        <div class="total-row balance">
+            <span class="total-label">Balance Due</span>
+            <span class="total-value">$</span>
+        </div>
+    </div>
+
+    <div class="footer-section">
+        <div class="footer-block">
+            <h4>Notes</h4>
+            <p>Thanks for your business.</p>
+        </div>
+        <div class="footer-block">
+            <h4>Payment Options</h4>
+            <div class="payment-icons">PayPal</div>
+        </div>
+        <div class="footer-block">
+            <h4>Terms &amp; Conditions</h4>
+            <p>Please pay the Invoice before the due date.</p>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        This sample invoice template was created using <span class="zoho-logo"><span>Z</span><span>O</span><span>H</span><span>O</span></span> Invoice
+    </div>
+
+

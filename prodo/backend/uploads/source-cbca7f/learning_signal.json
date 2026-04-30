@@ -1,0 +1,1 @@
+{"valid": false, "reason": "ended_at_building_assets", "retries_used": false, "user_corrected": false, "patterns": [{"id": "p1", "name": "Multi-table join", "description": "Data sourced from multiple joined database tables."}]}

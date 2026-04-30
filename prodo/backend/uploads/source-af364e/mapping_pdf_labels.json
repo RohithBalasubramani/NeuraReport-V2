@@ -1,0 +1,7 @@
+[
+  {
+    "header": "row_error_pct",
+    "placeholder": "{row_error_pct}",
+    "mapping": "COMPUTED:ROUND((row_ach_wt_kg-row_set_wt_kg)/row_set_wt_kg*100,2)"
+  }
+]

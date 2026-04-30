@@ -1,0 +1,21 @@
+{
+  "dialect": "duckdb",
+  "mode": "dataframe",
+  "entrypoints": {},
+  "params": {
+    "required": [],
+    "optional": []
+  },
+  "needs_user_fix": [],
+  "invalid": false,
+  "summary": {
+    "scalars": 19,
+    "row_tokens": 5,
+    "totals": 0,
+    "reshape_rules": 1,
+    "row_computed": 0,
+    "totals_math": 0,
+    "formatters": 24
+  },
+  "key_tokens": []
+}

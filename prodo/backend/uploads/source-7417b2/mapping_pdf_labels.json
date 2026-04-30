@@ -1,0 +1,97 @@
+[
+  {
+    "header": "batch_id",
+    "placeholder": "{batch_id}",
+    "mapping": "recipe_name"
+  },
+  {
+    "header": "batch_no",
+    "placeholder": "{batch_no}",
+    "mapping": "id"
+  },
+  {
+    "header": "end_time",
+    "placeholder": "{end_time}",
+    "mapping": "end_time"
+  },
+  {
+    "header": "from_date",
+    "placeholder": "{from_date}",
+    "mapping": "COMPUTED:DATE(start_time)"
+  },
+  {
+    "header": "location",
+    "placeholder": "{location}",
+    "mapping": "COMPUTED:'Costal'"
+  },
+  {
+    "header": "plant_name",
+    "placeholder": "{plant_name}",
+    "mapping": "COMPUTED:'NeuraReport Demo'"
+  },
+  {
+    "header": "print_date",
+    "placeholder": "{print_date}",
+    "mapping": "COMPUTED:CURRENT_DATE"
+  },
+  {
+    "header": "row_ach_wt_kg",
+    "placeholder": "{row_ach_wt_kg}",
+    "mapping": "RESHAPE:bin1_act,bin2_act,bin3_act,bin4_act,bin5_act,bin6_act,bin7_act,bin8_act,bin9_act,bin10_act,bin11_act,bin12_act"
+  },
+  {
+    "header": "row_error_kg",
+    "placeholder": "{row_error_kg}",
+    "mapping": "COMPUTED:row_ach_wt_kg-row_set_wt_kg"
+  },
+  {
+    "header": "row_error_pct",
+    "placeholder": "{row_error_pct}",
+    "mapping": "COMPUTED:ROUND((row_ach_wt_kg-row_set_wt_kg)/row_set_wt_kg*100,2)"
+  },
+  {
+    "header": "row_material_name",
+    "placeholder": "{row_material_name}",
+    "mapping": "RESHAPE:bin1_content,bin2_content,bin3_content,bin4_content,bin5_content,bin6_content,bin7_content,bin8_content,bin9_content,bin10_content,bin11_content,bin12_content"
+  },
+  {
+    "header": "row_set_wt_kg",
+    "placeholder": "{row_set_wt_kg}",
+    "mapping": "RESHAPE:bin1_sp,bin2_sp,bin3_sp,bin4_sp,bin5_sp,bin6_sp,bin7_sp,bin8_sp,bin9_sp,bin10_sp,bin11_sp,bin12_sp"
+  },
+  {
+    "header": "row_sl_no",
+    "placeholder": "{row_sl_no}",
+    "mapping": "COMPUTED:ROW_NUMBER()"
+  },
+  {
+    "header": "start_time",
+    "placeholder": "{start_time}",
+    "mapping": "start_time"
+  },
+  {
+    "header": "to_date",
+    "placeholder": "{to_date}",
+    "mapping": "COMPUTED:DATE(end_time)"
+  },
+  {
+    "header": "total_ach_wt_kg",
+    "placeholder": "{total_ach_wt_kg}",
+    "mapping": "COMPUTED:SUM(row_ach_wt_kg)"
+  },
+  {
+    "header": "total_error_kg",
+    "placeholder": "{total_error_kg}",
+    "mapping": "COMPUTED:SUM(row_error_kg)"
+  },
+  {
+    "header": "total_error_pct",
+    "placeholder": "{total_error_pct}",
+    "mapping": "COMPUTED:ROUND(SUM(row_error_kg)/SUM(row_set_wt_kg)*100,2)"
+  },
+  {
+    "header": "total_set_wt_kg",
+    "placeholder": "{total_set_wt_kg}",
+    "mapping": "COMPUTED:SUM(row_set_wt_kg)"
+  }
+]

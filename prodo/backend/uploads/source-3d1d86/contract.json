@@ -1,0 +1,225 @@
+{
+  "tokens": {
+    "scalars": [
+      "invoice_number",
+      "balance_due_top",
+      "invoice_date",
+      "terms",
+      "due_date",
+      "po_number",
+      "project_name",
+      "sub_total",
+      "tax_1",
+      "tax_2",
+      "grand_total",
+      "payment_made",
+      "final_balance"
+    ],
+    "row_tokens": [],
+    "totals": []
+  },
+  "mapping": {
+    "invoice_number": "invoices.invoice_number",
+    "balance_due_top": "invoices.total_amount",
+    "invoice_date": "invoices.issue_date",
+    "terms": "invoices.notes",
+    "due_date": "invoices.due_date",
+    "sub_total": "invoices.subtotal",
+    "grand_total": "invoices.total_amount",
+    "payment_made": "payments.amount_paid",
+    "final_balance": "invoices.total_amount"
+  },
+  "unresolved": [
+    "po_number",
+    "project_name",
+    "tax_1",
+    "tax_2"
+  ],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoices",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "invoices.issue_date",
+      "date_to": "invoices.issue_date"
+    }
+  },
+  "reshape_rules": [],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "balance_due_top": "currency(2)",
+    "sub_total": "currency(2)",
+    "grand_total": "currency(2)",
+    "payment_made": "currency(2)",
+    "final_balance": "currency(2)",
+    "tax_1": "currency(2)",
+    "tax_2": "currency(2)",
+    "invoice_number": "number(2)",
+    "invoice_date": "number(2)",
+    "terms": "number(2)",
+    "due_date": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "ROWID"
+    ]
+  },
+  "header_tokens": [
+    "invoice_number",
+    "balance_due_top",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "sub_total",
+    "grand_total",
+    "payment_made",
+    "final_balance"
+  ],
+  "row_tokens": [],
+  "row_order": [
+    "ROWID"
+  ],
+  "literals": {},
+  "notes": "Tokens 'po_number', 'project_name', 'tax_1', 'tax_2' are marked UNRESOLVED as no direct column mapping exists in the provided catalog. 'payment_made' maps to the payments table column but requires aggregation logic in the execution layer (SUM). 'final_balance' is a computed row value.",
+  "_schema_version": "2.2",
+  "fields": {
+    "terms": {
+      "source": "invoices.notes",
+      "format": "number(2)"
+    },
+    "balance_due_top": {
+      "source": "invoices.total_amount",
+      "format": "currency(2)"
+    },
+    "invoice_number": {
+      "source": "invoices.invoice_number",
+      "format": "number(2)"
+    },
+    "payment_made": {
+      "source": "payments.amount_paid",
+      "format": "currency(2)"
+    },
+    "sub_total": {
+      "source": "invoices.subtotal",
+      "format": "currency(2)"
+    },
+    "tax_2": {
+      "format": "currency(2)"
+    },
+    "final_balance": {
+      "source": "invoices.total_amount",
+      "format": "currency(2)"
+    },
+    "grand_total": {
+      "source": "invoices.total_amount",
+      "format": "currency(2)"
+    },
+    "due_date": {
+      "source": "invoices.due_date",
+      "format": "number(2)"
+    },
+    "tax_1": {
+      "format": "currency(2)"
+    },
+    "invoice_date": {
+      "source": "invoices.issue_date",
+      "format": "number(2)"
+    }
+  },
+  "joins": [
+    {
+      "from": "invoices.invoice_number",
+      "to": "invoices.invoice_number",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "terms",
+      "operator": "notNull",
+      "message": "terms must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "terms",
+      "operator": "isNumeric",
+      "message": "terms must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "balance_due_top",
+      "operator": "notNull",
+      "message": "balance_due_top must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "notNull",
+      "message": "invoice_number must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "isNumeric",
+      "message": "invoice_number must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "payment_made",
+      "operator": "notNull",
+      "message": "payment_made must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "sub_total",
+      "operator": "notNull",
+      "message": "sub_total must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "final_balance",
+      "operator": "notNull",
+      "message": "final_balance must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "grand_total",
+      "operator": "notNull",
+      "message": "grand_total must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "due_date",
+      "operator": "notNull",
+      "message": "due_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "due_date",
+      "operator": "isNumeric",
+      "message": "due_date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "notNull",
+      "message": "invoice_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "isNumeric",
+      "message": "invoice_date must be numeric",
+      "severity": "warning"
+    }
+  ]
+}

@@ -1826,7 +1826,7 @@ try:
     from dramatiq.rate_limits.backends import RedisBackend
     _rate_backend = RedisBackend(url=os.getenv("NEURA_REDIS_URL", "redis://localhost:6379/0"))
     AGENT_MUTEX = ConcurrentRateLimiter(_rate_backend, key="agent-execution", limit=4)
-except (ImportError, ConnectionError, OSError):
+except (ImportError, ConnectionError, OSError, ValueError):
     logger.warning("Rate limiter unavailable; agent concurrency will not be limited")
     AGENT_MUTEX = None
 

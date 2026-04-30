@@ -1,0 +1,43 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static header information (Invoice No, Date, Bill To, Ship To) is handled by the template structure; no dynamic scalar tokens are mapped in this schema.",
+      "columns": []
+    },
+    "rows": {
+      "description": "List of invoice line items or invoice summaries containing description and total amount.",
+      "columns": [
+        "row_description",
+        "row_total"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_description"
+      ]
+    },
+    "totals": {
+      "description": "No aggregate totals are defined in the schema for this report view.",
+      "columns": []
+    }
+  },
+  "semantics": "The report maps invoice-level data directly to row tokens. `row_description` pulls the vendor name (override), and `row_total` pulls the final invoice total. Filtering is supported by invoice date.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Map 'row_description' to 'invoices.vendor_name' via override.",
+    "Map 'row_total' to 'invoices.total_amount'.",
+    "Apply numeric formatting (2 decimals) to 'row_total'.",
+    "Enable date filtering on 'invoices.issue_date'."
+  ]
+}

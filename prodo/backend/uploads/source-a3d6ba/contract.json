@@ -1,0 +1,118 @@
+{
+  "tokens": {
+    "scalars": [],
+    "row_tokens": [
+      "row_description",
+      "row_total"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "row_description": "invoices.vendor_name",
+    "row_total": "invoices.total_amount"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoices",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "invoices.issue_date",
+      "date_to": "invoices.issue_date"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_description",
+          "from": [
+            "invoices.vendor_name"
+          ]
+        },
+        {
+          "as": "row_total",
+          "from": [
+            "invoices.total_amount"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_total": "number(2)",
+    "row_description": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "row_description ASC"
+    ]
+  },
+  "header_tokens": [],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "row_order": [
+    "row_description ASC"
+  ],
+  "literals": {},
+  "notes": "Mapping override applied for row_description to use vendor_name instead of item description. Date filters enabled on issue_date.",
+  "_schema_version": "2.2",
+  "fields": {
+    "row_description": {
+      "source": "invoices.vendor_name",
+      "format": "number(2)"
+    },
+    "row_total": {
+      "source": "invoices.total_amount",
+      "format": "number(2)"
+    }
+  },
+  "joins": [
+    {
+      "from": "invoices.invoice_number",
+      "to": "invoices.invoice_number",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "row_description",
+      "operator": "notNull",
+      "message": "row_description must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description",
+      "operator": "isNumeric",
+      "message": "row_description must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total",
+      "operator": "notNull",
+      "message": "row_total must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total",
+      "operator": "isNumeric",
+      "message": "row_total must be numeric",
+      "severity": "warning"
+    }
+  ]
+}

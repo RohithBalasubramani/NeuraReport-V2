@@ -808,7 +808,7 @@ import logging
 import re
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -998,8 +998,34 @@ class ContractAdapter:
             if inferred_parent:
                 self._parent_table = inferred_parent
 
+        self._options = self._raw.get("options") or {}
+
         self._param_tokens = self._discover_param_tokens()
         self._formatter_cache: Dict[str, FormatterSpec | None] = {}
+
+    # ------------------------------------------------------------------ #
+    # Config helpers
+    # ------------------------------------------------------------------ #
+
+    _DEFAULT_SHIFTS: ClassVar[list[dict]] = [
+        {"name": "A", "start": 6, "end": 14, "wrap": False},
+        {"name": "B", "start": 14, "end": 22, "wrap": False},
+        {"name": "C", "start": 22, "end": 6, "wrap": True},
+    ]
+
+    def _opt(self, rule: dict, key: str, default: Any = None) -> Any:
+        """Three-tier config: rule-level > contract options > hardcoded default."""
+        val = rule.get(key)
+        if val is not None:
+            return val
+        val = self._options.get(key)
+        if val is not None:
+            return val
+        return default
+
+    def _get_shift_definitions(self, rule: dict) -> list[dict]:
+        """Return shift definitions from rule, contract options, or defaults."""
+        return self._opt(rule, "shift_definitions", self._DEFAULT_SHIFTS)
 
     # ------------------------------------------------------------------ #
     # Basic properties
@@ -1435,15 +1461,16 @@ class ContractAdapter:
         logger.warning("group_aggregate strategy %r not supported, skipping", strategy)
         return df
 
-    @staticmethod
-    def _resolve_df_col(df, col: str) -> str | None:
+    _DEFAULT_COL_SUFFIXES = ("_kg", "_pct", "_sec", "_wt", "_amt", "_count", "_num")
+
+    def _resolve_df_col(self, df, col: str) -> str | None:
         """Resolve a column name against a DataFrame.
 
         Tries in order:
         1. Exact match
         2. Strip table prefix (table.column → column)
         3. Case-insensitive match
-        4. Suffix-stripped match (row_ach_wt_kg ↔ row_ach_wt when _kg suffix differs)
+        4. Suffix-stripped match (configurable via ``options.column_suffixes``)
 
         Returns the actual DataFrame column name, or None if not found.
         """
@@ -1460,9 +1487,11 @@ class ContractAdapter:
         for actual in df.columns:
             if isinstance(actual, str) and actual.lower() == col_lower:
                 return actual
-        # 4. Suffix-stripped match (defense-in-depth for MELT alias mismatches)
-        _COMMON_SUFFIXES = ("_kg", "_pct", "_sec", "_wt", "_amt", "_count", "_num")
-        for suffix in _COMMON_SUFFIXES:
+        # 4. Suffix-stripped match (configurable via contract options)
+        suffixes = self._options.get("column_suffixes", self._DEFAULT_COL_SUFFIXES)
+        if not isinstance(suffixes, tuple):
+            suffixes = tuple(suffixes)
+        for suffix in suffixes:
             if col_lower.endswith(suffix):
                 stripped = col_lower[:-len(suffix)]
                 for actual in df.columns:
@@ -2124,12 +2153,26 @@ class ContractAdapter:
         return df
 
     def _apply_run_hours_diff(self, df: "pd.DataFrame", rule: dict) -> "pd.DataFrame":
-        """Compute running hours diff (last - first) per machine group."""
+        """Compute running hours diff (last - first) per machine group.
+
+        Configurable via contract ``options`` or per-rule overrides:
+        ``hour_start``, ``date_format``, ``datetime_format``, ``time_format``,
+        ``output_tokens`` (sr_no, description, running_hours).
+        """
         import pandas as pd
 
         group_col = rule.get("group_col", "description")
         seconds_col = rule.get("seconds_col", "total_seconds")
         ts_col = rule.get("timestamp_col", "timestamp_utc")
+        hour_start = int(self._opt(rule, "hour_start", 6))
+        date_fmt = self._opt(rule, "date_format", "%d/%m/%Y")
+        datetime_fmt = self._opt(rule, "datetime_format", "%d/%m/%Y %H:%M")
+        time_fmt = self._opt(rule, "time_format", "{h}h {m}m {s}s")
+        output_tokens = rule.get("output_tokens", {})
+
+        tk_sr = output_tokens.get("sr_no", "row_sr_no")
+        tk_desc = output_tokens.get("description", "row_description")
+        tk_hours = output_tokens.get("running_hours", "row_running_hours")
 
         if group_col not in df.columns or seconds_col not in df.columns:
             logger.warning("run_hours_diff: missing columns %s/%s", group_col, seconds_col)
@@ -2140,43 +2183,88 @@ class ContractAdapter:
         df["__ts_naive__"] = ts
         df = df.sort_values(["__ts_naive__"], ascending=True)
 
+        # Split into logical days
+        df["__day__"] = (ts - pd.Timedelta(hours=hour_start)).dt.date
+        day_groups = sorted(df["__day__"].unique())
+        num_days = len(day_groups)
+        logger.info("run_hours_diff: %d logical day(s) in data", num_days)
+
         rows = []
         sr = 0
-        for desc, group in df.groupby(group_col, sort=True):
-            sr += 1
-            secs = pd.to_numeric(group[seconds_col], errors="coerce")
-            first_s = secs.iloc[0] if not secs.empty else 0
-            last_s = secs.iloc[-1] if not secs.empty else 0
-            diff = abs(int(last_s - first_s))
-            h, rem = divmod(diff, 3600)
-            m, s = divmod(rem, 60)
-            rows.append({
-                "row_sr_no": str(sr),
-                "row_description": str(desc),
-                "row_running_hours": f"{h}h {m}m {s}s",
-            })
+        for day_idx, day_val in enumerate(day_groups):
+            day_df = df[df["__day__"] == day_val]
+
+            secs_check = pd.to_numeric(day_df[seconds_col], errors="coerce")
+            if day_df.empty or secs_check.dropna().empty:
+                logger.info("run_hours_diff: skipping day %s — no data", day_val)
+                continue
+
+            ts_day = _coerce_datetime_series(day_df[ts_col])
+            distinct_hours = ts_day.dt.hour.nunique()
+            if distinct_hours <= 1 and ts_day.dt.hour.iloc[0] == hour_start:
+                logger.info("run_hours_diff: skipping day %s — only boundary reading", day_val)
+                continue
+
+            day_start = pd.Timestamp(day_val) + pd.Timedelta(hours=hour_start)
+            day_end = day_start + pd.Timedelta(hours=24)
+            day_label = day_start.strftime(date_fmt)
+
+            for desc, group in day_df.groupby(group_col, sort=True):
+                sr += 1
+                secs = pd.to_numeric(group[seconds_col], errors="coerce").dropna()
+                first_s = secs.iloc[0] if not secs.empty else 0
+                last_s = secs.iloc[-1] if not secs.empty else 0
+                diff = abs(int(last_s - first_s)) if pd.notna(first_s) and pd.notna(last_s) else 0
+                h, rem = divmod(diff, 3600)
+                m, s = divmod(rem, 60)
+                row = {
+                    tk_sr: str(sr),
+                    tk_desc: str(desc),
+                    tk_hours: time_fmt.format(h=h, m=m, s=s),
+                }
+                if num_days > 1:
+                    row["__batch_idx__"] = day_idx
+                    row["__cf_batch_date"] = day_label
+                    row["__cf_from_datetime"] = day_start.strftime(datetime_fmt)
+                    row["__cf_to_datetime"] = day_end.strftime(datetime_fmt)
+                rows.append(row)
 
         result = pd.DataFrame(rows)
-        logger.info("run_hours_diff: %d groups → %d rows", len(rows), len(result))
+        logger.info("run_hours_diff: %d groups × %d days → %d rows", sr, num_days, len(result))
         return result
 
     def _apply_hourly_pivot(self, df: "pd.DataFrame", rule: dict) -> "pd.DataFrame":
         """Transpose time-series: sensors → rows, hours → columns.
 
         Produces one row per sensor with 24 hourly columns (6AM..5AM) plus
-        optional MAX/MIN/AVG stats.
+        optional MAX/MIN/AVG stats.  Supports configurable shifts, discovery
+        tables, totalizer suffixes, date formats, and aggregation methods
+        via the contract ``options`` block or per-rule overrides.
         """
         import pandas as pd
         import numpy as np
 
         ts_col = rule.get("timestamp_col", "timestamp_utc")
         sensors = rule.get("sensors", [])
-        hour_start = int(rule.get("hour_start", 6))
+        hour_start = int(self._opt(rule, "hour_start", 6))
         include_stats = rule.get("include_stats", False)
+        include_totalizer = rule.get("include_totalizer", False)
+        totalizer_divisor = float(rule.get("totalizer_divisor", 1))
         divisor = float(rule.get("divisor", 1))
         auto_discover = rule.get("auto_discover", False)
+        agg_method = self._opt(rule, "hourly_agg_method", "closest")
+        date_fmt = self._opt(rule, "date_format", "%d/%m/%Y")
+        datetime_fmt = self._opt(rule, "datetime_format", "%d/%m/%Y %H:%M")
+        tot_suffix = self._opt(rule, "totalizer_suffix", "_TOTAL")
+        output_tokens = rule.get("output_tokens", {})
 
-        # Auto-discover sensors from neuract__device_mappings table if enabled
+        # Configurable discovery table/columns
+        disc_table = self._opt(rule, "discovery_table", "neuract__device_mappings")
+        disc_key_col = self._opt(rule, "discovery_key_col", "field_key")
+        disc_addr_col = self._opt(rule, "discovery_addr_col", "address")
+        disc_filter_col = self._opt(rule, "discovery_filter_col", "table_name")
+
+        # Auto-discover sensors from discovery table if enabled
         if (auto_discover or not sensors) and self._parent_table:
             try:
                 import sqlite3 as _sq
@@ -2186,13 +2274,12 @@ class ContractAdapter:
                 if db_path:
                     with _sq.connect(str(db_path), timeout=30) as _con:
                         _rows = _con.execute(
-                            "SELECT field_key FROM neuract__device_mappings WHERE table_name = ? ORDER BY field_key",
+                            f'SELECT "{disc_key_col}" FROM "{disc_table}" WHERE "{disc_filter_col}" = ? ORDER BY "{disc_key_col}"',
                             (self._parent_table,)
                         ).fetchall()
                         if _rows:
-                            # Also fetch the OPC address for description
                             _detail_rows = _con.execute(
-                                "SELECT field_key, address FROM neuract__device_mappings WHERE table_name = ? ORDER BY field_key",
+                                f'SELECT "{disc_key_col}", "{disc_addr_col}" FROM "{disc_table}" WHERE "{disc_filter_col}" = ? ORDER BY "{disc_key_col}"',
                                 (self._parent_table,)
                             ).fetchall()
                             _addr_map = {r[0]: r[1] for r in _detail_rows}
@@ -2200,8 +2287,8 @@ class ContractAdapter:
                             discovered = []
                             for r in _rows:
                                 col = r[0]
-                                # Skip _TOTAL columns (totalizer/accumulator duplicates)
-                                if col.endswith("_TOTAL"):
+                                # Skip totalizer columns (configurable suffix)
+                                if col.endswith(tot_suffix):
                                     continue
                                 # Format tag: AI_10_RO1_ORP → AI-10_RO1 ORP
                                 parts = col.split("_")
@@ -2209,7 +2296,6 @@ class ContractAdapter:
                                     tag = f"{parts[0]}-{parts[1]}_{' '.join(parts[2:])}"
                                 else:
                                     tag = col.replace("_", " ")
-                                # Description from OPC address path
                                 addr = _addr_map.get(col, "")
                                 desc = ""
                                 if addr:
@@ -2218,14 +2304,13 @@ class ContractAdapter:
                                         desc = ".".join(addr_parts[-2:])
                                 discovered.append({"col": col, "tag": tag, "desc": desc})
 
-                            # Merge: keep existing sensor configs, add any missing
                             existing_cols = {s["col"] for s in sensors}
                             for d in discovered:
                                 if d["col"] not in existing_cols and d["col"] != ts_col:
                                     sensors.append(d)
                             if not sensors:
                                 sensors = [s for s in discovered if s["col"] != ts_col]
-                            logger.info("hourly_pivot: auto-discovered %d sensors from device_mappings for %s", len(discovered), self._parent_table)
+                            logger.info("hourly_pivot: auto-discovered %d sensors from %s for %s (filtered %s)", len(discovered), disc_table, self._parent_table, tot_suffix)
             except Exception as exc:
                 logger.debug("hourly_pivot: auto-discover failed: %s", exc)
 
@@ -2238,7 +2323,7 @@ class ContractAdapter:
         df["__ts__"] = ts
         df["__hour__"] = ts.dt.hour
 
-        # Hour labels: 6AM,7AM,...,5AM
+        # Hour labels
         hour_labels = []
         for offset in range(24):
             h = (hour_start + offset) % 24
@@ -2251,55 +2336,207 @@ class ContractAdapter:
             else:
                 hour_labels.append(f"{h - 12}PM")
 
-        out_rows = []
-        for idx, sensor in enumerate(sensors):
-            col = sensor.get("col", "")
-            tag = sensor.get("tag", col)
-            desc = sensor.get("desc", "")
-            label = sensor.get("label", "")
+        # Load separate totalizer table if configured
+        _totalizer_df = None
+        totalizer_table = rule.get("totalizer_table", "")
+        if include_totalizer and totalizer_table:
+            db_path = getattr(self, '_db_path', None)
+            if db_path:
+                try:
+                    import sqlite3 as _sq
+                    with _sq.connect(str(db_path), timeout=30) as _con:
+                        min_ts = df[ts_col].min()
+                        max_ts = df[ts_col].max()
+                        _totalizer_df = pd.read_sql_query(
+                            f'SELECT * FROM "{totalizer_table}" WHERE "{ts_col}" >= ? AND "{ts_col}" <= ?',
+                            _con, params=(str(min_ts), str(max_ts))
+                        )
+                    if not _totalizer_df.empty:
+                        _t_ts = _coerce_datetime_series(_totalizer_df[ts_col])
+                        _totalizer_df = _totalizer_df.copy()
+                        _totalizer_df["__ts__"] = _t_ts
+                        _totalizer_df["__hour__"] = _t_ts.dt.hour
+                        _totalizer_df = _totalizer_df.sort_values("__ts__")
+                        logger.info("hourly_pivot: loaded %d rows from totalizer_table %s", len(_totalizer_df), totalizer_table)
+                    else:
+                        _totalizer_df = None
+                except Exception as exc:
+                    logger.warning("hourly_pivot: failed to load totalizer_table %s: %s", totalizer_table, exc)
 
-            if col not in df.columns:
-                logger.warning("hourly_pivot: sensor column %s not found", col)
+        # Split data into logical days (hour_start to hour_start)
+        df["__day__"] = (ts - pd.Timedelta(hours=hour_start)).dt.date
+
+        day_groups = sorted(df["__day__"].unique())
+        num_days = len(day_groups)
+        logger.info("hourly_pivot: %d logical day(s) in data", num_days)
+
+        if _totalizer_df is not None:
+            _totalizer_df["__day__"] = (_totalizer_df["__ts__"] - pd.Timedelta(hours=hour_start)).dt.date
+
+        # Resolve shift definitions for totalizer
+        shift_defs = self._get_shift_definitions(rule)
+
+        # Output token names (configurable)
+        tk_sr = output_tokens.get("sr_no", "row_sr_no")
+        tk_tag = output_tokens.get("tag_name", "row_tag_name")
+        tk_desc = output_tokens.get("description", "row_description")
+        tk_label = output_tokens.get("label", "row_label")
+        tk_max = output_tokens.get("max", "row_max")
+        tk_max_dt = output_tokens.get("max_datetime", "row_max_datetime")
+        tk_min = output_tokens.get("min", "row_min")
+        tk_min_dt = output_tokens.get("min_datetime", "row_min_datetime")
+        tk_avg = output_tokens.get("avg", "row_avg")
+        tk_today_tot = output_tokens.get("today_totalizer", "row_today_totalizer")
+        tk_total_tot = output_tokens.get("total_totalizer", "row_total_totalizer")
+
+        out_rows = []
+        for day_idx, day_val in enumerate(day_groups):
+            day_df = df[df["__day__"] == day_val]
+            day_total_df = _totalizer_df[_totalizer_df["__day__"] == day_val] if _totalizer_df is not None else None
+
+            # Skip days with no meaningful sensor data
+            day_has_data = False
+            for sensor in sensors:
+                scol = sensor.get("col", "")
+                if scol in day_df.columns and pd.to_numeric(day_df[scol], errors="coerce").notna().any():
+                    day_has_data = True
+                    break
+            if not day_has_data:
+                logger.info("hourly_pivot: skipping day %s — no sensor data", day_val)
                 continue
 
-            raw = pd.to_numeric(df[col], errors="coerce")
-            if divisor != 1:
-                raw = raw / divisor
+            # Skip ghost boundary days
+            distinct_hours = day_df["__hour__"].nunique()
+            if distinct_hours <= 1 and day_df["__hour__"].iloc[0] == hour_start:
+                logger.info("hourly_pivot: skipping day %s — only boundary reading at hour %d", day_val, hour_start)
+                continue
 
-            row = {
-                "row_sr_no": str(idx + 1),
-                "row_tag_name": tag,
-                "row_description": desc,
-                "row_label": label,
-            }
+            day_start = pd.Timestamp(day_val) + pd.Timedelta(hours=hour_start)
+            day_end = day_start + pd.Timedelta(hours=24)
+            day_label = day_start.strftime(date_fmt)
 
-            if include_stats:
-                valid = raw.dropna()
-                if not valid.empty:
-                    max_idx = valid.idxmax()
-                    min_idx = valid.idxmin()
-                    row["row_max"] = f"{valid.max():.2f}"
-                    row["row_max_datetime"] = str(df.at[max_idx, ts_col])[:19] if pd.notna(max_idx) else ""
-                    row["row_min"] = f"{valid.min():.2f}"
-                    row["row_min_datetime"] = str(df.at[min_idx, ts_col])[:19] if pd.notna(min_idx) else ""
-                    row["row_avg"] = f"{valid.mean():.2f}"
-                else:
-                    row.update({"row_max": "", "row_max_datetime": "", "row_min": "", "row_min_datetime": "", "row_avg": ""})
+            for idx, sensor in enumerate(sensors):
+                col = sensor.get("col", "")
+                tag = sensor.get("tag", col)
+                desc = sensor.get("desc", "")
+                label = sensor.get("label", "")
 
-            for offset in range(24):
-                h = (hour_start + offset) % 24
-                mask = df["__hour__"] == h
-                vals = raw[mask].dropna()
-                col_key = f"row_h{offset}"
-                row[col_key] = f"{vals.mean():.2f}" if not vals.empty else ""
+                if col not in day_df.columns:
+                    logger.warning("hourly_pivot: sensor column %s not found", col)
+                    continue
 
-            out_rows.append(row)
+                raw = pd.to_numeric(day_df[col], errors="coerce")
+                if divisor != 1:
+                    raw = raw / divisor
+
+                row = {
+                    tk_sr: str(idx + 1),
+                    tk_tag: tag,
+                    tk_desc: desc,
+                    tk_label: label,
+                }
+
+                # Stats (if requested)
+                if include_stats:
+                    valid = raw.dropna()
+                    if not valid.empty:
+                        max_idx = valid.idxmax()
+                        min_idx = valid.idxmin()
+                        row[tk_max] = f"{valid.max():.2f}"
+                        row[tk_max_dt] = str(day_df.at[max_idx, ts_col])[:19] if pd.notna(max_idx) else ""
+                        row[tk_min] = f"{valid.min():.2f}"
+                        row[tk_min_dt] = str(day_df.at[min_idx, ts_col])[:19] if pd.notna(min_idx) else ""
+                        row[tk_avg] = f"{valid.mean():.2f}"
+                    else:
+                        row.update({tk_max: "", tk_max_dt: "", tk_min: "", tk_min_dt: "", tk_avg: ""})
+
+                # Hourly values with configurable aggregation method
+                raw_valid_mask = raw.notna()
+                for offset in range(24):
+                    h = (hour_start + offset) % 24
+                    mask = day_df["__hour__"] == h
+                    sensor_mask = mask & raw_valid_mask
+                    subset = day_df.loc[sensor_mask].copy()
+                    col_key = f"row_h{offset}"
+                    if subset.empty:
+                        row[col_key] = ""
+                    elif agg_method == "mean":
+                        val = raw.loc[subset.index].mean()
+                        row[col_key] = f"{val:.2f}" if pd.notna(val) else ""
+                    elif agg_method == "last":
+                        val = raw.loc[subset.index].iloc[-1]
+                        row[col_key] = f"{val:.2f}" if pd.notna(val) else ""
+                    elif agg_method == "first":
+                        val = raw.loc[subset.index].iloc[0]
+                        row[col_key] = f"{val:.2f}" if pd.notna(val) else ""
+                    else:  # "closest" — default, backward compatible
+                        target = subset["__ts__"].iloc[0].replace(minute=0, second=0, microsecond=0)
+                        closest_idx = (subset["__ts__"] - target).abs().idxmin()
+                        val = raw.loc[closest_idx]
+                        row[col_key] = f"{val:.2f}" if pd.notna(val) else ""
+
+                # Totalizer columns (configurable suffix + configurable shifts)
+                if include_totalizer:
+                    total_col = col + tot_suffix
+                    total_raw = None
+                    sorted_df = day_df.sort_values("__ts__")
+
+                    if total_col in day_df.columns:
+                        total_raw = pd.to_numeric(day_df[total_col], errors="coerce").reindex(sorted_df.index)
+                    elif day_total_df is not None and total_col in day_total_df.columns:
+                        total_raw = pd.to_numeric(day_total_df[total_col], errors="coerce").reindex(day_total_df.index)
+                        sorted_df = day_total_df
+
+                    if total_raw is not None:
+                        total_sorted = total_raw
+                        first_total = total_sorted.dropna().iloc[0] if not total_sorted.dropna().empty else None
+                        last_total = total_sorted.dropna().iloc[-1] if not total_sorted.dropna().empty else None
+
+                        hours_sorted = sorted_df["__hour__"]
+
+                        def _shift_diff(h_start, h_end, wrap=False):
+                            if wrap:
+                                _mask = (hours_sorted >= h_start) | (hours_sorted < h_end)
+                            else:
+                                _mask = (hours_sorted >= h_start) & (hours_sorted < h_end)
+                            v = total_sorted[_mask].dropna()
+                            if len(v) >= 2:
+                                return v.iloc[-1] - v.iloc[0]
+                            return None
+
+                        # Configurable shift definitions (loop instead of hardcoded 3 shifts)
+                        _td = totalizer_divisor
+                        for shift_def in shift_defs:
+                            s_name = shift_def["name"].lower()
+                            s_val = _shift_diff(shift_def["start"], shift_def["end"], wrap=shift_def.get("wrap", False))
+                            token_name = output_tokens.get(f"shift_{s_name}", f"row_shift_{s_name}")
+                            row[token_name] = f"{s_val / _td:.2f}" if s_val is not None else ""
+
+                        row[tk_today_tot] = f"{(last_total - first_total) / _td:.2f}" if last_total is not None and first_total is not None else ""
+                        row[tk_total_tot] = f"{last_total / _td:.2f}" if last_total is not None else ""
+                    else:
+                        # Blank all shift tokens + totalizer tokens
+                        for shift_def in shift_defs:
+                            s_name = shift_def["name"].lower()
+                            token_name = output_tokens.get(f"shift_{s_name}", f"row_shift_{s_name}")
+                            row[token_name] = ""
+                        row[tk_today_tot] = ""
+                        row[tk_total_tot] = ""
+
+                # Tag row with batch index and date for multi-day rendering
+                if num_days > 1:
+                    row["__batch_idx__"] = day_idx
+                    row["__cf_batch_date"] = day_label
+                    row["__cf_from_datetime"] = day_start.strftime(datetime_fmt)
+                    row["__cf_to_datetime"] = day_end.strftime(datetime_fmt)
+
+                out_rows.append(row)
 
         if not out_rows:
             return df
 
         result = pd.DataFrame(out_rows)
-        logger.info("hourly_pivot: %d sensors → %d rows × %d cols", len(sensors), len(result), len(result.columns))
+        logger.info("hourly_pivot: %d sensors → %d rows × %d cols (days=%d)", len(sensors), len(result), len(result.columns), num_days)
         return result
 
     def _apply_window_diff(self, df, rule: dict, loader) -> "pd.DataFrame":
@@ -2310,7 +2547,9 @@ class ContractAdapter:
 
         column_groups = rule.get("column_groups", [])
         ts_col = rule.get("timestamp_column", "timestamp_utc")
-        shift_boundaries = rule.get("shift_boundaries", {})
+        # Use configurable shift definitions if shift_boundaries is truthy
+        raw_shift = rule.get("shift_boundaries", {})
+        shift_boundaries = self._get_shift_definitions(rule) if raw_shift else raw_shift
 
         if df.empty or not column_groups:
             return pd.DataFrame()
@@ -2384,30 +2623,36 @@ class ContractAdapter:
         logger.info("WINDOW_DIFF applied: %d intervals from %d machine groups", len(result), len(column_groups))
         return result
 
-    @staticmethod
-    def _make_interval_row(machine_name, start_ts, end_ts, duration_sec, shift_boundaries):
-        """Create a single interval row dict."""
-        # Format times
+    def _make_interval_row(self, machine_name, start_ts, end_ts, duration_sec, shift_boundaries):
+        """Create a single interval row dict.
+
+        ``shift_boundaries`` can be a list of shift defs (from contract options)
+        or a truthy dict/bool to use the class-level default shifts.
+        """
         run_date = start_ts.strftime("%Y-%m-%d")
         start_time = start_ts.strftime("%H:%M:%S")
         end_time = end_ts.strftime("%H:%M:%S")
 
-        # Format total_time as HH:MM:SS
         hours = duration_sec // 3600
         minutes = (duration_sec % 3600) // 60
         seconds = duration_sec % 60
         total_time = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
-        # Determine shift number based on start_time hour
+        # Determine shift number using configurable shift definitions
         shift_no = ""
         start_hour = start_ts.hour
         if shift_boundaries:
-            if 6 <= start_hour < 14:
-                shift_no = "1"
-            elif 14 <= start_hour < 22:
-                shift_no = "2"
-            else:
-                shift_no = "3"
+            shifts = shift_boundaries if isinstance(shift_boundaries, list) else self._get_shift_definitions({})
+            for i, sd in enumerate(shifts):
+                s, e, wrap = sd["start"], sd["end"], sd.get("wrap", False)
+                if wrap:
+                    if start_hour >= s or start_hour < e:
+                        shift_no = str(i + 1)
+                        break
+                else:
+                    if s <= start_hour < e:
+                        shift_no = str(i + 1)
+                        break
 
         return {
             "machine_name": machine_name,
@@ -2913,13 +3158,13 @@ class RenderStrategy:
             html_to_docx = html_file_to_docx
         return html_to_docx(html_path, dest_tmp, landscape=landscape, body_font_scale=font_scale)
 
-    def render_xlsx(self, html_path: Path, dest_tmp: Path) -> Optional[Path]:
+    def render_xlsx(self, html_path: Path, dest_tmp: Path, style: dict | None = None) -> Optional[Path]:
         try:
             api_mod = importlib.import_module("backend.api")
             html_to_xlsx = getattr(api_mod, "html_file_to_xlsx", html_file_to_xlsx)
         except Exception:
             html_to_xlsx = html_file_to_xlsx
-        return html_to_xlsx(html_path, dest_tmp)
+        return html_to_xlsx(html_path, dest_tmp, style=style)
 
 
 class NotificationStrategy:
@@ -8671,8 +8916,15 @@ def _parse_html_to_rows(html_text: str):
 # xlsxwriter-based export (streaming, constant memory)
 # ---------------------------------------------------------------------------
 
-def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optional[Path]:
-    """Export HTML to XLSX using xlsxwriter (streaming writer, constant memory)."""
+def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path, style: dict | None = None) -> Optional[Path]:
+    """Export HTML to XLSX using xlsxwriter (streaming writer, constant memory).
+
+    ``style`` is an optional dict of color/size overrides from the contract
+    ``options.excel_style`` block.  Supported keys: ``title_bg``, ``preface_bg``,
+    ``header_bg``, ``header_font_color``, ``border_color``,
+    ``col_width_min``, ``col_width_max``.
+    """
+    style = style or {}
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
 
@@ -8692,6 +8944,13 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     wb = _xlsxwriter.Workbook(str(output_path), {"constant_memory": False})
     ws = wb.add_worksheet("Report")
 
+    # Configurable colors (with backward-compatible defaults)
+    _title_bg = style.get("title_bg", "#BDD7EE")
+    _preface_bg = style.get("preface_bg", "#D9E1F2")
+    _header_bg = style.get("header_bg", "#2F75B5")
+    _header_font = style.get("header_font_color", "#FFFFFF")
+    _border_color = style.get("border_color", "#C0C0C0")
+
     # Pre-define format objects (xlsxwriter requires this)
     fmt_default = wb.add_format({
         "text_wrap": True,
@@ -8707,7 +8966,7 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     fmt_title = wb.add_format({
         "bold": True,
         "font_size": 14,
-        "bg_color": "#BDD7EE",
+        "bg_color": _title_bg,
         "text_wrap": True,
         "valign": "vcenter",
         "align": "center",
@@ -8715,22 +8974,22 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
     fmt_preface = wb.add_format({
         "bold": True,
         "font_size": 11,
-        "bg_color": "#D9E1F2",
+        "bg_color": _preface_bg,
         "text_wrap": True,
         "valign": "vcenter",
         "align": "center",
     })
     fmt_data_header = wb.add_format({
         "bold": True,
-        "font_color": "#FFFFFF",
-        "bg_color": "#2F75B5",
+        "font_color": _header_font,
+        "bg_color": _header_bg,
         "text_wrap": True,
         "valign": "vcenter",
         "align": "center",
     })
     fmt_border = wb.add_format({
         "border": 1,
-        "border_color": "#C0C0C0",
+        "border_color": _border_color,
         "text_wrap": True,
         "valign": "top",
         "align": "left",
@@ -8782,9 +9041,11 @@ def _html_file_to_xlsx_xlsxwriter(html_path: Path, output_path: Path) -> Optiona
             if text_len > old:
                 col_widths[c_idx] = text_len
 
-    # Set column widths
+    # Set column widths (configurable min/max)
+    _cw_min = int(style.get("col_width_min", 12))
+    _cw_max = int(style.get("col_width_max", 120))
     for c_idx, max_len in col_widths.items():
-        width = min(120, max(12, max_len + 2))
+        width = min(_cw_max, max(_cw_min, max_len + 2))
         ws.set_column(c_idx, c_idx, width)
 
     # Freeze panes
@@ -8849,7 +9110,7 @@ def _auto_column_widths(worksheet) -> None:
         worksheet.column_dimensions[letter].width = width
 
 
-def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[Path]:
+def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path, style: dict | None = None) -> Optional[Path]:
     """Export HTML to XLSX using openpyxl (in-memory — may OOM on large reports)."""
     html_text = html_path.read_text(encoding="utf-8", errors="ignore")
     rows, data_row_positions, preface_ranges, data_header_row_idx = _parse_html_to_rows(html_text)
@@ -8893,8 +9154,9 @@ def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[
         and sheet_width > 0
         and preface_ranges
     ):
-        header_fill = PatternFill("solid", fgColor="D9E1F2")
-        title_fill = PatternFill("solid", fgColor="BDD7EE")
+        _s = style or {}
+        header_fill = PatternFill("solid", fgColor=_s.get("preface_bg", "#D9E1F2").lstrip("#"))
+        title_fill = PatternFill("solid", fgColor=_s.get("title_bg", "#BDD7EE").lstrip("#"))
         first_preface_row = preface_ranges[0][0]
         for start_idx, end_idx in preface_ranges:
             for row_idx in range(start_idx, end_idx + 1):
@@ -8920,11 +9182,13 @@ def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[
         and data_header_row_idx is not None
         and data_max_cols > 0
     ):
-        data_header_fill = PatternFill("solid", fgColor="2F75B5")
+        _s2 = style or {}
+        data_header_fill = PatternFill("solid", fgColor=_s2.get("header_bg", "#2F75B5").lstrip("#"))
+        _hdr_font_color = _s2.get("header_font_color", "#FFFFFF").lstrip("#")
         for col_idx in range(1, data_max_cols + 1):
             cell = ws.cell(row=data_header_row_idx, column=col_idx)
             cell.fill = data_header_fill
-            cell.font = Font(color="FFFFFF", bold=True)
+            cell.font = Font(color=_hdr_font_color, bold=True)
             cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
     if Border is not None and Side is not None:
@@ -9000,17 +9264,20 @@ def _html_file_to_xlsx_openpyxl(html_path: Path, output_path: Path) -> Optional[
 # Public API
 # ---------------------------------------------------------------------------
 
-def html_file_to_xlsx(html_path: Path, output_path: Path) -> Optional[Path]:
+def html_file_to_xlsx(html_path: Path, output_path: Path, style: dict | None = None) -> Optional[Path]:
     """Convert an HTML report file to XLSX.
 
     Uses xlsxwriter (streaming, constant memory) when available.
     Falls back to openpyxl if xlsxwriter is not installed.
+
+    ``style`` is an optional dict of color/size overrides from the contract
+    ``options.excel_style`` block.
     """
     if _xlsxwriter is not None:
-        return _html_file_to_xlsx_xlsxwriter(html_path, output_path)
+        return _html_file_to_xlsx_xlsxwriter(html_path, output_path, style=style)
     if _openpyxl is not None:
         logger.info("xlsx_export_using_openpyxl_fallback")
-        return _html_file_to_xlsx_openpyxl(html_path, output_path)
+        return _html_file_to_xlsx_openpyxl(html_path, output_path, style=style)
     logger.warning(
         "xlsx_export_unavailable",
         extra={

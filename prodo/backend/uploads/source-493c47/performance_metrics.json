@@ -1,0 +1,1 @@
+[{"step": "validate_pipeline", "durationMs": 1776, "queryCount": 1}, {"step": "dry_run_preview", "durationMs": 1830, "queryCount": 1}, {"step": "generate_report", "durationMs": 2, "queryCount": 1}, {"step": "generate_report", "durationMs": 112, "queryCount": 1}]

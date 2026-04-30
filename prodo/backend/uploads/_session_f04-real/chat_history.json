@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this invoice PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "I see the directory is empty. The PDF file needs to be uploaded to the template directory first. Could you please upload the invoice PDF file again? Make sure it's in the correct location so I can process it.\n\nAlternatively, if you've already uploaded it, could you confirm the filename? Sometimes files get uploaded with different names or to different locations."
+  }
+]

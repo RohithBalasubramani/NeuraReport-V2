@@ -1,0 +1,23 @@
+{
+  "header": [
+    "bill_to_client",
+    "bill_to_address",
+    "ship_to_client",
+    "ship_to_address",
+    "invoice_number",
+    "invoice_date",
+    "due_date",
+    "customer_message",
+    "subtotal",
+    "sales_tax",
+    "total"
+  ],
+  "rows": [
+    "row_item_service",
+    "row_description",
+    "row_quantity_hrs",
+    "row_rate",
+    "row_amount"
+  ],
+  "totals": []
+}

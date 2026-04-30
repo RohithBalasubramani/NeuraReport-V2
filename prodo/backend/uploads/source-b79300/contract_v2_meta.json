@@ -1,0 +1,168 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "f43ec0f45174f7b5ad1f7234d67dd16e373964da0ae8094e5cd616b330f59419",
+  "db_signature": "f1f6a4d420d8bda2f34f8b434d77f838720689208e1ed19ddee904d55d1849d6",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777463829,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "report_title",
+        "batch_num",
+        "start_time",
+        "end_time"
+      ],
+      "row_tokens": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "totals": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "mapping": {
+      "plant_name": "PARAM:plant_name",
+      "location": "PARAM:location",
+      "print_date": "PARAM:print_date",
+      "from_date": "recipes.start_time",
+      "to_date": "recipes.end_time",
+      "batch_no": "recipes.id",
+      "report_title": "PARAM:report_title",
+      "batch_num": "recipes.id",
+      "start_time": "recipes.start_time",
+      "end_time": "recipes.end_time"
+    },
+    "unresolved": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct",
+      "total_set_wt_kg",
+      "total_ach_wt_kg",
+      "total_error_kg",
+      "total_error_pct"
+    ],
+    "join": {
+      "parent_table": "recipes",
+      "parent_key": "id",
+      "child_table": "recipes",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "recipes": "start_time"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "recipes.start_time",
+        "date_to": "recipes.end_time"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Melt 12 bin columns into long format rows",
+        "strategy": "MELT",
+        "columns": [],
+        "order_by": []
+      }
+    ],
+    "row_computed": {
+      "start_time": {
+        "op": "format_date",
+        "column": "recipes.start_time",
+        "format": "%d-%m-%Y %H:%M:%S"
+      },
+      "end_time": {
+        "op": "format_date",
+        "column": "recipes.end_time",
+        "format": "%d-%m-%Y %H:%M:%S"
+      }
+    },
+    "totals_math": {},
+    "totals": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "mean",
+        "column": "row_error_pct"
+      }
+    },
+    "formatters": {
+      "row_set_wt_kg": "number(2)",
+      "row_ach_wt_kg": "number(2)",
+      "row_error_kg": "number(2)",
+      "row_error_pct": "percent(2)",
+      "total_set_wt_kg": "number(2)",
+      "total_ach_wt_kg": "number(2)",
+      "total_error_kg": "number(2)",
+      "total_error_pct": "percent(2)",
+      "from_date": "number(2)",
+      "to_date": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "recipes.id ASC",
+        "row_sl_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "plant_name",
+      "location",
+      "print_date",
+      "from_date",
+      "to_date",
+      "batch_no",
+      "report_title",
+      "batch_num",
+      "start_time",
+      "end_time"
+    ],
+    "row_tokens": [],
+    "row_order": [
+      "recipes.id ASC",
+      "row_sl_no ASC"
+    ],
+    "literals": {},
+    "notes": "The 'row_sl_no' is a generated index within the batch context. The 'batch_num' and 'batch_no' are mapped to the recipe ID to group rows. The reshape rule handles the 12 bins.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

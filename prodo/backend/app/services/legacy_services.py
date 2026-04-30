@@ -4409,15 +4409,26 @@ def _mapping_preview_pipeline(
                 tables_from_catalog.setdefault(tbl, []).append(col)
         if tables_from_catalog:
             all_tables = sorted(tables_from_catalog.keys())
-            first_table = all_tables[0]
-            first_cols = tables_from_catalog[first_table]
+            # Use ALL columns across all tables — not just the first table
+            all_cols = []
+            for t in all_tables:
+                all_cols.extend(tables_from_catalog[t])
+            all_cols = sorted(set(all_cols))
+            # Pick the table with the most columns as primary
+            primary_table = max(all_tables, key=lambda t: len(tables_from_catalog[t]))
+            primary_cols = tables_from_catalog[primary_table]
             schema_info = {
-                "child table": first_table,
-                "parent table": first_table,
-                "child_columns": first_cols,
-                "parent_columns": first_cols,
-                "common_names": first_cols,
+                "child table": primary_table,
+                "parent table": primary_table,
+                "child_columns": primary_cols,
+                "parent_columns": all_cols,
+                "common_names": all_cols,
             }
+            logger.info("schema_probe_fallback_all_tables", extra={
+                "tables": all_tables,
+                "primary": primary_table,
+                "total_cols": len(all_cols),
+            })
         else:
             schema_info = {
                 "child table": "",
@@ -6328,7 +6339,8 @@ def _run_report_internal(
                     job_tracker.step_running("renderXlsx", label="Render XLSX")
                 xlsx_error: str | None = None
                 try:
-                    xlsx_tmp_result = render_strategy.render_xlsx(out_html, tmp_xlsx)
+                    _excel_style = (contract_data.get("options") or {}).get("excel_style")
+                    xlsx_tmp_result = render_strategy.render_xlsx(out_html, tmp_xlsx, style=_excel_style)
                 except Exception as exc:
                     with contextlib.suppress(FileNotFoundError):
                         tmp_xlsx.unlink(missing_ok=True)

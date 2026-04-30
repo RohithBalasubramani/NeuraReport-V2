@@ -1,0 +1,355 @@
+
+
+
+    <meta charset="UTF-8">
+    <title>Invoice Template</title>
+    <style>
+        :root {
+            --primary-color: #333333;
+            --secondary-color: #666666;
+            --bg-grey: #f4f4f4;
+            --border-color: #e0e0e0;
+            --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --col-item-width: 15%;
+            --col-desc-width: 35%;
+            --col-qty-width: 15%;
+            --col-rate-width: 15%;
+            --col-amt-width: 20%;
+        }
+
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--primary-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .header-left {
+            width: 60%;
+        }
+
+        .logo-placeholder {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        .logo-placeholder strong {
+            font-weight: 700;
+            font-size: 48px;
+            display: block;
+            letter-spacing: -1px;
+        }
+
+        .company-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .company-details {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        h1.invoice-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        .contact-info p {
+            margin: 2px 0;
+        }
+
+        .contact-info strong {
+            font-weight: 700;
+            margin-right: 5px;
+        }
+
+        /* Info Block (Bill To, Ship To, Details) */
+        .info-block {
+            background-color: var(--bg-grey);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .info-col {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .info-col h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .info-col p {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+
+        .details-row {
+            display: flex;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .details-row strong {
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        /* Table Section */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            table-layout: fixed;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 10px 5px;
+            font-size: 16px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody td {
+            padding: 12px 5px;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        /* Column Widths */
+        th:nth-child(1), td:nth-child(1) { width: var(--col-item-width); }
+        th:nth-child(2), td:nth-child(2) { width: var(--col-desc-width); }
+        th:nth-child(3), td:nth-child(3) { width: var(--col-qty-width); text-align: left; }
+        th:nth-child(4), td:nth-child(4) { width: var(--col-rate-width); text-align: right; }
+        th:nth-child(5), td:nth-child(5) { width: var(--col-amt-width); text-align: right; }
+
+        /* Totals Section */
+        .totals-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .customer-message {
+            width: 50%;
+        }
+
+        .customer-message h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        .customer-message p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .totals-container {
+            width: 40%;
+            text-align: right;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .total-row strong {
+            font-weight: 700;
+        }
+
+        .total-row.final {
+            margin-top: 20px;
+            border-top: 2px solid var(--primary-color);
+            padding-top: 10px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--secondary-color);
+        }
+
+        .quickbooks-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #008060; /* QuickBooks Green approx */
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .qb-icon {
+            background: #008060;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .footer-text {
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+
+
+
+    <div class="container">
+        <header id="report-header">
+            <div class="header-left">
+                <div class="logo-placeholder">
+                    Replace with<br><strong>LOGO</strong>
+                </div>
+                <div class="company-name">{company_name}</div>
+                <div class="company-details">
+                    <div>{company_address_line1}</div>
+                    <div>{company_address_line2}</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <h1 class="invoice-title">Invoice</h1>
+                <div class="contact-info">
+                    <p><strong>Phone #</strong> {phone}</p>
+                    <p><strong>Email</strong> {email}</p>
+                    <p><strong>Website</strong> {website}</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="info-block">
+            <div class="info-col">
+                <h3>Bill to</h3>
+                <p>{bill_to_name}</p>
+                <p>{bill_to_address_line1}</p>
+                <p>{bill_to_address_line2}</p>
+            </div>
+            <div class="info-col">
+                <h3>Ship to</h3>
+                <p>{ship_to_name}</p>
+                <p>{ship_to_address_line1}</p>
+                <p>{ship_to_address_line2}</p>
+            </div>
+            <div class="info-col">
+                <h3>Details</h3>
+                <div class="details-row"><strong>Invoice #</strong> {invoice_number}</div>
+                <div class="details-row"><strong>Invoice date</strong> {invoice_date}</div>
+                <div class="details-row"><strong>Terms</strong> {terms}</div>
+                <div class="details-row"><strong>Due date</strong> {due_date}</div>
+            </div>
+        </div>
+
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th data-label="item_service">Item/ service</th>
+                    <th data-label="description">Description</th>
+                    <th data-label="quantity_hrs">Quantity/ hrs</th>
+                    <th data-label="rate">Rate</th>
+                    <th data-label="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>{row_item_service}</td>
+                    <td>{row_description}</td>
+                    <td>{row_quantity_hrs}</td>
+                    <td style="text-align: right">{row_rate}</td>
+                    <td style="text-align: right">{row_amount}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals-section">
+            <div class="customer-message">
+                <h3>Customer message</h3>
+                <p>{customer_message}</p>
+            </div>
+            <div class="totals-container" id="report-totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span>{subtotal}</span>
+                </div>
+                <div class="total-row">
+                    <span>Sales tax</span>
+                    <span>{sales_tax}</span>
+                </div>
+                <div class="total-row">
+                    <span>Shipping</span>
+                    <span>{shipping}</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total</span>
+                    <span>{total}</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="quickbooks-logo">
+                <span class="qb-icon">qb</span> INTUIT quickbooks®
+            </div>
+            <div class="footer-text">
+                This invoice was generated with the help of QuickBooks Payments.<br>
+                Learn more, and create your own free account by visiting quickbooks.com
+            </div>
+        </footer>
+    </div>
+
+

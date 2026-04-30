@@ -1,0 +1,18 @@
+{
+  "session_id": "f01-final",
+  "pipeline_state": "html_ready",
+  "connection_id": "01a59e23-ac90-4e61-916f-4644a16a4b30",
+  "connection_ids": [
+    "01a59e23-ac90-4e61-916f-4644a16a4b30"
+  ],
+  "completed_stages": [
+    "verify"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": "verify",
+  "workspace_mode": false,
+  "created_at": "2026-04-30T10:15:49.761250+00:00",
+  "updated_at": "2026-04-30T10:21:12.256112+00:00"
+}

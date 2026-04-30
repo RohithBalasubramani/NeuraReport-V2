@@ -15,6 +15,7 @@ import {
   Warning as WarnIcon,
   CloudUpload as UploadIcon,
   Brush as DesignIcon,
+  Storage as DbIcon,
   Cable as ConnectIcon,
   FactCheck as ReviewIcon,
   Description as GenerateIcon,
@@ -25,6 +26,7 @@ import usePipelineStore from '@/stores/pipeline'
 // Step → panel mapping for click navigation
 const STEP_PANELS = {
   upload: 'template',
+  connect: 'upload',
   edit: 'template',
   map: 'mappings',
   validate: 'errors',
@@ -34,6 +36,7 @@ const STEP_PANELS = {
 // Step icons for each phase
 const STEP_ICONS = {
   upload: UploadIcon,
+  connect: DbIcon,
   edit: DesignIcon,
   map: ConnectIcon,
   validate: ReviewIcon,
@@ -43,8 +46,9 @@ const STEP_ICONS = {
 // Tooltip descriptions for each step (layman S4)
 const STEP_DESCRIPTIONS = {
   upload: 'Upload your report PDF or template',
+  connect: 'Select your database connection',
   edit: 'Design and customize your report layout',
-  map: 'Connect template fields to your database',
+  map: 'Map template fields to database columns',
   validate: 'Review data and fix any issues',
   generate: 'Generate final reports from your data',
 }

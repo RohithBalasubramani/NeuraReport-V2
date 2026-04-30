@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "Good, I can see the template has 13 tokens that need to be mapped. The template is a consumption report with batch data. The tokens are:\n- row_ach_wt_kg - achieved weight\n- row_batch_num - batch number\n- row_end_time - batch end time\n- row_error_kg - error in kg\n- row_error_percent - error percentage\n- row_material_name - material name\n- row_set_wt_kg - set weight\n- row_sl_no - serial number\n- row_start_time - batch start time\n- total_ach_wt_kg - total achieved weight\n- total_error_kg - total error\n- total_error_percent - total error percent\n- total_set_wt_kg - total set weight\n\nThe auto_map_tokens failed twice, so I need to ask the user for help. Let me explain what's happening and ask them to provide information about their database structure or try a different approach.\nI can see your template has 13 data fields that need to be connected to your database. The automatic mapping has failed twice, so I need your help to proceed.\n\nYour report template includes these data fields:\n- **Batch information**: batch number, start time, end time\n- **Material rows**: serial number, material name, set weight, achieved weight, error (kg and %)\n- **Totals**: total set weight, total achieved weight, total error (kg and %)\n\nTo help map these correctly, could you tell me:\n1. What table in your database contains the consumption/batch data?\n2. Or, would you like me to inspect your database to see what tables and columns are available?\n\nThis will help me manually connect the right data fields to your database columns."
+  }
+]

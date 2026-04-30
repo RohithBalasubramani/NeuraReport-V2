@@ -1,0 +1,65 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata, vendor details, and client details.",
+      "columns": [
+        "invoice_date",
+        "invoice_number",
+        "from_company_name",
+        "from_email",
+        "from_address_1",
+        "from_address_2",
+        "to_client_name",
+        "to_email",
+        "to_address_1",
+        "to_address_2",
+        "terms",
+        "due_date",
+        "notes_text"
+      ]
+    },
+    "rows": {
+      "description": "Line items associated with the invoice.",
+      "columns": [
+        "row_item_description",
+        "row_quantity",
+        "row_price",
+        "row_amount"
+      ],
+      "grouping": [
+        "invoice_number"
+      ],
+      "ordering": [
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Financial summary of the invoice.",
+      "columns": [
+        "total_subtotal",
+        "total_tax",
+        "total_balance_due"
+      ]
+    }
+  },
+  "semantics": "Scalar tokens represent single values per invoice. Row tokens represent the expanded list of line items. Totals are aggregated values from the invoice header. Parameters are used for filtering the dataset before aggregation.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Concatenate city, state, and postal_code to form the second line of the address for both vendor and client.",
+    "Format issue_date and due_date to 'DD-MM-YYYY HH:MM:SS'.",
+    "Format currency fields (price, amount, totals) to 2 decimal places.",
+    "Format quantity fields to integer or 2 decimal places as appropriate."
+  ]
+}

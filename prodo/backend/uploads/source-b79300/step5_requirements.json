@@ -1,0 +1,68 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata including plant details, date range, and batch identification.",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "report_title",
+        "batch_num",
+        "start_time",
+        "end_time"
+      ]
+    },
+    "rows": {
+      "description": "Detailed consumption records for each bin within a batch, showing set vs actual weights and calculated errors.",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [
+        "batch_num"
+      ],
+      "ordering": [
+        "batch_num ASC",
+        "row_sl_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated totals for the current batch.",
+      "columns": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    }
+  },
+  "semantics": "The `from_date` and `to_date` tokens act as filters on the `recipes` table. All other scalar tokens are either static constants or computed values derived from the row data (e.g., batch number). Row tokens are derived from reshaping wide columns.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Melt the 12 bin columns (content, sp, act) from the 'recipes' table into a long format.",
+    "Calculate row-level error as (Actual - Set).",
+    "Calculate row-level error percentage as ((Actual - Set) / Set) * 100.",
+    "Format timestamps to 'dd-mm-yyyy hh:mm:ss'.",
+    "Format all numeric values to 2 decimal places.",
+    "Generate serial numbers for each row within a batch."
+  ]
+}

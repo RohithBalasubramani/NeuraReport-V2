@@ -1,0 +1,29 @@
+{
+  "scalars": [
+    "company_name_placeholder",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "invoice_date",
+    "invoice_no",
+    "payment_terms",
+    "bill_to_name_dept",
+    "bill_to_client_company",
+    "bill_to_address",
+    "bill_to_phone",
+    "payment_payable_to",
+    "venmo_account",
+    "paypal_account"
+  ],
+  "row_tokens": [],
+  "totals": [
+    "total_subtotal",
+    "total_discount",
+    "total_subtotal_less_discount",
+    "total_tax_rate",
+    "total_tax",
+    "total_shipping",
+    "total_balance_due"
+  ],
+  "notes": "Schema inferred from visual structure. Row tokens omitted as table data is static in the template example, but structure supports dynamic rows if needed. Totals are extracted from the summary section."
+}

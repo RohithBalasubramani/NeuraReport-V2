@@ -1,0 +1,501 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Invoice INV-17</title>
+    <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #888;
+            --accent-color: #69b87d;
+            --table-header-bg: #3f3f3f;
+            --table-text-color: #fff;
+            --border-color: #e0e0e0;
+            --highlight-bg: #f9f9f9;
+            --text-red: #d93025;
+            --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--primary-color);
+            background-color: #fff;
+            line-height: 1.4;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            position: relative;
+            padding: 15mm 20mm;
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+
+        .company-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .company-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .company-address {
+            color: var(--secondary-color);
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .invoice-header-right {
+            text-align: right;
+        }
+
+        .invoice-title {
+            font-size: 64px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            color: #000;
+            letter-spacing: -1px;
+        }
+
+        .invoice-number {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        .balance-due-header {
+            font-size: 16px;
+            color: var(--secondary-color);
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .bill-to {
+            width: 40%;
+        }
+
+        .bill-to-label {
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin-bottom: 6px;
+        }
+
+        .bill-to-content {
+            font-size: 18px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .invoice-details {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .detail-label {
+            color: var(--secondary-color);
+            margin-right: 20px;
+            text-align: right;
+            min-width: 140px;
+        }
+
+        .detail-value {
+            text-align: right;
+            color: #333;
+        }
+
+        /* Table Section */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed;
+        }
+
+        thead {
+            background-color: var(--table-header-bg);
+            color: var(--table-text-color);
+        }
+
+        th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 400;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* Column Widths */
+        th:nth-child(1), td:nth-child(1) { width: 5%; text-align: center; font-weight: 500; }
+        th:nth-child(2), td:nth-child(2) { width: 40%; }
+        th:nth-child(3), td:nth-child(3) { width: 10%; text-align: right; }
+        th:nth-child(4), td:nth-child(4) { width: 15%; text-align: right; }
+        th:nth-child(5), td:nth-child(5) { width: 15%; text-align: right; }
+        th:nth-child(6), td:nth-child(6) { width: 15%; text-align: right; }
+
+        .item-desc {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 17px;
+        }
+
+        .item-subdesc {
+            color: var(--secondary-color);
+            font-size: 16px;
+            display: block;
+        }
+
+        /* Totals Section */
+        .totals-section {
+            width: 55%;
+            margin-left: auto;
+            margin-bottom: 60px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+
+        .total-label {
+            text-align: right;
+            font-weight: 400;
+        }
+
+        .total-value {
+            text-align: right;
+            font-weight: 400;
+        }
+
+        .grand-total {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid transparent;
+        }
+
+        .payment-made {
+            color: var(--text-red);
+            margin-top: 10px;
+        }
+
+        .balance-due-row {
+            background-color: var(--highlight-bg);
+            padding: 15px 20px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 2px;
+        }
+
+        /* Footer Section */
+        .footer-section {
+            margin-top: 40px;
+        }
+
+        .footer-label {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .footer-content {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .payment-options {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .paypal-logo {
+            height: 24px;
+            margin-left: 15px;
+            background: #fff;
+            padding: 2px 6px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            color: #003087;
+            font-style: italic;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-icon {
+            height: 24px;
+            margin-left: 15px;
+            background: #333;
+            width: 36px;
+            border-radius: 2px;
+            position: relative;
+        }
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; height: 2px; background: #fff;
+        }
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 4px; width: 12px; height: 2px; background: #fff;
+        }
+
+        .bottom-footer {
+            position: absolute;
+            bottom: 10mm;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .zoho-logo {
+            display: inline-block;
+            height: 20px;
+            margin: 0 4px;
+            vertical-align: middle;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 18px;
+            letter-spacing: -1px;
+        }
+        .z-z { color: #ff4d4d; }
+        .z-o { color: #2ecc71; }
+        .z-h { color: #3498db; }
+        .z-o2 { color: #f7941d; }
+
+    </style>
+
+
+    <div class="page-container">
+        <header>
+            <div class="company-info">
+                <div class="logo">
+                    <svg>
+                        
+                    </svg>
+                </div>
+                <div class="company-name">Zylker</div>
+                <div class="company-address">
+                    4141 Hacienda Dr<br>
+                    Pleasanton  California 94588<br>
+                    U.S.A
+                </div>
+            </div>
+            <div class="invoice-header-right">
+                <div class="invoice-title">Invoice</div>
+                <div class="invoice-number">Invoice# INV-202-00001</div>
+                <div class="balance-due-header">Balance Due</div>
+                <div class="balance-amount">12978.36</div>
+            </div>
+        </header>
+
+        <section class="info-section">
+            <div class="bill-to">
+                <div class="bill-to-label">Bill To</div>
+                <div class="bill-to-content">
+                    Rob &amp; Joe Traders<br>
+                    2708 Southside Lane<br>
+                    Los Angeles<br>
+                    90018 CA<br>
+                    USA
+                </div>
+            </div>
+            <div class="invoice-details">
+                <div class="detail-row">
+                    <span class="detail-label">Invoice Date :</span>
+                    <span class="detail-value">2025-08-04</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Terms :</span>
+                    <span class="detail-value">Thank you for your business.</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Due Date :</span>
+                    <span class="detail-value">2025-09-03</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">P.O.# :</span>
+                    <span class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Project Name :</span>
+                    <span class="detail-value"></span>
+                </div>
+            </div>
+        </section>
+
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th data-label="#">#</th>
+                    <th data-label="item_description">Item &amp; Description</th>
+                    <th data-label="qty">Qty</th>
+                    <th data-label="rate">Rate</th>
+                    <th data-label="discount">Discount</th>
+                    <th data-label="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <span class="item-desc">Brochure Design</span>
+                        <span class="item-subdesc">Brochure Design Single Sided Color</span>
+                    </td>
+                    <td>1.00</td>
+                    <td>300.000</td>
+                    <td>0.00</td>
+                    <td>300.000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <span class="item-desc">Web Design Packages(Template) - Basic</span>
+                        <span class="item-subdesc">Custom Themes for your business. Inclusive of 10 hours of marketing and annual training</span>
+                    </td>
+                    <td>1.00</td>
+                    <td>250.000</td>
+                    <td>0.00</td>
+                    <td>250.000</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <span class="item-desc">Print Ad - Basic - Color</span>
+                        <span class="item-subdesc">Print Ad 1/8 size Color</span>
+                    </td>
+                    <td>1.00</td>
+                    <td>80.000</td>
+                    <td>0.00</td>
+                    <td>80.000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">Sub Total</span>
+                <span class="total-value">12233.93</span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">Sample Tax1 (4.70%)</span>
+                <span class="total-value"></span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">Sample Tax2 (7.00%)</span>
+                <span class="total-value"></span>
+            </div>
+            <div class="total-row grand-total">
+                <span class="total-label">Total</span>
+                <span class="total-value">12978.36</span>
+            </div>
+            <div class="total-row payment-made">
+                <span class="total-label">Payment Made</span>
+                <span class="total-value">12978.36</span>
+            </div>
+            <div class="total-row balance-due-row">
+                <span class="total-label">Balance Due</span>
+                <span class="total-value">12978.36</span>
+            </div>
+        </div>
+
+        <section class="footer-section">
+            <div class="footer-label">Notes</div>
+            <div class="footer-content">
+                Thanks for your business.
+            </div>
+
+            <div class="payment-options">
+                <span class="footer-label" style="font-size:18px">Payment Options</span>
+                <div class="paypal-logo">PayPal</div>
+                <div class="card-icon"></div>
+            </div>
+
+            <div class="footer-label">Terms &amp; Conditions</div>
+            <div class="footer-content">
+                Please pay the Invoice before the due date.
+            </div>
+        </section>
+
+        <div class="bottom-footer">
+            This sample invoice template was created using <span class="zoho-logo"><span class="z-z">Z</span><span class="z-o">o</span><span class="z-h">h</span><span class="z-o2">o</span></span> Invoice
+        </div>
+    </div>
+

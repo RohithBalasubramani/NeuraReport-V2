@@ -1,0 +1,3095 @@
+
+
+
+<meta charset="UTF-8">
+<style>
+    :root {
+        --font-main: Arial, sans-serif;
+        --font-size: 12px;
+        --border-color: #000000;
+        --border-width: 1px;
+    }
+
+    body {
+        font-family: var(--font-main);
+        font-size: var(--font-size);
+        margin: 0;
+        padding: 10mm;
+        background-color: white;
+        color: black;
+    }
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    /* Header Layout */
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .header-column {
+        width: 45%;
+    }
+
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        width: 100%;
+    }
+
+    .header-label {
+        font-weight: bold;
+        padding-right: 5px;
+    }
+
+    .header-value {
+        text-align: left;
+    }
+
+    .report-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0 20px 0;
+    }
+
+    /* Table Styles */
+    .batch-block {
+        margin-bottom: 15px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: var(--border-width) solid var(--border-color);
+        table-layout: fixed;
+    }
+
+    th, td {
+        border: var(--border-width) solid var(--border-color);
+        padding: 4px 6px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Batch Header Row */
+    .batch-header-row {
+        font-weight: bold;
+        background-color: #f9f9f9;
+    }
+    
+    .batch-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    /* Column Widths */
+    .col-sl { width: 8%; }
+    .col-name { width: 25%; text-align: left; padding-left: 8px; }
+    .col-set { width: 15%; text-align: right; }
+    .col-ach { width: 15%; text-align: right; }
+    .col-err { width: 15%; text-align: right; }
+    .col-pct { width: 15%; text-align: right; }
+
+    /* Total Row */
+    .total-row td {
+        font-weight: bold;
+    }
+    
+    .total-label {
+        text-align: left;
+        padding-left: 8px;
+    }
+
+</style>
+
+
+
+    <div id="report-header" class="header-container">
+        <div class="header-column">
+            <div class="header-row">
+                <span class="header-label">Plant name</span>
+                <span class="header-value">: </span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Location</span>
+                <span class="header-value">: </span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Print Date</span>
+                <span class="header-value">: 30/04/2026</span>
+            </div>
+        </div>
+        <div class="header-column">
+            <div class="header-row">
+                <span class="header-label">From</span>
+                <span class="header-value">: 30/05/2025</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">To</span>
+                <span class="header-value">: 31/05/2025</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Batch No</span>
+                <span class="header-value">: </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-title"></div>
+
+    <div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>1</span>
+                        <span>2025-05-30 08:00:00</span>
+                        <span>2025-05-30 08:30:00</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">M1</td>
+                    <td class="col-set">92.00</td>
+                    <td class="col-ach">89.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">M2</td>
+                    <td class="col-set">118.00</td>
+                    <td class="col-ach">118.00</td>
+                    <td class="col-err">0.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">M3</td>
+                    <td class="col-set">87.00</td>
+                    <td class="col-ach">82.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">M4</td>
+                    <td class="col-set">98.00</td>
+                    <td class="col-ach">98.00</td>
+                    <td class="col-err">0.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">M5</td>
+                    <td class="col-set">123.00</td>
+                    <td class="col-ach">123.00</td>
+                    <td class="col-err">0.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">M6</td>
+                    <td class="col-set">87.00</td>
+                    <td class="col-ach">88.00</td>
+                    <td class="col-err">1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">M7</td>
+                    <td class="col-set">59.00</td>
+                    <td class="col-ach">58.00</td>
+                    <td class="col-err">-1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">M8</td>
+                    <td class="col-set">89.00</td>
+                    <td class="col-ach">91.00</td>
+                    <td class="col-err">2.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">9</td>
+                    <td class="col-name">M9</td>
+                    <td class="col-set">107.00</td>
+                    <td class="col-ach">103.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">10</td>
+                    <td class="col-name">M10</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">57.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">11</td>
+                    <td class="col-name">M11</td>
+                    <td class="col-set">71.00</td>
+                    <td class="col-ach">67.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">12</td>
+                    <td class="col-name">M12</td>
+                    <td class="col-set">129.00</td>
+                    <td class="col-ach">126.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>2</span>
+                        <span>2025-05-30 09:00:00</span>
+                        <span>2025-05-30 09:30:00</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">M1</td>
+                    <td class="col-set">64.00</td>
+                    <td class="col-ach">67.00</td>
+                    <td class="col-err">3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">M2</td>
+                    <td class="col-set">130.00</td>
+                    <td class="col-ach">126.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">M3</td>
+                    <td class="col-set">133.00</td>
+                    <td class="col-ach">137.00</td>
+                    <td class="col-err">4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">M4</td>
+                    <td class="col-set">146.00</td>
+                    <td class="col-ach">143.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">M5</td>
+                    <td class="col-set">104.00</td>
+                    <td class="col-ach">105.00</td>
+                    <td class="col-err">1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">M6</td>
+                    <td class="col-set">133.00</td>
+                    <td class="col-ach">138.00</td>
+                    <td class="col-err">5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">M7</td>
+                    <td class="col-set">146.00</td>
+                    <td class="col-ach">141.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">M8</td>
+                    <td class="col-set">141.00</td>
+                    <td class="col-ach">142.00</td>
+                    <td class="col-err">1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">9</td>
+                    <td class="col-name">M9</td>
+                    <td class="col-set">149.00</td>
+                    <td class="col-ach">150.00</td>
+                    <td class="col-err">1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">10</td>
+                    <td class="col-name">M10</td>
+                    <td class="col-set">87.00</td>
+                    <td class="col-ach">91.00</td>
+                    <td class="col-err">4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">11</td>
+                    <td class="col-name">M11</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">59.00</td>
+                    <td class="col-err">-1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">12</td>
+                    <td class="col-name">M12</td>
+                    <td class="col-set">70.00</td>
+                    <td class="col-ach">71.00</td>
+                    <td class="col-err">1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>3</span>
+                        <span>2025-05-30 10:00:00</span>
+                        <span>2025-05-30 10:30:00</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">M1</td>
+                    <td class="col-set">141.00</td>
+                    <td class="col-ach">139.00</td>
+                    <td class="col-err">-2.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">M2</td>
+                    <td class="col-set">58.00</td>
+                    <td class="col-ach">54.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">M3</td>
+                    <td class="col-set">107.00</td>
+                    <td class="col-ach">106.00</td>
+                    <td class="col-err">-1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">M4</td>
+                    <td class="col-set">96.00</td>
+                    <td class="col-ach">101.00</td>
+                    <td class="col-err">5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">M5</td>
+                    <td class="col-set">52.00</td>
+                    <td class="col-ach">56.00</td>
+                    <td class="col-err">4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">M6</td>
+                    <td class="col-set">144.00</td>
+                    <td class="col-ach">143.00</td>
+                    <td class="col-err">-1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">M7</td>
+                    <td class="col-set">115.00</td>
+                    <td class="col-ach">112.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">M8</td>
+                    <td class="col-set">145.00</td>
+                    <td class="col-ach">149.00</td>
+                    <td class="col-err">4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">9</td>
+                    <td class="col-name">M9</td>
+                    <td class="col-set">104.00</td>
+                    <td class="col-ach">101.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">10</td>
+                    <td class="col-name">M10</td>
+                    <td class="col-set">127.00</td>
+                    <td class="col-ach">123.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">11</td>
+                    <td class="col-name">M11</td>
+                    <td class="col-set">76.00</td>
+                    <td class="col-ach">74.00</td>
+                    <td class="col-err">-2.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">12</td>
+                    <td class="col-name">M12</td>
+                    <td class="col-set">107.00</td>
+                    <td class="col-ach">106.00</td>
+                    <td class="col-err">-1.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-2.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>6</span>
+                        <span>2025-05-30 20:09:52</span>
+                        <span>2025-05-30 20:10:21</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">90.00</td>
+                    <td class="col-ach">85.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RG 45%</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">145.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">DOB</td>
+                    <td class="col-set">343.00</td>
+                    <td class="col-ach">338.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>7</span>
+                        <span>2025-05-30 21:38:21</span>
+                        <span>2025-05-30 21:38:27</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">90.00</td>
+                    <td class="col-ach">85.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RG 45%</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">145.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">DOB</td>
+                    <td class="col-set">343.00</td>
+                    <td class="col-ach">338.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>8</span>
+                        <span>2025-05-31 01:41:56</span>
+                        <span>2025-05-31 01:42:32</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>9</span>
+                        <span>2025-05-31 02:19:13</span>
+                        <span>2025-05-31 02:23:21</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">96.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>10</span>
+                        <span>2025-05-31 02:38:37</span>
+                        <span>2025-05-31 02:42:44</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">291.00</td>
+                    <td class="col-err">-9.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-9.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>11</span>
+                        <span>2025-05-31 03:00:23</span>
+                        <span>2025-05-31 03:04:31</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>12</span>
+                        <span>2025-05-31 03:21:16</span>
+                        <span>2025-05-31 03:25:21</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>13</span>
+                        <span>2025-05-31 03:42:25</span>
+                        <span>2025-05-31 03:46:30</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>14</span>
+                        <span>2025-05-31 04:03:09</span>
+                        <span>2025-05-31 04:07:16</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>15</span>
+                        <span>2025-05-31 04:30:09</span>
+                        <span>2025-05-31 04:34:20</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">290.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">197.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>16</span>
+                        <span>2025-05-31 08:47:07</span>
+                        <span>2025-05-31 08:51:21</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">269.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>17</span>
+                        <span>2025-05-31 08:58:20</span>
+                        <span>2025-05-31 09:02:31</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">269.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>18</span>
+                        <span>2025-05-31 10:13:44</span>
+                        <span>2025-05-31 10:17:54</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">269.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>19</span>
+                        <span>2025-05-31 10:34:15</span>
+                        <span>2025-05-31 10:38:24</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">270.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>20</span>
+                        <span>2025-05-31 11:00:34</span>
+                        <span>2025-05-31 11:04:44</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">269.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">46.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>21</span>
+                        <span>2025-05-31 11:24:39</span>
+                        <span>2025-05-31 11:28:51</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">274.00</td>
+                    <td class="col-ach">269.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">60.00</td>
+                    <td class="col-ach">55.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">97.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">7</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">8</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">147.00</td>
+                    <td class="col-err">-3.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>22</span>
+                        <span>2025-05-31 12:36:37</span>
+                        <span>2025-05-31 12:40:23</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">450.00</td>
+                    <td class="col-ach">440.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWN</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">140.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>23</span>
+                        <span>2025-05-31 12:55:07</span>
+                        <span>2025-05-31 12:58:53</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">450.00</td>
+                    <td class="col-ach">440.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWN</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">140.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>24</span>
+                        <span>2025-05-31 13:38:13</span>
+                        <span>2025-05-31 13:41:54</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">450.00</td>
+                    <td class="col-ach">440.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWN</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">140.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>25</span>
+                        <span>2025-05-31 13:58:45</span>
+                        <span>2025-05-31 14:02:29</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">450.00</td>
+                    <td class="col-ach">440.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWN</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">140.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>26</span>
+                        <span>2025-05-31 14:23:24</span>
+                        <span>2025-05-31 14:28:26</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">450.00</td>
+                    <td class="col-ach">440.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">B RICE</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">70.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">R BRAWN</td>
+                    <td class="col-set">150.00</td>
+                    <td class="col-ach">140.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">GNDOC</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">40.00</td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">75.00</td>
+                    <td class="col-ach">69.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-10.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>27</span>
+                        <span>2025-05-31 16:43:19</span>
+                        <span>2025-05-31 17:20:19</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">121.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">94.00</td>
+                    <td class="col-err">-6.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>28</span>
+                        <span>2025-05-31 17:21:36</span>
+                        <span>2025-05-31 17:25:44</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>29</span>
+                        <span>2025-05-31 17:43:20</span>
+                        <span>2025-05-31 17:47:28</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>30</span>
+                        <span>2025-05-31 18:08:57</span>
+                        <span>2025-05-31 18:13:07</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">121.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>31</span>
+                        <span>2025-05-31 18:54:28</span>
+                        <span>2025-05-31 18:58:39</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>32</span>
+                        <span>2025-05-31 19:21:26</span>
+                        <span>2025-05-31 19:25:33</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>33</span>
+                        <span>2025-05-31 19:39:59</span>
+                        <span>2025-05-31 19:44:07</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">121.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>34</span>
+                        <span>2025-05-31 19:59:03</span>
+                        <span>2025-05-31 20:03:10</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>35</span>
+                        <span>2025-05-31 23:15:38</span>
+                        <span>2025-05-31 23:19:45</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">121.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<div class="batch-block">
+        <table>
+            <thead>
+                <tr class="batch-header-row">
+                    <td colspan="6" class="batch-header-content">
+                        <span>36</span>
+                        <span>2025-05-31 23:44:17</span>
+                        <span>2025-05-31 23:48:27</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th data-label="sl_no" class="col-sl">Sl. No.</th>
+                    <th data-label="material_name" class="col-name">Material name</th>
+                    <th data-label="set_wt_kg" class="col-set">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg" class="col-ach">Ach. wt(Kg)</th>
+                    <th data-label="error_kg" class="col-err">Error(Kg)</th>
+                    <th data-label="error_pct" class="col-pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-sl">1</td>
+                    <td class="col-name">SOYA</td>
+                    <td class="col-set">300.00</td>
+                    <td class="col-ach">295.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">2</td>
+                    <td class="col-name">RG 60%</td>
+                    <td class="col-set">125.00</td>
+                    <td class="col-ach">120.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">3</td>
+                    <td class="col-name">R BRAWAN</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">95.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">4</td>
+                    <td class="col-name">RECYCLE P</td>
+                    <td class="col-set">50.00</td>
+                    <td class="col-ach">45.00</td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">5</td>
+                    <td class="col-name">FISH MEAL</td>
+                    <td class="col-set">100.00</td>
+                    <td class="col-ach">93.00</td>
+                    <td class="col-err">-7.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+<tr>
+                    <td class="col-sl">6</td>
+                    <td class="col-name">MAIDA</td>
+                    <td class="col-set">200.00</td>
+                    <td class="col-ach">196.00</td>
+                    <td class="col-err">-4.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total for batch</td>
+                    <td class="col-set"></td>
+                    <td class="col-ach"></td>
+                    <td class="col-err">-5.00</td>
+                    <td class="col-pct"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+

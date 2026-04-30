@@ -1,0 +1,17 @@
+{
+  "scalars": [
+    "Name",
+    "Address",
+    "Phone",
+    "Email",
+    "Payment terms (due on receipt, due in X days)",
+    "Name / Dept",
+    "Client Company Name",
+    "company name",
+    "venmo account",
+    "paypal account"
+  ],
+  "row_tokens": [],
+  "totals": [],
+  "notes": "Schema inferred from PDF_PAGE_TEXT. Placeholders correspond to bracketed text found in the document. No repeating data rows were found in the template (only static numbers), so row_tokens are empty."
+}

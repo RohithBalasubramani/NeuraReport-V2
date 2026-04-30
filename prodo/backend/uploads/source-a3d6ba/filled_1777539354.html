@@ -1,0 +1,456 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Basic Invoice Template</title>
+<style>
+    :root {
+        --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        --font-serif: "Georgia", serif;
+        --color-text: #333;
+        --color-gray: #666;
+        --color-border: #c0c0c0;
+        --color-green: #00ba56;
+        --page-width: 210mm;
+        --page-height: 297mm;
+        --margin: 20mm;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-family: var(--font-main);
+        color: var(--color-text);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    .page-container {
+        width: var(--page-width);
+        min-height: var(--page-height);
+        margin: 0 auto;
+        padding: 15mm;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    /* Header Section */
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10mm;
+    }
+
+    .template-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .green-banner {
+        background-color: var(--color-green);
+        color: white;
+        padding: 8px 16px;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 2px;
+        white-space: nowrap;
+    }
+
+    .logo-placeholder {
+        width: 300px;
+        height: 120px;
+        border: 1px solid #bbb;
+        margin-top: 10px;
+    }
+
+    /* Invoice Meta Data */
+    .invoice-meta {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .meta-content {
+        text-align: right;
+        width: 300px;
+    }
+
+    .invoice-label {
+        font-size: 36px;
+        color: #888;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        font-weight: 300;
+    }
+
+    .meta-field {
+        margin-bottom: 20px;
+    }
+
+    .meta-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .meta-line {
+        border-bottom: 1px solid #bbb;
+        height: 1.5em;
+    }
+
+    .payment-term {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 16px;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    /* Bill To / Ship To */
+    .addresses-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .address-block {
+        width: 45%;
+    }
+
+    .address-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .address-line {
+        border-bottom: 1px solid #bbb;
+        height: 1.5em;
+    }
+
+    /* Main Table */
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
+
+    #data-table th {
+        font-size: 14px;
+        font-weight: 700;
+        text-align: left;
+        padding: 8px 5px;
+        border-bottom: 1px solid #bbb;
+        border-top: 1px solid #bbb;
+        color: #333;
+    }
+
+    #data-table td {
+        padding: 10px 5px;
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        height: 30px;
+        color: #333;
+    }
+
+    .col-desc {
+        width: 75%;
+    }
+
+    .col-total {
+        width: 25%;
+        text-align: right;
+    }
+
+    /* Footer / Totals Area */
+    .footer-area {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .left-footer {
+        width: 55%;
+    }
+
+    .right-footer {
+        width: 40%;
+        text-align: right;
+    }
+
+    .remarks-label {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .totals-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .totals-table td {
+        padding: 6px 5px;
+        text-align: right;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .totals-table .label-cell {
+        text-align: right;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .totals-table .hint-text {
+        font-weight: 400;
+        color: #555;
+        font-size: 13px;
+        padding-right: 10px;
+    }
+
+    .totals-table .total-row td {
+        background-color: #f0f0f0;
+        font-weight: 700;
+        border-top: 2px solid #ccc;
+    }
+
+    .payable-text {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 16px;
+        margin-top: 30px;
+        color: #444;
+    }
+
+    .thank-you {
+        font-size: 32px;
+        font-weight: 300;
+        color: #444;
+        letter-spacing: 1px;
+        margin-top: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .contact-footer {
+        text-align: center;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 16px;
+        color: #444;
+        margin-top: 30px;
+    }
+</style>
+
+
+
+<div class="page-container">
+    <div class="header-row">
+        <div>
+            <h1 class="template-title">BASIC INVOICE TEMPLATE</h1>
+            <div class="logo-placeholder"></div>
+        </div>
+        <div class="green-banner">
+            Try Smartsheet for FREE
+        </div>
+    </div>
+
+    <div class="invoice-meta">
+        <div class="meta-content">
+            <div class="invoice-label">INVOICE</div>
+            
+            <div class="meta-field">
+                <span class="meta-label">DATE</span>
+                <div class="meta-line"></div>
+            </div>
+            
+            <div class="meta-field">
+                <span class="meta-label">INVOICE NO.</span>
+                <div class="meta-line"></div>
+            </div>
+
+            <div class="payment-term">
+                Payment due upon receipt.
+            </div>
+        </div>
+    </div>
+
+    <div class="addresses-row">
+        <div class="address-block">
+            <span class="address-label">BILL TO</span>
+            <div class="address-line"></div>
+        </div>
+        <div class="address-block">
+            <span class="address-label">SHIP TO</span>
+            <div class="address-line"></div>
+        </div>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th data-label="description" class="col-desc">DESCRIPTION</th>
+                <th data-label="total" class="col-total">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Apex Facilities Services</td>
+                <td>3631.95</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>2814.02</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>19021.05</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>18099.19</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>17589.60</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>4635.35</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>2885.27</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>21955.63</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>9222.25</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>15917.35</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>10854.18</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>6216.98</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>8050.74</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>9915.81</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>12481.79</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>39801.27</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>2879.94</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>18637.43</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>9144.56</td>
+            </tr>
+<tr>
+                <td>Apex Facilities Services</td>
+                <td>9706.54</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer-area">
+        <div class="left-footer">
+            <div class="remarks-label">Remarks / Instructions:</div>
+            
+            <div class="payable-text">
+                Please make check payable to
+            </div>
+            
+            <div class="thank-you">
+                THANK YOU
+            </div>
+        </div>
+
+        <div class="right-footer">
+            <table class="totals-table">
+                <tbody><tr>
+                    <td class="label-cell">SUBTOTAL</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="hint-text">enter total amount</td>
+                    <td class="label-cell">DISCOUNT</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label-cell">SUBTOTAL LESS DISCOUNT</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="hint-text">enter percentage</td>
+                    <td class="label-cell">TAX RATE</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label-cell">TOTAL TAX</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label-cell">SHIPPING/HANDLING</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label-cell">OTHER</td>
+                    <td></td>
+                </tr>
+                <tr class="total-row">
+                    <td class="label-cell">TOTAL</td>
+                    <td></td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+
+    <div class="contact-footer">
+        For questions concerning this invoice, please contact
+    </div>
+</div>
+
+

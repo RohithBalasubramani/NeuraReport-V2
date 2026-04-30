@@ -1,0 +1,395 @@
+{
+  "tokens": {
+    "scalars": [
+      "plant_name",
+      "location",
+      "print_date",
+      "from_date",
+      "to_date",
+      "batch_no"
+    ],
+    "row_tokens": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "totals": [
+      "batch_id",
+      "batch_start",
+      "batch_end",
+      "total_set_wt_kg",
+      "total_ach_wt_kg",
+      "total_error_kg",
+      "total_error_pct"
+    ]
+  },
+  "mapping": {
+    "plant_name": "PARAM:plant_name",
+    "location": "PARAM:location",
+    "print_date": "PARAM:print_date",
+    "from_date": "PARAM:from_date",
+    "to_date": "PARAM:to_date",
+    "batch_no": "PARAM:batch_no",
+    "row_sl_no": "neuract__FM_TABLE.FM_101",
+    "row_material_name": "neuract__FM_TABLE.FM_102",
+    "row_set_wt_kg": "neuract__FM_TABLE.FM_101_TOTALIZER",
+    "row_ach_wt_kg": "neuract__FM_TABLE.FM_102_TOTALIZER",
+    "batch_id": "neuract__FM_TABLE.FM_101",
+    "batch_start": "neuract__FM_TABLE.timestamp_utc",
+    "batch_end": "neuract__FM_TABLE.timestamp_utc"
+  },
+  "unresolved": [
+    "row_error_kg",
+    "row_error_pct",
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "join": {
+    "parent_table": "neuract__FM_TABLE",
+    "parent_key": "timestamp_utc",
+    "child_table": "neuract__FM_TABLE",
+    "child_key": "timestamp_utc"
+  },
+  "date_columns": {
+    "neuract__FM_TABLE": "timestamp_utc"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "neuract__FM_TABLE.timestamp_utc",
+      "date_to": "neuract__FM_TABLE.timestamp_utc"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_sl_no",
+          "from": [
+            "neuract__FM_TABLE.FM_101"
+          ]
+        },
+        {
+          "as": "row_material_name",
+          "from": [
+            "neuract__FM_TABLE.FM_102"
+          ]
+        },
+        {
+          "as": "row_set_wt_kg",
+          "from": [
+            "neuract__FM_TABLE.FM_101_TOTALIZER"
+          ]
+        },
+        {
+          "as": "row_ach_wt_kg",
+          "from": [
+            "neuract__FM_TABLE.FM_102_TOTALIZER"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "row_error_kg": {
+      "op": "subtract",
+      "left": "row_set_wt_kg",
+      "right": "row_ach_wt_kg"
+    },
+    "row_error_pct": {
+      "op": "multiply",
+      "left": {
+        "op": "divide",
+        "numerator": "row_error_kg",
+        "denominator": "row_set_wt_kg"
+      },
+      "right": 100
+    },
+    "batch_start": {
+      "op": "format_date",
+      "column": "timestamp_utc",
+      "format": "%d-%m-%Y %H:%M:%S"
+    },
+    "batch_end": {
+      "op": "format_date",
+      "column": "timestamp_utc",
+      "format": "%d-%m-%Y %H:%M:%S"
+    }
+  },
+  "totals_math": {
+    "total_set_wt_kg": {
+      "op": "sum",
+      "column": "row_set_wt_kg"
+    },
+    "total_ach_wt_kg": {
+      "op": "sum",
+      "column": "row_ach_wt_kg"
+    },
+    "total_error_kg": {
+      "op": "sum",
+      "column": "row_error_kg"
+    },
+    "total_error_pct": {
+      "op": "divide",
+      "numerator": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "denominator": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      }
+    }
+  },
+  "totals": {
+    "total_set_wt_kg": {
+      "op": "sum",
+      "column": "row_set_wt_kg"
+    },
+    "total_ach_wt_kg": {
+      "op": "sum",
+      "column": "row_ach_wt_kg"
+    },
+    "total_error_kg": {
+      "op": "sum",
+      "column": "row_error_kg"
+    },
+    "total_error_pct": {
+      "op": "divide",
+      "numerator": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "denominator": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      }
+    }
+  },
+  "formatters": {
+    "row_set_wt_kg": "number(2)",
+    "row_ach_wt_kg": "number(2)",
+    "row_error_kg": "number(2)",
+    "row_error_pct": "percent(2)",
+    "total_set_wt_kg": "number(2)",
+    "total_ach_wt_kg": "number(2)",
+    "total_error_kg": "number(2)",
+    "total_error_pct": "percent(2)",
+    "row_sl_no": "number(2)",
+    "row_material_name": "number(2)",
+    "batch_id": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "row_sl_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg"
+  ],
+  "row_order": [
+    "row_sl_no ASC"
+  ],
+  "literals": {},
+  "notes": "Mapping assumes FM_101/FM_102 represent the primary set/achieved flow meters. Totalizers are used for weight accumulation. Error calculations are derived row-by-row. Timestamps are formatted strictly as per contract rules.",
+  "_schema_version": "2.2",
+  "fields": {
+    "total_set_wt_kg": {
+      "format": "number(2)",
+      "aggregate": "SUM",
+      "source": "row_set_wt_kg"
+    },
+    "row_material_name": {
+      "source": "neuract__FM_TABLE.FM_102",
+      "format": "number(2)"
+    },
+    "row_error_pct": {
+      "format": "percent(2)",
+      "computed": "{\"op\": \"multiply\", \"left\": {\"op\": \"divide\", \"numerator\": \"row_error_kg\", \"denominator\": \"row_set_wt_kg\"}, \"right\": 100}"
+    },
+    "row_ach_wt_kg": {
+      "source": "neuract__FM_TABLE.FM_102_TOTALIZER",
+      "format": "number(2)"
+    },
+    "row_error_kg": {
+      "format": "number(2)",
+      "computed": "{\"op\": \"subtract\", \"left\": \"row_set_wt_kg\", \"right\": \"row_ach_wt_kg\"}"
+    },
+    "row_set_wt_kg": {
+      "source": "neuract__FM_TABLE.FM_101_TOTALIZER",
+      "format": "number(2)"
+    },
+    "total_ach_wt_kg": {
+      "format": "number(2)",
+      "aggregate": "SUM",
+      "source": "row_ach_wt_kg"
+    },
+    "row_sl_no": {
+      "source": "neuract__FM_TABLE.FM_101",
+      "format": "number(2)"
+    },
+    "total_error_kg": {
+      "format": "number(2)",
+      "aggregate": "SUM",
+      "source": "row_error_kg"
+    },
+    "batch_start": {
+      "source": "neuract__FM_TABLE.timestamp_utc",
+      "computed": "{\"op\": \"format_date\", \"column\": \"timestamp_utc\", \"format\": \"%d-%m-%Y %H:%M:%S\"}"
+    },
+    "total_error_pct": {
+      "format": "percent(2)",
+      "aggregate": "DIVIDE"
+    },
+    "batch_id": {
+      "source": "neuract__FM_TABLE.FM_101",
+      "format": "number(2)"
+    },
+    "batch_end": {
+      "source": "neuract__FM_TABLE.timestamp_utc",
+      "computed": "{\"op\": \"format_date\", \"column\": \"timestamp_utc\", \"format\": \"%d-%m-%Y %H:%M:%S\"}"
+    }
+  },
+  "joins": [
+    {
+      "from": "neuract__FM_TABLE.timestamp_utc",
+      "to": "neuract__FM_TABLE.timestamp_utc",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "total_set_wt_kg",
+      "operator": "notNull",
+      "message": "total_set_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_set_wt_kg",
+      "operator": "isNumeric",
+      "message": "total_set_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_material_name",
+      "operator": "notNull",
+      "message": "row_material_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_material_name",
+      "operator": "isNumeric",
+      "message": "row_material_name must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_ach_wt_kg",
+      "operator": "notNull",
+      "message": "row_ach_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_ach_wt_kg",
+      "operator": "isNumeric",
+      "message": "row_ach_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_error_kg",
+      "operator": "isNumeric",
+      "message": "row_error_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_set_wt_kg",
+      "operator": "notNull",
+      "message": "row_set_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_set_wt_kg",
+      "operator": "isNumeric",
+      "message": "row_set_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_ach_wt_kg",
+      "operator": "notNull",
+      "message": "total_ach_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_ach_wt_kg",
+      "operator": "isNumeric",
+      "message": "total_ach_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_sl_no",
+      "operator": "notNull",
+      "message": "row_sl_no must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_sl_no",
+      "operator": "isNumeric",
+      "message": "row_sl_no must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_error_kg",
+      "operator": "notNull",
+      "message": "total_error_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_error_kg",
+      "operator": "isNumeric",
+      "message": "total_error_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "batch_start",
+      "operator": "notNull",
+      "message": "batch_start must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "batch_id",
+      "operator": "notNull",
+      "message": "batch_id must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "batch_id",
+      "operator": "isNumeric",
+      "message": "batch_id must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "batch_end",
+      "operator": "notNull",
+      "message": "batch_end must not be NULL",
+      "severity": "error"
+    }
+  ]
+}

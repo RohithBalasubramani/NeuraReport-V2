@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "The PDF appears to be empty or doesn't contain readable text content. This could be because:\n\n1. The PDF might be image-based (scanned document) without embedded text\n2. The PDF might be blank or corrupted\n3. The PDF might contain only graphics without text\n\n**Could you please:**\n- Verify that the PDF you uploaded contains the table/data you want to convert to a report template?\n- If it's a scanned document, you might need to use a different PDF with embedded text, or provide a clearer version\n\nAlternatively, if you have another PDF file with the table structure you need, please upload that instead."
+  }
+]

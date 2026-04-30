@@ -1293,7 +1293,7 @@ def _postprocess_contract(contract: dict[str, Any], catalog: list[str]) -> None:
     # Stamp schema version
     contract["_schema_version"] = CONTRACT_SCHEMA_VERSION
 
-CONTRACT_SCHEMA_VERSION = "2.1"
+CONTRACT_SCHEMA_VERSION = "2.2"
 
 def check_contract_version(contract: dict[str, Any]) -> tuple[bool, str]:
     """Check if contract schema version is compatible. Returns (ok, message)."""

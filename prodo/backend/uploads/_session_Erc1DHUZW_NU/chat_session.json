@@ -1,0 +1,16 @@
+{
+  "session_id": "Erc1DHUZW_NU",
+  "pipeline_state": "html_ready",
+  "connection_id": null,
+  "connection_ids": [],
+  "completed_stages": [
+    "verify"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": "verify",
+  "workspace_mode": false,
+  "created_at": "2026-04-29T07:36:00.471385+00:00",
+  "updated_at": "2026-04-29T07:36:35.120321+00:00"
+}

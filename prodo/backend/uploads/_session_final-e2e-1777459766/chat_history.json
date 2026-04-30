@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "It appears the PDF file hasn't been uploaded yet or isn't accessible. Could you please upload the PDF file you'd like me to convert into a report template? You can attach it to your next message."
+  }
+]

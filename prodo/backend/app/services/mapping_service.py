@@ -862,12 +862,36 @@ def run_llm_call_3(
             # accidentally inlining dynamic row placeholders when schema is absent.
             row_like_tokens = {tok for tok in original_tokens if str(tok).lower().startswith("row_")}
 
+            # Scalar tokens are parameters (plant_name, location, batch_no, etc.)
+            # They must NEVER be inlined as constants — they change per report run.
+            _PARAM_KEYWORDS = {"plant", "location", "site", "facility", "batch", "lot",
+                               "operator", "shift", "line", "unit", "customer", "order",
+                               "report", "title", "name", "date", "time", "from", "to", "print"}
+            scalar_like_tokens = set()
+            for tok in original_tokens:
+                parts = tok.lower().replace("-", "_").split("_")
+                if any(p in _PARAM_KEYWORDS for p in parts):
+                    scalar_like_tokens.add(tok)
+            # Also protect any token the schema explicitly lists as a scalar
+            if isinstance(schema, dict):
+                for s in schema.get("scalars", []):
+                    if s in original_tokens:
+                        scalar_like_tokens.add(s)
+            # Tokens starting with total_ are aggregates, not constants
+            total_like_tokens = {tok for tok in original_tokens if str(tok).lower().startswith("total_")}
+
+            # Force unmapped scalars into the mapping as PARAM references
+            for tok in scalar_like_tokens:
+                if tok not in mapping:
+                    mapping[tok] = f"PARAM:{tok}"
+                    logger.info("scalar_auto_param", extra={"token": tok, "mapped_to": f"PARAM:{tok}"})
+
             token_samples = _normalize_token_samples(
                 payload.get("token_samples"),
                 original_tokens,
                 allow_missing_tokens=allow_missing_tokens,
             )
-            constant_tokens = (original_tokens - set(mapping.keys())) - row_like_tokens
+            constant_tokens = (original_tokens - set(mapping.keys())) - row_like_tokens - scalar_like_tokens - total_like_tokens
             constant_entries = {token: token_samples[token] for token in constant_tokens}
             inline_token_set = _validate_constant_replacements(template_html, constant_entries, schema)
 

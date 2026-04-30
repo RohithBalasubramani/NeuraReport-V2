@@ -1,0 +1,30 @@
+{
+  "scalars": [
+    "balance_due_top",
+    "bill_to_address",
+    "bill_to_name",
+    "due_date",
+    "invoice_date",
+    "invoice_number",
+    "notes_text",
+    "po_number",
+    "project_name",
+    "sender_address",
+    "sender_name",
+    "terms",
+    "terms_text"
+  ],
+  "row_tokens": [
+    "balance_due_bottom",
+    "payment_made_val",
+    "tax1_amount",
+    "tax1_label",
+    "tax2_amount",
+    "tax2_label"
+  ],
+  "totals": [
+    "sub_total",
+    "total_amount"
+  ],
+  "notes": "Static row data included in HTML for visual fidelity as per image."
+}

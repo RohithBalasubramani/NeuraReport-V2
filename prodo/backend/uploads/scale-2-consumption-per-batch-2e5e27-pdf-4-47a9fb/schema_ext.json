@@ -1,0 +1,26 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "report_title"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "The report contains a repeating block for each batch. The 'batch_label' token corresponds to 'Batch # X'. The 'batch_start_time' and 'batch_end_time' tokens correspond to the Start and End timestamps in the header row of each batch table."
+}

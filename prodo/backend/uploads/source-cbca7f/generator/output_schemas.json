@@ -1,0 +1,23 @@
+{
+  "header": [
+    "invoice_number",
+    "bill_to_name",
+    "bill_to_address",
+    "bill_to_city",
+    "bill_to_zip",
+    "bill_to_country",
+    "invoice_date",
+    "due_date",
+    "sub_total",
+    "total_amount",
+    "payment_made"
+  ],
+  "rows": [
+    "row_item_number",
+    "row_item_description",
+    "row_qty",
+    "row_rate",
+    "row_amount"
+  ],
+  "totals": []
+}

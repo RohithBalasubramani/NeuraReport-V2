@@ -1,0 +1,18 @@
+[
+  {
+    "role": "user",
+    "content": "Generate a report for the first invoice."
+  },
+  {
+    "role": "assistant",
+    "content": "I see the system is asking me for clarification, but I should be asking YOU. Let me rephrase:\n\nTo generate the report for the first invoice (CUST-101-001), I need to know what date range to use. Would you like me to:\n\n1. **Generate for today's date** (2026-04-30)\n2. **Generate for last 30 days** (2026-04-01 to 2026-04-30)\n3. **Specify exact dates** - please tell me the start and end dates\n4. **Use the batch ID directly** - I'll try to generate just for CUST-101-001\n\nWhich option would you prefer?"
+  },
+  {
+    "role": "user",
+    "content": "Generate report for September 2025"
+  },
+  {
+    "role": "assistant",
+    "content": "Perfect! Your report for September 2025 has been queued successfully.\n\n**Report Details:**\n- **Date Range:** September 1-30, 2025\n- **Job ID:** cef16c8b-5990-4ae7-b4e9-f1f157dcdea1\n- **Status:** Processing\n\nThe report will include all invoices from September 2025 in your database. You can track the progress using the job ID above.\n\nWould you like to generate another report for a different date range, or is there anything else I can help you with?"
+  }
+]

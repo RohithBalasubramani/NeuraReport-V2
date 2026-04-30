@@ -290,7 +290,7 @@ PRODUCT_KNOWLEDGE: Dict[str, Dict[str, Any]] = {
         "workflow_stages": [
             "1. Upload: Upload a sample PDF that represents the desired report format",
             "2. OCR/Extraction: AI uses vision model (GLM-OCR) to read text from the PDF",
-            "3. HTML Generation: AI (Qwen3-32B) generates an HTML template matching the PDF layout",
+            "3. HTML Generation: AI (Qwen3.5-27B) generates an HTML template matching the PDF layout",
             "4. Token Extraction: AI identifies data placeholders and creates token schema",
             "5. Mapping: Tokens are mapped to actual database columns from the active connection",
             "6. Contract Building: A mapping contract is built linking tokens to SQL queries",

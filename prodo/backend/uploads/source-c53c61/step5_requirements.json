@@ -1,0 +1,69 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata including plant details, print date, and filter ranges.",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no"
+      ]
+    },
+    "rows": {
+      "description": "Line items for material consumption within a batch, showing set vs achieved weights and errors.",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [
+        "batch_id"
+      ],
+      "ordering": [
+        "row_sl_no"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated metrics for the current batch, including total weights and error percentages.",
+      "columns": [
+        "batch_id",
+        "batch_start",
+        "batch_end",
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    }
+  },
+  "semantics": "Parameters `from_date` and `to_date` act as hard filters on the `timestamp_utc` column. `batch_no` filters specific batch identifiers. All other tokens are either direct column mappings or computed values based on row data.",
+  "parameters": {
+    "required": [
+      {
+        "name": "from_date",
+        "type": "date"
+      },
+      {
+        "name": "to_date",
+        "type": "date"
+      },
+      {
+        "name": "batch_no",
+        "type": "string"
+      }
+    ],
+    "optional": []
+  },
+  "transformations": [
+    "Compute row_error_kg as (row_set_wt_kg - row_ach_wt_kg).",
+    "Compute row_error_pct as (row_error_kg / row_set_wt_kg) * 100.",
+    "Format all timestamp columns to 'dd-mm-yyyy hh:mm:ss'.",
+    "Format all numeric weight columns to 2 decimal places.",
+    "Aggregate totals by summing weights and computing total error percentage."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "session_id": "f05-real",
+  "pipeline_state": "ready",
+  "connection_id": "d9ec0105-186c-4eb3-8818-943a5b3ad2fa",
+  "connection_ids": [
+    "d9ec0105-186c-4eb3-8818-943a5b3ad2fa"
+  ],
+  "completed_stages": [
+    "verify",
+    "approve",
+    "generator_assets",
+    "validate",
+    "dry_run",
+    "generate"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 2,
+  "last_action": "generate",
+  "workspace_mode": false,
+  "created_at": "2026-04-30T13:45:52.343707+00:00",
+  "updated_at": "2026-04-30T13:53:05.360131+00:00"
+}

@@ -1,0 +1,311 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "527b14bffcd1217c8016ce7b1696ffe5ee728d52871414add1463bb6fdfffd7b",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777536251,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "invoice_number",
+        "balance_due_top",
+        "company_name",
+        "company_address",
+        "bill_to_label",
+        "bill_to_name",
+        "bill_to_address",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "po_number",
+        "project_name",
+        "sub_total",
+        "tax1_label",
+        "tax1_value",
+        "tax2_label",
+        "tax2_value",
+        "total_amount",
+        "payment_made",
+        "balance_due_final",
+        "notes_content",
+        "terms_content"
+      ],
+      "row_tokens": [
+        "row_index",
+        "row_description_main",
+        "row_description_sub",
+        "row_qty",
+        "row_rate",
+        "row_discount",
+        "row_amount"
+      ],
+      "totals": [
+        "sub_total",
+        "tax1_value",
+        "tax2_value",
+        "total_amount",
+        "payment_made",
+        "balance_due_final"
+      ]
+    },
+    "mapping": {
+      "invoice_number": "invoices.invoice_number",
+      "balance_due_top": "invoices.total_amount",
+      "company_name": "invoices.vendor_name",
+      "company_address": "invoices.vendor_name",
+      "bill_to_label": "PARAM:bill_to_label",
+      "bill_to_name": "customers.customer_name",
+      "bill_to_address": "customers.billing_address",
+      "invoice_date": "invoices.issue_date",
+      "terms": "invoices.status",
+      "due_date": "invoices.due_date",
+      "po_number": "PARAM:po_number",
+      "project_name": "PARAM:project_name",
+      "sub_total": "invoices.subtotal",
+      "tax1_label": "PARAM:tax1_label",
+      "tax1_value": "invoices.tax_amount",
+      "tax2_label": "PARAM:tax2_label",
+      "tax2_value": "invoices.tax_amount",
+      "total_amount": "invoices.total_amount",
+      "payment_made": "payments.amount_paid",
+      "balance_due_final": "invoices.total_amount",
+      "notes_content": "invoices.notes",
+      "terms_content": "PARAM:terms_content",
+      "row_index": "invoice_items.line_no",
+      "row_description_main": "invoice_items.description",
+      "row_description_sub": "invoice_items.category",
+      "row_qty": "invoice_items.quantity",
+      "row_rate": "invoice_items.unit_price",
+      "row_discount": "invoice_items.line_total",
+      "row_amount": "invoice_items.line_total"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoice_items",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "due_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.due_date"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_index",
+            "from": [
+              "invoice_items.line_no"
+            ]
+          },
+          {
+            "as": "row_description_main",
+            "from": [
+              "invoice_items.description"
+            ]
+          },
+          {
+            "as": "row_description_sub",
+            "from": [
+              "invoice_items.category"
+            ]
+          },
+          {
+            "as": "row_qty",
+            "from": [
+              "invoice_items.quantity"
+            ]
+          },
+          {
+            "as": "row_rate",
+            "from": [
+              "invoice_items.unit_price"
+            ]
+          },
+          {
+            "as": "row_discount",
+            "from": [
+              "invoice_items.line_total"
+            ]
+          },
+          {
+            "as": "row_amount",
+            "from": [
+              "invoice_items.line_total"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {
+      "row_amount": {
+        "op": "multiply",
+        "left": "quantity",
+        "right": "unit_price"
+      }
+    },
+    "totals_math": {
+      "sub_total": {
+        "op": "sum",
+        "column": "row_amount"
+      },
+      "tax1_value": {
+        "op": "sum",
+        "column": "row_discount"
+      },
+      "tax2_value": {
+        "op": "sum",
+        "column": "row_discount"
+      },
+      "total_amount": {
+        "op": "add",
+        "left": {
+          "op": "sum",
+          "column": "row_amount"
+        },
+        "right": {
+          "op": "add",
+          "left": "tax1_value",
+          "right": "tax2_value"
+        }
+      },
+      "payment_made": {
+        "op": "sum",
+        "column": "payment_made"
+      },
+      "balance_due_final": {
+        "op": "subtract",
+        "left": "total_amount",
+        "right": "payment_made"
+      }
+    },
+    "totals": {
+      "sub_total": {
+        "op": "sum",
+        "column": "row_amount"
+      },
+      "tax1_value": {
+        "op": "sum",
+        "column": "row_discount"
+      },
+      "tax2_value": {
+        "op": "sum",
+        "column": "row_discount"
+      },
+      "total_amount": {
+        "op": "add",
+        "left": {
+          "op": "sum",
+          "column": "row_amount"
+        },
+        "right": {
+          "op": "add",
+          "left": "tax1_value",
+          "right": "tax2_value"
+        }
+      },
+      "payment_made": {
+        "op": "sum",
+        "column": "payment_made"
+      },
+      "balance_due_final": {
+        "op": "subtract",
+        "left": "total_amount",
+        "right": "payment_made"
+      }
+    },
+    "formatters": {
+      "row_qty": "number(2)",
+      "row_rate": "number(2)",
+      "row_discount": "number(2)",
+      "row_amount": "number(2)",
+      "sub_total": "number(2)",
+      "tax1_value": "number(2)",
+      "tax2_value": "number(2)",
+      "total_amount": "currency(2)",
+      "payment_made": "currency(2)",
+      "balance_due_final": "currency(2)",
+      "balance_due_top": "currency(2)",
+      "invoice_number": "number(2)",
+      "company_name": "number(2)",
+      "company_address": "number(2)",
+      "bill_to_name": "number(2)",
+      "bill_to_address": "number(2)",
+      "invoice_date": "number(2)",
+      "terms": "number(2)",
+      "due_date": "number(2)",
+      "notes_content": "number(2)",
+      "row_index": "number(2)",
+      "row_description_main": "number(2)",
+      "row_description_sub": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_index ASC"
+      ]
+    },
+    "header_tokens": [
+      "invoice_number",
+      "balance_due_top",
+      "company_name",
+      "company_address",
+      "bill_to_label",
+      "bill_to_name",
+      "bill_to_address",
+      "invoice_date",
+      "terms",
+      "due_date",
+      "po_number",
+      "project_name",
+      "sub_total",
+      "tax1_label",
+      "tax1_value",
+      "tax2_label",
+      "tax2_value",
+      "total_amount",
+      "payment_made",
+      "balance_due_final",
+      "notes_content",
+      "terms_content"
+    ],
+    "row_tokens": [
+      "row_index",
+      "row_description_main",
+      "row_description_sub",
+      "row_qty",
+      "row_rate",
+      "row_discount",
+      "row_amount"
+    ],
+    "row_order": [
+      "row_index ASC"
+    ],
+    "literals": {},
+    "notes": "Invoice report generated from invoices, invoice_items, customers, and payments tables. Date formatting applied to issue_date and due_date. Financial calculations use declarative ops.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

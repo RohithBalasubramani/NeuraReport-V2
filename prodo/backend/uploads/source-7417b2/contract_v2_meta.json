@@ -1,0 +1,198 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "dafea189452f47d9e13d92532232fd1358dde8d13fdc5e6cc9febd0055162c61",
+  "db_signature": "f1f6a4d420d8bda2f34f8b434d77f838720689208e1ed19ddee904d55d1849d6",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777473969,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "batch_id",
+        "start_time",
+        "end_time",
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ],
+      "row_tokens": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "totals": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "mapping": {
+      "from_date": "recipes.start_time",
+      "to_date": "recipes.end_time",
+      "batch_no": "recipes.id",
+      "batch_id": "recipes.recipe_name",
+      "start_time": "recipes.start_time",
+      "end_time": "recipes.end_time"
+    },
+    "unresolved": [
+      "plant_name",
+      "location",
+      "print_date",
+      "total_set_wt_kg",
+      "total_ach_wt_kg",
+      "total_error_kg",
+      "total_error_pct",
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "join": {
+      "parent_table": "recipes",
+      "parent_key": "id",
+      "child_table": "recipes",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "recipes": "start_time"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "recipes.start_time",
+        "date_to": "recipes.end_time"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Unpivot 12 bin columns into material rows",
+        "strategy": "MELT",
+        "columns": [],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "multiply",
+        "left": {
+          "op": "divide",
+          "numerator": {
+            "op": "sum",
+            "column": "row_error_kg"
+          },
+          "denominator": {
+            "op": "sum",
+            "column": "row_set_wt_kg"
+          }
+        },
+        "right": 100
+      }
+    },
+    "totals": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "multiply",
+        "left": {
+          "op": "divide",
+          "numerator": {
+            "op": "sum",
+            "column": "row_error_kg"
+          },
+          "denominator": {
+            "op": "sum",
+            "column": "row_set_wt_kg"
+          }
+        },
+        "right": 100
+      }
+    },
+    "formatters": {
+      "row_set_wt_kg": "number(2)",
+      "row_ach_wt_kg": "number(2)",
+      "row_error_kg": "number(2)",
+      "row_error_pct": "percent(2)",
+      "total_set_wt_kg": "number(2)",
+      "total_ach_wt_kg": "number(2)",
+      "total_error_kg": "number(2)",
+      "total_error_pct": "percent(2)",
+      "from_date": "number(2)",
+      "to_date": "number(2)",
+      "batch_id": "number(2)",
+      "start_time": "number(2)",
+      "end_time": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_sl_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "from_date",
+      "to_date",
+      "batch_no",
+      "batch_id",
+      "start_time",
+      "end_time"
+    ],
+    "row_tokens": [],
+    "row_order": [
+      "row_sl_no ASC"
+    ],
+    "literals": {
+      "plant_name": "NeuraReport Demo",
+      "location": "Costal"
+    },
+    "notes": "Static values for plant_name and location are injected via literals. Timestamps are formatted using row_computed. Error calculations are performed row-by-row and aggregated for totals.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

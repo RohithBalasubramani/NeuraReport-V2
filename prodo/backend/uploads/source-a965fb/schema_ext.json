@@ -1,0 +1,34 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address_line1",
+    "company_address_line2",
+    "phone",
+    "email",
+    "website",
+    "bill_to_name",
+    "bill_to_address_line1",
+    "bill_to_address_line2",
+    "ship_to_name",
+    "ship_to_address_line1",
+    "ship_to_address_line2",
+    "invoice_number",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "customer_message",
+    "subtotal",
+    "sales_tax",
+    "shipping",
+    "total"
+  ],
+  "row_tokens": [
+    "row_item_service",
+    "row_description",
+    "row_quantity_hrs",
+    "row_rate",
+    "row_amount"
+  ],
+  "totals": [],
+  "notes": "Tokens inferred from PDF_PAGE_TEXT and visual structure. 'row_' prefix used for table columns. 'scalars' used for header/footer info."
+}

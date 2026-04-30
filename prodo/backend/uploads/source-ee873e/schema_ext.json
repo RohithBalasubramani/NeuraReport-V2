@@ -1,0 +1,25 @@
+{
+  "scalars": [
+    "date",
+    "invoice_number",
+    "company_name",
+    "company_email",
+    "company_address_1",
+    "company_address_2",
+    "client_name",
+    "client_email",
+    "client_address_1",
+    "client_address_2",
+    "terms",
+    "due_date",
+    "notes"
+  ],
+  "row_tokens": [
+    "row_item_description",
+    "row_quantity",
+    "row_price",
+    "row_amount"
+  ],
+  "totals": [],
+  "notes": ""
+}

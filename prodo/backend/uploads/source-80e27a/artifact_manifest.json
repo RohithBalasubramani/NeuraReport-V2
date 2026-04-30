@@ -1,0 +1,28 @@
+{
+  "correlation_id": "2110594ba06847418515cb6adca9775c",
+  "file_checksums": {
+    "fix_metrics.json": "f21787a8e23ae8ba8330bf5f776a984a24a61a19cd95a513d9142d78b8bc21a1",
+    "reference_p1.png": "b33de9c09473eaeb86d7f1b73bfdfdd1e22abf4048b657540d251e122a3f5fee",
+    "render_p1.png": "6c71a7f717f48836b22c95f40ba6c3cc5e12fb58a443905ad560b651883a1013",
+    "render_p1_llm.png": "395212dd8c08bdc51166933a2d0027919b2681b43aeb8fb298ca6badc8e7016c",
+    "schema_ext.json": "cd6e7751dbebad7e9368182c06d3b5dea2c610b7501f998662b9b2078e0e45b3",
+    "source.pdf": "5597d5a31db126f9ac5172c0b1d143aa0f33416b2a26efe56c84f561230b410f",
+    "template_p1.html": "1c3a0750701746ea3035f17cda77ff9ff3958b388f4182bf07379d4079ce58f1"
+  },
+  "files": {
+    "fix_metrics.json": "fix_metrics.json",
+    "reference_p1.png": "reference_p1.png",
+    "render_p1.png": "render_p1.png",
+    "render_p1_llm.png": "render_p1_llm.png",
+    "schema_ext.json": "schema_ext.json",
+    "source.pdf": "source.pdf",
+    "template_p1.html": "template_p1.html"
+  },
+  "input_refs": [
+    "/home/rohith/desktop/Neurareport V2/prodo/backend/uploads/source-80e27a/source.pdf"
+  ],
+  "pid": 693046,
+  "produced_at": "2026-04-30T10:20:55.428163+00:00",
+  "schema_version": "1.0",
+  "step": "templates_verify"
+}

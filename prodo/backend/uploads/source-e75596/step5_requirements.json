@@ -1,0 +1,50 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata including date, number, addresses, and remarks.",
+      "columns": [
+        "invoice_date",
+        "invoice_no",
+        "bill_to",
+        "ship_to",
+        "remarks",
+        "total_amount"
+      ]
+    },
+    "rows": {
+      "description": "Line items detailing the description and total for each item on the invoice.",
+      "columns": [
+        "row_description",
+        "row_total"
+      ],
+      "grouping": [
+        "invoice_no"
+      ],
+      "ordering": [
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated financial totals for the invoice.",
+      "columns": [
+        "total_amount"
+      ]
+    }
+  },
+  "semantics": "Scalars are pulled from the parent `invoices` table (and `customers` for addresses). Row tokens are pulled from the child `invoice_items` table. The `total_amount` scalar is derived by summing the `row_total` values for the current invoice context.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "invoice_no",
+        "type": "string"
+      }
+    ]
+  },
+  "transformations": [
+    "Format `invoices.issue_date` to 'dd-mm-yyyy HH:MM:SS' using pandas string formatting.",
+    "Sum `invoice_items.line_total` to derive the invoice `total_amount`.",
+    "Join `invoices` and `invoice_items` on `invoice_number`.",
+    "Join `invoices` and `customers` on `customer_id` to retrieve billing address."
+  ]
+}

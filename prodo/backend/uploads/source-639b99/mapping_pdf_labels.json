@@ -1,0 +1,12 @@
+[
+  {
+    "header": "bill_to_address",
+    "placeholder": "{bill_to_address}",
+    "mapping": "COMPUTED:Vendor address\\nCity, State, Zipcode"
+  },
+  {
+    "header": "ship_to_address",
+    "placeholder": "{ship_to_address}",
+    "mapping": "COMPUTED:Vendor address\\nCity, State, Zipcode"
+  }
+]

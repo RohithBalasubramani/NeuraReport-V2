@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: scale2-consumption-report-5fb15d-pdf (5).pdf] Uploaded file: scale2-consumption-report-5fb15d-pdf (5).pdf"
+  },
+  {
+    "role": "assistant",
+    "content": "The pipeline is now in `html_ready` state, but there's no database connection (`connection_id: null`). According to the guidance, when `verify_template` succeeds but NO database connection exists, I should tell the user to connect their database before I can proceed with auto-mapping tokens.\n\nI'll inform the user that the PDF has been processed successfully and ask them to connect their database so we can continue."
+  }
+]

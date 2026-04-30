@@ -1,0 +1,26 @@
+[
+  {
+    "role": "user",
+    "content": "Map the data fields to my database, build the contract, validate, and run a dry run preview."
+  },
+  {
+    "role": "assistant",
+    "content": ""
+  },
+  {
+    "role": "user",
+    "content": "Run validation and dry run. Approve any warnings."
+  },
+  {
+    "role": "assistant",
+    "content": ""
+  },
+  {
+    "role": "user",
+    "content": "Approve the warnings and continue."
+  },
+  {
+    "role": "assistant",
+    "content": ""
+  }
+]

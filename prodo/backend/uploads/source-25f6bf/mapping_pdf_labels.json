@@ -1,0 +1,12 @@
+[
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "invoice_items.description"
+  },
+  {
+    "header": "row_total",
+    "placeholder": "{row_total}",
+    "mapping": "invoice_items.line_total"
+  }
+]

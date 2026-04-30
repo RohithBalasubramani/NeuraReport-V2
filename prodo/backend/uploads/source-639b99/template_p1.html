@@ -1,0 +1,371 @@
+
+
+
+<meta charset="UTF-8">
+<title>Invoice</title>
+<style>
+    :root {
+        --primary-font: 'Open Sans', Helvetica, Arial, sans-serif;
+        --header-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --text-color: #333333;
+        --border-color: #e0e0e0;
+        --bg-grey: #f5f5f5;
+        --col-item: 18%;
+        --col-desc: 38%;
+        --col-qty: 14%;
+        --col-rate: 15%;
+        --col-amt: 15%;
+    }
+
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+
+    body {
+        font-family: var(--primary-font);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Layout Containers */
+    .container {
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 0;
+        position: relative;
+        min-height: 297mm;
+    }
+
+    /* Header Section */
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 45px;
+    }
+
+    .left-header {
+        width: 55%;
+    }
+
+    .logo-placeholder {
+        font-size: 38px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #444;
+        line-height: 1.1;
+    }
+
+    .company-name {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .company-address {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .right-header {
+        width: 40%;
+        text-align: right;
+    }
+
+    .invoice-title {
+        font-family: var(--header-font);
+        font-size: 52px;
+        font-weight: 400;
+        color: #222;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .contact-info {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .contact-row {
+        margin-bottom: 2px;
+    }
+
+    .contact-label {
+        font-weight: 700;
+        margin-right: 5px;
+    }
+
+    /* Info Grid (Bill To / Ship To / Details) */
+    .info-grid {
+        display: flex;
+        background-color: var(--bg-grey);
+        padding: 18px 22px;
+        margin-bottom: 35px;
+        gap: 0;
+    }
+
+    .info-col {
+        flex: 1;
+        padding-right: 25px;
+    }
+
+    .info-col:last-child {
+        padding-right: 0;
+    }
+
+    .info-col h4 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    .info-col p {
+        margin: 0 0 3px 0;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .info-row {
+        display: flex;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+
+    .info-label {
+        font-weight: 700;
+        width: 110px;
+        flex-shrink: 0;
+        color: #444;
+    }
+
+    /* Table */
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 45px;
+        table-layout: fixed;
+    }
+
+    #data-table th {
+        text-align: left;
+        font-weight: 700;
+        padding: 10px 6px;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    #data-table td {
+        padding: 10px 6px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #333;
+        vertical-align: top;
+    }
+
+    /* Column Widths */
+    .col-item { width: var(--col-item); }
+    .col-desc { width: var(--col-desc); }
+    .col-qty { width: var(--col-qty); }
+    .col-rate { width: var(--col-rate); }
+    .col-amt { width: var(--col-amt); }
+
+    .text-right {
+        text-align: right;
+    }
+
+    /* Totals Section */
+    .bottom-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 45px;
+    }
+
+    .message-box {
+        width: 55%;
+    }
+
+    .message-title {
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: block;
+        font-size: 16px;
+    }
+
+    .message-content {
+        font-size: 14px;
+        white-space: pre-line;
+        line-height: 1.5;
+    }
+
+    .totals-box {
+        width: 40%;
+    }
+
+    .totals-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+
+    .totals-row.total-line {
+        font-weight: 700;
+        font-size: 26px;
+        margin-top: 25px;
+        padding-top: 12px;
+        border-top: 2px solid #333;
+    }
+
+    .totals-label {
+        font-weight: 600;
+    }
+
+    /* Footer */
+    #report-footer {
+        position: absolute;
+        bottom: 20mm;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .footer-logo {
+        margin-bottom: 8px;
+        font-size: 22px;
+        font-weight: bold;
+        display: inline-block;
+        color: #333;
+    }
+    
+    .footer-logo span {
+        color: #4CAF50;
+        font-weight: bold;
+        margin-right: 4px;
+    }
+
+    .footer-text {
+        line-height: 1.4;
+        margin: 0;
+        font-size: 11px;
+    }
+</style>
+
+
+<div class="container">
+
+    <div class="header-wrapper">
+        <div class="left-header">
+            <div class="logo-placeholder">Replace with LOGO</div>
+            <div class="company-name">Your Company Name</div>
+            <div class="company-address">
+                Street address<br>
+                City, State, Zipcode
+            </div>
+        </div>
+        <div class="right-header">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="contact-info">
+                <div class="contact-row"><span class="contact-label">Phone #</span> 555-555-555</div>
+                <div class="contact-row"><span class="contact-label">Email</span> company.name@company.com</div>
+                <div class="contact-row"><span class="contact-label">Website</span> www.companyname.com</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-col">
+            <h4>Bill to</h4>
+            <p>Client name</p>
+            <p>Street address</p>
+            <p>City, State, Zipcode</p>
+        </div>
+        <div class="info-col">
+            <h4>Ship to</h4>
+            <p>Client name</p>
+            <p>Street address</p>
+            <p>City, State, Zipcode</p>
+        </div>
+        <div class="info-col">
+            <h4>Details</h4>
+            <div class="info-row"><span class="info-label">Invoice #</span> 12345</div>
+            <div class="info-row"><span class="info-label">Invoice date</span> mm/dd/yyyy</div>
+            <div class="info-row"><span class="info-label">Terms</span> Net 30</div>
+            <div class="info-row"><span class="info-label">Due date</span> mm/dd/yyyy</div>
+        </div>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th class="col-item" data-label="item_service">Item/ service</th>
+                <th class="col-desc" data-label="description">Description</th>
+                <th class="col-qty" data-label="quantity_hrs">Quantity/ hrs</th>
+                <th class="col-rate" data-label="rate">Rate</th>
+                <th class="col-amt" data-label="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Item or service</td>
+                <td>Description of item or service</td>
+                <td>0</td>
+                <td class="text-right">$0.00</td>
+                <td class="text-right">$0.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-section">
+        <div class="message-box">
+            <span class="message-title">Customer message</span>
+            <div class="message-content">Hello!
+
+Thank you for your business. Please return this invoice with payment.
+
+Thanks!</div>
+        </div>
+        <div class="totals-box">
+            <div class="totals-row">
+                <span class="totals-label">Subtotal</span>
+                <span>$0.00</span>
+            </div>
+            <div class="totals-row">
+                <span class="totals-label">Sales tax</span>
+                <span>$0.00</span>
+            </div>
+            <div class="totals-row">
+                <span class="totals-label">Shipping</span>
+                <span>$0.00</span>
+            </div>
+            <div class="totals-row total-line">
+                <span class="totals-label">Total</span>
+                <span>$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="report-footer">
+        <div class="footer-logo">
+            <span>qb</span> INTUIT quickbooks®
+        </div>
+        <p class="footer-text">
+            This invoice was generated with the help of QuickBooks Payments.<br>
+            Learn more, and create your own free account by visiting quickbooks.com
+        </p>
+    </div>
+
+</div>
+

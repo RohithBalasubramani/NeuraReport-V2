@@ -1,0 +1,399 @@
+
+
+
+<meta charset="UTF-8">
+<meta>
+<title>Sample Invoice Template</title>
+<style>
+    :root {
+        --primary-green: #4CAF50;
+        --dark-green: #388E3C;
+        --text-color: #333333;
+        --border-color: #000000;
+        --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        --body-font: 'Arial', sans-serif;
+        --col-desc: 55%;
+        --col-qty: 10%;
+        --col-price: 17.5%;
+        --col-total: 17.5%;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: var(--body-font);
+        color: var(--text-color);
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #fff;
+        padding: 20px;
+    }
+
+    /* Header Section */
+    .header-container {
+        background-color: var(--primary-green);
+        color: white;
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        border-radius: 2px;
+    }
+
+    .logo-placeholder {
+        width: 100px;
+        height: 100px;
+        background-color: #555;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-family: var(--header-font);
+        font-size: 20px;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .header-title {
+        font-family: var(--header-font);
+        font-size: 24px;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    /* Info Grid */
+    .info-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        gap: 40px;
+    }
+
+    .company-details, .bill-to-details {
+        width: 45%;
+    }
+
+    .invoice-meta {
+        width: 50%;
+        text-align: right;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .value {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .bill-to-section {
+        margin-top: 30px;
+    }
+
+    /* Table Styling */
+    .table-container {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        border: 1px solid var(--border-color);
+        table-layout: fixed;
+    }
+
+    .table-header {
+        background-color: var(--primary-green);
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 8px;
+        text-align: center;
+        font-family: var(--header-font);
+    }
+
+    .table-body td {
+        border: 1px solid var(--border-color);
+        padding: 6px 8px;
+        vertical-align: middle;
+    }
+
+    .col-desc { width: var(--col-desc); }
+    .col-qty { width: var(--col-qty); text-align: center; }
+    .col-price { width: var(--col-price); text-align: right; padding-right: 10px; }
+    .col-total { width: var(--col-total); text-align: right; padding-right: 10px; }
+
+    .table-body tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Totals Section */
+    .totals-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 0;
+    }
+
+    .totals-table {
+        border-collapse: collapse;
+        width: 350px;
+        border: 1px solid var(--border-color);
+    }
+
+    .totals-table td {
+        border: 1px solid var(--border-color);
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .totals-label {
+        text-align: right;
+        font-weight: bold;
+        color: #444;
+        width: 70%;
+    }
+
+    .totals-value {
+        text-align: right;
+        width: 30%;
+    }
+
+    .balance-row td {
+        background-color: var(--primary-green);
+        color: white;
+        font-weight: bold;
+    }
+
+    /* Footer / Remarks */
+    .footer-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .remarks-box {
+        width: 40%;
+        font-size: 13px;
+    }
+
+    .remarks-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .payment-info {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .signatures {
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 60px;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .thank-you {
+        font-family: var(--header-font);
+        font-size: 24px;
+        font-weight: bold;
+        font-style: italic;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .bottom-logo {
+        text-align: right;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .bottom-logo span {
+        color: #333;
+    }
+    
+    .bottom-logo span.green {
+        color: var(--primary-green);
+    }
+
+    .bottom-bar {
+        height: 20px;
+        background-color: var(--primary-green);
+        margin-top: 10px;
+    }
+</style>
+
+
+
+    <div class="header-container">
+        <div class="logo-placeholder">LOGO</div>
+        <div class="header-title">Sample Invoice Template</div>
+    </div>
+
+    <div class="info-section">
+        <div class="company-details">
+            <span class="label">COMPANY NAME</span>
+            <div class="value"></div>
+            <div class="value">
+</div>
+            <div class="value"></div>
+            <div class="value"></div>
+        </div>
+        <div class="invoice-meta">
+            <div style="">
+                <span class="label">DATE</span>
+                <span class="value">8/8/2024</span>
+            </div>
+            <div style="">
+                <span class="label">INVOICE NO.</span>
+                <span class="value">76543</span>
+            </div>
+            <div class="value">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="bill-to-section">
+        <span class="label">BILL TO</span>
+        <div class="value"></div>
+        <div class="value"></div>
+        <div class="value">
+</div>
+        <div class="value"></div>
+    </div>
+
+    <div id="data-table">
+        <table class="table-container">
+            <thead>
+                <tr>
+                    <th class="table-header col-desc" data-label="description">DESCRIPTION</th>
+                    <th class="table-header col-qty" data-label="qty">QTY</th>
+                    <th class="table-header col-price" data-label="unit_price">UNIT PRICE</th>
+                    <th class="table-header col-total" data-label="total">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty">1</td>
+                    <td class="col-price">$ 5.00</td>
+                    <td class="col-total">$ 5.00</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty">1</td>
+                    <td class="col-price">$ 7.00</td>
+                    <td class="col-total">$ 7.00</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty">1</td>
+                    <td class="col-price">$ 6.00</td>
+                    <td class="col-total">$ 6.00</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty"></td>
+                    <td class="col-price"></td>
+                    <td class="col-total">$ -</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty"></td>
+                    <td class="col-price"></td>
+                    <td class="col-total">$ -</td>
+                </tr>
+                
+                <tr>
+                    <td class="col-desc"></td>
+                    <td class="col-qty"></td>
+                    <td class="col-price"></td>
+                    <td class="col-total">$ -</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="totals-container">
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="totals-label">SUBTOTAL</td>
+                <td class="totals-value">$ 18.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">DISCOUNT</td>
+                <td class="totals-value">$ 2.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">SUBTOTAL LESS DISCOUNT</td>
+                <td class="totals-value">$ 16.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">TAX RATE</td>
+                <td class="totals-value">8%</td>
+            </tr>
+            <tr>
+                <td class="totals-label">TOTAL TAX</td>
+                <td class="totals-value">$ 1.28</td>
+            </tr>
+            <tr>
+                <td class="totals-label">SHIPPING/HANDLING</td>
+                <td class="totals-value">$ 2.99</td>
+            </tr>
+            <tr class="balance-row">
+                <td class="totals-label">BALANCE DUE</td>
+                <td class="totals-value">$ 20.27</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    <div class="footer-section">
+        <div class="remarks-box">
+            <div class="remarks-title">Remarks / Payment Instructions:</div>
+            <div>Payment due within Net 30 days. Late payments may incur a 2% monthly interest. Taxes applied as per local regulations.</div>
+        </div>
+    </div>
+
+    <div class="signatures">
+        <div>Company Signature X</div>
+        <div>Client Signature X</div>
+    </div>
+
+    <div class="payment-info" style="width: 100%">
+        Make all checks payable to . Or submit payment via Venmo:  or Paypal: 
+    </div>
+
+    <div class="thank-you">
+        Thank you for your business!
+    </div>
+
+    <div class="bottom-logo">
+        <span>This invoice is brought to you by</span>
+        <span style="font-size: 24px">
+            <span style="color: #555">Online</span><span class="green">Invoices</span>
+        </span>
+    </div>
+
+    <div class="bottom-bar"></div>
+
+

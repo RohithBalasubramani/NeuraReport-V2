@@ -53,7 +53,7 @@ class LLMConfig:
 
     # Model-specific settings
     temperature: Optional[float] = None
-    max_tokens: Optional[int] = 32768  # Qwen 3.5 with thinking needs headroom (vLLM max-model-len=32768)
+    max_tokens: Optional[int] = None  # Let vLLM auto-calculate from context window minus input
 
     # Extra body fields merged into every chat completion request
     # Used for vLLM-specific params like {"chat_template_kwargs": {"enable_thinking": True}}
@@ -126,11 +126,11 @@ class LLMConfig:
         _extra_body_env = os.getenv("LLM_EXTRA_BODY")
         if _extra_body_env:
             extra_body = _json.loads(_extra_body_env)
-        elif ":4000" not in api_base:
-            # Direct vLLM connection — enable Qwen thinking mode
-            extra_body = {"chat_template_kwargs": {"enable_thinking": True}}
         else:
-            extra_body = {}
+            # Default: thinking OFF. Each call site overrides as needed.
+            # Template gen, mapping, contract explicitly set their own thinking mode.
+            # Hermes agent sets thinking from user toggle.
+            extra_body = {"chat_template_kwargs": {"enable_thinking": False}}
 
         # Vision model settings
         vision_enabled = os.getenv("VISION_LLM_ENABLED", "false").lower() in ("1", "true", "yes")
@@ -148,7 +148,7 @@ class LLMConfig:
             retry_delay=retry_delay,
             retry_multiplier=retry_multiplier,
             temperature=float(temperature) if temperature else None,
-            max_tokens=int(max_tokens) if max_tokens else 32768,
+            max_tokens=int(max_tokens) if max_tokens else None,
             vision_model=vision_model,
             vision_api_base=vision_api_base,
             vision_api_key=vision_api_key,
@@ -320,7 +320,7 @@ class OpenAICompatProvider(BaseProvider):
     - vLLM directly
     - Any OpenAI-compatible server
 
-    Default: LiteLLM proxy at http://localhost:4000 → Qwen3-32B-FP8
+    Default: LiteLLM proxy at http://localhost:4000 → Qwen3.5-27B-FP8
     """
 
     def __init__(self, config: "LLMConfig"):
@@ -469,16 +469,12 @@ class OpenAICompatProvider(BaseProvider):
             effective_timeout = caller_timeout
 
         # Merge config-level extra_body (e.g. vLLM chat_template_kwargs)
-        # Auto-disable thinking for structured JSON operations — Qwen wastes
-        # entire token budget on reasoning otherwise, producing no JSON.
-        _NO_THINKING_OPS = {"llm_call_3", "mapping", "contract", "v3_df", "ops_refiner", "simulation"}
-        _needs_thinking = not any(op in description for op in _NO_THINKING_OPS)
-
+        # Thinking is globally disabled (enable_thinking=False) — vLLM 0.16
+        # with Qwen3.5 dumps reasoning as plain text when enabled, but produces
+        # clean output when disabled.
         caller_extra = kwargs.pop("extra_body", {}) or {}
         if self.config.extra_body:
             merged = {**self.config.extra_body, **caller_extra}
-            if not _needs_thinking and "chat_template_kwargs" not in caller_extra:
-                merged["chat_template_kwargs"] = {"enable_thinking": False}
             request_params["extra_body"] = merged
         elif caller_extra:
             request_params["extra_body"] = caller_extra
@@ -487,7 +483,6 @@ class OpenAICompatProvider(BaseProvider):
             "thinking_mode_decision",
             extra={
                 "description": description,
-                "needs_thinking": _needs_thinking,
                 "extra_body": request_params.get("extra_body"),
             },
         )

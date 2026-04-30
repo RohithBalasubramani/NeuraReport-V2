@@ -1,0 +1,28 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [
+    "batch_id",
+    "batch_start",
+    "batch_end",
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "notes": "Block repeat represents the 'Batch # X' sections. Totals includes batch header info (ID, Start, End) and the footer totals for each batch block."
+}

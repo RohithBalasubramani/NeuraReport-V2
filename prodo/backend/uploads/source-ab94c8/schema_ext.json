@@ -1,0 +1,37 @@
+{
+  "scalars": [
+    "invoice_number",
+    "balance_due_top",
+    "company_name",
+    "company_address",
+    "bill_to_label",
+    "bill_to_name",
+    "bill_to_address",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "po_number",
+    "project_name",
+    "sub_total",
+    "tax1_label",
+    "tax1_value",
+    "tax2_label",
+    "tax2_value",
+    "total_amount",
+    "payment_made",
+    "balance_due_final",
+    "notes_content",
+    "terms_content"
+  ],
+  "row_tokens": [
+    "row_index",
+    "row_description_main",
+    "row_description_sub",
+    "row_qty",
+    "row_rate",
+    "row_discount",
+    "row_amount"
+  ],
+  "totals": [],
+  "notes": "This schema represents the invoice fields and table rows visible in the document. The totals section is handled via scalar tokens as they are not part of the repeating table rows."
+}

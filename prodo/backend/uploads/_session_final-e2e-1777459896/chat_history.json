@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "It appears the PDF file hasn't been uploaded to the template directory yet. This sometimes happens when files are attached to the message but need to be processed.\n\nCould you please try uploading the PDF file again? Make sure it's a valid PDF document. Once the file is properly uploaded, I'll be able to convert it into a report template for you."
+  }
+]

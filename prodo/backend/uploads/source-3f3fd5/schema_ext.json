@@ -1,0 +1,39 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "invoice_date",
+    "invoice_no",
+    "payment_terms",
+    "bill_to_name",
+    "bill_to_company",
+    "bill_to_address",
+    "bill_to_phone",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping_handling",
+    "balance_due",
+    "venmo_account",
+    "paypal_account"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_qty",
+    "row_unit_price",
+    "row_total"
+  ],
+  "totals": [
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "total_tax",
+    "shipping_handling",
+    "balance_due"
+  ],
+  "notes": "Schema inferred from PDF_PAGE_TEXT and visual structure. Table rows are static in the template but tokens are provided for dynamic use if needed."
+}

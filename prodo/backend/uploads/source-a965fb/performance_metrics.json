@@ -1,0 +1,1 @@
+[{"step": "build_contract", "durationMs": 106610, "queryCount": 1}, {"step": "build_generator_assets", "durationMs": 18, "queryCount": 1}, {"step": "validate_pipeline", "durationMs": 5852, "queryCount": 1}, {"step": "dry_run_preview", "durationMs": 2024, "queryCount": 1}, {"step": "generate_report", "durationMs": 45, "queryCount": 1}]

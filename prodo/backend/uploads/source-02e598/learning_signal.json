@@ -1,0 +1,1 @@
+{"valid": true, "stage": "complete", "no_retries": true, "no_user_corrections": true, "clean_run": true, "patterns": [{"id": "p1", "name": "Computed fields used", "description": "Some fields are calculated from other columns."}, {"id": "p2", "name": "Multi-table join", "description": "Data sourced from multiple joined database tables."}]}

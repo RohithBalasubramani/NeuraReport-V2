@@ -1,0 +1,398 @@
+
+
+
+<meta charset="UTF-8">
+<style>
+    :root {
+        --primary-green: #3cb321;
+        --header-green: #3cb321;
+        --text-color: #333;
+        --border-color: #000;
+        --light-gray: #f2f2f2;
+        --font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-family);
+        margin: 0;
+        padding: 20px;
+        color: var(--text-color);
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+        background-color: var(--primary-green);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+    }
+
+    .logo-placeholder {
+        width: 100px;
+        height: 100px;
+        background-color: #777;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .header-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    /* Top Info Grid */
+    .info-grid {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .company-info, .bill-to {
+        width: 45%;
+    }
+
+    .invoice-meta {
+        width: 45%;
+        text-align: right;
+    }
+
+    h3 {
+        color: #2c3e50;
+        font-size: 14px;
+        margin-top: 0;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    p {
+        margin: 2px 0;
+        font-size: 14px;
+    }
+
+    .meta-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: fixed;
+    }
+
+    th {
+        background-color: var(--primary-green);
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        border: 1px solid var(--border-color);
+    }
+
+    td {
+        border: 1px solid var(--border-color);
+        padding: 8px;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .col-desc { width: 40%; }
+    .col-qty { width: 10%; text-align: center; }
+    .col-price { width: 25%; text-align: right; }
+    .col-total { width: 25%; text-align: right; }
+
+    .bg-light {
+        background-color: var(--light-gray);
+    }
+
+    /* Totals Section */
+    .totals-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -5px; /* Pull up to touch table */
+    }
+
+    .totals-table {
+        width: 300px;
+        border-collapse: collapse;
+    }
+
+    .totals-table td {
+        border: 1px solid var(--border-color);
+        padding: 5px 10px;
+        text-align: right;
+        font-size: 14px;
+    }
+
+    .totals-table .label {
+        text-align: right;
+        font-weight: bold;
+        color: #444;
+    }
+
+    .balance-due {
+        background-color: var(--primary-green);
+        color: white;
+        font-weight: bold;
+    }
+
+    /* Remarks */
+    .remarks {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 40px;
+    }
+
+    /* Footer */
+    .footer {
+        margin-top: 50px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+
+    .payment-instructions {
+        font-size: 14px;
+        margin-bottom: 40px;
+        width: 40%;
+        float: left;
+    }
+
+    .signatures {
+        width: 50%;
+        float: right;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 40px;
+    }
+
+    .signature-line {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .thank-you {
+        font-size: 24px;
+        font-weight: bold;
+        font-style: italic;
+        margin-bottom: 20px;
+    }
+
+    .footer-logo {
+        text-align: right;
+        margin-bottom: 20px;
+    }
+    
+    .footer-logo img {
+        height: 30px;
+    }
+
+    .green-bar {
+        background-color: var(--primary-green);
+        height: 20px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    /* Utility */
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+</style>
+
+
+
+<div class="container">
+    
+    <div class="header">
+        <div class="logo-placeholder">LOGO</div>
+        <div class="header-title">Sample Invoice Template</div>
+    </div>
+
+    
+    <div class="info-grid">
+        <div class="company-info">
+            <h3>COMPANY NAME</h3>
+            <p>{company_name}</p>
+            <p>{company_address}</p>
+            <p>{company_phone}</p>
+            <p>{company_email}</p>
+        </div>
+        
+        <div class="invoice-meta">
+            <div class="meta-row">
+                <span>DATE</span>
+                <span>{invoice_date}</span>
+            </div>
+            <div class="meta-row">
+                <span>INVOICE NO.</span>
+                <span>{invoice_no}</span>
+            </div>
+            <div style="">
+                <p>{payment_terms}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bill-to">
+        <h3>BILL TO</h3>
+        <p>{bill_to_name}</p>
+        <p>{bill_to_company}</p>
+        <p>{bill_to_address}</p>
+        <p>{bill_to_phone}</p>
+    </div>
+
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th class="col-desc" data-label="description">DESCRIPTION</th>
+                <th class="col-qty" data-label="qty">QTY</th>
+                <th class="col-price" data-label="unit_price">UNIT PRICE</th>
+                <th class="col-total" data-label="total">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td></td>
+                <td class="text-center">1</td>
+                <td class="text-right">$ 5.00</td>
+                <td class="text-right">$ 5.00</td>
+            </tr>
+            
+            <tr class="bg-light">
+                <td></td>
+                <td class="text-center">1</td>
+                <td class="text-right">$ 7.00</td>
+                <td class="text-right">$ 7.00</td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td class="text-center">1</td>
+                <td class="text-right">$ 6.00</td>
+                <td class="text-right">$ 6.00</td>
+            </tr>
+            
+            <tr class="bg-light">
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-right"></td>
+                <td class="text-right">$ -</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-right"></td>
+                <td class="text-right">$ -</td>
+            </tr>
+            <tr class="bg-light">
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-right"></td>
+                <td class="text-right">$ -</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div style="display: flex">
+        <div class="remarks">
+            <strong>Remarks / Payment Instructions:</strong> Payment due within Net 30 days. Late payments may incur a 2% monthly interest. Taxes applied as per local regulations.
+        </div>
+        
+        <div class="totals-container">
+            <table class="totals-table">
+                <tbody><tr>
+                    <td class="label">SUBTOTAL</td>
+                    <td class="text-right">$ {subtotal}</td>
+                </tr>
+                <tr>
+                    <td class="label">DISCOUNT</td>
+                    <td class="text-right">$ {discount}</td>
+                </tr>
+                <tr>
+                    <td class="label">SUBTOTAL LESS DISCOUNT</td>
+                    <td class="text-right">$ {subtotal_less_discount}</td>
+                </tr>
+                <tr>
+                    <td class="label">TAX RATE</td>
+                    <td class="text-right">{tax_rate}</td>
+                </tr>
+                <tr>
+                    <td class="label">TOTAL TAX</td>
+                    <td class="text-right">$ {total_tax}</td>
+                </tr>
+                <tr>
+                    <td class="label">SHIPPING/HANDLING</td>
+                    <td class="text-right">$ {shipping_handling}</td>
+                </tr>
+                <tr>
+                    <td class="balance-due label">BALANCE DUE</td>
+                    <td class="balance-due text-right">$ {balance_due}</td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+
+    
+    <div class="footer">
+        <div class="payment-instructions">
+            Make all checks payable to {company_name}. Or submit payment via Venmo: {venmo_account} or Paypal: {paypal_account}
+        </div>
+        
+        <div class="signatures">
+            <div class="signature-line">Company Signature X</div>
+            <div class="signature-line">Client Signature X</div>
+        </div>
+
+        <div style="clear: both"></div>
+
+        <div class="thank-you">Thank you for your business!</div>
+
+        <div class="footer-logo">
+            <p style="">This invoice is brought to you by</p>
+            
+            <svg width="180" height="30">
+                
+                
+                
+                Online
+                Invoices
+            </svg>
+        </div>
+
+        <div class="green-bar"></div>
+    </div>
+</div>
+
+

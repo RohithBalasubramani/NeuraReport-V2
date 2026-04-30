@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "Perfect! I've successfully created the template from your PDF. The template ID is `source-639b99`.\n\nI notice that no tokens were detected in the PDF. This could mean:\n- The PDF contains text but no tabular data or form fields\n- The PDF might be image-based and needs OCR processing\n- The content might need manual token definition\n\nI also see that you have a database connection available. Would you like me to:\n1. Check what's in the PDF to understand its structure better\n2. Proceed with mapping if there are any detectable fields\n3. Help you define what data fields you'd like to extract from this PDF\n\nWhat would you prefer?"
+  }
+]

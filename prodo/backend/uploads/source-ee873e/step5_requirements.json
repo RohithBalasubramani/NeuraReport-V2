@@ -1,0 +1,61 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata and address details for the header section.",
+      "columns": [
+        "date",
+        "invoice_number",
+        "company_name",
+        "company_email",
+        "company_address_1",
+        "company_address_2",
+        "client_name",
+        "client_email",
+        "client_address_1",
+        "client_address_2",
+        "terms",
+        "due_date",
+        "notes"
+      ]
+    },
+    "rows": {
+      "description": "Line items associated with the invoice.",
+      "columns": [
+        "row_item_description",
+        "row_quantity",
+        "row_price",
+        "row_amount"
+      ],
+      "grouping": [
+        "invoice_number"
+      ],
+      "ordering": [
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated financial totals (Subtotal, Tax, Balance).",
+      "columns": []
+    }
+  },
+  "semantics": "Scalar tokens represent single values per invoice. Row tokens represent a one-to-many relationship where multiple line items exist per invoice. Parameters allow filtering the dataset by date range.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Concatenate customer city, state, and postal code to form client_address_2.",
+    "Format issue_date and due_date to 'DD-MM-YYYY HH:MM:SS'.",
+    "Apply currency formatting to unit_price and line_total.",
+    "Inject static literals for company details and terms."
+  ]
+}

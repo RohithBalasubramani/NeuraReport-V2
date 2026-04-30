@@ -187,6 +187,7 @@ export default function PipelineChatPage() {
     connection_ids: connectionIds?.length > 0 ? connectionIds : undefined,
     template_kind: store.templateKind || 'pdf',
     workspace_mode: store.workspaceMode,
+    thinking_enabled: store.thinkingEnabled,
     messages: store.messages
       .filter(m => (m.role === 'user' || m.role === 'assistant') && m.type === 'text')
       .map(m => ({ role: m.role, content: m.content })),
@@ -219,6 +220,8 @@ export default function PipelineChatPage() {
     store.setIsProcessing(true)
     try {
       const payload = buildPayload()
+      // New upload = fresh template — clear stale template_id so backend creates a new one
+      payload.template_id = null
       payload.messages = [{ role: 'user', content: `Uploaded file: ${file.name}` }]
       const response = await pipelineChatUpload(sessionId, payload, file)
       await streamResponse(response)
@@ -230,7 +233,15 @@ export default function PipelineChatPage() {
   }, [store, sessionId, buildPayload, streamResponse])
 
   // ─── Send message with reference attachments (images, docs for context) ───
+  // If no template exists yet and user attaches a PDF/Excel, treat it as a
+  // template upload (triggers verify_template) instead of a reference attach.
+  const TEMPLATE_EXTS = /\.(pdf|xlsx?|csv)$/i
   const handleReferenceAttach = useCallback(async (text, files) => {
+    // Auto-promote: first PDF/Excel when pipeline has no template → template upload
+    if (!templateId && files.length === 1 && TEMPLATE_EXTS.test(files[0].name)) {
+      plog.action(`reference.promote_to_upload: ${files[0].name}`, { size: files[0].size })
+      return handleFileUpload(files[0])
+    }
     const names = files.map(f => f.name).join(', ')
     plog.action(`reference.attach: ${names}`, { count: files.length, text: text.slice(0, 80) })
     store.addUserMessage(
@@ -249,7 +260,7 @@ export default function PipelineChatPage() {
     } finally {
       store.setIsProcessing(false)
     }
-  }, [store, sessionId, buildPayload, streamResponse])
+  }, [store, sessionId, templateId, buildPayload, streamResponse, handleFileUpload])
 
   // ─── Handle action (from chips, panel, or slash commands) ───
   const handleAction = useCallback(async (actionOrObj) => {

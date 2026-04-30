@@ -1,0 +1,26 @@
+{
+  "dialect": "duckdb",
+  "mode": "dataframe",
+  "entrypoints": {},
+  "params": {
+    "required": [
+      "company_email",
+      "company_address_1",
+      "company_address_2",
+      "terms"
+    ],
+    "optional": []
+  },
+  "needs_user_fix": [],
+  "invalid": false,
+  "summary": {
+    "scalars": 12,
+    "row_tokens": 4,
+    "totals": 0,
+    "reshape_rules": 1,
+    "row_computed": 5,
+    "totals_math": 0,
+    "formatters": 12
+  },
+  "key_tokens": []
+}

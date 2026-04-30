@@ -1,0 +1,115 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "82b6664eff02f501937103e73ec4437b9faee45802a0139c31b1202dce3856db",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777550737,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "invoice_number",
+        "balance_due_top",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "po_number",
+        "project_name",
+        "sub_total",
+        "tax_1",
+        "tax_2",
+        "grand_total",
+        "payment_made",
+        "final_balance"
+      ],
+      "row_tokens": [],
+      "totals": []
+    },
+    "mapping": {
+      "invoice_number": "invoices.invoice_number",
+      "balance_due_top": "invoices.total_amount",
+      "invoice_date": "invoices.issue_date",
+      "terms": "invoices.notes",
+      "due_date": "invoices.due_date",
+      "sub_total": "invoices.subtotal",
+      "grand_total": "invoices.total_amount",
+      "payment_made": "payments.amount_paid",
+      "final_balance": "invoices.total_amount"
+    },
+    "unresolved": [
+      "po_number",
+      "project_name",
+      "tax_1",
+      "tax_2"
+    ],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoices",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "issue_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.issue_date"
+      }
+    },
+    "reshape_rules": [],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "balance_due_top": "currency(2)",
+      "sub_total": "currency(2)",
+      "grand_total": "currency(2)",
+      "payment_made": "currency(2)",
+      "final_balance": "currency(2)",
+      "tax_1": "currency(2)",
+      "tax_2": "currency(2)",
+      "invoice_number": "number(2)",
+      "invoice_date": "number(2)",
+      "terms": "number(2)",
+      "due_date": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "ROWID"
+      ]
+    },
+    "header_tokens": [
+      "invoice_number",
+      "balance_due_top",
+      "invoice_date",
+      "terms",
+      "due_date",
+      "sub_total",
+      "grand_total",
+      "payment_made",
+      "final_balance"
+    ],
+    "row_tokens": [],
+    "row_order": [
+      "ROWID"
+    ],
+    "literals": {},
+    "notes": "Tokens 'po_number', 'project_name', 'tax_1', 'tax_2' are marked UNRESOLVED as no direct column mapping exists in the provided catalog. 'payment_made' maps to the payments table column but requires aggregation logic in the execution layer (SUM). 'final_balance' is a computed row value.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

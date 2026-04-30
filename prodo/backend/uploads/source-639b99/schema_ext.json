@@ -1,0 +1,31 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "company_website",
+    "bill_to_client",
+    "bill_to_address",
+    "ship_to_client",
+    "ship_to_address",
+    "invoice_number",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "customer_message",
+    "subtotal",
+    "sales_tax",
+    "shipping",
+    "total"
+  ],
+  "row_tokens": [
+    "row_item_service",
+    "row_description",
+    "row_quantity_hrs",
+    "row_rate",
+    "row_amount"
+  ],
+  "totals": [],
+  "notes": "Static invoice template. Totals are rendered as scalars in the bottom section."
+}

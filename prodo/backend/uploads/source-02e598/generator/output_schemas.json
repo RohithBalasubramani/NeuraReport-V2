@@ -1,0 +1,20 @@
+{
+  "header": [
+    "company_name_placeholder",
+    "invoice_date",
+    "invoice_no",
+    "bill_to_name_dept",
+    "bill_to_address",
+    "bill_to_phone"
+  ],
+  "rows": [],
+  "totals": [
+    "total_subtotal",
+    "total_discount",
+    "total_subtotal_less_discount",
+    "total_tax_rate",
+    "total_tax",
+    "total_shipping",
+    "total_balance_due"
+  ]
+}

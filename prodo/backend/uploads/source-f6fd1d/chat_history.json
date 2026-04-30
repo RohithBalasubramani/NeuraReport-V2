@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "Map the data fields, build contract, validate, approve warnings, and generate a report for 2025."
+  },
+  {
+    "role": "assistant",
+    "content": "I need a PDF or Excel file to create the template from. Could you please upload the document you'd like to use as the report template?\n\nOnce you upload it, I'll:\n1. Convert it to a template\n2. Map the data fields to your database\n3. Build the contract\n4. Validate everything\n5. Generate the report for 2025"
+  }
+]

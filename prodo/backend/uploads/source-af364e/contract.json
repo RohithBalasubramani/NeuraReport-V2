@@ -1,0 +1,468 @@
+{
+  "tokens": {
+    "scalars": [
+      "plant_name",
+      "location",
+      "print_date",
+      "from_date",
+      "to_date",
+      "batch_no",
+      "batch_id",
+      "start_time",
+      "end_time"
+    ],
+    "row_tokens": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "totals": [
+      "total_set_wt_kg",
+      "total_ach_wt_kg",
+      "total_error_kg",
+      "total_error_pct"
+    ]
+  },
+  "mapping": {
+    "plant_name": "LITERAL:Costal Plant",
+    "location": "LITERAL:Production Floor",
+    "print_date": "PARAM:print_date",
+    "from_date": "PARAM:from_date",
+    "to_date": "PARAM:to_date",
+    "batch_no": "recipes.id",
+    "batch_id": "recipes.recipe_name",
+    "start_time": "recipes.start_time",
+    "end_time": "recipes.end_time",
+    "row_sl_no": "row_sl_no",
+    "row_material_name": "row_material_name",
+    "row_set_wt_kg": "row_set_wt_kg",
+    "row_ach_wt_kg": "row_ach_wt_kg",
+    "row_error_kg": "row_error_kg",
+    "row_error_pct": "row_error_pct",
+    "total_set_wt_kg": "total_set_wt_kg",
+    "total_ach_wt_kg": "total_ach_wt_kg",
+    "total_error_kg": "total_error_kg",
+    "total_error_pct": "total_error_pct"
+  },
+  "unresolved": [],
+  "join": {
+    "parent_table": "recipes",
+    "parent_key": "id",
+    "child_table": "recipes",
+    "child_key": "id"
+  },
+  "date_columns": {
+    "recipes": "start_time"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "recipes.start_time",
+      "date_to": "recipes.end_time"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Unpivot 12 bin columns into material rows",
+      "strategy": "MELT",
+      "columns": [
+        {
+          "as": "row_sl_no",
+          "from": [
+            "INDEX"
+          ]
+        },
+        {
+          "as": "row_material_name",
+          "from": [
+            "recipes.bin1_content",
+            "recipes.bin2_content",
+            "recipes.bin3_content",
+            "recipes.bin4_content",
+            "recipes.bin5_content",
+            "recipes.bin6_content",
+            "recipes.bin7_content",
+            "recipes.bin8_content",
+            "recipes.bin9_content",
+            "recipes.bin10_content",
+            "recipes.bin11_content",
+            "recipes.bin12_content"
+          ]
+        },
+        {
+          "as": "row_set_wt_kg",
+          "from": [
+            "recipes.bin1_sp",
+            "recipes.bin2_sp",
+            "recipes.bin3_sp",
+            "recipes.bin4_sp",
+            "recipes.bin5_sp",
+            "recipes.bin6_sp",
+            "recipes.bin7_sp",
+            "recipes.bin8_sp",
+            "recipes.bin9_sp",
+            "recipes.bin10_sp",
+            "recipes.bin11_sp",
+            "recipes.bin12_sp"
+          ]
+        },
+        {
+          "as": "row_ach_wt_kg",
+          "from": [
+            "recipes.bin1_act",
+            "recipes.bin2_act",
+            "recipes.bin3_act",
+            "recipes.bin4_act",
+            "recipes.bin5_act",
+            "recipes.bin6_act",
+            "recipes.bin7_act",
+            "recipes.bin8_act",
+            "recipes.bin9_act",
+            "recipes.bin10_act",
+            "recipes.bin11_act",
+            "recipes.bin12_act"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "from_date": {
+      "op": "expression",
+      "expr": "DATE(start_time)"
+    },
+    "print_date": {
+      "op": "expression",
+      "expr": "CURRENT_DATE"
+    },
+    "row_error_kg": {
+      "op": "subtract",
+      "left": "row_ach_wt_kg",
+      "right": "row_set_wt_kg"
+    },
+    "row_error_pct": {
+      "op": "expression",
+      "expr": "ROUND((row_ach_wt_kg-row_set_wt_kg)/row_set_wt_kg*100,2)"
+    },
+    "to_date": {
+      "op": "expression",
+      "expr": "DATE(end_time)"
+    }
+  },
+  "totals_math": {
+    "total_set_wt_kg": {
+      "op": "expression",
+      "expr": "SUM(row_set_wt_kg)"
+    },
+    "total_ach_wt_kg": {
+      "op": "expression",
+      "expr": "SUM(row_ach_wt_kg)"
+    },
+    "total_error_kg": {
+      "op": "expression",
+      "expr": "SUM(row_error_kg)"
+    },
+    "total_error_pct": {
+      "op": "expression",
+      "expr": "ROUND(SUM(row_error_kg)/SUM(row_set_wt_kg)*100,2)"
+    }
+  },
+  "totals": {
+    "total_set_wt_kg": {
+      "op": "expression",
+      "expr": "SUM(row_set_wt_kg)"
+    },
+    "total_ach_wt_kg": {
+      "op": "expression",
+      "expr": "SUM(row_ach_wt_kg)"
+    },
+    "total_error_kg": {
+      "op": "expression",
+      "expr": "SUM(row_error_kg)"
+    },
+    "total_error_pct": {
+      "op": "expression",
+      "expr": "ROUND(SUM(row_error_kg)/SUM(row_set_wt_kg)*100,2)"
+    }
+  },
+  "formatters": {
+    "row_set_wt_kg": "number(2)",
+    "row_ach_wt_kg": "number(2)",
+    "row_error_kg": "number(2)",
+    "row_error_pct": "percent(2)",
+    "total_set_wt_kg": "number(2)",
+    "total_ach_wt_kg": "number(2)",
+    "total_error_kg": "number(2)",
+    "total_error_pct": "percent(2)",
+    "row_sl_no": "number(0)",
+    "batch_id": "number(2)",
+    "start_time": "number(2)",
+    "end_time": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "row_sl_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "batch_id",
+    "start_time",
+    "end_time"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "row_order": [
+    "row_sl_no ASC"
+  ],
+  "literals": {
+    "plant_name": "Costal Plant",
+    "location": "Production Floor"
+  },
+  "notes": "Timestamps are formatted via row_computed. Numeric columns use formatters. Reshape melts 12 bins into rows.",
+  "_schema_version": "2.2",
+  "fields": {
+    "row_error_kg": {
+      "source": "row_error_kg",
+      "format": "number(2)",
+      "computed": "{\"op\": \"subtract\", \"left\": \"row_ach_wt_kg\", \"right\": \"row_set_wt_kg\"}"
+    },
+    "row_ach_wt_kg": {
+      "source": "row_ach_wt_kg",
+      "format": "number(2)"
+    },
+    "total_ach_wt_kg": {
+      "source": "total_ach_wt_kg",
+      "format": "number(2)",
+      "aggregate": "EXPRESSION",
+      "computed": "SUM(row_ach_wt_kg)"
+    },
+    "total_set_wt_kg": {
+      "source": "total_set_wt_kg",
+      "format": "number(2)",
+      "aggregate": "EXPRESSION",
+      "computed": "SUM(row_set_wt_kg)"
+    },
+    "row_error_pct": {
+      "source": "row_error_pct",
+      "format": "percent(2)",
+      "computed": "{\"op\": \"subtract\", \"left\": \"ROUND((row_ach_wt_kg\", \"right\": \"row_set_wt_kg)/row_set_wt_kg*100,2)\"}"
+    },
+    "print_date": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"CURRENT_DATE\"}"
+    },
+    "from_date": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"DATE(start_time)\"}"
+    },
+    "batch_no": {
+      "source": "recipes.id"
+    },
+    "end_time": {
+      "source": "recipes.end_time",
+      "format": "number(2)"
+    },
+    "to_date": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"DATE(end_time)\"}"
+    },
+    "total_error_kg": {
+      "source": "total_error_kg",
+      "format": "number(2)",
+      "aggregate": "EXPRESSION",
+      "computed": "SUM(row_error_kg)"
+    },
+    "batch_id": {
+      "source": "recipes.recipe_name",
+      "format": "number(2)"
+    },
+    "row_set_wt_kg": {
+      "source": "row_set_wt_kg",
+      "format": "number(2)"
+    },
+    "total_error_pct": {
+      "source": "total_error_pct",
+      "format": "percent(2)",
+      "aggregate": "EXPRESSION",
+      "computed": "ROUND(SUM(row_error_kg)/SUM(row_set_wt_kg)*100,2)"
+    },
+    "row_sl_no": {
+      "source": "row_sl_no",
+      "format": "number(0)",
+      "computed": "ROW_NUMBER"
+    },
+    "row_material_name": {
+      "source": "row_material_name"
+    },
+    "start_time": {
+      "source": "recipes.start_time",
+      "format": "number(2)"
+    }
+  },
+  "joins": [
+    {
+      "from": "recipes.id",
+      "to": "recipes.id",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "row_error_kg",
+      "operator": "notNull",
+      "message": "row_error_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_error_kg",
+      "operator": "isNumeric",
+      "message": "row_error_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_ach_wt_kg",
+      "operator": "notNull",
+      "message": "row_ach_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_ach_wt_kg",
+      "operator": "isNumeric",
+      "message": "row_ach_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_ach_wt_kg",
+      "operator": "notNull",
+      "message": "total_ach_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_ach_wt_kg",
+      "operator": "isNumeric",
+      "message": "total_ach_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_set_wt_kg",
+      "operator": "notNull",
+      "message": "total_set_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_set_wt_kg",
+      "operator": "isNumeric",
+      "message": "total_set_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_error_pct",
+      "operator": "notNull",
+      "message": "row_error_pct must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "batch_no",
+      "operator": "notNull",
+      "message": "batch_no must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "end_time",
+      "operator": "notNull",
+      "message": "end_time must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "end_time",
+      "operator": "isNumeric",
+      "message": "end_time must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_error_kg",
+      "operator": "notNull",
+      "message": "total_error_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_error_kg",
+      "operator": "isNumeric",
+      "message": "total_error_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "batch_id",
+      "operator": "notNull",
+      "message": "batch_id must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "batch_id",
+      "operator": "isNumeric",
+      "message": "batch_id must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_set_wt_kg",
+      "operator": "notNull",
+      "message": "row_set_wt_kg must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_set_wt_kg",
+      "operator": "isNumeric",
+      "message": "row_set_wt_kg must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_error_pct",
+      "operator": "notNull",
+      "message": "total_error_pct must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_sl_no",
+      "operator": "notNull",
+      "message": "row_sl_no must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_sl_no",
+      "operator": "isNumeric",
+      "message": "row_sl_no must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_material_name",
+      "operator": "notNull",
+      "message": "row_material_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "start_time",
+      "operator": "notNull",
+      "message": "start_time must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "start_time",
+      "operator": "isNumeric",
+      "message": "start_time must be numeric",
+      "severity": "warning"
+    }
+  ]
+}

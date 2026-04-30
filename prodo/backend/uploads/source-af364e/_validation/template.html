@@ -1,0 +1,227 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Consumption Report</title>
+    <style>
+        :root {
+            --col-slno-w: 8%;
+            --col-name-w: 20%;
+            --col-set-w: 18%;
+            --col-ach-w: 18%;
+            --col-err-w: 18%;
+            --col-pct-w: 18%;
+            --font-main: "Helvetica", "Arial", sans-serif;
+            --border-color: #000;
+        }
+
+        body {
+            font-family: var(--font-main);
+            font-size: 11pt;
+            margin: 0;
+            padding: 15mm;
+            background-color: #fff;
+            color: #000;
+            line-height: 1.3;
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        .header-section {
+            margin-bottom: 15mm;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .header-left, .header-right {
+            width: 48%;
+        }
+
+        .header-row {
+            display: flex;
+            margin-bottom: 2px;
+            align-items: baseline;
+        }
+
+        .header-label {
+            font-weight: bold;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .header-colon {
+            width: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .header-value {
+            flex-grow: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22pt;
+            margin: 0 0 15mm 0;
+            font-weight: bold;
+        }
+
+        .batch-block {
+            margin-bottom: 10mm;
+            page-break-inside: avoid;
+        }
+
+        .batch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2mm;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+
+        .batch-header span:first-child {
+            flex: 0 0 150px;
+        }
+        
+        .batch-header span:nth-child(2) {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .batch-header span:last-child {
+            flex: 1;
+            text-align: right;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 11pt;
+            margin-bottom: 5mm;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 3px 6px;
+            vertical-align: middle;
+        }
+
+        th {
+            font-weight: bold;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        /* Column Widths &amp; Alignment */
+        th:nth-child(1), td:nth-child(1) { width: var(--col-slno-w); text-align: center; }
+        th:nth-child(2), td:nth-child(2) { width: var(--col-name-w); text-align: left; }
+        th:nth-child(3), td:nth-child(3) { width: var(--col-set-w); text-align: right; font-variant-numeric: tabular-nums; }
+        th:nth-child(4), td:nth-child(4) { width: var(--col-ach-w); text-align: right; font-variant-numeric: tabular-nums; }
+        th:nth-child(5), td:nth-child(5) { width: var(--col-err-w); text-align: right; font-variant-numeric: tabular-nums; }
+        th:nth-child(6), td:nth-child(6) { width: var(--col-pct-w); text-align: right; font-variant-numeric: tabular-nums; }
+
+        .total-row td:first-child {
+            text-align: left;
+            font-weight: bold;
+            padding-left: 8px;
+        }
+
+        .total-row td {
+            font-weight: bold;
+        }
+
+        .data-label {
+            display: none;
+        }
+    </style>
+
+
+
+    <div class="header-section" id="report-header">
+        <div class="header-left">
+            <div class="header-row">
+                <span class="header-label">Plant name</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{plant_name}</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Location</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{location}</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Print Date</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{print_date}</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-row">
+                <span class="header-label">From</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{from_date}</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">To</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{to_date}</span>
+            </div>
+            <div class="header-row">
+                <span class="header-label">Batch No</span>
+                <span class="header-colon">:</span>
+                <span class="header-value">{batch_no}</span>
+            </div>
+        </div>
+    </div>
+
+    <h1>Consumption report</h1>
+
+    <!-- BEGIN:BLOCK_REPEAT batches -->
+    <section class="batch-block">
+        <div class="batch-header">
+            <span>{batch_id}</span>
+            <span>Start {start_time}</span>
+            <span>End {end_time}</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th data-label="sl_no">Sl. No.</th>
+                    <th data-label="material_name">Material name</th>
+                    <th data-label="set_wt_kg">Set. wt(Kg)</th>
+                    <th data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                    <th data-label="error_kg">Error(Kg)</th>
+                    <th data-label="error_pct">Error %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{row_sl_no}</td>
+                    <td>{row_material_name}</td>
+                    <td>{row_set_wt_kg}</td>
+                    <td>{row_ach_wt_kg}</td>
+                    <td>{row_error_kg}</td>
+                    <td>{row_error_pct}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2">Total for batch</td>
+                    <td>{total_set_wt_kg}</td>
+                    <td>{total_ach_wt_kg}</td>
+                    <td>{total_error_kg}</td>
+                    <td>{total_error_pct}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+    <!-- END:BLOCK_REPEAT -->
+
+

@@ -237,6 +237,7 @@ def _sanitize_for_agent(tool_name: str, raw_result: dict) -> dict:
         sanitized["token_count"] = raw_result.get("token_count", 0)
         sanitized["ocr_extracted"] = raw_result.get("ocr_extracted", False)
         sanitized["ocr_chars"] = raw_result.get("ocr_chars", 0)
+        sanitized["ocr_summary"] = raw_result.get("ocr_summary")
 
     elif tool_name == "simulate_mapping":
         sanitized["overall_score"] = raw_result.get("overall_score")
@@ -624,6 +625,26 @@ def _post_process_contract(tdir: Path, mapping: dict[str, str], expansions: dict
             if isinstance(expr, dict):
                 _fix_computed_refs(expr, reshape_source_to_alias)
 
+        # ── 4b. Remove UNRESOLVED from computed fields ──
+        # The LLM sometimes generates computed ops referencing "UNRESOLVED" columns.
+        # If the field has a direct source mapping, drop the broken computed and use source.
+        for section_key in ("row_computed", "totals_math", "totals"):
+            section = contract.get(section_key, {})
+            if not isinstance(section, dict):
+                continue
+            for token, expr in list(section.items()):
+                expr_str = json.dumps(expr) if isinstance(expr, dict) else str(expr)
+                if "UNRESOLVED" in expr_str:
+                    # Check if the field has a direct source in the mapping
+                    direct = contract_mapping.get(token) or mapping.get(token, "")
+                    if direct and "." in direct and "UNRESOLVED" not in direct:
+                        # Drop the broken computed — the direct source is sufficient
+                        del section[token]
+                        modified = True
+                        logger.info(f"removed_unresolved_computed: {token} (using source {direct})")
+                    else:
+                        logger.warning(f"unresolved_computed_kept: {token} (no direct source)")
+
         # ── 5. Derive `fields` dict for LogicTab widgets (4a, 4c, 5a, 5c, D3, D7) ──
         # Each field gets {source, transform, aggregate, format, computed} so
         # RuleCard, TransformPipelineView, MermaidFlowView, LineageView can render.
@@ -848,53 +869,79 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
 
         template_id = None
         token_signatures = None
+        verify_error = None
         events = await _iter_streaming_response(response)
         for event in events:
             if event.get("event") == "stage":
                 await ctx.event_queue.put(event)
+            if event.get("event") == "error":
+                verify_error = event.get("detail") or event.get("message") or "Verification failed"
             if event.get("template_id"):
                 template_id = event["template_id"]
             if event.get("token_signatures"):
                 token_signatures = event["token_signatures"]
 
+        # If the verify stream reported an error, fail immediately
+        if verify_error:
+            logger.error("verify_template_stream_error", extra={
+                "template_id": template_id, "error": verify_error,
+            })
+            return {"error": "verify_failed", "message": verify_error}
+
+        if not template_id:
+            return {"error": "verify_failed", "message": "No template_id returned from verification"}
+
         # Load generated HTML + tokens
         template_html = ""
         template_tokens = []
-        if template_id:
-            try:
-                tdir = _template_dir(template_id)
-                # Ensure report_final.html exists (render step may fail)
-                report_final = tdir / "report_final.html"
-                template_p1 = tdir / "template_p1.html"
-                if not report_final.exists() and template_p1.exists():
-                    import shutil
-                    shutil.copy2(template_p1, report_final)
-                    logger.info("copied template_p1 → report_final (render skipped)")
+        try:
+            tdir = _template_dir(template_id)
+            # Ensure report_final.html exists (render step may fail)
+            report_final = tdir / "report_final.html"
+            template_p1 = tdir / "template_p1.html"
+            if not report_final.exists() and template_p1.exists():
+                import shutil
+                shutil.copy2(template_p1, report_final)
+                logger.info("copied template_p1 → report_final (render skipped)")
 
-                for name in ("report_final.html", "template_p1.html"):
-                    p = tdir / name
-                    if p.exists() and p.stat().st_size > 0:
-                        template_html = p.read_text(encoding="utf-8", errors="ignore")
-                        break
-                template_tokens = sorted(set(re.findall(r"\{\{?\s*([A-Za-z0-9_\-\.]+)\s*\}\}?", template_html)))
-            except Exception:
-                pass
+            for name in ("report_final.html", "template_p1.html"):
+                p = tdir / name
+                if p.exists() and p.stat().st_size > 0:
+                    template_html = p.read_text(encoding="utf-8", errors="ignore")
+                    break
+            template_tokens = sorted(set(re.findall(r"\{\{?\s*([A-Za-z0-9_\-\.]+)\s*\}\}?", template_html)))
+        except Exception as exc:
+            logger.error("verify_template_load_failed", extra={
+                "template_id": template_id, "error": str(exc),
+            })
+            return {"error": "verify_failed", "message": f"Template directory not found for {template_id}. HTML generation may have failed."}
 
-            # Migrate session from _session_xxx to the real template directory.
-            # For Excel: check EXCEL_UPLOAD_ROOT first since template_p1.html
-            # lives there while the session dir may exist under UPLOAD_ROOT.
-            try:
-                from backend.app.services.legacy_services import UPLOAD_ROOT, EXCEL_UPLOAD_ROOT
-                roots = (EXCEL_UPLOAD_ROOT, UPLOAD_ROOT) if is_excel else (UPLOAD_ROOT, EXCEL_UPLOAD_ROOT)
-                for root in roots:
-                    candidate = root / template_id
-                    if candidate.is_dir() and (candidate / "template_p1.html").exists():
-                        if candidate.resolve() != ctx.session.template_dir.resolve():
-                            ctx.session.migrate_to(candidate)
-                            logger.info("session_migrated template_id=%s root=%s", template_id, root)
-                        break
-            except Exception:
-                logger.warning("session_migration_failed", exc_info=True)
+        if not template_html:
+            return {"error": "verify_failed", "message": "Template HTML was not generated. The LLM may have failed to convert the PDF."}
+
+        if len(template_tokens) < 5:
+            logger.warning("verify_template_low_token_count", extra={
+                "template_id": template_id, "token_count": len(template_tokens),
+                "tokens": template_tokens,
+            })
+            # Don't fail — but include a warning so the agent knows
+            # The agent can retry or ask the user
+
+        # Migrate session from _session_xxx to the real template directory.
+        # For Excel: check EXCEL_UPLOAD_ROOT first since template_p1.html
+        # lives there while the session dir may exist under UPLOAD_ROOT.
+        try:
+            from backend.app.services.legacy_services import UPLOAD_ROOT, EXCEL_UPLOAD_ROOT
+            roots = (EXCEL_UPLOAD_ROOT, UPLOAD_ROOT) if is_excel else (UPLOAD_ROOT, EXCEL_UPLOAD_ROOT)
+            for root in roots:
+                candidate = root / template_id
+                if candidate.is_dir() and (candidate / "template_p1.html").exists():
+                    if candidate.resolve() != ctx.session.template_dir.resolve():
+                        ctx.session.migrate_to(candidate)
+                        logger.info("session_migrated template_id=%s root=%s", template_id, root)
+                    break
+        except Exception:
+            logger.warning("session_migration_failed", exc_info=True)
 
         # Transition to HTML_READY — handle case where verify already transitioned
         try:
@@ -929,6 +976,22 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
         except Exception:
             logger.debug("ocr_artifact_check_failed", exc_info=True)
 
+        # Build OCR summary so the agent knows what was extracted
+        ocr_summary = None
+        if ocr_chars > 0:
+            try:
+                sections = ocr_data.get("sections", {})
+                headers = sections.get("column_headers", [])
+                scalars = sections.get("scalar_fields", [])
+                ocr_summary = {
+                    "column_header_count": len(headers),
+                    "scalar_field_count": len(scalars),
+                    "column_headers": [h.get("text", h) if isinstance(h, dict) else str(h) for h in headers[:10]],
+                    "scalar_labels": [s.get("label", s) if isinstance(s, dict) else str(s) for s in scalars[:5]],
+                }
+            except Exception:
+                pass
+
         await _push_stage(ctx, "verify.complete", "complete", 100)
 
         _kind = "excel" if is_excel else "pdf"
@@ -942,6 +1005,7 @@ async def tool_verify_template(ctx: ToolContext) -> dict:
             "token_signatures": token_signatures or {},
             "ocr_extracted": ocr_chars > 0,
             "ocr_chars": ocr_chars,
+            "ocr_summary": ocr_summary,
         }
 
     except Exception as exc:
@@ -1268,7 +1332,7 @@ async def tool_preview_contract(
 # Tool 7: auto_map_tokens (with multi-candidate evaluation)
 # ═══════════════════════════════════════════════════════════════════════
 
-def _detect_wide_format_columns(connection_id: str) -> dict[str, list[str]]:
+def _detect_wide_format_columns(connection_id: str, db_path: str | None = None) -> dict[str, list[str]]:
     """Detect wide-format column patterns in the DB.
 
     Scans all tables for repeating column patterns like:
@@ -1281,8 +1345,11 @@ def _detect_wide_format_columns(connection_id: str) -> dict[str, list[str]]:
     from backend.app.repositories import resolve_db_path, SQLiteDataFrameLoader
 
     try:
-        db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
-        loader = SQLiteDataFrameLoader(db_path)
+        if db_path:
+            _db_path = Path(db_path) if not isinstance(db_path, Path) else db_path
+        else:
+            _db_path = resolve_db_path(connection_id=connection_id, db_url=None, db_path=None)
+        loader = SQLiteDataFrameLoader(_db_path)
 
         pattern_groups: dict[str, list[str]] = {}
 
@@ -1304,6 +1371,35 @@ def _detect_wide_format_columns(connection_id: str) -> dict[str, list[str]]:
             for pattern, cols in pattern_groups.items()
             if len(cols) >= 3
         }
+
+        # ── Suffix-based detection (for prefix-pattern columns) ──
+        # Handles columns like FISH_OIL_SET_WEIGHT, SOYA_OIL_SET_WEIGHT, WATER_SET_WEIGHT
+        # where the suffix (_SET_WEIGHT) is shared and the prefix is the label.
+        for table in loader.table_names():
+            try:
+                cols = list(loader.frame(table).columns)
+            except Exception:
+                continue
+
+            # Group by last N segments as suffix
+            suffix_groups: dict[str, list[str]] = {}
+            for col in cols:
+                parts = col.upper().split("_")
+                if len(parts) < 3:
+                    continue
+                # Try suffixes of length 2 and 3
+                for n in (2, 3):
+                    if len(parts) > n:
+                        suffix = "_".join(parts[-n:])
+                        suffix_groups.setdefault(suffix, []).append(col)
+
+            for suffix, group_cols in suffix_groups.items():
+                if len(group_cols) >= 3:
+                    # Extract prefixes as labels
+                    pattern_key = f"suffix_{suffix.lower()}"
+                    if pattern_key not in wide_groups:
+                        wide_groups[pattern_key] = sorted(group_cols)
+                        logger.info(f"wide_format_suffix_detected: {suffix} → {group_cols}")
 
         if wide_groups:
             logger.info(f"wide_format_detected: {len(wide_groups)} groups: {list(wide_groups.keys())}")
@@ -1489,8 +1585,16 @@ async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id
                 if ocr_path.exists():
                     ocr_context = ocr_path.read_text(encoding="utf-8")
                     logger.info("mapping_ocr_loaded_txt", extra={"chars": len(ocr_context)})
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.warning("mapping_ocr_load_failed", extra={
+                "template_id": template_id, "error": str(exc),
+            })
+
+        if not ocr_context:
+            logger.warning("mapping_ocr_context_missing", extra={
+                "template_id": template_id,
+                "message": "Mapping will proceed without PDF reference — quality may be degraded",
+            })
 
         result = await run_mapping_preview(
             template_id, connection_id, ctx.request, kind=kind,
@@ -1501,6 +1605,17 @@ async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id
         errors = result.get("errors", [])
         unresolved = [e["label"] for e in errors if e.get("issue") == "UNRESOLVED"]
 
+        # Verify mapping_step3.json was written
+        try:
+            tdir = _template_dir(template_id)
+            step3_path = tdir / "mapping_step3.json"
+            if step3_path.exists():
+                logger.info("mapping_step3_verified", extra={"path": str(step3_path), "size": step3_path.stat().st_size})
+            else:
+                logger.warning("mapping_step3_missing", extra={"template_id": template_id, "tdir": str(tdir)})
+        except Exception:
+            logger.warning("mapping_step3_check_failed", exc_info=True)
+
         await _push_stage(ctx, "mapping.auto_map", "complete", 60)
 
         # ── Wide-format detection: auto-resolve RESHAPE/COMPUTED/SUM ──
@@ -1508,7 +1623,14 @@ async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id
         if unresolved:
             await _push_stage(ctx, "mapping.wide_format_detect", "started", 65)
 
-            wide_groups = _detect_wide_format_columns(connection_id)
+            # Resolve DB path via the same function mapping preview uses
+            _wide_db_path = None
+            try:
+                from backend.app.services.legacy_services import db_path_from_payload_or_default
+                _wide_db_path = str(db_path_from_payload_or_default(connection_id))
+            except Exception:
+                logger.debug("wide_format_db_path_resolve_failed", exc_info=True)
+            wide_groups = _detect_wide_format_columns(connection_id, db_path=_wide_db_path)
             if wide_groups:
                 # Find the main table
                 table = ""
@@ -1555,7 +1677,42 @@ async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id
 
             await _push_stage(ctx, "mapping.wide_format_detect", "complete", 90)
 
-        ctx.session.transition(PipelineState.MAPPED)
+        # ── Quality gate: check mapping before transitioning ──
+        total_tokens = len(mapping) + len(unresolved)
+        mapped_to_column = sum(1 for v in mapping.values() if "." in str(v) and not str(v).startswith("PARAM:"))
+        mapped_to_param = sum(1 for v in mapping.values() if str(v).startswith("PARAM:"))
+        mapped_computed = sum(1 for v in mapping.values() if any(k in str(v) for k in ("COMPUTED", "MELT", "RESHAPE", "SUM", "INDEX")))
+        quality_score = (mapped_to_column + mapped_to_param + mapped_computed) / max(total_tokens, 1)
+
+        logger.info("mapping_quality_check", extra={
+            "total_tokens": total_tokens,
+            "mapped_to_column": mapped_to_column,
+            "mapped_to_param": mapped_to_param,
+            "mapped_computed": mapped_computed,
+            "unresolved": len(unresolved),
+            "quality_score": round(quality_score, 2),
+        })
+
+        if quality_score < 0.5 and total_tokens > 3:
+            logger.warning("mapping_quality_too_low", extra={
+                "quality_score": round(quality_score, 2),
+                "unresolved": unresolved,
+            })
+            return {
+                "status": "needs_review",
+                "mapping": mapping,
+                "quality_score": round(quality_score, 2),
+                "unresolved_count": len(unresolved),
+                "unresolved_tokens": unresolved,
+                "total_tokens": total_tokens,
+                "message": f"Mapping quality is low ({quality_score:.0%}). {len(unresolved)} tokens could not be resolved. The database may not contain the expected data for this report template.",
+            }
+
+        # Transition through MAPPING → MAPPED (state machine requires intermediate step)
+        if ctx.session.pipeline_state == PipelineState.HTML_READY:
+            ctx.session.transition(PipelineState.MAPPING)
+        if ctx.session.pipeline_state == PipelineState.MAPPING:
+            ctx.session.transition(PipelineState.MAPPED)
         ctx.session.complete_stage("mapping_preview")
         ctx.session.save()
 
@@ -1564,12 +1721,14 @@ async def tool_auto_map_tokens(ctx: ToolContext, template_id: str, connection_id
         return {
             "status": "mapped",
             "mapping": mapping,
+            "quality_score": round(quality_score, 2),
             "unresolved_count": len(unresolved),
             "unresolved_tokens": unresolved,
-            "total_tokens": len(mapping),
+            "total_tokens": total_tokens,
             "wide_format_resolved": len(wide_resolved),
             "wide_format_details": {t: v for t, v in wide_resolved.items()},
             "confidence": result.get("confidence", {}),
+            "ocr_context_available": bool(ocr_context),
         }
 
     except Exception as exc:

@@ -1,0 +1,94 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static invoice metadata and customer/vendor details.",
+      "columns": [
+        "company_name",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "invoice_date",
+        "invoice_no",
+        "payment_terms",
+        "bill_to_name",
+        "bill_to_company",
+        "bill_to_address",
+        "bill_to_phone",
+        "payment_instructions",
+        "subtotal",
+        "discount",
+        "subtotal_less_discount",
+        "tax_rate",
+        "total_tax",
+        "shipping",
+        "balance_due",
+        "venmo_account",
+        "paypal_account"
+      ]
+    },
+    "rows": {
+      "description": "Line items for the invoice, flattened into 6 fixed rows.",
+      "columns": [
+        "row_description_1",
+        "row_qty_1",
+        "row_unit_price_1",
+        "row_total_1",
+        "row_description_2",
+        "row_qty_2",
+        "row_unit_price_2",
+        "row_total_2",
+        "row_description_3",
+        "row_qty_3",
+        "row_unit_price_3",
+        "row_total_3",
+        "row_description_4",
+        "row_qty_4",
+        "row_unit_price_4",
+        "row_total_4",
+        "row_description_5",
+        "row_qty_5",
+        "row_unit_price_5",
+        "row_total_5",
+        "row_description_6",
+        "row_qty_6",
+        "row_unit_price_6",
+        "row_total_6"
+      ],
+      "grouping": [],
+      "ordering": [
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Financial summary totals (mapped from invoice header or computed).",
+      "columns": []
+    }
+  },
+  "semantics": "Scalars are single-value lookups from the parent `invoices` and `customers` tables. Row tokens are derived from the child `invoice_items` table, expanded into fixed row slots (1-6). Totals are direct mappings from the invoice header fields.",
+  "parameters": {
+    "required": [
+      {
+        "name": "invoice_number",
+        "type": "string"
+      }
+    ],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Join invoices to invoice_items on invoice_number.",
+    "Join invoices to customers on customer_id.",
+    "Map invoice_items to fixed row slots 1-6 based on line_no.",
+    "Compute line_total as quantity * unit_price if not provided.",
+    "Format issue_date as dd-mm-yyyy HH:MM:SS.",
+    "Apply currency formatting to all monetary fields."
+  ]
+}

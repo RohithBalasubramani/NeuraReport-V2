@@ -1,0 +1,9 @@
+{
+  "scalars": [],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "totals": [],
+  "notes": "Template layout with fixed fields and one repeating row prototype."
+}

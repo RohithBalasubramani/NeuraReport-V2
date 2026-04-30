@@ -1,0 +1,465 @@
+
+
+
+<meta charset="UTF-8">
+<title>Sample Invoice Template</title>
+<style>
+    :root {
+        --primary-green: #52b848; /* Adjusted to match reference lime green */
+        --text-dark: #333;
+        --text-blue: #2c4d82; /* Dark blue for headers */
+        --border-color: #ccc;
+        --font-family: 'Arial', 'Helvetica', sans-serif;
+        --page-width: 210mm;
+        --page-padding: 20mm;
+    }
+
+    body {
+        font-family: var(--font-family);
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        color: var(--text-dark);
+        font-size: 12pt; /* Standard print size */
+        line-height: 1.4;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .page-container {
+        width: var(--page-width);
+        margin: 0 auto;
+        padding: var(--page-padding);
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    /* Header */
+    .header-bar {
+        background-color: var(--primary-green);
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 25px;
+        margin-bottom: 35px;
+    }
+
+    .logo-placeholder {
+        width: 85px;
+        height: 85px;
+        background-color: #777;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    .header-title {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    /* Top Info Layout */
+    .top-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .left-column {
+        width: 55%;
+    }
+
+    .right-column {
+        width: 40%;
+        text-align: right;
+    }
+
+    .section-header {
+        color: var(--text-blue);
+        font-weight: bold;
+        font-size: 13pt;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .company-info, .bill-to-info {
+        margin-bottom: 25px;
+    }
+
+    .meta-row {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+        margin-bottom: 12px;
+    }
+
+    .meta-label {
+        color: var(--text-blue);
+        font-weight: bold;
+        margin-right: 20px;
+        text-align: right;
+    }
+
+    .meta-value {
+        color: var(--text-dark);
+        font-weight: normal;
+    }
+
+    .payment-terms {
+        margin-top: 15px;
+        font-style: italic;
+        color: var(--text-dark);
+    }
+
+    /* Table */
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        table-layout: fixed;
+        border: 1px solid var(--border-color);
+    }
+
+    .invoice-table th {
+        background-color: var(--primary-green);
+        color: white;
+        padding: 10px 5px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12pt;
+        border: 1px solid var(--primary-green);
+        text-transform: uppercase;
+    }
+
+    .invoice-table td {
+        border: 1px solid var(--border-color);
+        padding: 8px 5px;
+        vertical-align: middle;
+        font-size: 11pt;
+    }
+
+    .col-desc {
+        width: 45%;
+        text-align: left;
+    }
+
+    .col-qty {
+        width: 12%;
+        text-align: right;
+    }
+
+    .col-price {
+        width: 23%;
+        text-align: right;
+    }
+
+    .col-total {
+        width: 20%;
+        text-align: right;
+    }
+
+    .row-stripe {
+        background-color: #f5f5f5;
+    }
+
+    /* Totals &amp; Remarks Section */
+    .totals-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0;
+        align-items: flex-start;
+    }
+
+    .remarks-box {
+        width: 55%;
+        padding-top: 5px;
+        font-size: 11pt;
+    }
+
+    .totals-box {
+        width: 40%;
+        border: 1px solid var(--border-color);
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 10px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 11pt;
+    }
+
+    .total-row:last-child {
+        border-bottom: none;
+    }
+
+    .total-label {
+        text-align: right;
+        font-weight: bold;
+        color: #444;
+        padding-right: 10px;
+    }
+
+    .total-value {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .balance-due-row {
+        background-color: var(--primary-green);
+        color: white;
+        font-weight: bold;
+        font-size: 13pt;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        border-top: 2px solid var(--border-color);
+    }
+
+    .balance-due-label {
+        color: white;
+        text-align: right;
+        flex: 1;
+    }
+
+    .balance-due-value {
+        color: white;
+        text-align: right;
+        font-size: 14pt;
+        padding-left: 15px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Footer Area */
+    .footer-area {
+        margin-top: 60px;
+        position: relative;
+        height: 180px;
+    }
+
+    .payment-instructions {
+        margin-bottom: 30px;
+        font-size: 11pt;
+        max-width: 40%;
+    }
+
+    .signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        color: #555;
+        font-size: 12pt;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .bottom-message {
+        font-size: 26px;
+        font-weight: bold;
+        font-style: italic;
+        color: #000;
+    }
+
+    .footer-branding {
+        text-align: right;
+        font-size: 12px;
+        color: #333;
+    }
+
+    .footer-branding strong {
+        font-size: 24px;
+        display: block;
+        margin-top: 5px;
+    }
+    
+    .footer-branding span.green {
+        color: var(--primary-green);
+    }
+
+    .footer-bar {
+        height: 25px;
+        background-color: var(--primary-green);
+        margin-top: 30px;
+        width: 100%;
+    }
+
+    /* Utility for empty cells */
+    .empty-cell {
+        color: transparent;
+    }
+
+    @media print {
+        body { margin: 0; }
+        .page-container { width: 100%; padding: 0; margin: 0; }
+    }
+</style>
+
+
+
+<div class="page-container">
+    
+    
+    <div class="header-bar">
+        <div class="logo-placeholder">LOGO</div>
+        <div class="header-title">Sample Invoice Template</div>
+    </div>
+
+    
+    <div class="top-info">
+        <div class="left-column">
+            <div class="company-info">
+                <span class="section-header">COMPANY NAME</span>
+                <div>Nova Office Supplies</div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            
+            <div class="bill-to-info">
+                <span class="section-header">BILL TO</span>
+                <div>Customer 1 Nova</div>
+                <div></div>
+                <div>101 Market Street</div>
+                <div>+1-555-01001</div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="meta-row">
+                <span class="meta-label">DATE</span>
+                <span class="meta-value">2025-09-03</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">INVOICE NO.</span>
+                <span class="meta-value">INV-101-00011</span>
+            </div>
+            <div class="payment-terms">
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th class="col-desc">DESCRIPTION</th>
+                <th class="col-qty">QTY</th>
+                <th class="col-price">UNIT PRICE</th>
+                <th class="col-total">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-desc"></td>
+                <td class="col-qty">1</td>
+                <td class="col-price">$ 5.00</td>
+                <td class="col-total">$ 5.00</td>
+            </tr>
+            <tr class="row-stripe">
+                <td class="col-desc"></td>
+                <td class="col-qty">1</td>
+                <td class="col-price">$ 7.00</td>
+                <td class="col-total">$ 7.00</td>
+            </tr>
+            <tr>
+                <td class="col-desc"></td>
+                <td class="col-qty">1</td>
+                <td class="col-price">$ 6.00</td>
+                <td class="col-total">$ 6.00</td>
+            </tr>
+            <tr class="row-stripe">
+                <td class="col-desc"></td>
+                <td class="col-qty"></td>
+                <td class="col-price"></td>
+                <td class="col-total">$ -</td>
+            </tr>
+            <tr>
+                <td class="col-desc"></td>
+                <td class="col-qty"></td>
+                <td class="col-price"></td>
+                <td class="col-total">$ -</td>
+            </tr>
+            <tr class="row-stripe">
+                <td class="col-desc"></td>
+                <td class="col-qty"></td>
+                <td class="col-price"></td>
+                <td class="col-total">$ -</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div class="totals-container">
+        <div class="remarks-box">
+            <strong>Remarks / Payment Instructions:</strong> Payment due within Net 30 days. Late payments may incur a 2% monthly interest. Taxes applied as per local regulations.
+        </div>
+        
+        <div class="totals-box">
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">$ </span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">DISCOUNT</span>
+                <span class="total-value">$ </span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL LESS DISCOUNT</span>
+                <span class="total-value">$ </span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">TAX RATE</span>
+                <span class="total-value"></span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">TOTAL TAX</span>
+                <span class="total-value">$ </span>
+            </div>
+            <div class="total-row">
+                <span class="total-label">SHIPPING/HANDLING</span>
+                <span class="total-value">$ </span>
+            </div>
+            <div class="balance-due-row">
+                <span class="balance-due-label">BALANCE DUE</span>
+                <span class="balance-due-value">$ </span>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="footer-area">
+        <div class="payment-instructions">
+            Make all checks payable to . Or submit payment via Venmo:  or Paypal: 
+        </div>
+        
+        <div class="signatures">
+            <div>Company Signature X</div>
+            <div>Client Signature X</div>
+        </div>
+
+        <div class="footer-content">
+            <div class="bottom-message">Thank you for your business!</div>
+            <div class="footer-branding">
+                <div>This invoice is brought to you by</div>
+                <strong>Online<span class="green">Invoices</span></strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bar"></div>
+</div>
+
+

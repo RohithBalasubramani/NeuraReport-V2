@@ -29,9 +29,10 @@ function setsEqual(a, b) {
 }
 
 // ─── Phase derivation ───
-function derivePhase(data) {
+function derivePhase(data, connectionId) {
   if (!data.template?.html) return 'upload'
-  if (!data.mapping?.mapping || Object.keys(data.mapping.mapping).length === 0) return 'edit'
+  if (!connectionId) return 'connect'
+  if (!data.mapping?.mapping || Object.keys(data.mapping.mapping).length === 0) return 'map'
   if (!data.contract?.contract) return 'map'
   if (data.validation?.result !== 'pass') return 'validate'
   if (data.generation?.previewApproved) return 'generate'
@@ -39,12 +40,13 @@ function derivePhase(data) {
 }
 
 // ─── Step completion derivation ───
-function isStepComplete(step, data, errors) {
+function isStepComplete(step, data, errors, connectionId) {
   const totalTokens = data.template?.tokens?.length || 0
   switch (step) {
-    case 'upload': return !!data.template?.html
-    case 'edit':   return !!data.template?.html
-    case 'map':    return totalTokens > 0 && Object.keys(data.mapping?.mapping || {}).length === totalTokens && !errors.some(e => e.severity === 'error')
+    case 'upload':   return !!data.template?.html
+    case 'connect':  return !!connectionId
+    case 'edit':     return !!data.template?.html
+    case 'map':      return totalTokens > 0 && Object.keys(data.mapping?.mapping || {}).length === totalTokens && !errors.some(e => e.severity === 'error')
     case 'validate': return data.validation?.result === 'pass'
     case 'generate': return data.generation?.jobs?.some(j => j.status === 'completed')
     default: return false
@@ -54,14 +56,16 @@ function isStepComplete(step, data, errors) {
 // ─── Step gating ───
 const STEPS = [
   { id: 'upload', label: 'Upload' },
+  { id: 'connect', label: 'Connect Data' },
   { id: 'edit', label: 'Design' },
-  { id: 'map', label: 'Connect Data' },
+  { id: 'map', label: 'Map Fields' },
   { id: 'validate', label: 'Review' },
   { id: 'generate', label: 'Create Reports' },
 ]
 
 const TRANSITION_RULES = {
   upload: () => true,
+  connect: () => true,  // always accessible — user can connect before or after upload
   edit: (s) => !!s.data.template?.html,
   map: (s) => (s.data.template?.tokens?.length || 0) > 0 && !!s.data.template?.html,
   validate: (s) => Object.keys(s.data.mapping?.mapping || {}).length > 0 && !!s.data.contract?.contract,
@@ -70,9 +74,10 @@ const TRANSITION_RULES = {
 
 const GATE_REASONS = {
   upload: null,
+  connect: null,
   edit: 'Upload your report first',
   map: 'Your report design needs to be ready first',
-  validate: 'Connect your database first',
+  validate: 'Map your data fields first',
   generate: 'Review needs to pass first',
 }
 
@@ -81,6 +86,7 @@ const GATE_REASONS = {
 // Left-side ActionChips only get PERSISTENT_CHIPS (search, help).
 const PHASE_CHIPS = {
   upload: [],
+  connect: [],
   edit: [],
   map: [],
   validate: [],
@@ -96,6 +102,7 @@ const PERSISTENT_CHIPS = [
 // ─── Phase → panel type ───
 const PHASE_TO_PANEL = {
   upload: 'upload',
+  connect: 'upload',  // same panel — shows connection picker + upload
   edit: 'edit',
   map: 'mapping',
   validate: 'validation',
@@ -159,6 +166,7 @@ const usePipelineStore = create((set, get) => ({
   isProcessing: false,
   sidebarForcePanel: null, // Override derived panel type
   workspaceMode: false,    // true = Workspace (unrestricted), false = Build Report (guided)
+  thinkingEnabled: false,  // Qwen thinking mode — shows reasoning in responses when on
 
   // Right panel state (status-first architecture)
   activePanel: null,          // null = StatusView, 'template'|'mappings'|'data'|'logic'|'preview'|'errors'
@@ -234,10 +242,11 @@ const usePipelineStore = create((set, get) => ({
 
   getPipelineSteps: () => {
     const s = get().pipelineState
-    const phase = derivePhase(s.data)
+    const cid = get().connectionId
+    const phase = derivePhase(s.data, cid)
     return STEPS.map(step => {
-      const complete = isStepComplete(step.id, s.data, s.errors)
-      const active = step.id === phase || (step.id === 'edit' && phase === 'edit')
+      const complete = isStepComplete(step.id, s.data, s.errors, cid)
+      const active = step.id === phase
       const canEnter = TRANSITION_RULES[step.id](s)
       return {
         ...step,
@@ -262,7 +271,7 @@ const usePipelineStore = create((set, get) => ({
   getPanelType: () => {
     const forced = get().sidebarForcePanel
     if (forced) return forced
-    return PHASE_TO_PANEL[derivePhase(get().pipelineState.data)] || 'upload'
+    return PHASE_TO_PANEL[derivePhase(get().pipelineState.data, get().connectionId)] || 'upload'
   },
 
   getTokenColor: (signature) => {
@@ -778,6 +787,7 @@ const usePipelineStore = create((set, get) => ({
 
   setInputValue: (v) => set({ inputValue: v }),
   setIsProcessing: (v) => set({ isProcessing: v }),
+  toggleThinking: () => set(s => ({ thinkingEnabled: !s.thinkingEnabled })),
   setConnection: (idOrIds) => {
     if (Array.isArray(idOrIds)) {
       set({ connectionIds: idOrIds, connectionId: idOrIds[0] || null })

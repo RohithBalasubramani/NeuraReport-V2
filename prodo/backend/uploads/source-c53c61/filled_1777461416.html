@@ -1,0 +1,3068 @@
+
+
+
+<meta charset="UTF-8">
+<title>Consumption Report</title>
+<style>
+    :root {
+        --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --font-size-base: 11pt;
+        --font-size-header: 11pt;
+        --border-color: #000;
+        --border-width: 1px;
+        /* Column widths derived from visual proportions (Total width ~195mm) */
+        --col-sl-w: 15mm;
+        --col-name-w: 60mm;
+        --col-set-w: 35mm;
+        --col-ach-w: 35mm;
+        --col-err-w: 25mm;
+        --col-errpct-w: 25mm;
+    }
+    body {
+        margin: 0;
+        padding: 15mm 15mm;
+        font-family: var(--font-main);
+        font-size: var(--font-size-base);
+        color: #000;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+    }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    /* Header Layout */
+    .header-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 20mm;
+        margin-bottom: 10mm;
+        font-size: var(--font-size-base);
+    }
+    .header-col {
+        display: flex;
+        flex-direction: column;
+        gap: 3px; /* Tighter line spacing */
+    }
+    .header-row {
+        display: flex;
+        gap: 5px;
+        align-items: baseline;
+        line-height: 1.2;
+    }
+    .header-label {
+        font-weight: bold;
+        white-space: nowrap;
+        display: inline-block;
+    }
+    /* Right column alignment logic */
+    .header-col.right {
+        text-align: right;
+    }
+    .header-row.right {
+        justify-content: flex-end;
+    }
+    .header-row.right .header-label {
+        text-align: right;
+    }
+    /* Specific label widths to align colons */
+    .header-col.left .header-label {
+        width: 90px; /* Approx width of "Plant name" */
+        margin-right: 5px;
+    }
+    .header-col.right .header-label {
+        width: 50px; /* Approx width of "From" */
+        margin-right: 5px;
+    }
+
+    h1.report-title {
+        text-align: center;
+        font-size: 24pt;
+        font-weight: bold;
+        margin: 5px 0 15px 0;
+        text-transform: none;
+    }
+    .batch-block {
+        margin-bottom: 12mm;
+    }
+    .batch-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        margin-bottom: 2px;
+        padding-bottom: 0;
+        font-size: var(--font-size-header);
+    }
+    /* Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: var(--font-size-header);
+        border: var(--border-width) solid var(--border-color);
+    }
+    th, td {
+        border: var(--border-width) solid var(--border-color);
+        padding: 3px 5px;
+        vertical-align: middle;
+        font-variant-numeric: tabular-nums; /* Ensures digits align vertically */
+    }
+    th {
+        font-weight: bold;
+        background-color: #fff;
+        text-align: center;
+    }
+    /* Column Classes */
+    .col-sl { width: var(--col-sl-w); }
+    .col-name { width: var(--col-name-w); text-align: left; }
+    .col-set { width: var(--col-set-w); }
+    .col-ach { width: var(--col-ach-w); }
+    .col-err { width: var(--col-err-w); }
+    .col-errpct { width: var(--col-errpct-w); }
+    
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    
+    .total-row td {
+        font-weight: bold;
+    }
+</style>
+
+
+
+<div id="report-header" class="header-grid">
+    <div class="header-col left">
+        <div class="header-row"><span class="header-label">Plant name</span><span>: </span></div>
+        <div class="header-row"><span class="header-label">Location</span><span>: </span></div>
+        <div class="header-row"><span class="header-label">Print Date</span><span>: 29/04/2026</span></div>
+    </div>
+    <div class="header-col right">
+        <div class="header-row right"><span class="header-label">From</span><span>: 19/02/2026</span></div>
+        <div class="header-row right"><span class="header-label">To</span><span>: 19/02/2026</span></div>
+        <div class="header-row right"><span class="header-label">Batch No</span><span>: </span></div>
+    </div>
+</div>
+
+<h1 class="report-title">Consumption report</h1>
+
+<div class="batch-block">
+    <div class="batch-header">
+        <span></span>
+        <span>Start </span>
+        <span>End </span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-sl" data-label="sl_no">Sl. No.</th>
+                <th class="col-name" data-label="material_name">Material name</th>
+                <th class="col-set text-right" data-label="set_wt_kg">Set. wt(Kg)</th>
+                <th class="col-ach text-right" data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                <th class="col-err text-right" data-label="error_kg">Error(Kg)</th>
+                <th class="col-errpct text-right" data-label="error_pct">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">1.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">2.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right"></td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">3.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">4.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">5.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">6.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">7.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">8.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">10.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">11.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">12.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">13.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">14.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">15.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">16.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">17.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">18.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">19.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">20.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">21.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">22.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">23.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">24.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">25.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">26.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">27.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">28.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">29.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">30.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">31.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">32.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">33.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">34.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">35.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">36.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">37.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">38.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">39.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">40.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">41.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">42.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">43.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">44.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">45.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">46.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">47.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">48.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">49.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">50.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">51.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">52.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">53.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">54.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">55.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">56.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">57.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">58.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">59.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">60.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">61.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">62.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">63.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">64.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">65.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">66.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">67.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">68.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">69.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">70.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">71.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">72.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">73.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">74.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">75.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">76.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">77.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">78.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">79.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">80.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">81.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">82.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">83.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">84.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">85.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">86.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">87.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">88.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">89.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">90.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">91.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">92.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">93.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">94.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">95.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">96.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">97.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">98.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">99.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">100.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">101.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">102.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">103.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">104.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">105.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">106.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">107.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">108.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">109.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">110.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">111.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">112.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">113.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">114.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">115.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">116.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">117.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">118.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">119.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">120.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">121.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">122.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">123.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">124.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">125.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">126.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">127.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">128.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">129.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">130.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">131.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">132.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">133.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">134.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">135.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">136.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">137.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">138.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">139.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">140.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">141.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">142.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">143.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">144.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">145.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">146.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">147.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">148.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">149.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">150.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">151.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">152.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">153.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">154.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">155.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">156.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">157.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">158.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">159.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">160.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">161.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">162.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">163.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">164.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">165.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">166.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">167.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">168.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">169.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">170.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">171.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">172.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">173.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">174.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">175.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">176.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">177.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">178.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">179.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">180.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">181.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">182.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">183.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">184.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">185.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">186.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">187.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">188.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">189.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">190.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">191.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">192.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">193.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">194.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">195.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">196.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">197.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">198.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">199.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">200.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">201.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">202.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">203.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">204.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">205.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">206.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">207.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">208.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">209.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">210.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">211.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">212.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">213.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">214.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">215.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">216.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">217.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">218.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">219.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">220.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">221.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">222.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">223.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">224.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">225.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">226.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">227.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">228.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">229.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">230.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">231.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">232.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">233.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">234.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">235.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">236.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">237.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">238.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">239.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">240.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">241.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">242.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">243.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">244.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">245.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">246.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">247.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">248.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">249.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">250.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">251.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">252.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">253.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">254.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">255.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">256.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">257.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">258.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">259.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">260.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">261.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">262.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">263.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">264.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">265.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">266.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">267.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">268.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">269.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">270.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">271.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">272.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">273.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">274.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">275.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">276.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">277.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">278.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">279.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">280.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">281.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">282.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">283.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">284.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">285.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">286.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">287.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">288.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">289.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">290.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">291.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">292.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">293.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">294.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">295.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">296.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">297.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">298.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">299.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">300.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">301.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">302.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">303.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">304.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">305.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">306.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">307.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">308.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">309.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">310.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">311.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">312.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">313.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">314.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">315.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">316.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">317.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">318.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">319.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">320.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">321.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">322.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">323.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">324.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">325.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">326.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">327.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">328.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">329.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">330.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">331.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">332.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">333.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">334.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">335.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">336.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">337.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">338.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">339.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">340.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">341.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">342.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">343.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">344.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">345.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">346.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">347.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">348.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">349.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">350.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">351.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">352.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">353.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">354.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">355.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">356.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">357.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">358.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">359.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">360.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">361.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+<tr>
+                <td class="text-center">362.00</td>
+                <td class="text-left">0.01</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+                <td class="text-right"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="2" class="text-left">Total for batch</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right">0.00</td>
+                <td class="text-right"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+

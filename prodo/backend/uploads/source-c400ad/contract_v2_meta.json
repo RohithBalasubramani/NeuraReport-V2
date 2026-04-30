@@ -1,0 +1,244 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "9e7b2ee048f03a89a282cb2b0f8e15b2c5121afc4325d2ef42cc5d50ca4d8429",
+  "db_signature": "f1f6a4d420d8bda2f34f8b434d77f838720689208e1ed19ddee904d55d1849d6",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777558916,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "report_title"
+      ],
+      "row_tokens": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "totals": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "mapping": {
+      "plant_name": "recipes:recipe_name",
+      "location": "recipes:recipe_name",
+      "print_date": "recipes:start_time",
+      "from_date": "recipes:start_time",
+      "to_date": "recipes:end_time",
+      "batch_no": "recipes:recipe_name",
+      "report_title": "recipes:recipe_name",
+      "batch_id": "recipes:id",
+      "batch_start": "recipes:start_time",
+      "batch_end": "recipes:end_time",
+      "row_material_name": "RESHAPE:bin1_content,bin2_content,bin3_content,bin4_content,bin5_content,bin6_content,bin7_content,bin8_content,bin9_content,bin10_content,bin11_content,bin12_content",
+      "row_set_wt_kg": "RESHAPE:bin1_sp,bin2_sp,bin3_sp,bin4_sp,bin5_sp,bin6_sp,bin7_sp,bin8_sp,bin9_sp,bin10_sp,bin11_sp,bin12_sp",
+      "row_ach_wt_kg": "RESHAPE:bin1_act,bin2_act,bin3_act,bin4_act,bin5_act,bin6_act,bin7_act,bin8_act,bin9_act,bin10_act,bin11_act,bin12_act",
+      "row_error_kg": "COMPUTED:row_ach_wt_kg-row_set_wt_kg",
+      "row_error_pct": "COMPUTED:ROUND((row_ach_wt_kg-row_set_wt_kg)/row_set_wt_kg*100,2)",
+      "row_sl_no": "COMPUTED:ROW_NUMBER()",
+      "total_set_wt_kg": "COMPUTED:SUM(row_set_wt_kg)",
+      "total_ach_wt_kg": "COMPUTED:SUM(row_ach_wt_kg)",
+      "total_error_kg": "COMPUTED:SUM(row_error_kg)",
+      "total_error_pct": "COMPUTED:ROUND(SUM(row_error_kg)/SUM(row_set_wt_kg)*100,2)"
+    },
+    "unresolved": [],
+    "join": {
+      "parent_table": "recipes",
+      "parent_key": "id",
+      "child_table": "recipes",
+      "child_key": "id"
+    },
+    "date_columns": {
+      "recipes": "start_time"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "recipes:start_time",
+        "date_to": "recipes:end_time"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Unpivot 12 bin columns into material name, set weight, and actual weight rows",
+        "strategy": "MELT",
+        "columns": [
+          {
+            "as": "row_material_name",
+            "from": [
+              "recipes:bin1_content",
+              "recipes:bin2_content",
+              "recipes:bin3_content",
+              "recipes:bin4_content",
+              "recipes:bin5_content",
+              "recipes:bin6_content",
+              "recipes:bin7_content",
+              "recipes:bin8_content",
+              "recipes:bin9_content",
+              "recipes:bin10_content",
+              "recipes:bin11_content",
+              "recipes:bin12_content"
+            ]
+          },
+          {
+            "as": "row_set_wt_kg",
+            "from": [
+              "recipes:bin1_sp",
+              "recipes:bin2_sp",
+              "recipes:bin3_sp",
+              "recipes:bin4_sp",
+              "recipes:bin5_sp",
+              "recipes:bin6_sp",
+              "recipes:bin7_sp",
+              "recipes:bin8_sp",
+              "recipes:bin9_sp",
+              "recipes:bin10_sp",
+              "recipes:bin11_sp",
+              "recipes:bin12_sp"
+            ]
+          },
+          {
+            "as": "row_ach_wt_kg",
+            "from": [
+              "recipes:bin1_act",
+              "recipes:bin2_act",
+              "recipes:bin3_act",
+              "recipes:bin4_act",
+              "recipes:bin5_act",
+              "recipes:bin6_act",
+              "recipes:bin7_act",
+              "recipes:bin8_act",
+              "recipes:bin9_act",
+              "recipes:bin10_act",
+              "recipes:bin11_act",
+              "recipes:bin12_act"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "multiply",
+        "left": {
+          "op": "divide",
+          "numerator": {
+            "op": "sum",
+            "column": "row_error_kg"
+          },
+          "denominator": {
+            "op": "sum",
+            "column": "row_set_wt_kg"
+          }
+        },
+        "right": 100
+      }
+    },
+    "totals": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "multiply",
+        "left": {
+          "op": "divide",
+          "numerator": {
+            "op": "sum",
+            "column": "row_error_kg"
+          },
+          "denominator": {
+            "op": "sum",
+            "column": "row_set_wt_kg"
+          }
+        },
+        "right": 100
+      }
+    },
+    "formatters": {
+      "row_set_wt_kg": "number(2)",
+      "row_ach_wt_kg": "number(2)",
+      "row_error_kg": "number(2)",
+      "row_error_pct": "percent(2)",
+      "total_set_wt_kg": "number(2)",
+      "total_ach_wt_kg": "number(2)",
+      "total_error_kg": "number(2)",
+      "total_error_pct": "percent(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_sl_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "plant_name",
+      "location",
+      "print_date",
+      "from_date",
+      "to_date",
+      "batch_no",
+      "report_title"
+    ],
+    "row_tokens": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg",
+      "row_error_kg",
+      "row_error_pct"
+    ],
+    "row_order": [
+      "row_sl_no ASC"
+    ],
+    "literals": {},
+    "notes": "Timestamps are formatted using row_computed.format_date. Numeric values use number(2) or percent(2) formatters. The row_sl_no is generated sequentially per batch.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

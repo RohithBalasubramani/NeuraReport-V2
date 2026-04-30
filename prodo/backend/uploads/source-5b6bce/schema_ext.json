@@ -1,0 +1,28 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "report_title",
+    "batch_id",
+    "start_time",
+    "end_time",
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_pct"
+  ],
+  "row_tokens": [
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_pct"
+  ],
+  "totals": [],
+  "notes": "The 'totals' array is empty because total values are aggregated per batch block and handled via scalar tokens within the repeat block structure (e.g., total_set_wt_kg inside the batch-block)."
+}

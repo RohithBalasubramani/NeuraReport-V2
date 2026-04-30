@@ -1,0 +1,301 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "c9806f2b75024b6904b4806f85685f01be7bec6ce4e5ecc2ad1ec1f0cdb2f01a",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777466778,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "company_name",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "invoice_date",
+        "invoice_no",
+        "payment_terms",
+        "bill_to_name",
+        "bill_to_company",
+        "bill_to_address",
+        "bill_to_phone",
+        "payment_instructions",
+        "subtotal",
+        "discount",
+        "subtotal_less_discount",
+        "tax_rate",
+        "total_tax",
+        "shipping",
+        "balance_due",
+        "venmo_account",
+        "paypal_account"
+      ],
+      "row_tokens": [
+        "row_description_1",
+        "row_qty_1",
+        "row_unit_price_1",
+        "row_total_1",
+        "row_description_2",
+        "row_qty_2",
+        "row_unit_price_2",
+        "row_total_2",
+        "row_description_3",
+        "row_qty_3",
+        "row_unit_price_3",
+        "row_total_3",
+        "row_description_4",
+        "row_qty_4",
+        "row_unit_price_4",
+        "row_total_4",
+        "row_description_5",
+        "row_qty_5",
+        "row_unit_price_5",
+        "row_total_5",
+        "row_description_6",
+        "row_qty_6",
+        "row_unit_price_6",
+        "row_total_6"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "company_name": "invoices.vendor_name",
+      "invoice_date": "invoices.issue_date",
+      "invoice_no": "invoices.invoice_number",
+      "payment_terms": "invoices.notes",
+      "bill_to_name": "customers.customer_name",
+      "bill_to_company": "customers.customer_name",
+      "bill_to_address": "customers.billing_address",
+      "bill_to_phone": "customers.phone",
+      "payment_instructions": "invoices.notes",
+      "subtotal": "invoices.subtotal",
+      "discount": "invoices.discount_amount",
+      "subtotal_less_discount": "invoices.subtotal",
+      "tax_rate": "invoices.tax_amount",
+      "total_tax": "invoices.tax_amount",
+      "shipping": "invoices.total_amount",
+      "balance_due": "invoices.total_amount",
+      "venmo_account": "invoices.notes",
+      "paypal_account": "invoices.notes",
+      "row_description_1": "invoice_items.description",
+      "row_qty_1": "invoice_items.quantity",
+      "row_unit_price_1": "invoice_items.unit_price",
+      "row_total_1": "invoice_items.line_total",
+      "row_description_2": "invoice_items.description",
+      "row_qty_2": "invoice_items.quantity",
+      "row_unit_price_2": "invoice_items.unit_price",
+      "row_total_2": "invoice_items.line_total",
+      "row_description_3": "invoice_items.description",
+      "row_qty_3": "invoice_items.quantity",
+      "row_unit_price_3": "invoice_items.unit_price",
+      "row_total_3": "invoice_items.line_total",
+      "row_description_4": "invoice_items.description",
+      "row_qty_4": "invoice_items.quantity",
+      "row_unit_price_4": "invoice_items.unit_price",
+      "row_total_4": "invoice_items.line_total",
+      "row_description_5": "invoice_items.description",
+      "row_qty_5": "invoice_items.quantity",
+      "row_unit_price_5": "invoice_items.unit_price",
+      "row_total_5": "invoice_items.line_total",
+      "row_description_6": "invoice_items.description",
+      "row_qty_6": "invoice_items.quantity",
+      "row_unit_price_6": "invoice_items.unit_price",
+      "row_total_6": "invoice_items.line_total"
+    },
+    "unresolved": [
+      "company_address",
+      "company_phone",
+      "company_email"
+    ],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoice_items",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "issue_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.issue_date"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Map invoice items to fixed row slots 1-6",
+        "strategy": "UNION_ALL",
+        "columns": [
+          {
+            "as": "row_description_1",
+            "from": [
+              "invoice_items.description"
+            ]
+          },
+          {
+            "as": "row_qty_1",
+            "from": [
+              "invoice_items.quantity"
+            ]
+          },
+          {
+            "as": "row_unit_price_1",
+            "from": [
+              "invoice_items.unit_price"
+            ]
+          },
+          {
+            "as": "row_total_1",
+            "from": [
+              "invoice_items.line_total"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {},
+    "totals_math": {
+      "subtotal": {
+        "op": "sum",
+        "column": "row_total_1"
+      },
+      "balance_due": {
+        "op": "sum",
+        "column": "row_total_1"
+      }
+    },
+    "totals": {
+      "subtotal": {
+        "op": "sum",
+        "column": "row_total_1"
+      },
+      "balance_due": {
+        "op": "sum",
+        "column": "row_total_1"
+      }
+    },
+    "formatters": {
+      "company_name": "string",
+      "company_address": "string",
+      "company_phone": "string",
+      "company_email": "string",
+      "invoice_no": "string",
+      "payment_terms": "string",
+      "bill_to_name": "string",
+      "bill_to_company": "string",
+      "bill_to_address": "string",
+      "bill_to_phone": "string",
+      "payment_instructions": "string",
+      "subtotal": "number(2)",
+      "discount": "number(2)",
+      "subtotal_less_discount": "number(2)",
+      "tax_rate": "number(2)",
+      "total_tax": "number(2)",
+      "shipping": "number(2)",
+      "balance_due": "number(2)",
+      "venmo_account": "string",
+      "paypal_account": "string",
+      "row_qty_1": "number(2)",
+      "row_qty_2": "number(2)",
+      "row_qty_3": "number(2)",
+      "row_qty_4": "number(2)",
+      "row_qty_5": "number(2)",
+      "row_qty_6": "number(2)",
+      "row_unit_price_1": "number(2)",
+      "row_unit_price_2": "number(2)",
+      "row_unit_price_3": "number(2)",
+      "row_unit_price_4": "number(2)",
+      "row_unit_price_5": "number(2)",
+      "row_unit_price_6": "number(2)",
+      "row_total_1": "number(2)",
+      "row_total_2": "number(2)",
+      "row_total_3": "number(2)",
+      "row_total_4": "number(2)",
+      "row_total_5": "number(2)",
+      "row_total_6": "number(2)",
+      "invoice_date": "number(2)",
+      "row_description_1": "number(2)",
+      "row_description_2": "number(2)",
+      "row_description_3": "number(2)",
+      "row_description_4": "number(2)",
+      "row_description_5": "number(2)",
+      "row_description_6": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "invoice_items.line_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "company_name",
+      "company_address",
+      "company_phone",
+      "company_email",
+      "invoice_date",
+      "invoice_no",
+      "payment_terms",
+      "bill_to_name",
+      "bill_to_company",
+      "bill_to_address",
+      "bill_to_phone",
+      "payment_instructions",
+      "subtotal",
+      "discount",
+      "subtotal_less_discount",
+      "tax_rate",
+      "total_tax",
+      "shipping",
+      "balance_due",
+      "venmo_account",
+      "paypal_account"
+    ],
+    "row_tokens": [
+      "row_description_1",
+      "row_qty_1",
+      "row_unit_price_1",
+      "row_total_1",
+      "row_description_2",
+      "row_qty_2",
+      "row_unit_price_2",
+      "row_total_2",
+      "row_description_3",
+      "row_qty_3",
+      "row_unit_price_3",
+      "row_total_3",
+      "row_description_4",
+      "row_qty_4",
+      "row_unit_price_4",
+      "row_total_4",
+      "row_description_5",
+      "row_qty_5",
+      "row_unit_price_5",
+      "row_total_5",
+      "row_description_6",
+      "row_qty_6",
+      "row_unit_price_6",
+      "row_total_6"
+    ],
+    "row_order": [
+      "invoice_items.line_no ASC"
+    ],
+    "literals": {},
+    "notes": "Invoice report mapping. Row tokens are fixed slots; data is pulled from invoice_items. Date formatting applied to issue_date. Currency formatting applied to all numeric financial fields.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

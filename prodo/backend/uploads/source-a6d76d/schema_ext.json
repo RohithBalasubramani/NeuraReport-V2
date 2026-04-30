@@ -1,0 +1,34 @@
+{
+  "scalars": [
+    "invoice_number",
+    "balance_due_top",
+    "sender_name",
+    "sender_address",
+    "bill_to_name",
+    "bill_to_address",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "po_number",
+    "project_name",
+    "notes_text",
+    "terms_text"
+  ],
+  "row_tokens": [
+    "row_num",
+    "row_item_description",
+    "row_qty",
+    "row_rate",
+    "row_discount",
+    "row_amount"
+  ],
+  "totals": [
+    "sub_total",
+    "tax1",
+    "tax2",
+    "total",
+    "payment_made",
+    "balance_due_bottom"
+  ],
+  "notes": ""
+}

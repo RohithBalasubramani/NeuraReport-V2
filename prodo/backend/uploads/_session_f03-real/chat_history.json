@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this invoice PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "I'm ready to help you complete the template setup once you provide information about your database structure. Please let me know:\n\n1. **Which table** contains your invoice data?\n2. **What are the column names** for key invoice fields like:\n   - Invoice date\n   - Invoice number\n   - Customer billing address\n   - Customer shipping address\n   - Line item descriptions\n   - Line item amounts/totals\n\nOnce I have this information, I can manually map the template fields to your database columns and complete the report setup."
+  }
+]

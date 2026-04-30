@@ -26,9 +26,9 @@ import {
   ExpandLess as CollapseIcon,
   History as HistoryIcon,
   CloudUpload as UploadIcon,
+  Storage as StorageIcon,
   PushPin as PushPinIcon,
   PushPinOutlined as PushPinOutlinedIcon,
-  Storage as DbIcon,
   CheckCircleOutline as SelectedIcon,
 } from '@mui/icons-material'
 import { listConnections } from '@/api/client'
@@ -193,7 +193,7 @@ function ConnectionPickerDialog({ open, onClose, onSelect }) {
         )}
         {!loading && !error && connections.length === 0 && (
           <Box sx={{ p: 3, textAlign: 'center' }}>
-            <DbIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
+            <StorageIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
             <Typography color="text.secondary" variant="body2">
               No saved connections yet.
             </Typography>
@@ -221,7 +221,7 @@ function ConnectionPickerDialog({ open, onClose, onSelect }) {
                   }}
                 >
                   <ListItemIcon sx={{ minWidth: 40 }}>
-                    <DbIcon sx={{ color: statusColor }} />
+                    <StorageIcon sx={{ color: statusColor }} />
                   </ListItemIcon>
                   <ListItemText
                     primary={
@@ -442,33 +442,158 @@ export default function StatusView({ onAction }) {
   const togglePanelPin = usePipelineStore(s => s.togglePanelPin)
   const isUploadPinned = pinnedPanels.includes('upload')
 
-  // ── Empty state (no statusView yet) — show strip + upload prompt ──
+  // ── Connections list for the setup flow ──
+  const connectionId = usePipelineStore(s => s.connectionId)
+  const connectionIds = usePipelineStore(s => s.connectionIds) || []
+  const setConnection = usePipelineStore(s => s.setConnection)
+  const [connections, setConnections] = useState([])
+  const [connectionsLoaded, setConnectionsLoaded] = useState(false)
+  useEffect(() => {
+    listConnections().then(r => {
+      setConnections(r?.connections || [])
+      setConnectionsLoaded(true)
+    }).catch(() => setConnectionsLoaded(true))
+  }, [])
+
+  // Toggle a connection in the multi-select list
+  const toggleConnection = useCallback((id) => {
+    const current = [...connectionIds]
+    const idx = current.indexOf(id)
+    if (idx >= 0) {
+      current.splice(idx, 1)
+    } else {
+      current.push(id)
+    }
+    setConnection(current.length > 0 ? current : [])
+  }, [connectionIds, setConnection])
+
+  const hasTemplate = usePipelineStore(s => !!s.pipelineState.data.template?.html)
+  const hasConnections = connectionIds.length > 0
+
+  // ── Empty state (no statusView yet) — show 2-step mandatory setup ──
   if (!statusView) {
     return (
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', px: 1, py: 2, gap: 2 }}>
         <PipelineStrip />
-        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3 }}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 600, mb: 0.5 }}>
-              Next: Upload a report to get started
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', p: 3, gap: 3 }}>
+
+          {/* Step 1: Select Databases (multi-select) */}
+          <Box sx={{
+            p: 2, borderRadius: 2,
+            border: '1px solid',
+            borderColor: hasConnections ? 'success.main' : 'primary.main',
+            bgcolor: hasConnections ? 'rgba(76,175,80,0.04)' : 'rgba(33,150,243,0.04)',
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+              <Box sx={{
+                width: 24, height: 24, borderRadius: '50%', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700,
+                bgcolor: hasConnections ? 'success.main' : 'primary.main', color: '#fff',
+              }}>
+                {hasConnections ? '✓' : '1'}
+              </Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                Select your databases
+              </Typography>
+              {hasConnections && (
+                <Chip size="small" label={`${connectionIds.length} selected`} color="success" variant="outlined" sx={{ ml: 'auto', height: 20, fontSize: '0.7rem' }} />
+              )}
+            </Box>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5, pl: 4 }}>
+              Select one or more databases. Your report can pull data from multiple sources.
             </Typography>
+            {connectionsLoaded && connections.length > 0 ? (
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, maxHeight: 260, overflow: 'auto' }}>
+                {connections.map(conn => {
+                  const selected = connectionIds.includes(conn.id)
+                  return (
+                    <Button
+                      key={conn.id}
+                      variant={selected ? 'contained' : 'outlined'}
+                      size="small"
+                      onClick={() => toggleConnection(conn.id)}
+                      sx={{
+                        justifyContent: 'flex-start',
+                        textTransform: 'none',
+                        borderRadius: 1.5,
+                        fontSize: '0.8rem',
+                        gap: 1,
+                        ...(selected
+                          ? { bgcolor: '#1a1a2e', '&:hover': { bgcolor: '#16213e' } }
+                          : {}),
+                      }}
+                    >
+                      <Box sx={{
+                        width: 18, height: 18, borderRadius: '4px', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                        border: selected ? 'none' : '2px solid',
+                        borderColor: 'grey.400',
+                        bgcolor: selected ? '#4caf50' : 'transparent',
+                        color: '#fff', fontSize: '0.7rem', fontWeight: 700,
+                      }}>
+                        {selected ? '✓' : ''}
+                      </Box>
+                      <StorageIcon sx={{ fontSize: 16, flexShrink: 0 }} />
+                      <Typography component="span" sx={{ flex: 1, textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {conn.name || conn.id}
+                      </Typography>
+                      {conn.db_type && (
+                        <Chip size="small" label={conn.db_type} variant="outlined"
+                          sx={{ height: 18, fontSize: '0.65rem', opacity: 0.7, flexShrink: 0 }} />
+                      )}
+                    </Button>
+                  )
+                })}
+              </Box>
+            ) : connectionsLoaded ? (
+              <Typography variant="body2" color="text.secondary">
+                No saved connections. Go to <b>Connections</b> to add one, or paste a database URL in the chat.
+              </Typography>
+            ) : (
+              <CircularProgress size={20} />
+            )}
+          </Box>
+
+          {/* Step 2: Upload Template */}
+          <Box sx={{
+            p: 2, borderRadius: 2,
+            border: '1px solid',
+            borderColor: hasTemplate ? 'success.main' : (hasConnections ? 'primary.main' : 'divider'),
+            bgcolor: hasTemplate ? 'rgba(76,175,80,0.04)' : 'transparent',
+            opacity: hasConnections ? 1 : 0.5,
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
+              <Box sx={{
+                width: 24, height: 24, borderRadius: '50%', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700,
+                bgcolor: hasTemplate ? 'success.main' : (hasConnections ? 'primary.main' : 'grey.400'), color: '#fff',
+              }}>
+                {hasTemplate ? '✓' : '2'}
+              </Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: hasConnections ? 'text.primary' : 'text.disabled' }}>
+                Upload your report template
+              </Typography>
+            </Box>
             <Button
               variant="contained"
-              startIcon={<UploadIcon />}
+              size="small"
+              disabled={!hasConnections}
+              startIcon={<UploadIcon sx={{ fontSize: 16 }} />}
               onClick={() => onAction?.({ type: 'upload_file' })}
               sx={{
-                mt: 1.5,
                 textTransform: 'none',
-                borderRadius: 2,
+                borderRadius: 1.5,
                 px: 3,
-                py: 1,
+                py: 0.75,
                 bgcolor: '#1a1a2e',
                 '&:hover': { bgcolor: '#16213e' },
+                '&.Mui-disabled': { bgcolor: 'grey.200', color: 'grey.500' },
               }}
             >
               Upload a file
             </Button>
           </Box>
+
         </Box>
       </Box>
     )

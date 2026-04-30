@@ -1,0 +1,1 @@
+[{"step": "verify_template", "durationMs": 6810, "queryCount": 1}, {"step": "read_file", "durationMs": 479, "queryCount": 1}, {"step": "search_files", "durationMs": 703, "queryCount": 1}]

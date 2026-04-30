@@ -1,0 +1,20 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "bill_to_name",
+    "bill_to_company",
+    "bill_to_address",
+    "bill_to_phone",
+    "invoice_date",
+    "invoice_no",
+    "payment_terms",
+    "remarks",
+    "payment_details"
+  ],
+  "row_tokens": [],
+  "totals": [],
+  "notes": "The table rows in the image are static examples (1, 1, 1) rather than dynamic data rows, so no row_tokens were generated. The totals are also static values in the template image."
+}

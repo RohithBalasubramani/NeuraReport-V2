@@ -1,0 +1,185 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "4bbac46577301c76be7d471125e561293d6c94560e0e30ec15d010622bf22b15",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777545984,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "company_name_placeholder",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "invoice_date",
+        "invoice_no",
+        "payment_terms",
+        "bill_to_name_dept",
+        "bill_to_client_company",
+        "bill_to_address",
+        "bill_to_phone",
+        "payment_payable_to",
+        "venmo_account",
+        "paypal_account"
+      ],
+      "row_tokens": [],
+      "totals": [
+        "total_subtotal",
+        "total_discount",
+        "total_subtotal_less_discount",
+        "total_tax_rate",
+        "total_tax",
+        "total_shipping",
+        "total_balance_due"
+      ]
+    },
+    "mapping": {
+      "company_name_placeholder": "invoices.vendor_name",
+      "invoice_date": "invoices.issue_date",
+      "invoice_no": "invoices.invoice_number",
+      "bill_to_name_dept": "customers.customer_name",
+      "bill_to_address": "customers.billing_address",
+      "bill_to_phone": "customers.phone",
+      "total_subtotal": "invoices.subtotal",
+      "total_discount": "invoices.discount_amount",
+      "total_subtotal_less_discount": "COMPUTED",
+      "total_tax": "invoices.tax_amount",
+      "total_balance_due": "COMPUTED"
+    },
+    "unresolved": [
+      "company_address",
+      "company_phone",
+      "company_email",
+      "payment_terms",
+      "bill_to_client_company",
+      "payment_payable_to",
+      "venmo_account",
+      "paypal_account",
+      "total_tax_rate",
+      "total_shipping"
+    ],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "customer_id",
+      "child_table": "customers",
+      "child_key": "customer_id"
+    },
+    "date_columns": {
+      "invoices": "issue_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.issue_date"
+      }
+    },
+    "reshape_rules": [],
+    "row_computed": {},
+    "totals_math": {},
+    "totals": {
+      "total_subtotal": {
+        "op": "sum",
+        "column": "total_subtotal"
+      },
+      "total_discount": {
+        "op": "sum",
+        "column": "total_discount"
+      },
+      "total_subtotal_less_discount": {
+        "op": "subtract",
+        "left": {
+          "op": "sum",
+          "column": "total_subtotal"
+        },
+        "right": {
+          "op": "sum",
+          "column": "total_discount"
+        }
+      },
+      "total_tax_rate": "UNRESOLVED",
+      "total_tax": {
+        "op": "sum",
+        "column": "total_tax"
+      },
+      "total_shipping": {
+        "op": "sum",
+        "column": "total_shipping"
+      },
+      "total_balance_due": {
+        "op": "add",
+        "left": {
+          "op": "subtract",
+          "left": {
+            "op": "sum",
+            "column": "total_subtotal"
+          },
+          "right": {
+            "op": "sum",
+            "column": "total_discount"
+          }
+        },
+        "right": {
+          "op": "add",
+          "left": {
+            "op": "sum",
+            "column": "total_tax"
+          },
+          "right": {
+            "op": "sum",
+            "column": "total_shipping"
+          }
+        }
+      }
+    },
+    "formatters": {
+      "total_subtotal": "currency(2)",
+      "total_discount": "currency(2)",
+      "total_subtotal_less_discount": "currency(2)",
+      "total_tax_rate": "percent(2)",
+      "total_tax": "currency(2)",
+      "total_shipping": "currency(2)",
+      "total_balance_due": "currency(2)",
+      "company_name_placeholder": "number(2)",
+      "invoice_date": "number(2)",
+      "invoice_no": "number(2)",
+      "bill_to_name_dept": "number(2)",
+      "bill_to_address": "number(2)",
+      "bill_to_phone": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "ROWID"
+      ]
+    },
+    "header_tokens": [
+      "company_name_placeholder",
+      "invoice_date",
+      "invoice_no",
+      "bill_to_name_dept",
+      "bill_to_address",
+      "bill_to_phone"
+    ],
+    "row_tokens": [],
+    "row_order": [
+      "ROWID"
+    ],
+    "literals": {},
+    "notes": "Tokens mapped to UNRESOLVED require external configuration or default values as they are not present in the provided catalog. Date formatting is applied to invoice_date. Financial totals are computed using declarative arithmetic operations.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

@@ -1,0 +1,73 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Invoice metadata and customer billing information.",
+      "columns": [
+        "invoice_number",
+        "balance_due",
+        "bill_to_name",
+        "bill_to_address",
+        "bill_to_city",
+        "bill_to_zip",
+        "bill_to_country",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "po_number",
+        "project_name",
+        "sub_total",
+        "tax_1_amount",
+        "tax_2_amount",
+        "total_amount",
+        "payment_made"
+      ]
+    },
+    "rows": {
+      "description": "Line items associated with the invoice.",
+      "columns": [
+        "row_item_number",
+        "row_item_description",
+        "row_description_sub",
+        "row_qty",
+        "row_rate",
+        "row_discount",
+        "row_amount"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_item_number ASC"
+      ]
+    },
+    "totals": {
+      "description": "Calculated totals for the invoice.",
+      "columns": []
+    }
+  },
+  "semantics": "Scalars are pulled from the parent `invoices` table or joined tables. Row tokens are pulled from `invoice_items`. Computed fields use declarative math operations. Unresolved fields default to empty strings.",
+  "parameters": {
+    "required": [
+      {
+        "name": "invoice_number",
+        "type": "string"
+      }
+    ],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Format invoice_date and due_date as dd-mm-yyyy HH:MM:SS.",
+    "Calculate balance_due as total_amount minus payment_made.",
+    "Calculate tax_1_amount as 4.7% of sub_total.",
+    "Calculate tax_2_amount as 7.0% of sub_total.",
+    "Calculate row_discount as 0.00 (default) or derived from rate/qty/amount if logic changes.",
+    "Format all currency values with 2 decimal places."
+  ]
+}

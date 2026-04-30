@@ -1686,6 +1686,7 @@ def request_initial_html(
         model=_ensure_model(),
         messages=[{"role": "user", "content": content}],
         description="template_initial_html",
+        extra_body={"chat_template_kwargs": {"enable_thinking": True}},
     )
 
     raw_content = resp.choices[0].message.content or ""
@@ -1827,6 +1828,7 @@ def request_fix_html(
             }
         ],
         description="template_fix_html_call2",
+        extra_body={"chat_template_kwargs": {"enable_thinking": True}},
     )
     raw_response = (response.choices[0].message.content or "").strip()
 

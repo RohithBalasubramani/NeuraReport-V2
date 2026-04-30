@@ -168,8 +168,7 @@ def _strip_reasoning(raw: str) -> str:
                     return result
             blank_run = 0
 
-    # ── 4. No structural markers at all (shouldn't happen with max_tokens=32768) ──
-    # Log it so we know if this path is ever hit.
+    # ── 4. No structural markers ──
     logger.warning("no_thinking_markers_found", extra={
         "length": len(text),
         "first_50": text[:50],
@@ -459,7 +458,7 @@ class HermesAgent:
     """
 
     MAX_TOOL_ROUNDS = 25   # Delegation + complex pipelines need headroom
-    CONVERSATION_TIMEOUT = 1500  # 25 minutes max for entire conversation
+    CONVERSATION_TIMEOUT = 2400  # 40 minutes max (template gen takes 15-20 min on single GPU)
 
     def __init__(self, session: ChatSession, request: Request, workspace_mode: bool = False):
         self.session = session
@@ -579,6 +578,11 @@ class HermesAgent:
         llm_config = get_llm_config()
         base_url = llm_config.api_base
 
+        # ── 6b. Apply user thinking toggle ──
+        _extra_body = dict(llm_config.extra_body or {})
+        _thinking = getattr(payload, "thinking_enabled", False)
+        _extra_body["chat_template_kwargs"] = {"enable_thinking": bool(_thinking)}
+
         # ── 7. Create AIAgent with ALL Hermes features ──
         agent = AIAgent(
             # LLM endpoint
@@ -586,7 +590,7 @@ class HermesAgent:
             api_key=llm_config.api_key or "none",
             model=llm_config.model or "qwen",
             max_tokens=4096,
-            extra_body_override=llm_config.extra_body or {},
+            extra_body_override=_extra_body,
 
             # Agent behavior
             quiet_mode=True,

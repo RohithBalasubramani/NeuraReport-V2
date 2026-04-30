@@ -1,0 +1,67 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static report metadata and batch identification.",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "batch_id",
+        "start_time",
+        "end_time"
+      ]
+    },
+    "rows": {
+      "description": "Unpivoted material consumption details per bin.",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [
+        "batch_id"
+      ],
+      "ordering": [
+        "row_sl_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Batch-level aggregates for consumption metrics.",
+      "columns": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    }
+  },
+  "semantics": "The report filters batches by date range if provided. Within a batch, all 12 bins are expanded into individual rows. Calculations are performed at the row level for error, then aggregated for totals.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Melt bin1_content through bin12_content into row_material_name",
+    "Melt bin1_sp through bin12_sp into row_set_wt_kg",
+    "Melt bin1_act through bin12_act into row_ach_wt_kg",
+    "Compute row_error_kg as actual minus set",
+    "Compute row_error_pct as (error / set) * 100",
+    "Sum row values for batch totals",
+    "Format timestamps as DD-MM-YYYY HH:MM:SS"
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "mapping": {
+    "invoice_number": "invoices.invoice_number",
+    "balance_due": "UNRESOLVED",
+    "bill_to_name": "customers.customer_name",
+    "bill_to_address": "customers.billing_address",
+    "bill_to_city": "customers.city",
+    "bill_to_zip": "customers.postal_code",
+    "bill_to_country": "customers.country",
+    "invoice_date": "invoices.issue_date",
+    "terms": "UNRESOLVED",
+    "due_date": "invoices.due_date",
+    "po_number": "UNRESOLVED",
+    "project_name": "UNRESOLVED",
+    "row_item_number": "invoice_items.line_no",
+    "row_item_description": "invoice_items.description",
+    "row_description_sub": "UNRESOLVED",
+    "row_qty": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_discount": "UNRESOLVED",
+    "row_amount": "invoice_items.line_total",
+    "sub_total": "invoices.subtotal",
+    "tax_1_amount": "UNRESOLVED",
+    "tax_2_amount": "UNRESOLVED",
+    "total_amount": "invoices.total_amount",
+    "payment_made": "payments.amount_paid"
+  },
+  "meta": {
+    "unresolved": [
+      "balance_due",
+      "terms",
+      "po_number",
+      "project_name",
+      "row_description_sub",
+      "row_discount",
+      "tax_1_amount",
+      "tax_2_amount"
+    ],
+    "hints": {
+      "balance_due": {
+        "op": "CALC",
+        "over": [
+          "columns:invoices.total_amount",
+          "columns:payments.amount_paid"
+        ]
+      },
+      "row_discount": {
+        "op": "DERIVED",
+        "over": [
+          "columns:invoice_items.unit_price",
+          "columns:invoice_items.quantity"
+        ]
+      },
+      "tax_1_amount": {
+        "op": "DERIVED",
+        "over": [
+          "columns:invoices.subtotal"
+        ]
+      },
+      "tax_2_amount": {
+        "op": "DERIVED",
+        "over": [
+          "columns:invoices.subtotal"
+        ]
+      },
+      "terms": {
+        "op": "LOOKUP",
+        "over": [
+          "columns:invoices.status"
+        ]
+      }
+    }
+  },
+  "prompt_meta": {
+    "version": "llm_call_3_df_v2",
+    "prompt_sha256": "3cd621566034b10617cca666c8c525830bb42bd063a073453d6752942def1564",
+    "catalog_sha256": "63697b235b87fa2a40dbb5bc5123a9fdd4f5dfde0cc857d4b2a8863a14e42a9e",
+    "schema_sha256": "fa75368de5e48bc3a448d662ab7d622ca5857b7768ea0b78f65b58e3f3899f27",
+    "cache_key": "3ab294a86690354386796bb4576fe720e5976a5237ab8b016acfe6457195d9c4",
+    "pre_html_sha256": "1e81b955b6ff5c2576046b87b96f47e528cc681219117dd906088f1fdb4cc7b6",
+    "post_html_sha256": "1e81b955b6ff5c2576046b87b96f47e528cc681219117dd906088f1fdb4cc7b6",
+    "prompt_version": "llm_call_3_df_v2",
+    "pdf_sha256": "e1dfdba7aa3feea1b6a64b475f2b1101b3fc7dc2c01d7aaba8a7f22604b4b0b4",
+    "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3"
+  },
+  "raw_payload": {
+    "mapping": {
+      "invoice_number": "invoices.invoice_number",
+      "balance_due": "UNRESOLVED",
+      "bill_to_name": "customers.customer_name",
+      "bill_to_address": "customers.billing_address",
+      "bill_to_city": "customers.city",
+      "bill_to_zip": "customers.postal_code",
+      "bill_to_country": "customers.country",
+      "invoice_date": "invoices.issue_date",
+      "terms": "UNRESOLVED",
+      "due_date": "invoices.due_date",
+      "po_number": "UNRESOLVED",
+      "project_name": "UNRESOLVED",
+      "row_item_number": "invoice_items.line_no",
+      "row_item_description": "invoice_items.description",
+      "row_description_sub": "UNRESOLVED",
+      "row_qty": "invoice_items.quantity",
+      "row_rate": "invoice_items.unit_price",
+      "row_discount": "UNRESOLVED",
+      "row_amount": "invoice_items.line_total",
+      "sub_total": "invoices.subtotal",
+      "tax_1_amount": "UNRESOLVED",
+      "tax_2_amount": "UNRESOLVED",
+      "total_amount": "invoices.total_amount",
+      "payment_made": "payments.amount_paid"
+    },
+    "token_samples": {
+      "invoice_number": "INV-17",
+      "balance_due": "$562.750",
+      "bill_to_name": "Rob & Joe Traders",
+      "bill_to_address": "2708 Southside Lane",
+      "bill_to_city": "Los Angeles",
+      "bill_to_zip": "90018 CA",
+      "bill_to_country": "USA",
+      "invoice_date": "03 May 2018",
+      "terms": "Due On Receipt",
+      "due_date": "03 May 2018",
+      "po_number": "321014",
+      "project_name": "Design project",
+      "row_item_number": "1",
+      "row_item_description": "Brochure Design",
+      "row_description_sub": "Brochure Design Single Sided Color",
+      "row_qty": "1.00",
+      "row_rate": "300.000",
+      "row_discount": "0.00",
+      "row_amount": "300.000",
+      "sub_total": "630.000",
+      "tax_1_amount": "11.750",
+      "tax_2_amount": "21.000",
+      "total_amount": "$662.750",
+      "payment_made": "(-) 100.000"
+    },
+    "meta": {
+      "unresolved": [
+        "balance_due",
+        "terms",
+        "po_number",
+        "project_name",
+        "row_description_sub",
+        "row_discount",
+        "tax_1_amount",
+        "tax_2_amount"
+      ],
+      "hints": {
+        "balance_due": {
+          "op": "CALC",
+          "columns": [
+            "invoices.total_amount",
+            "payments.amount_paid"
+          ]
+        },
+        "row_discount": {
+          "op": "DERIVED",
+          "columns": [
+            "invoice_items.unit_price",
+            "invoice_items.quantity"
+          ]
+        },
+        "tax_1_amount": {
+          "op": "DERIVED",
+          "columns": [
+            "invoices.subtotal"
+          ]
+        },
+        "tax_2_amount": {
+          "op": "DERIVED",
+          "columns": [
+            "invoices.subtotal"
+          ]
+        },
+        "terms": {
+          "op": "LOOKUP",
+          "columns": [
+            "invoices.status"
+          ]
+        }
+      }
+    },
+    "constant_replacements": {}
+  },
+  "constant_replacements": {},
+  "token_samples": {
+    "invoice_number": "INV-17",
+    "balance_due": "$562.750",
+    "bill_to_name": "Rob & Joe Traders",
+    "bill_to_address": "2708 Southside Lane",
+    "bill_to_city": "Los Angeles",
+    "bill_to_zip": "90018 CA",
+    "bill_to_country": "USA",
+    "invoice_date": "03 May 2018",
+    "terms": "Due On Receipt",
+    "due_date": "03 May 2018",
+    "po_number": "321014",
+    "project_name": "Design project",
+    "row_item_number": "1",
+    "row_item_description": "Brochure Design",
+    "row_description_sub": "Brochure Design Single Sided Color",
+    "row_qty": "1.00",
+    "row_rate": "300.000",
+    "row_discount": "0.00",
+    "row_amount": "300.000",
+    "sub_total": "630.000",
+    "tax_1_amount": "11.750",
+    "tax_2_amount": "21.000",
+    "total_amount": "$662.750",
+    "payment_made": "(-) 100.000"
+  },
+  "confidence": {
+    "invoice_number": 0.95,
+    "balance_due": 0.0,
+    "bill_to_name": 0.7,
+    "bill_to_address": 0.7,
+    "bill_to_city": 0.95,
+    "bill_to_zip": 0.7,
+    "bill_to_country": 0.95,
+    "invoice_date": 0.7,
+    "terms": 0.0,
+    "due_date": 0.95,
+    "po_number": 0.0,
+    "project_name": 0.0,
+    "row_item_number": 0.7,
+    "row_item_description": 0.95,
+    "row_description_sub": 0.0,
+    "row_qty": 0.7,
+    "row_rate": 0.7,
+    "row_discount": 0.0,
+    "row_amount": 0.7,
+    "sub_total": 0.7,
+    "tax_1_amount": 0.0,
+    "tax_2_amount": 0.0,
+    "total_amount": 0.95,
+    "payment_made": 0.7
+  },
+  "confidence_reason": {
+    "invoice_number": "name_match",
+    "balance_due": "unresolved",
+    "bill_to_name": "type_match",
+    "bill_to_address": "type_match",
+    "bill_to_city": "name_match",
+    "bill_to_zip": "type_match",
+    "bill_to_country": "name_match",
+    "invoice_date": "type_match",
+    "terms": "unresolved",
+    "due_date": "name_match",
+    "po_number": "unresolved",
+    "project_name": "unresolved",
+    "row_item_number": "type_match",
+    "row_item_description": "name_match",
+    "row_description_sub": "unresolved",
+    "row_qty": "type_match",
+    "row_rate": "type_match",
+    "row_discount": "unresolved",
+    "row_amount": "type_match",
+    "sub_total": "type_match",
+    "tax_1_amount": "unresolved",
+    "tax_2_amount": "unresolved",
+    "total_amount": "name_match",
+    "payment_made": "type_match"
+  },
+  "candidates": {
+    "balance_due": [],
+    "terms": [],
+    "po_number": [],
+    "project_name": [],
+    "row_description_sub": [],
+    "row_discount": [],
+    "tax_1_amount": [],
+    "tax_2_amount": []
+  },
+  "token_signatures": {
+    "invoice_number": "0885f22a8f42",
+    "balance_due": "46cac4a9bdfa",
+    "bill_to_name": "d34d2e36f8e7",
+    "bill_to_address": "be69dd34bc3d",
+    "bill_to_city": "47f89087cacb",
+    "bill_to_zip": "0e57d336a8d8",
+    "bill_to_country": "18e79b5b543f",
+    "invoice_date": "17bc5e027e2a",
+    "terms": "51d2361f4fae",
+    "due_date": "3852ef35dd7a",
+    "po_number": "8584c69cc8a5",
+    "project_name": "4390c73e6a90",
+    "row_item_number": "bd535928cdb7",
+    "row_item_description": "06dc8ec6bde0",
+    "row_description_sub": "be28df78929b",
+    "row_qty": "96ed99ea4065",
+    "row_rate": "32ee6f59e59b",
+    "row_discount": "27690a312d26",
+    "row_amount": "e829d25671b8",
+    "sub_total": "13cfc6a7c874",
+    "tax_1_amount": "aa6bb92120cc",
+    "tax_2_amount": "d1c32ec35103",
+    "total_amount": "b20bf068e5a5",
+    "payment_made": "6d25b43ced6b"
+  }
+}

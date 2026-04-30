@@ -1,0 +1,1 @@
+[{"step": "verify_template", "durationMs": 15919, "queryCount": 1}, {"step": "session_get_state", "durationMs": 0, "queryCount": 1}, {"step": "auto_map_tokens", "durationMs": 3, "queryCount": 1}, {"step": "read_template", "durationMs": 0, "queryCount": 1}, {"step": "session_get_state", "durationMs": 0, "queryCount": 1}, {"step": "read_ocr", "durationMs": 1, "queryCount": 1}]

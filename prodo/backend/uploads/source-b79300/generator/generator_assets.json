@@ -1,0 +1,26 @@
+{
+  "dialect": "duckdb",
+  "mode": "dataframe",
+  "entrypoints": {},
+  "params": {
+    "required": [
+      "plant_name",
+      "location",
+      "print_date",
+      "report_title"
+    ],
+    "optional": []
+  },
+  "needs_user_fix": [],
+  "invalid": false,
+  "summary": {
+    "scalars": 10,
+    "row_tokens": 6,
+    "totals": 4,
+    "reshape_rules": 1,
+    "row_computed": 4,
+    "totals_math": 4,
+    "formatters": 10
+  },
+  "key_tokens": []
+}

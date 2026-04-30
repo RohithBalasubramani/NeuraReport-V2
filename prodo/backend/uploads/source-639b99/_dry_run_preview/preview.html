@@ -1,0 +1,854 @@
+
+
+
+<meta charset="UTF-8">
+<title>Invoice</title>
+<style>
+    :root {
+        --primary-font: 'Open Sans', Helvetica, Arial, sans-serif;
+        --header-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --text-color: #333333;
+        --border-color: #e0e0e0;
+        --bg-grey: #f5f5f5;
+        --col-item: 18%;
+        --col-desc: 38%;
+        --col-qty: 14%;
+        --col-rate: 15%;
+        --col-amt: 15%;
+    }
+
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+
+    body {
+        font-family: var(--primary-font);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Layout Containers */
+    .container {
+        max-width: 210mm;
+        margin: 0 auto;
+        padding: 0;
+        position: relative;
+        min-height: 297mm;
+    }
+
+    /* Header Section */
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 45px;
+    }
+
+    .left-header {
+        width: 55%;
+    }
+
+    .logo-placeholder {
+        font-size: 38px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #444;
+        line-height: 1.1;
+    }
+
+    .company-name {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .company-address {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .right-header {
+        width: 40%;
+        text-align: right;
+    }
+
+    .invoice-title {
+        font-family: var(--header-font);
+        font-size: 52px;
+        font-weight: 400;
+        color: #222;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .contact-info {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .contact-row {
+        margin-bottom: 2px;
+    }
+
+    .contact-label {
+        font-weight: 700;
+        margin-right: 5px;
+    }
+
+    /* Info Grid (Bill To / Ship To / Details) */
+    .info-grid {
+        display: flex;
+        background-color: var(--bg-grey);
+        padding: 18px 22px;
+        margin-bottom: 35px;
+        gap: 0;
+    }
+
+    .info-col {
+        flex: 1;
+        padding-right: 25px;
+    }
+
+    .info-col:last-child {
+        padding-right: 0;
+    }
+
+    .info-col h4 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    .info-col p {
+        margin: 0 0 3px 0;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .info-row {
+        display: flex;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+
+    .info-label {
+        font-weight: 700;
+        width: 110px;
+        flex-shrink: 0;
+        color: #444;
+    }
+
+    /* Table */
+    #data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 45px;
+        table-layout: fixed;
+    }
+
+    #data-table th {
+        text-align: left;
+        font-weight: 700;
+        padding: 10px 6px;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    #data-table td {
+        padding: 10px 6px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #333;
+        vertical-align: top;
+    }
+
+    /* Column Widths */
+    .col-item { width: var(--col-item); }
+    .col-desc { width: var(--col-desc); }
+    .col-qty { width: var(--col-qty); }
+    .col-rate { width: var(--col-rate); }
+    .col-amt { width: var(--col-amt); }
+
+    .text-right {
+        text-align: right;
+    }
+
+    /* Totals Section */
+    .bottom-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 45px;
+    }
+
+    .message-box {
+        width: 55%;
+    }
+
+    .message-title {
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: block;
+        font-size: 16px;
+    }
+
+    .message-content {
+        font-size: 14px;
+        white-space: pre-line;
+        line-height: 1.5;
+    }
+
+    .totals-box {
+        width: 40%;
+    }
+
+    .totals-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+
+    .totals-row.total-line {
+        font-weight: 700;
+        font-size: 26px;
+        margin-top: 25px;
+        padding-top: 12px;
+        border-top: 2px solid #333;
+    }
+
+    .totals-label {
+        font-weight: 600;
+    }
+
+    /* Footer */
+    #report-footer {
+        position: absolute;
+        bottom: 20mm;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .footer-logo {
+        margin-bottom: 8px;
+        font-size: 22px;
+        font-weight: bold;
+        display: inline-block;
+        color: #333;
+    }
+    
+    .footer-logo span {
+        color: #4CAF50;
+        font-weight: bold;
+        margin-right: 4px;
+    }
+
+    .footer-text {
+        line-height: 1.4;
+        margin: 0;
+        font-size: 11px;
+    }
+</style>
+
+
+<div class="container">
+
+    <div class="header-wrapper">
+        <div class="left-header">
+            <div class="logo-placeholder">Replace with LOGO</div>
+            <div class="company-name"></div>
+            <div class="company-address">
+
+            </div>
+        </div>
+        <div class="right-header">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="contact-info">
+                <div class="contact-row"><span class="contact-label">Phone #</span> </div>
+                <div class="contact-row"><span class="contact-label">Email</span> </div>
+                <div class="contact-row"><span class="contact-label">Website</span> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-col">
+            <h4>Bill to</h4>
+            <p>Customer 1 Summit</p>
+            <p>101 Market Street</p>
+        </div>
+        <div class="info-col">
+            <h4>Ship to</h4>
+            <p>Customer 1 Summit</p>
+            <p>101 Market Street</p>
+        </div>
+        <div class="info-col">
+            <h4>Details</h4>
+            <div class="info-row"><span class="info-label">Invoice #</span> INV-505-00001</div>
+            <div class="info-row"><span class="info-label">Invoice date</span> 2025-08-04</div>
+            <div class="info-row"><span class="info-label">Terms</span> </div>
+            <div class="info-row"><span class="info-label">Due date</span> 2025-09-03</div>
+        </div>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th class="col-item" data-label="item_service">Item/ service</th>
+                <th class="col-desc" data-label="description">Description</th>
+                <th class="col-qty" data-label="quantity_hrs">Quantity/ hrs</th>
+                <th class="col-rate" data-label="rate">Rate</th>
+                <th class="col-amt" data-label="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ITM-507</td>
+                <td>Line item 1 for invoice 1</td>
+                <td>3.83</td>
+                <td class="text-right">301.0</td>
+                <td class="text-right">1152.83</td>
+            </tr>
+<tr>
+                <td>ITM-508</td>
+                <td>Line item 2 for invoice 1</td>
+                <td>4.72</td>
+                <td class="text-right">447.1</td>
+                <td class="text-right">2110.31</td>
+            </tr>
+<tr>
+                <td>ITM-509</td>
+                <td>Line item 3 for invoice 1</td>
+                <td>6.87</td>
+                <td class="text-right">501.16</td>
+                <td class="text-right">3442.97</td>
+            </tr>
+<tr>
+                <td>ITM-508</td>
+                <td>Line item 1 for invoice 2</td>
+                <td>11.55</td>
+                <td class="text-right">765.72</td>
+                <td class="text-right">8844.07</td>
+            </tr>
+<tr>
+                <td>ITM-509</td>
+                <td>Line item 2 for invoice 2</td>
+                <td>5.45</td>
+                <td class="text-right">502.95</td>
+                <td class="text-right">2741.08</td>
+            </tr>
+<tr>
+                <td>ITM-510</td>
+                <td>Line item 3 for invoice 2</td>
+                <td>8.94</td>
+                <td class="text-right">683.18</td>
+                <td class="text-right">6107.63</td>
+            </tr>
+<tr>
+                <td>ITM-511</td>
+                <td>Line item 4 for invoice 2</td>
+                <td>10.26</td>
+                <td class="text-right">872.68</td>
+                <td class="text-right">8953.7</td>
+            </tr>
+<tr>
+                <td>ITM-512</td>
+                <td>Line item 5 for invoice 2</td>
+                <td>11.26</td>
+                <td class="text-right">258.11</td>
+                <td class="text-right">2906.32</td>
+            </tr>
+<tr>
+                <td>ITM-509</td>
+                <td>Line item 1 for invoice 3</td>
+                <td>2.58</td>
+                <td class="text-right">149.33</td>
+                <td class="text-right">385.27</td>
+            </tr>
+<tr>
+                <td>ITM-510</td>
+                <td>Line item 2 for invoice 3</td>
+                <td>5.75</td>
+                <td class="text-right">806.01</td>
+                <td class="text-right">4634.56</td>
+            </tr>
+<tr>
+                <td>ITM-511</td>
+                <td>Line item 3 for invoice 3</td>
+                <td>9.67</td>
+                <td class="text-right">494.59</td>
+                <td class="text-right">4782.69</td>
+            </tr>
+<tr>
+                <td>ITM-512</td>
+                <td>Line item 4 for invoice 3</td>
+                <td>3.98</td>
+                <td class="text-right">663.03</td>
+                <td class="text-right">2638.86</td>
+            </tr>
+<tr>
+                <td>ITM-510</td>
+                <td>Line item 1 for invoice 4</td>
+                <td>9.76</td>
+                <td class="text-right">748.07</td>
+                <td class="text-right">7301.16</td>
+            </tr>
+<tr>
+                <td>ITM-511</td>
+                <td>Line item 2 for invoice 4</td>
+                <td>4.43</td>
+                <td class="text-right">255.85</td>
+                <td class="text-right">1133.42</td>
+            </tr>
+<tr>
+                <td>ITM-512</td>
+                <td>Line item 3 for invoice 4</td>
+                <td>3.04</td>
+                <td class="text-right">106.71</td>
+                <td class="text-right">324.4</td>
+            </tr>
+<tr>
+                <td>ITM-513</td>
+                <td>Line item 4 for invoice 4</td>
+                <td>9.04</td>
+                <td class="text-right">897.66</td>
+                <td class="text-right">8114.85</td>
+            </tr>
+<tr>
+                <td>ITM-511</td>
+                <td>Line item 1 for invoice 5</td>
+                <td>10.54</td>
+                <td class="text-right">411.05</td>
+                <td class="text-right">4332.47</td>
+            </tr>
+<tr>
+                <td>ITM-512</td>
+                <td>Line item 2 for invoice 5</td>
+                <td>11.82</td>
+                <td class="text-right">283.65</td>
+                <td class="text-right">3352.74</td>
+            </tr>
+<tr>
+                <td>ITM-513</td>
+                <td>Line item 3 for invoice 5</td>
+                <td>2.73</td>
+                <td class="text-right">566.24</td>
+                <td class="text-right">1545.84</td>
+            </tr>
+<tr>
+                <td>ITM-514</td>
+                <td>Line item 4 for invoice 5</td>
+                <td>4.47</td>
+                <td class="text-right">810.08</td>
+                <td class="text-right">3621.06</td>
+            </tr>
+<tr>
+                <td>ITM-515</td>
+                <td>Line item 5 for invoice 5</td>
+                <td>8.10</td>
+                <td class="text-right">491.66</td>
+                <td class="text-right">3982.45</td>
+            </tr>
+<tr>
+                <td>ITM-516</td>
+                <td>Line item 6 for invoice 5</td>
+                <td>9.45</td>
+                <td class="text-right">840.89</td>
+                <td class="text-right">7946.41</td>
+            </tr>
+<tr>
+                <td>ITM-512</td>
+                <td>Line item 1 for invoice 6</td>
+                <td>4.62</td>
+                <td class="text-right">749.48</td>
+                <td class="text-right">3462.6</td>
+            </tr>
+<tr>
+                <td>ITM-513</td>
+                <td>Line item 2 for invoice 6</td>
+                <td>7.04</td>
+                <td class="text-right">532.28</td>
+                <td class="text-right">3747.25</td>
+            </tr>
+<tr>
+                <td>ITM-513</td>
+                <td>Line item 1 for invoice 7</td>
+                <td>8.02</td>
+                <td class="text-right">378.75</td>
+                <td class="text-right">3037.57</td>
+            </tr>
+<tr>
+                <td>ITM-514</td>
+                <td>Line item 2 for invoice 7</td>
+                <td>3.75</td>
+                <td class="text-right">458.85</td>
+                <td class="text-right">1720.69</td>
+            </tr>
+<tr>
+                <td>ITM-514</td>
+                <td>Line item 1 for invoice 8</td>
+                <td>6.59</td>
+                <td class="text-right">590.97</td>
+                <td class="text-right">3894.49</td>
+            </tr>
+<tr>
+                <td>ITM-515</td>
+                <td>Line item 2 for invoice 8</td>
+                <td>8.71</td>
+                <td class="text-right">494.47</td>
+                <td class="text-right">4306.83</td>
+            </tr>
+<tr>
+                <td>ITM-516</td>
+                <td>Line item 3 for invoice 8</td>
+                <td>1.06</td>
+                <td class="text-right">807.1</td>
+                <td class="text-right">855.53</td>
+            </tr>
+<tr>
+                <td>ITM-517</td>
+                <td>Line item 4 for invoice 8</td>
+                <td>4.69</td>
+                <td class="text-right">738.12</td>
+                <td class="text-right">3461.78</td>
+            </tr>
+<tr>
+                <td>ITM-518</td>
+                <td>Line item 5 for invoice 8</td>
+                <td>1.23</td>
+                <td class="text-right">125.5</td>
+                <td class="text-right">154.37</td>
+            </tr>
+<tr>
+                <td>ITM-515</td>
+                <td>Line item 1 for invoice 9</td>
+                <td>6.02</td>
+                <td class="text-right">222.65</td>
+                <td class="text-right">1340.35</td>
+            </tr>
+<tr>
+                <td>ITM-516</td>
+                <td>Line item 2 for invoice 9</td>
+                <td>11.57</td>
+                <td class="text-right">380.44</td>
+                <td class="text-right">4401.69</td>
+            </tr>
+<tr>
+                <td>ITM-516</td>
+                <td>Line item 1 for invoice 10</td>
+                <td>11.06</td>
+                <td class="text-right">663.72</td>
+                <td class="text-right">7340.74</td>
+            </tr>
+<tr>
+                <td>ITM-517</td>
+                <td>Line item 2 for invoice 10</td>
+                <td>6.69</td>
+                <td class="text-right">93.07</td>
+                <td class="text-right">622.64</td>
+            </tr>
+<tr>
+                <td>ITM-517</td>
+                <td>Line item 1 for invoice 11</td>
+                <td>11.26</td>
+                <td class="text-right">694.26</td>
+                <td class="text-right">7817.37</td>
+            </tr>
+<tr>
+                <td>ITM-518</td>
+                <td>Line item 2 for invoice 11</td>
+                <td>6.98</td>
+                <td class="text-right">114.46</td>
+                <td class="text-right">798.93</td>
+            </tr>
+<tr>
+                <td>ITM-518</td>
+                <td>Line item 1 for invoice 12</td>
+                <td>3.09</td>
+                <td class="text-right">508.1</td>
+                <td class="text-right">1570.03</td>
+            </tr>
+<tr>
+                <td>ITM-519</td>
+                <td>Line item 2 for invoice 12</td>
+                <td>1.71</td>
+                <td class="text-right">522.25</td>
+                <td class="text-right">893.05</td>
+            </tr>
+<tr>
+                <td>ITM-520</td>
+                <td>Line item 3 for invoice 12</td>
+                <td>3.09</td>
+                <td class="text-right">145.67</td>
+                <td class="text-right">450.12</td>
+            </tr>
+<tr>
+                <td>ITM-521</td>
+                <td>Line item 4 for invoice 12</td>
+                <td>3.05</td>
+                <td class="text-right">629.75</td>
+                <td class="text-right">1920.74</td>
+            </tr>
+<tr>
+                <td>ITM-522</td>
+                <td>Line item 5 for invoice 12</td>
+                <td>6.99</td>
+                <td class="text-right">327.52</td>
+                <td class="text-right">2289.36</td>
+            </tr>
+<tr>
+                <td>ITM-523</td>
+                <td>Line item 6 for invoice 12</td>
+                <td>7.82</td>
+                <td class="text-right">255.12</td>
+                <td class="text-right">1995.04</td>
+            </tr>
+<tr>
+                <td>ITM-519</td>
+                <td>Line item 1 for invoice 13</td>
+                <td>6.95</td>
+                <td class="text-right">444.15</td>
+                <td class="text-right">3086.84</td>
+            </tr>
+<tr>
+                <td>ITM-520</td>
+                <td>Line item 2 for invoice 13</td>
+                <td>1.28</td>
+                <td class="text-right">751.23</td>
+                <td class="text-right">961.57</td>
+            </tr>
+<tr>
+                <td>ITM-521</td>
+                <td>Line item 3 for invoice 13</td>
+                <td>9.70</td>
+                <td class="text-right">856.26</td>
+                <td class="text-right">8305.72</td>
+            </tr>
+<tr>
+                <td>ITM-520</td>
+                <td>Line item 1 for invoice 14</td>
+                <td>10.68</td>
+                <td class="text-right">350.4</td>
+                <td class="text-right">3742.27</td>
+            </tr>
+<tr>
+                <td>ITM-521</td>
+                <td>Line item 2 for invoice 14</td>
+                <td>6.87</td>
+                <td class="text-right">107.28</td>
+                <td class="text-right">737.01</td>
+            </tr>
+<tr>
+                <td>ITM-522</td>
+                <td>Line item 3 for invoice 14</td>
+                <td>9.08</td>
+                <td class="text-right">185.02</td>
+                <td class="text-right">1679.98</td>
+            </tr>
+<tr>
+                <td>ITM-523</td>
+                <td>Line item 4 for invoice 14</td>
+                <td>4.76</td>
+                <td class="text-right">780.52</td>
+                <td class="text-right">3715.28</td>
+            </tr>
+<tr>
+                <td>ITM-521</td>
+                <td>Line item 1 for invoice 15</td>
+                <td>2.61</td>
+                <td class="text-right">392.44</td>
+                <td class="text-right">1024.27</td>
+            </tr>
+<tr>
+                <td>ITM-522</td>
+                <td>Line item 2 for invoice 15</td>
+                <td>4.36</td>
+                <td class="text-right">65.78</td>
+                <td class="text-right">286.8</td>
+            </tr>
+<tr>
+                <td>ITM-523</td>
+                <td>Line item 3 for invoice 15</td>
+                <td>8.37</td>
+                <td class="text-right">152.98</td>
+                <td class="text-right">1280.44</td>
+            </tr>
+<tr>
+                <td>ITM-524</td>
+                <td>Line item 4 for invoice 15</td>
+                <td>8.48</td>
+                <td class="text-right">750.37</td>
+                <td class="text-right">6363.14</td>
+            </tr>
+<tr>
+                <td>ITM-522</td>
+                <td>Line item 1 for invoice 16</td>
+                <td>5.96</td>
+                <td class="text-right">224.31</td>
+                <td class="text-right">1336.89</td>
+            </tr>
+<tr>
+                <td>ITM-523</td>
+                <td>Line item 2 for invoice 16</td>
+                <td>3.59</td>
+                <td class="text-right">499.39</td>
+                <td class="text-right">1792.81</td>
+            </tr>
+<tr>
+                <td>ITM-524</td>
+                <td>Line item 3 for invoice 16</td>
+                <td>11.63</td>
+                <td class="text-right">284.32</td>
+                <td class="text-right">3306.64</td>
+            </tr>
+<tr>
+                <td>ITM-523</td>
+                <td>Line item 1 for invoice 17</td>
+                <td>11.07</td>
+                <td class="text-right">483.74</td>
+                <td class="text-right">5355.0</td>
+            </tr>
+<tr>
+                <td>ITM-524</td>
+                <td>Line item 2 for invoice 17</td>
+                <td>3.82</td>
+                <td class="text-right">558.25</td>
+                <td class="text-right">2132.51</td>
+            </tr>
+<tr>
+                <td>ITM-524</td>
+                <td>Line item 1 for invoice 18</td>
+                <td>9.28</td>
+                <td class="text-right">513.4</td>
+                <td class="text-right">4764.35</td>
+            </tr>
+<tr>
+                <td>ITM-525</td>
+                <td>Line item 2 for invoice 18</td>
+                <td>6.39</td>
+                <td class="text-right">168.97</td>
+                <td class="text-right">1079.72</td>
+            </tr>
+<tr>
+                <td>ITM-526</td>
+                <td>Line item 3 for invoice 18</td>
+                <td>10.07</td>
+                <td class="text-right">472.82</td>
+                <td class="text-right">4761.3</td>
+            </tr>
+<tr>
+                <td>ITM-525</td>
+                <td>Line item 1 for invoice 19</td>
+                <td>4.78</td>
+                <td class="text-right">133.22</td>
+                <td class="text-right">636.79</td>
+            </tr>
+<tr>
+                <td>ITM-526</td>
+                <td>Line item 2 for invoice 19</td>
+                <td>11.75</td>
+                <td class="text-right">444.79</td>
+                <td class="text-right">5226.28</td>
+            </tr>
+<tr>
+                <td>ITM-527</td>
+                <td>Line item 3 for invoice 19</td>
+                <td>3.71</td>
+                <td class="text-right">287.06</td>
+                <td class="text-right">1064.99</td>
+            </tr>
+<tr>
+                <td>ITM-528</td>
+                <td>Line item 4 for invoice 19</td>
+                <td>1.97</td>
+                <td class="text-right">243.07</td>
+                <td class="text-right">478.85</td>
+            </tr>
+<tr>
+                <td>ITM-526</td>
+                <td>Line item 1 for invoice 20</td>
+                <td>3.51</td>
+                <td class="text-right">752.56</td>
+                <td class="text-right">2641.49</td>
+            </tr>
+<tr>
+                <td>ITM-527</td>
+                <td>Line item 2 for invoice 20</td>
+                <td>4.90</td>
+                <td class="text-right">858.2</td>
+                <td class="text-right">4205.18</td>
+            </tr>
+<tr>
+                <td>ITM-528</td>
+                <td>Line item 3 for invoice 20</td>
+                <td>3.85</td>
+                <td class="text-right">100.14</td>
+                <td class="text-right">385.54</td>
+            </tr>
+<tr>
+                <td>ITM-529</td>
+                <td>Line item 4 for invoice 20</td>
+                <td>9.89</td>
+                <td class="text-right">124.89</td>
+                <td class="text-right">1235.16</td>
+            </tr>
+<tr>
+                <td>ITM-530</td>
+                <td>Line item 5 for invoice 20</td>
+                <td>4.71</td>
+                <td class="text-right">642.59</td>
+                <td class="text-right">3026.6</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-section">
+        <div class="message-box">
+            <span class="message-title">Customer message</span>
+            <div class="message-content">Thank you for your business.</div>
+        </div>
+        <div class="totals-box">
+            <div class="totals-row">
+                <span class="totals-label">Subtotal</span>
+                <span>6706.11</span>
+            </div>
+            <div class="totals-row">
+                <span class="totals-label">Sales tax</span>
+                <span>542.19</span>
+            </div>
+            <div class="totals-row">
+                <span class="totals-label">Shipping</span>
+                <span></span>
+            </div>
+            <div class="totals-row total-line">
+                <span class="totals-label">Total</span>
+                <span>7114.18</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="report-footer">
+        <div class="footer-logo">
+            <span>qb</span> INTUIT quickbooks®
+        </div>
+        <p class="footer-text">
+            This invoice was generated with the help of QuickBooks Payments.<br>
+            Learn more, and create your own free account by visiting quickbooks.com
+        </p>
+    </div>
+
+</div>
+

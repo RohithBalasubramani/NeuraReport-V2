@@ -1,0 +1,236 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "adb3597b71b9752129565d43aefcd45c11abfd6f50c38c27fb03cbb006821f7b",
+  "db_signature": "0c33e3e2d9de39703b476f6ece004966e0b418fe1acc690478668ef987513776",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777461211,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no"
+      ],
+      "row_tokens": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "totals": [
+        "batch_id",
+        "batch_start",
+        "batch_end",
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "mapping": {
+      "plant_name": "PARAM:plant_name",
+      "location": "PARAM:location",
+      "print_date": "PARAM:print_date",
+      "from_date": "PARAM:from_date",
+      "to_date": "PARAM:to_date",
+      "batch_no": "PARAM:batch_no",
+      "row_sl_no": "neuract__FM_TABLE.FM_101",
+      "row_material_name": "neuract__FM_TABLE.FM_102",
+      "row_set_wt_kg": "neuract__FM_TABLE.FM_101_TOTALIZER",
+      "row_ach_wt_kg": "neuract__FM_TABLE.FM_102_TOTALIZER",
+      "batch_id": "neuract__FM_TABLE.FM_101",
+      "batch_start": "neuract__FM_TABLE.timestamp_utc",
+      "batch_end": "neuract__FM_TABLE.timestamp_utc"
+    },
+    "unresolved": [
+      "row_error_kg",
+      "row_error_pct",
+      "total_set_wt_kg",
+      "total_ach_wt_kg",
+      "total_error_kg",
+      "total_error_pct"
+    ],
+    "join": {
+      "parent_table": "neuract__FM_TABLE",
+      "parent_key": "timestamp_utc",
+      "child_table": "neuract__FM_TABLE",
+      "child_key": "timestamp_utc"
+    },
+    "date_columns": {
+      "neuract__FM_TABLE": "timestamp_utc"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "neuract__FM_TABLE.timestamp_utc",
+        "date_to": "neuract__FM_TABLE.timestamp_utc"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_sl_no",
+            "from": [
+              "neuract__FM_TABLE.FM_101"
+            ]
+          },
+          {
+            "as": "row_material_name",
+            "from": [
+              "neuract__FM_TABLE.FM_102"
+            ]
+          },
+          {
+            "as": "row_set_wt_kg",
+            "from": [
+              "neuract__FM_TABLE.FM_101_TOTALIZER"
+            ]
+          },
+          {
+            "as": "row_ach_wt_kg",
+            "from": [
+              "neuract__FM_TABLE.FM_102_TOTALIZER"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {
+      "row_error_kg": {
+        "op": "subtract",
+        "left": "FM_101_TOTALIZER",
+        "right": "FM_102_TOTALIZER"
+      },
+      "row_error_pct": {
+        "op": "multiply",
+        "left": {
+          "op": "divide",
+          "numerator": "row_error_kg",
+          "denominator": "FM_101_TOTALIZER"
+        },
+        "right": 100
+      },
+      "batch_start": {
+        "op": "format_date",
+        "column": "timestamp_utc",
+        "format": "%d-%m-%Y %H:%M:%S"
+      },
+      "batch_end": {
+        "op": "format_date",
+        "column": "timestamp_utc",
+        "format": "%d-%m-%Y %H:%M:%S"
+      }
+    },
+    "totals_math": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "divide",
+        "numerator": {
+          "op": "sum",
+          "column": "row_error_kg"
+        },
+        "denominator": {
+          "op": "sum",
+          "column": "row_set_wt_kg"
+        }
+      }
+    },
+    "totals": {
+      "total_set_wt_kg": {
+        "op": "sum",
+        "column": "row_set_wt_kg"
+      },
+      "total_ach_wt_kg": {
+        "op": "sum",
+        "column": "row_ach_wt_kg"
+      },
+      "total_error_kg": {
+        "op": "sum",
+        "column": "row_error_kg"
+      },
+      "total_error_pct": {
+        "op": "divide",
+        "numerator": {
+          "op": "sum",
+          "column": "row_error_kg"
+        },
+        "denominator": {
+          "op": "sum",
+          "column": "row_set_wt_kg"
+        }
+      }
+    },
+    "formatters": {
+      "row_set_wt_kg": "number(2)",
+      "row_ach_wt_kg": "number(2)",
+      "row_error_kg": "number(2)",
+      "row_error_pct": "percent(2)",
+      "total_set_wt_kg": "number(2)",
+      "total_ach_wt_kg": "number(2)",
+      "total_error_kg": "number(2)",
+      "total_error_pct": "percent(2)",
+      "row_sl_no": "number(2)",
+      "row_material_name": "number(2)",
+      "batch_id": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_sl_no ASC"
+      ]
+    },
+    "header_tokens": [
+      "plant_name",
+      "location",
+      "print_date",
+      "from_date",
+      "to_date",
+      "batch_no"
+    ],
+    "row_tokens": [
+      "row_sl_no",
+      "row_material_name",
+      "row_set_wt_kg",
+      "row_ach_wt_kg"
+    ],
+    "row_order": [
+      "row_sl_no ASC"
+    ],
+    "literals": {},
+    "notes": "Mapping assumes FM_101/FM_102 represent the primary set/achieved flow meters. Totalizers are used for weight accumulation. Error calculations are derived row-by-row. Timestamps are formatted strictly as per contract rules.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

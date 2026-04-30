@@ -1,0 +1,17 @@
+{
+  "header": [
+    "invoice_date",
+    "invoice_no",
+    "bill_to",
+    "ship_to",
+    "remarks",
+    "total_amount"
+  ],
+  "rows": [
+    "row_description",
+    "row_total"
+  ],
+  "totals": [
+    "total_amount"
+  ]
+}

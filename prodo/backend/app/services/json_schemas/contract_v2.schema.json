@@ -190,6 +190,58 @@
         }
       },
       "additionalProperties": true
+    },
+    "options": {
+      "type": "object",
+      "description": "Optional contract-wide configuration overrides. All keys are optional; defaults match original hardcoded behavior.",
+      "properties": {
+        "shift_definitions": {
+          "type": "array",
+          "description": "Custom shift boundaries. Default: [{A,6-14},{B,14-22},{C,22-6 wrap}]",
+          "items": {
+            "type": "object",
+            "required": ["name", "start", "end"],
+            "properties": {
+              "name": {"type": "string"},
+              "start": {"type": "integer", "minimum": 0, "maximum": 23},
+              "end": {"type": "integer", "minimum": 0, "maximum": 23},
+              "wrap": {"type": "boolean"},
+              "label": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "hour_start": {"type": "integer", "minimum": 0, "maximum": 23, "description": "Logical day start hour. Default: 6"},
+        "date_format": {"type": "string", "description": "strftime date format. Default: %d/%m/%Y"},
+        "datetime_format": {"type": "string", "description": "strftime datetime format. Default: %d/%m/%Y %H:%M"},
+        "time_format": {"type": "string", "description": "Duration format with {h},{m},{s} placeholders. Default: {h}h {m}m {s}s"},
+        "hourly_agg_method": {"type": "string", "enum": ["closest", "mean", "last", "first"], "description": "Hourly value aggregation. Default: closest"},
+        "totalizer_suffix": {"type": "string", "description": "Column suffix for totalizer columns. Default: _TOTAL"},
+        "discovery_table": {"type": "string", "description": "Table for auto-discovery. Default: neuract__device_mappings"},
+        "discovery_key_col": {"type": "string", "description": "Key column in discovery table. Default: field_key"},
+        "discovery_addr_col": {"type": "string", "description": "Address column in discovery table. Default: address"},
+        "discovery_filter_col": {"type": "string", "description": "Filter column in discovery table. Default: table_name"},
+        "column_suffixes": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Suffixes for fuzzy column matching. Default: [_kg, _pct, _sec, _wt, _amt, _count, _num]"
+        },
+        "excel_style": {
+          "type": "object",
+          "description": "Excel export color/size overrides",
+          "properties": {
+            "title_bg": {"type": "string"},
+            "preface_bg": {"type": "string"},
+            "header_bg": {"type": "string"},
+            "header_font_color": {"type": "string"},
+            "border_color": {"type": "string"},
+            "col_width_min": {"type": "integer"},
+            "col_width_max": {"type": "integer"}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
     }
   },
   "additionalProperties": true

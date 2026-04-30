@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: scale2-consumption-report-5fb15d-pdf (5).pdf] Uploaded file: scale2-consumption-report-5fb15d-pdf (5).pdf"
+  },
+  {
+    "role": "assistant",
+    "content": "The pipeline state is now HTML_READY, but there's no database connection (connection_id is null). According to the flow, I need a database connection before I can map tokens. I should inform the user that the template is ready but they need to connect their database first.\nGreat! Your PDF has been converted into an HTML template. The template is now ready.\n\nHowever, I notice you haven't connected a database yet. To proceed with mapping the data fields from your database to the template placeholders, you'll need to connect your database first.\n\nCould you please connect your database so we can continue building your automated report?"
+  }
+]

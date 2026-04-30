@@ -1,0 +1,12 @@
+[
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "vendor_name"
+  },
+  {
+    "header": "row_total",
+    "placeholder": "{row_total}",
+    "mapping": "total_amount"
+  }
+]

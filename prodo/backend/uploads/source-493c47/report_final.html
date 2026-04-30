@@ -1,0 +1,289 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Invoice Template</title>
+    <style>
+        :root {
+            --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --border-color: #000;
+            --text-color: #333;
+            --label-color: #666;
+            --button-bg: #ff6633;
+            --button-text: #fff;
+            --col-desc-width: 50%;
+            --col-qty-width: 15%;
+            --col-price-width: 15%;
+            --col-amount-width: 20%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-color);
+            background: #fff;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            margin-bottom: 60px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        h1.invoice-title {
+            font-size: 64px;
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: var(--label-color);
+            margin-right: 5px;
+        }
+
+        /* From/To Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .info-col {
+            width: 48%;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--label-color);
+            margin-right: 10px;
+            display: inline-block;
+            width: 50px;
+        }
+
+        .terms-section {
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* Table */
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table-container th, .table-container td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .table-container th {
+            background-color: #fff;
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+            padding: 12px;
+        }
+
+        .col-desc { width: var(--col-desc-width); }
+        .col-qty { width: var(--col-qty-width); text-align: center; }
+        .col-price { width: var(--col-price-width); text-align: right; }
+        .col-amount { width: var(--col-amount-width); text-align: left; }
+
+        /* Totals */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .totals-table {
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .totals-table td {
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        .totals-label {
+            text-align: right;
+            font-weight: bold;
+            color: #555;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .totals-value {
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .balance-row .totals-label {
+            font-size: 24px;
+            color: #555;
+            border-bottom: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .balance-row .totals-value {
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* Notes */
+        .notes-section {
+            margin-top: 50px;
+        }
+
+        .notes-title {
+            font-size: 32px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .notes-box {
+            border: 2px solid var(--border-color);
+            padding: 20px;
+            min-height: 100px;
+            font-size: 14px;
+            color: #000;
+        }
+
+        /* Footer Button */
+        .footer-btn {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 40px;
+            float: right;
+            font-size: 16px;
+        }
+
+        .footer-btn:hover {
+            opacity: 0.9;
+        }
+
+    </style>
+
+
+
+    
+    <div class="header">
+        <div class="header-right">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="meta-info">
+                <div><span class="meta-label">DATE:</span> {invoice_date}</div>
+                <div><span class="meta-label">INVOICE</span> {invoice_number}</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="info-section">
+        <div class="info-col">
+            <div><span class="info-label">FROM:</span> {from_company_name}</div>
+            <div><span class="info-label"></span> {from_email}</div>
+            <div><span class="info-label"></span> {from_address_1}</div>
+            <div><span class="info-label"></span> {from_address_2}</div>
+        </div>
+        <div class="info-col">
+            <div><span class="info-label">TO:</span> {to_client_name}</div>
+            <div><span class="info-label"></span> {to_email}</div>
+            <div><span class="info-label"></span> {to_address_1}</div>
+            <div><span class="info-label"></span> {to_address_2}</div>
+        </div>
+    </div>
+
+    <div class="terms-section">
+        <div><span class="info-label">TERMS:</span> {terms}</div>
+        <div><span class="info-label">DUE:</span> {due_date}</div>
+    </div>
+
+    
+    <table class="table-container" id="data-table">
+        <thead>
+            <tr>
+                <th class="col-desc" data-label="item_description">Item Description</th>
+                <th class="col-qty" data-label="quantity">Quantity</th>
+                <th class="col-price" data-label="price">Price</th>
+                <th class="col-amount" data-label="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-desc">{row_item_description}</td>
+                <td class="col-qty">{row_quantity}</td>
+                <td class="col-price">{row_price}</td>
+                <td class="col-amount">{row_amount}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div class="totals-section">
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="totals-label">Subtotal</td>
+                <td class="totals-value">{total_subtotal}</td>
+            </tr>
+            <tr>
+                <td class="totals-label">Tax</td>
+                <td class="totals-value">{total_tax}</td>
+            </tr>
+            <tr class="balance-row">
+                <td class="totals-label">BALANCE DUE</td>
+                <td class="totals-value">{total_balance_due}</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    
+    <div class="notes-section">
+        <h2 class="notes-title">Notes</h2>
+        <div class="notes-box">
+            {notes_text}
+        </div>
+    </div>
+
+    
+    ONLINE INVOICE GENERATOR &rarr;
+
+

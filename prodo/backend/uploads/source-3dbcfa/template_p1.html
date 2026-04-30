@@ -1,0 +1,390 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Sample Invoice Template</title>
+    <style>
+        :root {
+            --primary-green: #3cb321;
+            --text-dark: #1f3a6e;
+            --text-body: #333333;
+            --border-color: #dddddd;
+            --bg-light-gray: #f5f5f5;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--text-body);
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            color: var(--text-dark);
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-block {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .info-row.right-align {
+            text-align: right;
+        }
+
+        .info-row.right-align .label {
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+            font-weight: bold;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .col-desc { text-align: left; }
+        .col-num { text-align: right; }
+
+        .row-alt {
+            background-color: var(--bg-light-gray);
+        }
+
+        /* Totals and Remarks Area */
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .remarks-box {
+            width: 45%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .remarks-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .totals-table {
+            width: 45%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .totals-table td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+        }
+
+        .totals-label {
+            text-align: right;
+            font-weight: bold;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        .totals-value {
+            text-align: right;
+        }
+
+        .balance-due-row {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .balance-due-row td {
+            border-color: var(--primary-green);
+        }
+
+        /* Footer */
+        .footer-section {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .payment-details {
+            font-size: 14px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .final-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .thank-you {
+            font-size: 24px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .branding {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .branding-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .branding-logo span {
+            color: var(--primary-green);
+        }
+
+        .green-bar {
+            height: 15px;
+            background-color: var(--primary-green);
+            margin-top: 20px;
+        }
+
+    </style>
+
+
+
+<div class="page-container">
+    
+    
+    <div class="header">
+        <div class="logo-circle">LOGO</div>
+        <div class="header-title">Sample Invoice Template</div>
+    </div>
+
+    
+    <div class="info-section">
+        <div class="left-col">
+            <div class="info-block">
+                <span class="section-label">COMPANY NAME</span>
+                <div>{company_name}</div>
+                <div>{company_address}</div>
+                <div>{company_phone}</div>
+                <div>{company_email}</div>
+            </div>
+            
+            <div class="info-block" style="">
+                <span class="section-label">BILL TO</span>
+                <div>{bill_to_name}</div>
+                <div>{bill_to_company}</div>
+                <div>{bill_to_address}</div>
+                <div>{bill_to_phone}</div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div class="info-row right-align">
+                <span class="label">DATE</span>
+                <span>{invoice_date}</span>
+            </div>
+            <div class="info-row right-align" style="">
+                <span class="label">INVOICE NO.</span>
+                <span>{invoice_no}</span>
+            </div>
+            <div class="info-row right-align" style="">
+                <span style="width: 100%; text-align: right">{payment_terms}</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th style="width: 50%">DESCRIPTION</th>
+                <th style="width: 15%">QTY</th>
+                <th style="width: 17.5%">UNIT PRICE</th>
+                <th style="width: 17.5%">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-desc"></td>
+                <td>1</td>
+                <td class="col-num">$ 5.00</td>
+                <td class="col-num">$ 5.00</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="col-desc"></td>
+                <td>1</td>
+                <td class="col-num">$ 7.00</td>
+                <td class="col-num">$ 7.00</td>
+            </tr>
+            <tr>
+                <td class="col-desc"></td>
+                <td>1</td>
+                <td class="col-num">$ 6.00</td>
+                <td class="col-num">$ 6.00</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="col-desc"></td>
+                <td></td>
+                <td></td>
+                <td class="col-num">$ -</td>
+            </tr>
+            <tr>
+                <td class="col-desc"></td>
+                <td></td>
+                <td></td>
+                <td class="col-num">$ -</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="col-desc"></td>
+                <td></td>
+                <td></td>
+                <td class="col-num">$ -</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div class="bottom-section">
+        <div class="remarks-box">
+            <div class="remarks-title">Remarks / Payment Instructions:</div>
+            <div>{remarks}</div>
+        </div>
+
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="totals-label">SUBTOTAL</td>
+                <td class="totals-value">$ 18.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">DISCOUNT</td>
+                <td class="totals-value">$ 2.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">SUBTOTAL LESS DISCOUNT</td>
+                <td class="totals-value">$ 16.00</td>
+            </tr>
+            <tr>
+                <td class="totals-label">TAX RATE</td>
+                <td class="totals-value">8%</td>
+            </tr>
+            <tr>
+                <td class="totals-label">TOTAL TAX</td>
+                <td class="totals-value">$ 1.28</td>
+            </tr>
+            <tr>
+                <td class="totals-label">SHIPPING/HANDLING</td>
+                <td class="totals-value">$ 2.99</td>
+            </tr>
+            <tr class="balance-due-row">
+                <td class="totals-label" style="color: white">BALANCE DUE</td>
+                <td class="totals-value" style="color: white; font-weight: bold">$ 20.27</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    
+    <div class="footer-section">
+        <div class="payment-details">
+            {payment_details}
+        </div>
+
+        <div class="signatures">
+            <div>Company Signature X</div>
+            <div>Client Signature X</div>
+        </div>
+
+        <div class="final-footer">
+            <div class="thank-you">Thank you for your business!</div>
+            <div class="branding">
+                <div>This invoice is brought to you by</div>
+                <div class="branding-logo">Online<span>Invoices</span></div>
+            </div>
+        </div>
+        
+        <div class="green-bar"></div>
+    </div>
+
+</div>
+
+

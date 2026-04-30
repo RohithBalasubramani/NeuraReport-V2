@@ -1,0 +1,15 @@
+{
+  "header": [
+    "invoice_number",
+    "balance_due_top",
+    "invoice_date",
+    "terms",
+    "due_date",
+    "sub_total",
+    "grand_total",
+    "payment_made",
+    "final_balance"
+  ],
+  "rows": [],
+  "totals": []
+}

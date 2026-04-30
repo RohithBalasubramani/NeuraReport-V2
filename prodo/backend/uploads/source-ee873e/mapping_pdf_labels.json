@@ -1,0 +1,87 @@
+[
+  {
+    "header": "client_address_1",
+    "placeholder": "{client_address_1}",
+    "mapping": "customers:billing_address"
+  },
+  {
+    "header": "client_address_2",
+    "placeholder": "{client_address_2}",
+    "mapping": "COMPUTED:customers:city || ', ' || customers:state || ' ' || customers:postal_code"
+  },
+  {
+    "header": "client_email",
+    "placeholder": "{client_email}",
+    "mapping": "customers:email"
+  },
+  {
+    "header": "client_name",
+    "placeholder": "{client_name}",
+    "mapping": "customers:customer_name"
+  },
+  {
+    "header": "company_address_1",
+    "placeholder": "{company_address_1}",
+    "mapping": "COMPUTED:Riverbend Mechanical"
+  },
+  {
+    "header": "company_address_2",
+    "placeholder": "{company_address_2}",
+    "mapping": "COMPUTED:Contact us for details"
+  },
+  {
+    "header": "company_email",
+    "placeholder": "{company_email}",
+    "mapping": "COMPUTED:contact@riverbend.com"
+  },
+  {
+    "header": "company_name",
+    "placeholder": "{company_name}",
+    "mapping": "invoices:vendor_name"
+  },
+  {
+    "header": "date",
+    "placeholder": "{date}",
+    "mapping": "invoices:issue_date"
+  },
+  {
+    "header": "due_date",
+    "placeholder": "{due_date}",
+    "mapping": "invoices:due_date"
+  },
+  {
+    "header": "invoice_number",
+    "placeholder": "{invoice_number}",
+    "mapping": "invoices:invoice_number"
+  },
+  {
+    "header": "notes",
+    "placeholder": "{notes}",
+    "mapping": "invoices:notes"
+  },
+  {
+    "header": "row_amount",
+    "placeholder": "{row_amount}",
+    "mapping": "invoice_items:line_total"
+  },
+  {
+    "header": "row_item_description",
+    "placeholder": "{row_item_description}",
+    "mapping": "invoice_items:description"
+  },
+  {
+    "header": "row_price",
+    "placeholder": "{row_price}",
+    "mapping": "invoice_items:unit_price"
+  },
+  {
+    "header": "row_quantity",
+    "placeholder": "{row_quantity}",
+    "mapping": "invoice_items:quantity"
+  },
+  {
+    "header": "terms",
+    "placeholder": "{terms}",
+    "mapping": "COMPUTED:Net 30 days"
+  }
+]

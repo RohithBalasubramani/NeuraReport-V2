@@ -1,0 +1,190 @@
+
+
+
+<meta charset="UTF-8">
+<title>Consumption Report</title>
+<style>
+    :root {
+        --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --font-size-base: 11pt;
+        --font-size-header: 11pt;
+        --border-color: #000;
+        --border-width: 1px;
+        /* Column widths derived from visual proportions (Total width ~195mm) */
+        --col-sl-w: 15mm;
+        --col-name-w: 60mm;
+        --col-set-w: 35mm;
+        --col-ach-w: 35mm;
+        --col-err-w: 25mm;
+        --col-errpct-w: 25mm;
+    }
+    body {
+        margin: 0;
+        padding: 15mm 15mm;
+        font-family: var(--font-main);
+        font-size: var(--font-size-base);
+        color: #000;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+    }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    /* Header Layout */
+    .header-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 20mm;
+        margin-bottom: 10mm;
+        font-size: var(--font-size-base);
+    }
+    .header-col {
+        display: flex;
+        flex-direction: column;
+        gap: 3px; /* Tighter line spacing */
+    }
+    .header-row {
+        display: flex;
+        gap: 5px;
+        align-items: baseline;
+        line-height: 1.2;
+    }
+    .header-label {
+        font-weight: bold;
+        white-space: nowrap;
+        display: inline-block;
+    }
+    /* Right column alignment logic */
+    .header-col.right {
+        text-align: right;
+    }
+    .header-row.right {
+        justify-content: flex-end;
+    }
+    .header-row.right .header-label {
+        text-align: right;
+    }
+    /* Specific label widths to align colons */
+    .header-col.left .header-label {
+        width: 90px; /* Approx width of "Plant name" */
+        margin-right: 5px;
+    }
+    .header-col.right .header-label {
+        width: 50px; /* Approx width of "From" */
+        margin-right: 5px;
+    }
+
+    h1.report-title {
+        text-align: center;
+        font-size: 24pt;
+        font-weight: bold;
+        margin: 5px 0 15px 0;
+        text-transform: none;
+    }
+    .batch-block {
+        margin-bottom: 12mm;
+    }
+    .batch-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        margin-bottom: 2px;
+        padding-bottom: 0;
+        font-size: var(--font-size-header);
+    }
+    /* Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: var(--font-size-header);
+        border: var(--border-width) solid var(--border-color);
+    }
+    th, td {
+        border: var(--border-width) solid var(--border-color);
+        padding: 3px 5px;
+        vertical-align: middle;
+        font-variant-numeric: tabular-nums; /* Ensures digits align vertically */
+    }
+    th {
+        font-weight: bold;
+        background-color: #fff;
+        text-align: center;
+    }
+    /* Column Classes */
+    .col-sl { width: var(--col-sl-w); }
+    .col-name { width: var(--col-name-w); text-align: left; }
+    .col-set { width: var(--col-set-w); }
+    .col-ach { width: var(--col-ach-w); }
+    .col-err { width: var(--col-err-w); }
+    .col-errpct { width: var(--col-errpct-w); }
+    
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    
+    .total-row td {
+        font-weight: bold;
+    }
+</style>
+
+
+
+<div id="report-header" class="header-grid">
+    <div class="header-col left">
+        <div class="header-row"><span class="header-label">Plant name</span><span>: {plant_name}</span></div>
+        <div class="header-row"><span class="header-label">Location</span><span>: {location}</span></div>
+        <div class="header-row"><span class="header-label">Print Date</span><span>: {print_date}</span></div>
+    </div>
+    <div class="header-col right">
+        <div class="header-row right"><span class="header-label">From</span><span>: {from_date}</span></div>
+        <div class="header-row right"><span class="header-label">To</span><span>: {to_date}</span></div>
+        <div class="header-row right"><span class="header-label">Batch No</span><span>: {batch_no}</span></div>
+    </div>
+</div>
+
+<h1 class="report-title">Consumption report</h1>
+
+<!-- BEGIN:BLOCK_REPEAT batches -->
+<div class="batch-block">
+    <div class="batch-header">
+        <span>{batch_id}</span>
+        <span>Start {batch_start}</span>
+        <span>End {batch_end}</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-sl" data-label="sl_no">Sl. No.</th>
+                <th class="col-name" data-label="material_name">Material name</th>
+                <th class="col-set text-right" data-label="set_wt_kg">Set. wt(Kg)</th>
+                <th class="col-ach text-right" data-label="ach_wt_kg">Ach. wt(Kg)</th>
+                <th class="col-err text-right" data-label="error_kg">Error(Kg)</th>
+                <th class="col-errpct text-right" data-label="error_pct">Error %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">{row_sl_no}</td>
+                <td class="text-left">{row_material_name}</td>
+                <td class="text-right">{row_set_wt_kg}</td>
+                <td class="text-right">{row_ach_wt_kg}</td>
+                <td class="text-right">{row_error_kg}</td>
+                <td class="text-right">{row_error_pct}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="2" class="text-left">Total for batch</td>
+                <td class="text-right">{total_set_wt_kg}</td>
+                <td class="text-right">{total_ach_wt_kg}</td>
+                <td class="text-right">{total_error_kg}</td>
+                <td class="text-right">{total_error_pct}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- END:BLOCK_REPEAT -->
+
+

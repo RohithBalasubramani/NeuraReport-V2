@@ -1,0 +1,24 @@
+{
+  "session_id": "alltest-4-1777471937",
+  "pipeline_state": "ready",
+  "connection_id": "d9ec0105-186c-4eb3-8818-943a5b3ad2fa",
+  "connection_ids": [
+    "d9ec0105-186c-4eb3-8818-943a5b3ad2fa"
+  ],
+  "completed_stages": [
+    "verify",
+    "mapping",
+    "approve",
+    "generator_assets",
+    "validate",
+    "dry_run",
+    "generate"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 4,
+  "last_action": "generate",
+  "workspace_mode": false,
+  "created_at": "2026-04-29T14:12:17.325863+00:00",
+  "updated_at": "2026-04-29T14:38:06.762494+00:00"
+}

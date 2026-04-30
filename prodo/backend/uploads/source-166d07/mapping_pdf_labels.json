@@ -1,0 +1,107 @@
+[
+  {
+    "header": "company_name",
+    "placeholder": "{company_name}",
+    "mapping": "vendor_name"
+  },
+  {
+    "header": "company_address",
+    "placeholder": "{company_address}",
+    "mapping": "billing_address"
+  },
+  {
+    "header": "company_phone",
+    "placeholder": "{company_phone}",
+    "mapping": "phone"
+  },
+  {
+    "header": "company_email",
+    "placeholder": "{company_email}",
+    "mapping": "email"
+  },
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "issue_date"
+  },
+  {
+    "header": "invoice_no",
+    "placeholder": "{invoice_no}",
+    "mapping": "invoice_number"
+  },
+  {
+    "header": "customer_name",
+    "placeholder": "{customer_name}",
+    "mapping": "customer_name"
+  },
+  {
+    "header": "customer_address",
+    "placeholder": "{customer_address}",
+    "mapping": "billing_address"
+  },
+  {
+    "header": "customer_city",
+    "placeholder": "{customer_city}",
+    "mapping": "city"
+  },
+  {
+    "header": "customer_state",
+    "placeholder": "{customer_state}",
+    "mapping": "state"
+  },
+  {
+    "header": "customer_postal",
+    "placeholder": "{customer_postal}",
+    "mapping": "postal_code"
+  },
+  {
+    "header": "customer_country",
+    "placeholder": "{customer_country}",
+    "mapping": "country"
+  },
+  {
+    "header": "item_description",
+    "placeholder": "{item_description}",
+    "mapping": "description"
+  },
+  {
+    "header": "item_quantity",
+    "placeholder": "{item_quantity}",
+    "mapping": "quantity"
+  },
+  {
+    "header": "item_unit_price",
+    "placeholder": "{item_unit_price}",
+    "mapping": "unit_price"
+  },
+  {
+    "header": "item_line_total",
+    "placeholder": "{item_line_total}",
+    "mapping": "line_total"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "subtotal"
+  },
+  {
+    "header": "tax_amount",
+    "placeholder": "{tax_amount}",
+    "mapping": "tax_amount"
+  },
+  {
+    "header": "discount_amount",
+    "placeholder": "{discount_amount}",
+    "mapping": "discount_amount"
+  },
+  {
+    "header": "total_amount",
+    "placeholder": "{total_amount}",
+    "mapping": "total_amount"
+  },
+  {
+    "header": "notes",
+    "placeholder": "{notes}",
+    "mapping": "notes"
+  }
+]

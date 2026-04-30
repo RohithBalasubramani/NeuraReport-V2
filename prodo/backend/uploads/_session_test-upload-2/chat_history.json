@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: abb_mcb_catalogue.pdf] Uploaded file"
+  },
+  {
+    "role": "assistant",
+    "content": "I've created the HTML template from your ABB MCB catalogue PDF. Before we can proceed, I need to connect this template to your database. Could you please provide your database connection details or confirm if one is already configured?"
+  }
+]

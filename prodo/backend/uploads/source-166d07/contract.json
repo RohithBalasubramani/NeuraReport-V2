@@ -1,0 +1,935 @@
+{
+  "tokens": {
+    "scalars": [
+      "company_name",
+      "company_address",
+      "company_phone",
+      "company_email",
+      "invoice_date",
+      "invoice_no",
+      "payment_terms",
+      "bill_to_name",
+      "bill_to_company",
+      "bill_to_address",
+      "bill_to_phone",
+      "payment_instructions",
+      "subtotal",
+      "discount",
+      "subtotal_less_discount",
+      "tax_rate",
+      "total_tax",
+      "shipping",
+      "balance_due",
+      "venmo_account",
+      "paypal_account"
+    ],
+    "row_tokens": [
+      "row_description_1",
+      "row_qty_1",
+      "row_unit_price_1",
+      "row_total_1",
+      "row_description_2",
+      "row_qty_2",
+      "row_unit_price_2",
+      "row_total_2",
+      "row_description_3",
+      "row_qty_3",
+      "row_unit_price_3",
+      "row_total_3",
+      "row_description_4",
+      "row_qty_4",
+      "row_unit_price_4",
+      "row_total_4",
+      "row_description_5",
+      "row_qty_5",
+      "row_unit_price_5",
+      "row_total_5",
+      "row_description_6",
+      "row_qty_6",
+      "row_unit_price_6",
+      "row_total_6"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "company_name": "invoices.vendor_name",
+    "invoice_date": "invoices.issue_date",
+    "invoice_no": "invoices.invoice_number",
+    "payment_terms": "invoices.notes",
+    "bill_to_name": "customers.customer_name",
+    "bill_to_company": "customers.customer_name",
+    "bill_to_address": "customers.billing_address",
+    "bill_to_phone": "customers.phone",
+    "payment_instructions": "invoices.notes",
+    "subtotal": "invoices.subtotal",
+    "discount": "invoices.discount_amount",
+    "subtotal_less_discount": "invoices.subtotal",
+    "tax_rate": "invoices.tax_amount",
+    "total_tax": "invoices.tax_amount",
+    "shipping": "invoices.total_amount",
+    "balance_due": "invoices.total_amount",
+    "venmo_account": "invoices.notes",
+    "paypal_account": "invoices.notes",
+    "row_description_1": "invoice_items.description",
+    "row_qty_1": "invoice_items.quantity",
+    "row_unit_price_1": "invoice_items.unit_price",
+    "row_total_1": "invoice_items.line_total",
+    "row_description_2": "invoice_items.description",
+    "row_qty_2": "invoice_items.quantity",
+    "row_unit_price_2": "invoice_items.unit_price",
+    "row_total_2": "invoice_items.line_total",
+    "row_description_3": "invoice_items.description",
+    "row_qty_3": "invoice_items.quantity",
+    "row_unit_price_3": "invoice_items.unit_price",
+    "row_total_3": "invoice_items.line_total",
+    "row_description_4": "invoice_items.description",
+    "row_qty_4": "invoice_items.quantity",
+    "row_unit_price_4": "invoice_items.unit_price",
+    "row_total_4": "invoice_items.line_total",
+    "row_description_5": "invoice_items.description",
+    "row_qty_5": "invoice_items.quantity",
+    "row_unit_price_5": "invoice_items.unit_price",
+    "row_total_5": "invoice_items.line_total",
+    "row_description_6": "invoice_items.description",
+    "row_qty_6": "invoice_items.quantity",
+    "row_unit_price_6": "invoice_items.unit_price",
+    "row_total_6": "invoice_items.line_total"
+  },
+  "unresolved": [
+    "company_address",
+    "company_phone",
+    "company_email"
+  ],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "invoices.issue_date",
+      "date_to": "invoices.issue_date"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Map invoice items to fixed row slots 1-6",
+      "strategy": "UNION_ALL",
+      "columns": [
+        {
+          "as": "row_description_1",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_qty_1",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_unit_price_1",
+          "from": [
+            "invoice_items.unit_price"
+          ]
+        },
+        {
+          "as": "row_total_1",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {
+    "subtotal": {
+      "op": "sum",
+      "column": "row_total_1"
+    },
+    "balance_due": {
+      "op": "sum",
+      "column": "row_total_1"
+    }
+  },
+  "totals": {
+    "subtotal": {
+      "op": "sum",
+      "column": "row_total_1"
+    },
+    "balance_due": {
+      "op": "sum",
+      "column": "row_total_1"
+    }
+  },
+  "formatters": {
+    "company_name": "string",
+    "company_address": "string",
+    "company_phone": "string",
+    "company_email": "string",
+    "invoice_no": "string",
+    "payment_terms": "string",
+    "bill_to_name": "string",
+    "bill_to_company": "string",
+    "bill_to_address": "string",
+    "bill_to_phone": "string",
+    "payment_instructions": "string",
+    "subtotal": "number(2)",
+    "discount": "number(2)",
+    "subtotal_less_discount": "number(2)",
+    "tax_rate": "number(2)",
+    "total_tax": "number(2)",
+    "shipping": "number(2)",
+    "balance_due": "number(2)",
+    "venmo_account": "string",
+    "paypal_account": "string",
+    "row_qty_1": "number(2)",
+    "row_qty_2": "number(2)",
+    "row_qty_3": "number(2)",
+    "row_qty_4": "number(2)",
+    "row_qty_5": "number(2)",
+    "row_qty_6": "number(2)",
+    "row_unit_price_1": "number(2)",
+    "row_unit_price_2": "number(2)",
+    "row_unit_price_3": "number(2)",
+    "row_unit_price_4": "number(2)",
+    "row_unit_price_5": "number(2)",
+    "row_unit_price_6": "number(2)",
+    "row_total_1": "number(2)",
+    "row_total_2": "number(2)",
+    "row_total_3": "number(2)",
+    "row_total_4": "number(2)",
+    "row_total_5": "number(2)",
+    "row_total_6": "number(2)",
+    "invoice_date": "number(2)",
+    "row_description_1": "number(2)",
+    "row_description_2": "number(2)",
+    "row_description_3": "number(2)",
+    "row_description_4": "number(2)",
+    "row_description_5": "number(2)",
+    "row_description_6": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "invoice_date",
+    "invoice_no",
+    "payment_terms",
+    "bill_to_name",
+    "bill_to_company",
+    "bill_to_address",
+    "bill_to_phone",
+    "payment_instructions",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping",
+    "balance_due",
+    "venmo_account",
+    "paypal_account"
+  ],
+  "row_tokens": [
+    "row_description_1",
+    "row_qty_1",
+    "row_unit_price_1",
+    "row_total_1",
+    "row_description_2",
+    "row_qty_2",
+    "row_unit_price_2",
+    "row_total_2",
+    "row_description_3",
+    "row_qty_3",
+    "row_unit_price_3",
+    "row_total_3",
+    "row_description_4",
+    "row_qty_4",
+    "row_unit_price_4",
+    "row_total_4",
+    "row_description_5",
+    "row_qty_5",
+    "row_unit_price_5",
+    "row_total_5",
+    "row_description_6",
+    "row_qty_6",
+    "row_unit_price_6",
+    "row_total_6"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {},
+  "notes": "Invoice report mapping. Row tokens are fixed slots; data is pulled from invoice_items. Date formatting applied to issue_date. Currency formatting applied to all numeric financial fields.",
+  "_schema_version": "2.2",
+  "fields": {
+    "row_unit_price_3": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "row_total_6": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "invoice_date": {
+      "source": "invoices.issue_date",
+      "format": "number(2)"
+    },
+    "row_description_1": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "row_unit_price_4": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "paypal_account": {
+      "source": "invoices.notes",
+      "format": "string"
+    },
+    "row_description_4": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "tax_rate": {
+      "source": "invoices.tax_amount",
+      "format": "number(2)"
+    },
+    "bill_to_company": {
+      "source": "customers.customer_name",
+      "format": "string"
+    },
+    "row_total_2": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "total_tax": {
+      "source": "invoices.tax_amount",
+      "format": "number(2)"
+    },
+    "payment_instructions": {
+      "source": "invoices.notes",
+      "format": "string"
+    },
+    "venmo_account": {
+      "source": "invoices.notes",
+      "format": "string"
+    },
+    "company_address": {
+      "source": "billing_address",
+      "format": "string"
+    },
+    "row_qty_6": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "shipping": {
+      "source": "invoices.total_amount",
+      "format": "number(2)"
+    },
+    "company_email": {
+      "source": "email",
+      "format": "string"
+    },
+    "row_qty_2": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "discount": {
+      "source": "invoices.discount_amount",
+      "format": "number(2)"
+    },
+    "row_qty_4": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "row_qty_5": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "row_total_3": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "row_unit_price_1": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "row_unit_price_2": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "bill_to_address": {
+      "source": "customers.billing_address",
+      "format": "string"
+    },
+    "subtotal_less_discount": {
+      "source": "invoices.subtotal",
+      "format": "number(2)"
+    },
+    "invoice_no": {
+      "source": "invoices.invoice_number",
+      "format": "string"
+    },
+    "subtotal": {
+      "source": "invoices.subtotal",
+      "format": "number(2)",
+      "aggregate": "SUM"
+    },
+    "balance_due": {
+      "source": "invoices.total_amount",
+      "format": "number(2)",
+      "aggregate": "SUM"
+    },
+    "row_qty_1": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "row_unit_price_6": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "row_description_6": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "company_phone": {
+      "source": "phone",
+      "format": "string"
+    },
+    "row_qty_3": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    },
+    "row_description_2": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "row_total_4": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "row_description_5": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "company_name": {
+      "source": "invoices.vendor_name",
+      "format": "string"
+    },
+    "row_description_3": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "row_total_5": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "row_total_1": {
+      "source": "invoice_items.line_total",
+      "format": "number(2)"
+    },
+    "bill_to_name": {
+      "source": "customers.customer_name",
+      "format": "string"
+    },
+    "row_unit_price_5": {
+      "source": "invoice_items.unit_price",
+      "format": "number(2)"
+    },
+    "bill_to_phone": {
+      "source": "customers.phone",
+      "format": "string"
+    },
+    "payment_terms": {
+      "source": "invoices.notes",
+      "format": "string"
+    }
+  },
+  "joins": [
+    {
+      "from": "invoices.invoice_number",
+      "to": "invoice_items.invoice_number",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "row_unit_price_3",
+      "operator": "notNull",
+      "message": "row_unit_price_3 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_3",
+      "operator": "isNumeric",
+      "message": "row_unit_price_3 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total_6",
+      "operator": "notNull",
+      "message": "row_total_6 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_6",
+      "operator": "isNumeric",
+      "message": "row_total_6 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "notNull",
+      "message": "invoice_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "isNumeric",
+      "message": "invoice_date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_description_1",
+      "operator": "notNull",
+      "message": "row_description_1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_1",
+      "operator": "isNumeric",
+      "message": "row_description_1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_unit_price_4",
+      "operator": "notNull",
+      "message": "row_unit_price_4 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_4",
+      "operator": "isNumeric",
+      "message": "row_unit_price_4 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "paypal_account",
+      "operator": "notNull",
+      "message": "paypal_account must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_4",
+      "operator": "notNull",
+      "message": "row_description_4 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_4",
+      "operator": "isNumeric",
+      "message": "row_description_4 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "tax_rate",
+      "operator": "notNull",
+      "message": "tax_rate must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "tax_rate",
+      "operator": "isNumeric",
+      "message": "tax_rate must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_company",
+      "operator": "notNull",
+      "message": "bill_to_company must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_2",
+      "operator": "notNull",
+      "message": "row_total_2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_2",
+      "operator": "isNumeric",
+      "message": "row_total_2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "total_tax",
+      "operator": "notNull",
+      "message": "total_tax must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "total_tax",
+      "operator": "isNumeric",
+      "message": "total_tax must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "payment_instructions",
+      "operator": "notNull",
+      "message": "payment_instructions must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "venmo_account",
+      "operator": "notNull",
+      "message": "venmo_account must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "company_address",
+      "operator": "notNull",
+      "message": "company_address must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_6",
+      "operator": "notNull",
+      "message": "row_qty_6 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_6",
+      "operator": "isNumeric",
+      "message": "row_qty_6 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "shipping",
+      "operator": "notNull",
+      "message": "shipping must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "shipping",
+      "operator": "isNumeric",
+      "message": "shipping must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_email",
+      "operator": "notNull",
+      "message": "company_email must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_2",
+      "operator": "notNull",
+      "message": "row_qty_2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_2",
+      "operator": "isNumeric",
+      "message": "row_qty_2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "discount",
+      "operator": "notNull",
+      "message": "discount must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "discount",
+      "operator": "isNumeric",
+      "message": "discount must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_qty_4",
+      "operator": "notNull",
+      "message": "row_qty_4 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_4",
+      "operator": "isNumeric",
+      "message": "row_qty_4 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_qty_5",
+      "operator": "notNull",
+      "message": "row_qty_5 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_5",
+      "operator": "isNumeric",
+      "message": "row_qty_5 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total_3",
+      "operator": "notNull",
+      "message": "row_total_3 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_3",
+      "operator": "isNumeric",
+      "message": "row_total_3 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_unit_price_1",
+      "operator": "notNull",
+      "message": "row_unit_price_1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_1",
+      "operator": "isNumeric",
+      "message": "row_unit_price_1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_unit_price_2",
+      "operator": "notNull",
+      "message": "row_unit_price_2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_2",
+      "operator": "isNumeric",
+      "message": "row_unit_price_2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_address",
+      "operator": "notNull",
+      "message": "bill_to_address must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "subtotal_less_discount",
+      "operator": "notNull",
+      "message": "subtotal_less_discount must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "subtotal_less_discount",
+      "operator": "isNumeric",
+      "message": "subtotal_less_discount must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "invoice_no",
+      "operator": "notNull",
+      "message": "invoice_no must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "subtotal",
+      "operator": "notNull",
+      "message": "subtotal must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "subtotal",
+      "operator": "isNumeric",
+      "message": "subtotal must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "balance_due",
+      "operator": "notNull",
+      "message": "balance_due must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "balance_due",
+      "operator": "isNumeric",
+      "message": "balance_due must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_qty_1",
+      "operator": "notNull",
+      "message": "row_qty_1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_1",
+      "operator": "isNumeric",
+      "message": "row_qty_1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_unit_price_6",
+      "operator": "notNull",
+      "message": "row_unit_price_6 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_6",
+      "operator": "isNumeric",
+      "message": "row_unit_price_6 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_description_6",
+      "operator": "notNull",
+      "message": "row_description_6 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_6",
+      "operator": "isNumeric",
+      "message": "row_description_6 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_phone",
+      "operator": "notNull",
+      "message": "company_phone must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_3",
+      "operator": "notNull",
+      "message": "row_qty_3 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_qty_3",
+      "operator": "isNumeric",
+      "message": "row_qty_3 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_description_2",
+      "operator": "notNull",
+      "message": "row_description_2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_2",
+      "operator": "isNumeric",
+      "message": "row_description_2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total_4",
+      "operator": "notNull",
+      "message": "row_total_4 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_4",
+      "operator": "isNumeric",
+      "message": "row_total_4 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_description_5",
+      "operator": "notNull",
+      "message": "row_description_5 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_5",
+      "operator": "isNumeric",
+      "message": "row_description_5 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_name",
+      "operator": "notNull",
+      "message": "company_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_3",
+      "operator": "notNull",
+      "message": "row_description_3 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description_3",
+      "operator": "isNumeric",
+      "message": "row_description_3 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total_5",
+      "operator": "notNull",
+      "message": "row_total_5 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_5",
+      "operator": "isNumeric",
+      "message": "row_total_5 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_total_1",
+      "operator": "notNull",
+      "message": "row_total_1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_total_1",
+      "operator": "isNumeric",
+      "message": "row_total_1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_name",
+      "operator": "notNull",
+      "message": "bill_to_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_5",
+      "operator": "notNull",
+      "message": "row_unit_price_5 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_unit_price_5",
+      "operator": "isNumeric",
+      "message": "row_unit_price_5 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_phone",
+      "operator": "notNull",
+      "message": "bill_to_phone must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "payment_terms",
+      "operator": "notNull",
+      "message": "payment_terms must not be NULL",
+      "severity": "error"
+    }
+  ]
+}

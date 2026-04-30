@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "The OCR text is not available. This suggests that the PDF might be image-based or the text wasn't accessible during the verification step.\n\n**Summary:**\n\nI've successfully created a template from your PDF, but there's an issue: **no data field tokens were created**. This means the template is currently static (just the visual layout) without any placeholders for dynamic data from your database.\n\nThis typically happens when:\n- The PDF is image-based (scanned document) rather than text-based\n- The PDF text wasn't accessible to the OCR system\n\n**What we need to do next:**\n\nTo create a functional report template that can pull data from your database, we need to add tokens (placeholders) to the template. These tokens will be mapped to your database columns.\n\nCould you tell me:\n1. **What data should appear in this invoice?** For example: company name, invoice number, customer details, line items, totals, etc.\n2. **Is the PDF a scanned image or a text-based PDF?** (If you're not sure, that's okay - we can still proceed)\n\nOnce I understand what data fields you need, I can help add the appropriate tokens to the template and map them to your database columns."
+  }
+]

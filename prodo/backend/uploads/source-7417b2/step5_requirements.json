@@ -1,0 +1,70 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata and batch context",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "batch_id",
+        "start_time",
+        "end_time",
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    },
+    "rows": {
+      "description": "Line items for each material bin within a batch",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [
+        "batch_id"
+      ],
+      "ordering": [
+        "row_sl_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated metrics for the current batch",
+      "columns": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    }
+  },
+  "semantics": "The report iterates over each recipe (batch). For each batch, it expands the 12 bin columns into 12 rows. It calculates the variance between set and actual weights. Totals are computed per batch. Date filters restrict the batches included in the report.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Unpivot 12 bin columns (content, sp, act) into a single row structure per bin.",
+    "Calculate row-level error as Actual - Set.",
+    "Calculate row-level error percentage as (Actual - Set) / Set * 100.",
+    "Format timestamps to DD-MM-YYYY HH:MM:SS.",
+    "Aggregate sums for Set, Actual, and Error weights per batch.",
+    "Calculate batch error percentage as Sum(Error) / Sum(Set) * 100."
+  ]
+}

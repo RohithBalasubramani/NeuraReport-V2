@@ -1,0 +1,376 @@
+{
+  "tokens": {
+    "scalars": [
+      "date",
+      "invoice_number",
+      "company_name",
+      "company_email",
+      "company_address_1",
+      "company_address_2",
+      "client_name",
+      "client_email",
+      "client_address_1",
+      "client_address_2",
+      "terms",
+      "due_date",
+      "notes"
+    ],
+    "row_tokens": [
+      "row_item_description",
+      "row_quantity",
+      "row_price",
+      "row_amount"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "date": "invoices.issue_date",
+    "invoice_number": "invoices.invoice_number",
+    "company_name": "invoices.vendor_name",
+    "company_email": "PARAM:company_email",
+    "company_address_1": "PARAM:company_address_1",
+    "company_address_2": "PARAM:company_address_2",
+    "client_name": "customers.customer_name",
+    "client_email": "customers.email",
+    "client_address_1": "customers.billing_address",
+    "terms": "PARAM:terms",
+    "due_date": "invoices.due_date",
+    "notes": "invoices.notes",
+    "row_item_description": "invoice_items.description",
+    "row_quantity": "invoice_items.quantity",
+    "row_price": "invoice_items.unit_price",
+    "row_amount": "invoice_items.line_total"
+  },
+  "unresolved": [
+    "client_address_2"
+  ],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "invoices.issue_date",
+      "date_to": "invoices.issue_date"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_item_description",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_quantity",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_price",
+          "from": [
+            "invoice_items.unit_price"
+          ]
+        },
+        {
+          "as": "row_amount",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {
+    "client_address_2": {
+      "op": "expression",
+      "expr": "customers:city || ', ' || customers:state || ' ' || customers:postal_code"
+    },
+    "company_address_1": {
+      "op": "expression",
+      "expr": "Riverbend Mechanical"
+    },
+    "company_address_2": {
+      "op": "expression",
+      "expr": "Contact us for details"
+    },
+    "company_email": {
+      "op": "expression",
+      "expr": "contact@riverbend.com"
+    },
+    "terms": {
+      "op": "expression",
+      "expr": "Net 30 days"
+    }
+  },
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "row_quantity": "number(0)",
+    "row_price": "currency(2)",
+    "row_amount": "currency(2)",
+    "date": "number(2)",
+    "invoice_number": "number(2)",
+    "company_name": "number(2)",
+    "client_name": "number(2)",
+    "client_email": "number(2)",
+    "client_address_1": "number(2)",
+    "due_date": "number(2)",
+    "notes": "number(2)",
+    "row_item_description": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "date",
+    "invoice_number",
+    "company_name",
+    "company_email",
+    "company_address_1",
+    "company_address_2",
+    "client_name",
+    "client_email",
+    "client_address_1",
+    "terms",
+    "due_date",
+    "notes"
+  ],
+  "row_tokens": [
+    "row_item_description",
+    "row_quantity",
+    "row_price",
+    "row_amount"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {
+    "company_email": "contact@riverbend.com",
+    "company_address_1": "Riverbend Mechanical",
+    "company_address_2": "Contact us for details",
+    "terms": "Net 30 days"
+  },
+  "notes": "Literals for company details and terms are injected directly. Address concatenation uses city, state, and postal_code. Date formatting is applied to issue and due dates.",
+  "_schema_version": "2.2",
+  "fields": {
+    "row_amount": {
+      "source": "invoice_items.line_total",
+      "format": "currency(2)"
+    },
+    "company_address_1": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"Riverbend Mechanical\"}"
+    },
+    "date": {
+      "source": "invoices.issue_date",
+      "format": "number(2)"
+    },
+    "company_name": {
+      "source": "invoices.vendor_name",
+      "format": "number(2)"
+    },
+    "company_email": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"contact@riverbend.com\"}"
+    },
+    "client_address_2": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"customers:city || ', ' || customers:state || ' ' || customers:postal_code\"}"
+    },
+    "row_quantity": {
+      "source": "invoice_items.quantity",
+      "format": "number(0)"
+    },
+    "invoice_number": {
+      "source": "invoices.invoice_number",
+      "format": "number(2)"
+    },
+    "client_email": {
+      "source": "customers.email",
+      "format": "number(2)"
+    },
+    "notes": {
+      "source": "invoices.notes",
+      "format": "number(2)"
+    },
+    "row_price": {
+      "source": "invoice_items.unit_price",
+      "format": "currency(2)"
+    },
+    "due_date": {
+      "source": "invoices.due_date",
+      "format": "number(2)"
+    },
+    "company_address_2": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"Contact us for details\"}"
+    },
+    "terms": {
+      "computed": "{\"op\": \"expression\", \"expr\": \"Net 30 days\"}"
+    },
+    "row_item_description": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "client_address_1": {
+      "source": "customers.billing_address",
+      "format": "number(2)"
+    },
+    "client_name": {
+      "source": "customers.customer_name",
+      "format": "number(2)"
+    }
+  },
+  "joins": [
+    {
+      "from": "invoices.invoice_number",
+      "to": "invoice_items.invoice_number",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "row_amount",
+      "operator": "notNull",
+      "message": "row_amount must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "date",
+      "operator": "notNull",
+      "message": "date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "date",
+      "operator": "isNumeric",
+      "message": "date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_name",
+      "operator": "notNull",
+      "message": "company_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "company_name",
+      "operator": "isNumeric",
+      "message": "company_name must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_quantity",
+      "operator": "notNull",
+      "message": "row_quantity must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_quantity",
+      "operator": "isNumeric",
+      "message": "row_quantity must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "notNull",
+      "message": "invoice_number must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "isNumeric",
+      "message": "invoice_number must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "client_email",
+      "operator": "notNull",
+      "message": "client_email must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "client_email",
+      "operator": "isNumeric",
+      "message": "client_email must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "notes",
+      "operator": "notNull",
+      "message": "notes must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "notes",
+      "operator": "isNumeric",
+      "message": "notes must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_price",
+      "operator": "notNull",
+      "message": "row_price must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "due_date",
+      "operator": "notNull",
+      "message": "due_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "due_date",
+      "operator": "isNumeric",
+      "message": "due_date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_item_description",
+      "operator": "notNull",
+      "message": "row_item_description must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_item_description",
+      "operator": "isNumeric",
+      "message": "row_item_description must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "client_address_1",
+      "operator": "notNull",
+      "message": "client_address_1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "client_address_1",
+      "operator": "isNumeric",
+      "message": "client_address_1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "client_name",
+      "operator": "notNull",
+      "message": "client_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "client_name",
+      "operator": "isNumeric",
+      "message": "client_name must be numeric",
+      "severity": "warning"
+    }
+  ]
+}

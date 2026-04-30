@@ -1,0 +1,82 @@
+[
+  {
+    "header": "company_name_placeholder",
+    "placeholder": "{company_name_placeholder}",
+    "mapping": "invoices:vendor_name"
+  },
+  {
+    "header": "company_address",
+    "placeholder": "{company_address}",
+    "mapping": "COMPUTED:N/A"
+  },
+  {
+    "header": "company_phone",
+    "placeholder": "{company_phone}",
+    "mapping": "COMPUTED:N/A"
+  },
+  {
+    "header": "company_email",
+    "placeholder": "{company_email}",
+    "mapping": "COMPUTED:N/A"
+  },
+  {
+    "header": "bill_to_name_dept",
+    "placeholder": "{bill_to_name_dept}",
+    "mapping": "customers:customer_name"
+  },
+  {
+    "header": "bill_to_client_company",
+    "placeholder": "{bill_to_client_company}",
+    "mapping": "COMPUTED:N/A"
+  },
+  {
+    "header": "bill_to_address",
+    "placeholder": "{bill_to_address}",
+    "mapping": "customers:billing_address"
+  },
+  {
+    "header": "bill_to_phone",
+    "placeholder": "{bill_to_phone}",
+    "mapping": "customers:phone"
+  },
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoices:issue_date"
+  },
+  {
+    "header": "invoice_no",
+    "placeholder": "{invoice_no}",
+    "mapping": "invoices:invoice_number"
+  },
+  {
+    "header": "due_date",
+    "placeholder": "{due_date}",
+    "mapping": "invoices:due_date"
+  },
+  {
+    "header": "subtotal",
+    "placeholder": "{subtotal}",
+    "mapping": "invoices:subtotal"
+  },
+  {
+    "header": "tax_amount",
+    "placeholder": "{tax_amount}",
+    "mapping": "invoices:tax_amount"
+  },
+  {
+    "header": "discount_amount",
+    "placeholder": "{discount_amount}",
+    "mapping": "invoices:discount_amount"
+  },
+  {
+    "header": "total_amount",
+    "placeholder": "{total_amount}",
+    "mapping": "invoices:total_amount"
+  },
+  {
+    "header": "notes",
+    "placeholder": "{notes}",
+    "mapping": "invoices:notes"
+  }
+]

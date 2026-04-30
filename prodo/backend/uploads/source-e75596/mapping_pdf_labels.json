@@ -1,0 +1,32 @@
+[
+  {
+    "header": "invoice_date",
+    "placeholder": "{invoice_date}",
+    "mapping": "invoice_date"
+  },
+  {
+    "header": "invoice_no",
+    "placeholder": "{invoice_no}",
+    "mapping": "invoice_number"
+  },
+  {
+    "header": "bill_to",
+    "placeholder": "{bill_to}",
+    "mapping": "bill_to_address"
+  },
+  {
+    "header": "ship_to",
+    "placeholder": "{ship_to}",
+    "mapping": "ship_to_address"
+  },
+  {
+    "header": "row_description",
+    "placeholder": "{row_description}",
+    "mapping": "description"
+  },
+  {
+    "header": "row_total",
+    "placeholder": "{row_total}",
+    "mapping": "total"
+  }
+]

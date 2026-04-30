@@ -1,0 +1,26 @@
+{
+  "header": [
+    "invoice_date",
+    "invoice_number",
+    "from_company_name",
+    "from_email",
+    "from_address_1",
+    "to_client_name",
+    "to_email",
+    "to_address_1",
+    "terms",
+    "due_date",
+    "notes_text"
+  ],
+  "rows": [
+    "row_item_description",
+    "row_quantity",
+    "row_price",
+    "row_amount"
+  ],
+  "totals": [
+    "total_subtotal",
+    "total_tax",
+    "total_balance_due"
+  ]
+}

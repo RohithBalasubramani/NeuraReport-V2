@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "I apologize, but I'm encountering technical issues with the automatic mapping system. The template was successfully created from your PDF, but I'm unable to automatically connect the data fields to your database due to system errors.\n\n**Here's what I've accomplished:**\n- ✅ Successfully converted your PDF to an HTML invoice template\n- ✅ Template ID: `source-c163b3`\n- ✅ Template has 4 data fields ready to be connected\n\n**What's happening:**\nThe automatic mapping tool is experiencing technical errors and I've reached the retry limit. This is a system issue, not a problem with your PDF or database.\n\n**Next steps - I need your help:**\nTo continue, I need to understand what data fields are in your invoice template and what tables/columns are available in your database. Could you tell me:\n\n1. **What data fields appear in your invoice?** (e.g., invoice number, date, customer name, line items with description/quantity/price/total, etc.)\n\n2. **What tables or data sources do you have in your database?** If you're not sure, I can try to inspect the database schema to see what's available.\n\nOnce I understand your data structure, I can manually map the template fields to your database columns and complete the setup."
+  }
+]

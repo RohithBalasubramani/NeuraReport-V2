@@ -1,0 +1,18 @@
+{
+  "session_id": "manual-f01",
+  "pipeline_state": "mapped",
+  "connection_id": "01a59e23-ac90-4e61-916f-4644a16a4b30",
+  "connection_ids": [
+    "01a59e23-ac90-4e61-916f-4644a16a4b30"
+  ],
+  "completed_stages": [
+    "verify"
+  ],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": "verify",
+  "workspace_mode": false,
+  "created_at": "2026-04-30T09:07:03.222540+00:00",
+  "updated_at": "2026-04-30T09:13:12.103014+00:00"
+}

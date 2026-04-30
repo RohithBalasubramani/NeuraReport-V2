@@ -1,0 +1,9 @@
+{
+  "scalars": [],
+  "row_tokens": [
+    "row_description",
+    "row_total"
+  ],
+  "totals": [],
+  "notes": "No scalar fields were identified in the provided schema or text that required tokenization beyond the repeating table rows. The document is a template with static labels."
+}

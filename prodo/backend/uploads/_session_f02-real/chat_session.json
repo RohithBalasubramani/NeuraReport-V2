@@ -1,0 +1,16 @@
+{
+  "session_id": "f02-real",
+  "pipeline_state": "empty",
+  "connection_id": "4a299bb8-3f58-476d-a086-62435d229cb5",
+  "connection_ids": [
+    "4a299bb8-3f58-476d-a086-62435d229cb5"
+  ],
+  "completed_stages": [],
+  "invalidated_stages": [],
+  "needs_reapproval": false,
+  "turn_count": 1,
+  "last_action": null,
+  "workspace_mode": false,
+  "created_at": "2026-04-30T10:56:18.251237+00:00",
+  "updated_at": "2026-04-30T11:21:18.272893+00:00"
+}

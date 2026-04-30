@@ -1,0 +1,40 @@
+{
+  "scalars": [
+    "company_name_placeholder",
+    "company_address_placeholder",
+    "company_phone_placeholder",
+    "company_email_placeholder",
+    "date_value",
+    "invoice_no_value",
+    "payment_terms_placeholder",
+    "bill_to_name_placeholder",
+    "client_company_placeholder",
+    "bill_to_address_placeholder",
+    "bill_to_phone_placeholder",
+    "payment_instructions_placeholder"
+  ],
+  "row_tokens": [
+    "row_description_1",
+    "row_qty_1",
+    "row_unit_price_1",
+    "row_total_1",
+    "row_description_2",
+    "row_qty_2",
+    "row_unit_price_2",
+    "row_total_2",
+    "row_description_3",
+    "row_qty_3",
+    "row_unit_price_3",
+    "row_total_3"
+  ],
+  "totals": [
+    "total_subtotal",
+    "total_discount",
+    "total_sub_less_disc",
+    "total_tax_rate",
+    "total_tax",
+    "total_shipping",
+    "total_balance_due"
+  ],
+  "notes": "Schema inferred from visual placeholders and table structure. Row tokens include index to allow for specific data mapping if needed, though a generic row token set would also work."
+}

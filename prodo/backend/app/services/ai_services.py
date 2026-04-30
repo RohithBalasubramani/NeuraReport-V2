@@ -6939,9 +6939,16 @@ AGGREGATE / MULTI-COLUMN HEADERS
   {"op": "SUM", "over": ["table.col1", "table.col2", ...]}
   or {"op": "concat", "columns": ["table.col_a", "table.col_b"]}
 
+SCALAR / HEADER-FOOTER TOKENS — CRITICAL
+- Tokens like plant_name, location, batch_no, operator_name, shift, report_title, from_date,
+  to_date, print_date that represent report-level metadata are ALWAYS parameters.
+- Map them to "params.<token_name>" (e.g., "params.plant_name", "params.from_date").
+- NEVER treat these as constants — they change per report run.
+- If the SCHEMA lists a token under "scalars", it is ALWAYS a parameter.
+
 CONSTANT PLACEHOLDERS
-- Report ONLY tokens that are truly constant across ALL runs (page titles, company name, static captions).
-- NEVER mark as constant: dates, row values, totals, page numbers, or anything in schema.row_tokens / schema.totals.
+- Report ONLY tokens that are truly constant across ALL runs (e.g., fixed unit labels like "Kg", "%").
+- NEVER mark as constant: dates, row values, totals, page numbers, scalars, or anything in schema.
 - Remove constant tokens from "mapping" but keep them in "token_samples".
 
 TOKEN SNAPSHOT

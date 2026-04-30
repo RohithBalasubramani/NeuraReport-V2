@@ -1,0 +1,3068 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Consumption Report</title>
+    <style>
+        :root {
+            --font-main: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-size-base: 11pt;
+            --font-size-header: 11pt;
+            --border-color: #000;
+            --border-width: 1px;
+            --page-width: 210mm;
+            --page-height: 297mm;
+            --margin: 15mm;
+            --line-height: 1.4;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            font-size: var(--font-size-base);
+            background: #fff;
+            color: #000;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            line-height: var(--line-height);
+        }
+
+        @page {
+            size: A4;
+            margin: var(--margin);
+        }
+
+        .page-container {
+            width: var(--page-width);
+            min-height: var(--page-height);
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header Section */
+        #report-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+        }
+
+        .header-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: baseline;
+            font-size: var(--font-size-base);
+        }
+
+        .header-label {
+            font-weight: bold;
+            width: 110px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .header-value {
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24pt;
+            margin: 0 0 20px 0;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        /* Batch Block */
+        .batch-block {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        .batch-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 2px;
+            font-size: var(--font-size-base);
+            padding-bottom: 2px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: var(--font-size-base);
+            margin-bottom: 0;
+            border: var(--border-width) solid var(--border-color);
+        }
+
+        th, td {
+            border: var(--border-width) solid var(--border-color);
+            padding: 2px 4px;
+            text-align: center;
+            vertical-align: middle;
+            height: 22px;
+        }
+
+        th {
+            font-weight: bold;
+            background-color: #fff;
+            padding: 4px 4px;
+        }
+
+        /* Column Widths - Adjusted to match reference proportions */
+        .col-sl { width: 10%; }
+        .col-name { width: 25%; }
+        .col-set { width: 17%; }
+        .col-ach { width: 17%; }
+        .col-err { width: 16%; }
+        .col-errp { width: 15%; }
+
+        /* Text Alignment */
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        /* Numeric formatting */
+        .numeric {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Total Row */
+        .total-row td {
+            font-weight: bold;
+            height: 22px;
+        }
+
+        /* Batch Header Row in Table */
+        .batch-info-row td {
+            font-weight: bold;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+    </style>
+
+
+    <div class="page-container">
+        
+        <div id="report-header">
+            <div class="header-col">
+                <div class="header-row">
+                    <span class="header-label">Plant name</span>
+                    <span class="header-value">: </span>
+                </div>
+                <div class="header-row">
+                    <span class="header-label">Location</span>
+                    <span class="header-value">: </span>
+                </div>
+                <div class="header-row">
+                    <span class="header-label">Print Date</span>
+                    <span class="header-value">: 29/04/2026</span>
+                </div>
+            </div>
+            <div class="header-col">
+                <div class="header-row">
+                    <span class="header-label">From</span>
+                    <span class="header-value">: 30/05/2025</span>
+                </div>
+                <div class="header-row">
+                    <span class="header-label">To</span>
+                    <span class="header-value">: 31/05/2025</span>
+                </div>
+                <div class="header-row">
+                    <span class="header-label">Batch No</span>
+                    <span class="header-value">: 1</span>
+                </div>
+            </div>
+        </div>
+
+        <h1></h1>
+
+        <section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-30 08:00:00</span>
+                <span>End 2025-05-30 08:30:00</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">M1</td>
+                        <td class="col-set text-right numeric">92.00</td>
+                        <td class="col-ach text-right numeric">89.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.26%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">M2</td>
+                        <td class="col-set text-right numeric">118.00</td>
+                        <td class="col-ach text-right numeric">118.00</td>
+                        <td class="col-err text-right numeric">0.00</td>
+                        <td class="col-errp text-right numeric">0.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">M3</td>
+                        <td class="col-set text-right numeric">87.00</td>
+                        <td class="col-ach text-right numeric">82.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.75%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">M4</td>
+                        <td class="col-set text-right numeric">98.00</td>
+                        <td class="col-ach text-right numeric">98.00</td>
+                        <td class="col-err text-right numeric">0.00</td>
+                        <td class="col-errp text-right numeric">0.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">M5</td>
+                        <td class="col-set text-right numeric">123.00</td>
+                        <td class="col-ach text-right numeric">123.00</td>
+                        <td class="col-err text-right numeric">0.00</td>
+                        <td class="col-errp text-right numeric">0.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">M6</td>
+                        <td class="col-set text-right numeric">87.00</td>
+                        <td class="col-ach text-right numeric">88.00</td>
+                        <td class="col-err text-right numeric">1.00</td>
+                        <td class="col-errp text-right numeric">1.15%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">M7</td>
+                        <td class="col-set text-right numeric">59.00</td>
+                        <td class="col-ach text-right numeric">58.00</td>
+                        <td class="col-err text-right numeric">-1.00</td>
+                        <td class="col-errp text-right numeric">-1.69%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">M8</td>
+                        <td class="col-set text-right numeric">89.00</td>
+                        <td class="col-ach text-right numeric">91.00</td>
+                        <td class="col-err text-right numeric">2.00</td>
+                        <td class="col-errp text-right numeric">2.25%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">9</td>
+                        <td class="col-name text-left">M9</td>
+                        <td class="col-set text-right numeric">107.00</td>
+                        <td class="col-ach text-right numeric">103.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.74%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">10</td>
+                        <td class="col-name text-left">M10</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">57.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">11</td>
+                        <td class="col-name text-left">M11</td>
+                        <td class="col-set text-right numeric">71.00</td>
+                        <td class="col-ach text-right numeric">67.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-5.63%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">12</td>
+                        <td class="col-name text-left">M12</td>
+                        <td class="col-set text-right numeric">129.00</td>
+                        <td class="col-ach text-right numeric">126.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.33%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.26%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-30 09:00:00</span>
+                <span>End 2025-05-30 09:30:00</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">M1</td>
+                        <td class="col-set text-right numeric">64.00</td>
+                        <td class="col-ach text-right numeric">67.00</td>
+                        <td class="col-err text-right numeric">3.00</td>
+                        <td class="col-errp text-right numeric">4.69%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">M2</td>
+                        <td class="col-set text-right numeric">130.00</td>
+                        <td class="col-ach text-right numeric">126.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.08%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">M3</td>
+                        <td class="col-set text-right numeric">133.00</td>
+                        <td class="col-ach text-right numeric">137.00</td>
+                        <td class="col-err text-right numeric">4.00</td>
+                        <td class="col-errp text-right numeric">3.01%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">M4</td>
+                        <td class="col-set text-right numeric">146.00</td>
+                        <td class="col-ach text-right numeric">143.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.05%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">M5</td>
+                        <td class="col-set text-right numeric">104.00</td>
+                        <td class="col-ach text-right numeric">105.00</td>
+                        <td class="col-err text-right numeric">1.00</td>
+                        <td class="col-errp text-right numeric">96.15%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">M6</td>
+                        <td class="col-set text-right numeric">133.00</td>
+                        <td class="col-ach text-right numeric">138.00</td>
+                        <td class="col-err text-right numeric">5.00</td>
+                        <td class="col-errp text-right numeric">3.76%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">M7</td>
+                        <td class="col-set text-right numeric">146.00</td>
+                        <td class="col-ach text-right numeric">141.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-3.42%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">M8</td>
+                        <td class="col-set text-right numeric">141.00</td>
+                        <td class="col-ach text-right numeric">142.00</td>
+                        <td class="col-err text-right numeric">1.00</td>
+                        <td class="col-errp text-right numeric">70.92%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">9</td>
+                        <td class="col-name text-left">M9</td>
+                        <td class="col-set text-right numeric">149.00</td>
+                        <td class="col-ach text-right numeric">150.00</td>
+                        <td class="col-err text-right numeric">1.00</td>
+                        <td class="col-errp text-right numeric">67.11%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">10</td>
+                        <td class="col-name text-left">M10</td>
+                        <td class="col-set text-right numeric">87.00</td>
+                        <td class="col-ach text-right numeric">91.00</td>
+                        <td class="col-err text-right numeric">4.00</td>
+                        <td class="col-errp text-right numeric">4.60%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">11</td>
+                        <td class="col-name text-left">M11</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">59.00</td>
+                        <td class="col-err text-right numeric">-1.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">12</td>
+                        <td class="col-name text-left">M12</td>
+                        <td class="col-set text-right numeric">70.00</td>
+                        <td class="col-ach text-right numeric">71.00</td>
+                        <td class="col-err text-right numeric">1.00</td>
+                        <td class="col-errp text-right numeric">1.43%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">3.00</td>
+                        <td class="col-errp text-right numeric">4.69%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-30 10:00:00</span>
+                <span>End 2025-05-30 10:30:00</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">M1</td>
+                        <td class="col-set text-right numeric">141.00</td>
+                        <td class="col-ach text-right numeric">139.00</td>
+                        <td class="col-err text-right numeric">-2.00</td>
+                        <td class="col-errp text-right numeric">-1.42%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">M2</td>
+                        <td class="col-set text-right numeric">58.00</td>
+                        <td class="col-ach text-right numeric">54.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-6.90%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">M3</td>
+                        <td class="col-set text-right numeric">107.00</td>
+                        <td class="col-ach text-right numeric">106.00</td>
+                        <td class="col-err text-right numeric">-1.00</td>
+                        <td class="col-errp text-right numeric">-93.46%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">M4</td>
+                        <td class="col-set text-right numeric">96.00</td>
+                        <td class="col-ach text-right numeric">101.00</td>
+                        <td class="col-err text-right numeric">5.00</td>
+                        <td class="col-errp text-right numeric">5.21%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">M5</td>
+                        <td class="col-set text-right numeric">52.00</td>
+                        <td class="col-ach text-right numeric">56.00</td>
+                        <td class="col-err text-right numeric">4.00</td>
+                        <td class="col-errp text-right numeric">7.69%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">M6</td>
+                        <td class="col-set text-right numeric">144.00</td>
+                        <td class="col-ach text-right numeric">143.00</td>
+                        <td class="col-err text-right numeric">-1.00</td>
+                        <td class="col-errp text-right numeric">-69.44%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">M7</td>
+                        <td class="col-set text-right numeric">115.00</td>
+                        <td class="col-ach text-right numeric">112.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.61%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">M8</td>
+                        <td class="col-set text-right numeric">145.00</td>
+                        <td class="col-ach text-right numeric">149.00</td>
+                        <td class="col-err text-right numeric">4.00</td>
+                        <td class="col-errp text-right numeric">2.76%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">9</td>
+                        <td class="col-name text-left">M9</td>
+                        <td class="col-set text-right numeric">104.00</td>
+                        <td class="col-ach text-right numeric">101.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.88%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">10</td>
+                        <td class="col-name text-left">M10</td>
+                        <td class="col-set text-right numeric">127.00</td>
+                        <td class="col-ach text-right numeric">123.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.15%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">11</td>
+                        <td class="col-name text-left">M11</td>
+                        <td class="col-set text-right numeric">76.00</td>
+                        <td class="col-ach text-right numeric">74.00</td>
+                        <td class="col-err text-right numeric">-2.00</td>
+                        <td class="col-errp text-right numeric">-2.63%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">12</td>
+                        <td class="col-name text-left">M12</td>
+                        <td class="col-set text-right numeric">107.00</td>
+                        <td class="col-ach text-right numeric">106.00</td>
+                        <td class="col-err text-right numeric">-1.00</td>
+                        <td class="col-errp text-right numeric">-93.46%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-2.00</td>
+                        <td class="col-errp text-right numeric">-1.42%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-30 20:09:52</span>
+                <span>End 2025-05-30 20:10:21</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">90.00</td>
+                        <td class="col-ach text-right numeric">85.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.56%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RG 45%</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">145.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">DOB</td>
+                        <td class="col-set text-right numeric">343.00</td>
+                        <td class="col-ach text-right numeric">338.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.46%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-30 21:38:21</span>
+                <span>End 2025-05-30 21:38:27</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">90.00</td>
+                        <td class="col-ach text-right numeric">85.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.56%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RG 45%</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">145.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">DOB</td>
+                        <td class="col-set text-right numeric">343.00</td>
+                        <td class="col-ach text-right numeric">338.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.46%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 01:41:56</span>
+                <span>End 2025-05-31 01:42:32</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 02:19:13</span>
+                <span>End 2025-05-31 02:23:21</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">96.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 02:38:37</span>
+                <span>End 2025-05-31 02:42:44</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">291.00</td>
+                        <td class="col-err text-right numeric">-9.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-9.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 03:00:23</span>
+                <span>End 2025-05-31 03:04:31</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 03:21:16</span>
+                <span>End 2025-05-31 03:25:21</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 03:42:25</span>
+                <span>End 2025-05-31 03:46:30</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 04:03:09</span>
+                <span>End 2025-05-31 04:07:16</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 04:30:09</span>
+                <span>End 2025-05-31 04:34:20</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">290.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">197.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-1.50%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-3.33%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 08:47:07</span>
+                <span>End 2025-05-31 08:51:21</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">269.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 08:58:20</span>
+                <span>End 2025-05-31 09:02:31</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">269.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 10:13:44</span>
+                <span>End 2025-05-31 10:17:54</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">269.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 10:34:15</span>
+                <span>End 2025-05-31 10:38:24</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">270.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-1.46%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-1.46%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 11:00:34</span>
+                <span>End 2025-05-31 11:04:44</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">269.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">46.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 11:24:39</span>
+                <span>End 2025-05-31 11:28:51</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">274.00</td>
+                        <td class="col-ach text-right numeric">269.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">60.00</td>
+                        <td class="col-ach text-right numeric">55.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-8.33%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">97.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-3.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">7</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">8</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">147.00</td>
+                        <td class="col-err text-right numeric">-3.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.82%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 12:36:37</span>
+                <span>End 2025-05-31 12:40:23</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">450.00</td>
+                        <td class="col-ach text-right numeric">440.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWN</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">140.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 12:55:07</span>
+                <span>End 2025-05-31 12:58:53</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">450.00</td>
+                        <td class="col-ach text-right numeric">440.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWN</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">140.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 13:38:13</span>
+                <span>End 2025-05-31 13:41:54</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">450.00</td>
+                        <td class="col-ach text-right numeric">440.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWN</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">140.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 13:58:45</span>
+                <span>End 2025-05-31 14:02:29</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">450.00</td>
+                        <td class="col-ach text-right numeric">440.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWN</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">140.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 14:23:24</span>
+                <span>End 2025-05-31 14:28:26</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">450.00</td>
+                        <td class="col-ach text-right numeric">440.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">B RICE</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">70.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">R BRAWN</td>
+                        <td class="col-set text-right numeric">150.00</td>
+                        <td class="col-ach text-right numeric">140.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-6.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">GNDOC</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">40.00</td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-20.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">75.00</td>
+                        <td class="col-ach text-right numeric">69.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-8.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-10.00</td>
+                        <td class="col-errp text-right numeric">-2.22%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 16:43:19</span>
+                <span>End 2025-05-31 17:20:19</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">121.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.20%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">94.00</td>
+                        <td class="col-err text-right numeric">-6.00</td>
+                        <td class="col-errp text-right numeric">-6.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 17:21:36</span>
+                <span>End 2025-05-31 17:25:44</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 17:43:20</span>
+                <span>End 2025-05-31 17:47:28</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 18:08:57</span>
+                <span>End 2025-05-31 18:13:07</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">121.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.20%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 18:54:28</span>
+                <span>End 2025-05-31 18:58:39</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 19:21:26</span>
+                <span>End 2025-05-31 19:25:33</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 19:39:59</span>
+                <span>End 2025-05-31 19:44:07</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">121.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.20%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 19:59:03</span>
+                <span>End 2025-05-31 20:03:10</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 23:15:38</span>
+                <span>End 2025-05-31 23:19:45</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">121.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-3.20%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+<section class="batch-block">
+            <div class="batch-header">
+                <span>1</span>
+                <span>Start 2025-05-31 23:44:17</span>
+                <span>End 2025-05-31 23:48:27</span>
+            </div>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-sl">Sl. No.</th>
+                        <th class="col-name">Material name</th>
+                        <th class="col-set">Set. wt(Kg)</th>
+                        <th class="col-ach">Ach. wt(Kg)</th>
+                        <th class="col-err">Error(Kg)</th>
+                        <th class="col-errp">Error %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sl text-center numeric">1</td>
+                        <td class="col-name text-left">SOYA</td>
+                        <td class="col-set text-right numeric">300.00</td>
+                        <td class="col-ach text-right numeric">295.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">2</td>
+                        <td class="col-name text-left">RG 60%</td>
+                        <td class="col-set text-right numeric">125.00</td>
+                        <td class="col-ach text-right numeric">120.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-4.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">3</td>
+                        <td class="col-name text-left">R BRAWAN</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">95.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-5.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">4</td>
+                        <td class="col-name text-left">RECYCLE P</td>
+                        <td class="col-set text-right numeric">50.00</td>
+                        <td class="col-ach text-right numeric">45.00</td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-10.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">5</td>
+                        <td class="col-name text-left">FISH MEAL</td>
+                        <td class="col-set text-right numeric">100.00</td>
+                        <td class="col-ach text-right numeric">93.00</td>
+                        <td class="col-err text-right numeric">-7.00</td>
+                        <td class="col-errp text-right numeric">-7.00%</td>
+                    </tr>
+<tr>
+                        <td class="col-sl text-center numeric">6</td>
+                        <td class="col-name text-left">MAIDA</td>
+                        <td class="col-set text-right numeric">200.00</td>
+                        <td class="col-ach text-right numeric">196.00</td>
+                        <td class="col-err text-right numeric">-4.00</td>
+                        <td class="col-errp text-right numeric">-2.00%</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-left">Total for batch</td>
+                        <td class="col-set text-right numeric"></td>
+                        <td class="col-ach text-right numeric"></td>
+                        <td class="col-err text-right numeric">-5.00</td>
+                        <td class="col-errp text-right numeric">-1.67%</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+    </div>
+

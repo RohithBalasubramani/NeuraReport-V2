@@ -1,0 +1,34 @@
+{
+  "scalars": [
+    "company_name",
+    "company_address",
+    "company_phone",
+    "company_email",
+    "invoice_date",
+    "invoice_no",
+    "payment_terms",
+    "bill_to_name_dept",
+    "bill_to_client_company",
+    "bill_to_address",
+    "bill_to_phone",
+    "subtotal",
+    "discount",
+    "subtotal_less_discount",
+    "tax_rate",
+    "total_tax",
+    "shipping_handling",
+    "balance_due",
+    "remarks",
+    "payment_instructions",
+    "venmo_account",
+    "paypal_account"
+  ],
+  "row_tokens": [
+    "row_description",
+    "row_qty",
+    "row_unit_price",
+    "row_total"
+  ],
+  "totals": [],
+  "notes": "Invoice template structure with company info, bill to info, line items table, and totals calculation section."
+}

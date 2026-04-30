@@ -1,0 +1,70 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static report metadata and user-defined date range.",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "report_title"
+      ]
+    },
+    "rows": {
+      "description": "Time-series consumption records grouped by batch.",
+      "columns": [
+        "row_batch_num",
+        "row_start_time",
+        "row_end_time",
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_percent"
+      ],
+      "grouping": [
+        "row_batch_num"
+      ],
+      "ordering": [
+        "row_start_time"
+      ]
+    },
+    "totals": {
+      "description": "Batch-level aggregates for weight and error metrics.",
+      "columns": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_percent"
+      ]
+    }
+  },
+  "semantics": "Parameters `date_from` and `date_to` act as filters on the `timestamp_utc` column. `batch_no` is a passthrough if provided, otherwise derived from the data stream. Row tokens represent individual sensor snapshots or calculated batch intervals.",
+  "parameters": {
+    "required": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ],
+    "optional": [
+      {
+        "name": "batch_no",
+        "type": "string"
+      }
+    ]
+  },
+  "transformations": [
+    "Map `timestamp_utc` to `row_start_time` and `row_end_time` with formatting.",
+    "Calculate `row_error_kg` by subtracting achieved weight from set weight.",
+    "Calculate `row_error_percent` by dividing error kg by set weight and multiplying by 100.",
+    "Aggregate totals per batch using sum for weights and mean for percentage."
+  ]
+}

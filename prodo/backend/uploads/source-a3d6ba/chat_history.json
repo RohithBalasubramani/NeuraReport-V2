@@ -1,0 +1,34 @@
+[
+  {
+    "role": "user",
+    "content": "Run dry run preview. Approve warnings."
+  },
+  {
+    "role": "assistant",
+    "content": "Perfect! The dry run preview passed successfully. Here's what happened:\n\n✅ **Template is complete and ready!**\n\n**Test Results:**\n- Found 1 batch of data from your database (August 4-5, 2025)\n- Generated a sample report with real invoice data\n- All data fields rendered correctly (invoice number, customer, vendor, dates, amounts)\n- No missing or leaked data fields\n- Report is 57.5 KB\n\n**Sample Data Used:**\n- Invoice: INV-303-00001 from Apex Facilities Services\n- Customer: CUST-303-005\n- Total Amount: $3,631.95\n- Status: Paid\n\n**Minor Notes:**\n- 40% of cells are empty (this is normal - not all invoice fields have data for every record)\n- No set weight values found (this is expected for invoice reports)\n\nYour template is now **fully validated and ready to generate reports!**\n\nWould you like to generate a report? If so, please tell me:\n- **Start date** (YYYY-MM-DD format)\n- **End date** (YYYY-MM-DD format)"
+  },
+  {
+    "role": "user",
+    "content": "Generate a report."
+  },
+  {
+    "role": "assistant",
+    "content": "I need the date range to generate the report. Please provide:\n\n- **Start date** (YYYY-MM-DD format)\n- **End date** (YYYY-MM-DD format)\n\nFor example: \"2025-08-01 to 2025-08-31\""
+  },
+  {
+    "role": "user",
+    "content": "Generate a report."
+  },
+  {
+    "role": "assistant",
+    "content": "I need the date range to generate the report. Please tell me:\n\n- **Start date** (YYYY-MM-DD format)\n- **End date** (YYYY-MM-DD format)\n\nFor example: \"2025-08-01 to 2025-08-31\""
+  },
+  {
+    "role": "user",
+    "content": "Generate report for 2025-01-01 to 2025-12-31"
+  },
+  {
+    "role": "assistant",
+    "content": "✅ **Report generation started!**\n\n**Job ID:** `ca46187e-4489-423f-ad8b-8d21d7cd901c`\n\n**Date Range:** January 1, 2025 to December 31, 2025\n\nYour report is now being generated with all invoice data from your database for the full year 2025. The system will process all available batches within this date range and create your report.\n\nYou can check the status of your report generation using the job ID above. Is there anything else you'd like me to help you with?"
+  }
+]

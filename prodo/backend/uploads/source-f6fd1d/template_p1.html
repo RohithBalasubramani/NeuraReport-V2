@@ -1,0 +1,306 @@
+
+
+
+<meta charset="UTF-8">
+<style>
+    :root {
+        --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --border-color: #000;
+        --text-color: #333;
+        --btn-bg: #f76538;
+        --btn-text: #fff;
+        --col-desc-w: 55%;
+        --col-qty-w: 15%;
+        --col-price-w: 15%;
+        --col-amount-w: 15%;
+    }
+
+    body {
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 20px;
+        color: var(--text-color);
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .page-container {
+        max-width: 210mm; /* A4 width */
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Header Section */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 40px;
+    }
+
+    .header-right {
+        text-align: right;
+    }
+
+    h1.invoice-title {
+        font-size: 72pt;
+        margin: 0;
+        font-weight: 300;
+        color: #555;
+        line-height: 1;
+    }
+
+    .invoice-meta {
+        margin-top: 10px;
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+
+    .invoice-meta strong {
+        font-weight: 700;
+    }
+
+    /* Info Grid (From/To) */
+    .info-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        font-size: 11pt;
+    }
+
+    .info-column {
+        width: 48%;
+    }
+
+    .info-label {
+        font-weight: 700;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .info-content {
+        line-height: 1.6;
+    }
+
+    /* Terms Section */
+    .terms-section {
+        display: flex;
+        margin-bottom: 30px;
+        font-size: 11pt;
+    }
+
+    .terms-block {
+        margin-right: 20px;
+    }
+
+    .terms-label {
+        font-weight: 700;
+    }
+
+    /* Main Table */
+    table.main-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        font-size: 11pt;
+    }
+
+    table.main-table th {
+        text-align: center;
+        border: 1px solid var(--border-color);
+        padding: 10px 5px;
+        font-weight: 700;
+        color: #555;
+        background-color: #fff;
+    }
+
+    table.main-table td {
+        border: 1px solid var(--border-color);
+        padding: 8px 5px;
+        vertical-align: top;
+    }
+
+    .col-desc { width: var(--col-desc-w); text-align: left; }
+    .col-qty { width: var(--col-qty-w); text-align: center; }
+    .col-price { width: var(--col-price-w); text-align: right; }
+    .col-amount { width: var(--col-amount-w); text-align: right; }
+
+    /* Totals Section */
+    .totals-section {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 40px;
+    }
+
+    .totals-table {
+        width: 300px;
+        border-collapse: collapse;
+        font-size: 12pt;
+    }
+
+    .totals-table td {
+        padding: 5px 10px;
+        text-align: right;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .totals-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .totals-label {
+        font-weight: 400;
+    }
+
+    .totals-label.balance {
+        font-weight: 700;
+        font-size: 18pt;
+        color: #555;
+    }
+
+    .totals-value {
+        font-weight: 700;
+    }
+
+    .totals-value.balance {
+        font-size: 18pt;
+    }
+
+    /* Notes Section */
+    .notes-section {
+        margin-bottom: 40px;
+    }
+
+    .notes-title {
+        font-size: 24pt;
+        font-weight: 300;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .notes-box {
+        border: 1px solid var(--border-color);
+        min-height: 100px;
+        padding: 10px;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+
+    /* Footer Button */
+    .footer-btn {
+        display: inline-block;
+        background-color: var(--btn-bg);
+        color: var(--btn-text);
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12pt;
+        letter-spacing: 0.5px;
+    }
+    
+    .footer-btn::after {
+        content: " ↗";
+        margin-left: 5px;
+    }
+
+</style>
+
+
+
+<div class="page-container">
+
+    <header id="report-header">
+        <div></div> 
+        <div class="header-right">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="invoice-meta">
+                <div>DATE: | {invoice_date}</div>
+                <div>INVOICE {invoice_number}</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="info-section">
+        <div class="info-column">
+            <span class="info-label">FROM:</span>
+            <div class="info-content">
+                {from_company}<br>
+                {from_email}<br>
+                {from_address_1}<br>
+                {from_address_2}
+            </div>
+        </div>
+        <div class="info-column">
+            <span class="info-label">TO:</span>
+            <div class="info-content">
+                {to_client}<br>
+                {to_email}<br>
+                {to_address_1}<br>
+                {to_address_2}
+            </div>
+        </div>
+    </div>
+
+    <div class="terms-section">
+        <div class="terms-block">
+            <span class="terms-label">TERMS:</span> {terms}
+        </div>
+        <div class="terms-block">
+            <span class="terms-label">DUE:</span> {due_date}
+        </div>
+    </div>
+
+    <table class="main-table" id="data-table">
+        <thead>
+            <tr>
+                <th class="col-desc" data-label="item_description">Item Description</th>
+                <th class="col-qty" data-label="quantity">Quantity</th>
+                <th class="col-price" data-label="price">Price</th>
+                <th class="col-amount" data-label="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td class="col-desc">{row_item_description}</td>
+                <td class="col-qty">{row_quantity}</td>
+                <td class="col-price">{row_price}</td>
+                <td class="col-amount">{row_amount}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="totals-section" id="report-totals">
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="totals-label">Subtotal</td>
+                <td class="totals-value">${subtotal}</td>
+            </tr>
+            <tr>
+                <td class="totals-label">Tax</td>
+                <td class="totals-value">${tax}</td>
+            </tr>
+            <tr>
+                <td class="totals-label balance">BALANCE DUE</td>
+                <td class="totals-value balance">${balance_due}</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    <div class="notes-section">
+        <div class="notes-title">Notes</div>
+        <div class="notes-box">
+            {notes_text}
+        </div>
+    </div>
+
+    <div style="text-align: center">
+        ONLINE INVOICE GENERATOR
+    </div>
+
+</div>
+
+

@@ -1,0 +1,65 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Report metadata and batch identification details.",
+      "columns": [
+        "plant_name",
+        "location",
+        "print_date",
+        "from_date",
+        "to_date",
+        "batch_no",
+        "report_title"
+      ]
+    },
+    "rows": {
+      "description": "Detailed weighing records for each bin within a batch.",
+      "columns": [
+        "row_sl_no",
+        "row_material_name",
+        "row_set_wt_kg",
+        "row_ach_wt_kg",
+        "row_error_kg",
+        "row_error_pct"
+      ],
+      "grouping": [
+        "batch_id",
+        "batch_start",
+        "batch_end"
+      ],
+      "ordering": [
+        "row_sl_no ASC"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated totals for the batch.",
+      "columns": [
+        "total_set_wt_kg",
+        "total_ach_wt_kg",
+        "total_error_kg",
+        "total_error_pct"
+      ]
+    }
+  },
+  "semantics": "The report filters batches based on the provided date range. The `batch_id` acts as the primary grouping key. Within each batch, the 12 bins are expanded into individual rows. Calculations are performed row-by-row for error metrics and aggregated for the footer totals.",
+  "parameters": {
+    "required": [],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Melt the 12 bin columns (content, set_weight, actual_weight) into a single row per bin.",
+    "Calculate row-level error (Actual - Set) and percentage error.",
+    "Assign sequential row numbers starting from 1.",
+    "Sum row-level weights to calculate batch totals.",
+    "Calculate total percentage error based on aggregated sums."
+  ]
+}

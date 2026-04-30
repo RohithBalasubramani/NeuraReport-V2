@@ -1,0 +1,1 @@
+[{"step": "verify_template", "durationMs": 1200000, "queryCount": 1}, {"step": "ocr_pdf_page", "durationMs": 0, "queryCount": 1}, {"step": "terminal", "durationMs": 249, "queryCount": 1}, {"step": "search_files", "durationMs": 699, "queryCount": 1}, {"step": "terminal", "durationMs": 236, "queryCount": 1}]

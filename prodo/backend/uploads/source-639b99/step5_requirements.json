@@ -1,0 +1,78 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static and dynamic invoice metadata including company info, client details, and invoice dates.",
+      "columns": [
+        "company_name",
+        "company_address",
+        "company_phone",
+        "company_email",
+        "company_website",
+        "bill_to_client",
+        "bill_to_address",
+        "ship_to_client",
+        "ship_to_address",
+        "invoice_number",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "customer_message",
+        "subtotal",
+        "sales_tax",
+        "shipping",
+        "total"
+      ]
+    },
+    "rows": {
+      "description": "Line items detailing services/products, quantities, rates, and totals.",
+      "columns": [
+        "row_item_service",
+        "row_description",
+        "row_quantity_hrs",
+        "row_rate",
+        "row_amount"
+      ],
+      "grouping": [
+        "invoice_number"
+      ],
+      "ordering": [
+        "row_item_service",
+        "line_no"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated financial totals for the invoice.",
+      "columns": [
+        "subtotal",
+        "sales_tax",
+        "shipping",
+        "total"
+      ]
+    }
+  },
+  "semantics": "Scalars are pulled from the `invoices` and `customers` tables for a specific invoice. Row tokens represent the line items joined via `invoice_number`. Totals are pre-calculated in the `invoices` table but can be re-validated via row aggregation if needed.",
+  "parameters": {
+    "required": [
+      {
+        "name": "invoice_number",
+        "type": "string"
+      }
+    ],
+    "optional": [
+      {
+        "name": "date_from",
+        "type": "date"
+      },
+      {
+        "name": "date_to",
+        "type": "date"
+      }
+    ]
+  },
+  "transformations": [
+    "Join invoices to invoice_items on invoice_number.",
+    "Format issue_date and due_date to dd-mm-yyyy HH:MM:SS.",
+    "Apply currency formatting to monetary fields.",
+    "Apply number formatting to quantities and rates."
+  ]
+}

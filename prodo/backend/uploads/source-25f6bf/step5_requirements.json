@@ -1,0 +1,33 @@
+{
+  "datasets": {
+    "header": {
+      "description": "Static header fields for the invoice (not mapped to dynamic tokens in this schema).",
+      "columns": []
+    },
+    "rows": {
+      "description": "Line items for the invoice, showing description and total amount.",
+      "columns": [
+        "row_description",
+        "row_total"
+      ],
+      "grouping": [],
+      "ordering": [
+        "row_description"
+      ]
+    },
+    "totals": {
+      "description": "Aggregated totals for the invoice (not mapped to dynamic tokens in this schema).",
+      "columns": []
+    }
+  },
+  "semantics": "The report displays a list of line items. `row_description` is a direct text mapping. `row_total` is a direct numeric mapping. No filtering parameters are currently active.",
+  "parameters": {
+    "required": [],
+    "optional": []
+  },
+  "transformations": [
+    "Map `row_description` directly to `invoice_items.description`.",
+    "Map `row_total` directly to `invoice_items.line_total`.",
+    "Order rows by `row_description` (default fallback)."
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "[uploaded: source.pdf] Create a report template from this invoice PDF"
+  },
+  {
+    "role": "assistant",
+    "content": "The operation timed out after 1500s. Please try again or simplify your request."
+  }
+]

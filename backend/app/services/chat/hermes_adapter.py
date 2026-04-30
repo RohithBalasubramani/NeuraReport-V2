@@ -69,7 +69,7 @@ _HERMES_INTERNAL_TOOLS = {
 # ── Sync handler wrapper ────────────────────────────────────────────
 
 TOOL_TIMEOUTS: dict[str, int] = {
-    "verify_template": 900,       # PDF upload + HTML gen + OCR (can take 10-15 min)
+    "verify_template": 1200,      # PDF upload + HTML gen + OCR (2 LLM calls × ~8 min each)
     "generate_report": 600,       # PDF rendering
     "dry_run_preview": 600,       # Sample report generation
     "auto_map_tokens": 800,       # LLM mapping (2 retries × 360s = 720s max)

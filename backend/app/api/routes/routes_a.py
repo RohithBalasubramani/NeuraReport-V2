@@ -8140,13 +8140,18 @@ async def pipeline_chat_upload(request: Request):
         agent = HermesAgent(session, request, workspace_mode=_workspace)
 
         async def _event_stream():
+            # Track template_id as it's created by verify_template during the stream
+            resolved_tid = template_id
             async for event in agent.run(
                 payload,
                 upload_file=upload_file,
                 attachments=saved_attachments if saved_attachments else None,
             ):
+                # Capture template_id from verify events (created mid-stream)
+                if event.get("template_id"):
+                    resolved_tid = event["template_id"]
                 event.setdefault("session_id", session.session_id)
-                event.setdefault("template_id", template_id or payload.template_id)
+                event.setdefault("template_id", resolved_tid)
                 yield json.dumps(event, ensure_ascii=False) + "\n"
     else:
         # File upload implies verify intent

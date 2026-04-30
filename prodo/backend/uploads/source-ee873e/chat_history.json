@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "Generate a report for the first available batch."
+  },
+  {
+    "role": "assistant",
+    "content": "Perfect! Your report has been queued for generation. \n\n**Report Details:**\n- **Job ID:** f778c29f-9028-4472-bd45-29923bb2af5f\n- **Batch:** INV-404-00001 (2 rows)\n- **Date Range:** January 1, 2025 - December 31, 2025\n\nThe report is now being generated with the invoice data from your first batch. You should receive the completed report shortly. Would you like me to generate reports for any other batches?"
+  }
+]

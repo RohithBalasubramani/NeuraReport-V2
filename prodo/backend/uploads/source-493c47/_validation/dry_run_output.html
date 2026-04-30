@@ -1,0 +1,697 @@
+
+
+
+    <meta charset="UTF-8">
+    <meta>
+    <title>Invoice Template</title>
+    <style>
+        :root {
+            --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --border-color: #000;
+            --text-color: #333;
+            --label-color: #666;
+            --button-bg: #ff6633;
+            --button-text: #fff;
+            --col-desc-width: 50%;
+            --col-qty-width: 15%;
+            --col-price-width: 15%;
+            --col-amount-width: 20%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-color);
+            background: #fff;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            margin-bottom: 60px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        h1.invoice-title {
+            font-size: 64px;
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: var(--label-color);
+            margin-right: 5px;
+        }
+
+        /* From/To Section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .info-col {
+            width: 48%;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--label-color);
+            margin-right: 10px;
+            display: inline-block;
+            width: 50px;
+        }
+
+        .terms-section {
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* Table */
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table-container th, .table-container td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .table-container th {
+            background-color: #fff;
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+            padding: 12px;
+        }
+
+        .col-desc { width: var(--col-desc-width); }
+        .col-qty { width: var(--col-qty-width); text-align: center; }
+        .col-price { width: var(--col-price-width); text-align: right; }
+        .col-amount { width: var(--col-amount-width); text-align: left; }
+
+        /* Totals */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .totals-table {
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .totals-table td {
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        .totals-label {
+            text-align: right;
+            font-weight: bold;
+            color: #555;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .totals-value {
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .balance-row .totals-label {
+            font-size: 24px;
+            color: #555;
+            border-bottom: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .balance-row .totals-value {
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* Notes */
+        .notes-section {
+            margin-top: 50px;
+        }
+
+        .notes-title {
+            font-size: 32px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .notes-box {
+            border: 2px solid var(--border-color);
+            padding: 20px;
+            min-height: 100px;
+            font-size: 14px;
+            color: #000;
+        }
+
+        /* Footer Button */
+        .footer-btn {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 40px;
+            float: right;
+            font-size: 16px;
+        }
+
+        .footer-btn:hover {
+            opacity: 0.9;
+        }
+
+    </style>
+
+
+
+    
+    <div class="header">
+        <div class="header-right">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="meta-info">
+                <div><span class="meta-label">DATE:</span> 2025-08-04</div>
+                <div><span class="meta-label">INVOICE</span> INV-404-00001</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="info-section">
+        <div class="info-col">
+            <div><span class="info-label">FROM:</span> Riverbend Mechanical</div>
+            <div><span class="info-label"></span> customer1@example.com</div>
+            <div><span class="info-label"></span> 101 Market Street</div>
+            <div><span class="info-label"></span> </div>
+        </div>
+        <div class="info-col">
+            <div><span class="info-label">TO:</span> Customer 1 Riverbend</div>
+            <div><span class="info-label"></span> customer1@example.com</div>
+            <div><span class="info-label"></span> 101 Market Street</div>
+            <div><span class="info-label"></span> </div>
+        </div>
+    </div>
+
+    <div class="terms-section">
+        <div><span class="info-label">TERMS:</span> Paid</div>
+        <div><span class="info-label">DUE:</span> 2025-09-03</div>
+    </div>
+
+    
+    <table class="table-container" id="data-table">
+        <thead>
+            <tr>
+                <th class="col-desc" data-label="item_description">Item Description</th>
+                <th class="col-qty" data-label="quantity">Quantity</th>
+                <th class="col-price" data-label="price">Price</th>
+                <th class="col-amount" data-label="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-desc">Line item 1 for invoice 1</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">806.53</td>
+                <td class="col-amount">9073.46</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 1</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">627.81</td>
+                <td class="col-amount">4206.33</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 2</td>
+                <td class="col-qty">5</td>
+                <td class="col-price">130.57</td>
+                <td class="col-amount">699.86</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 2</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">615.94</td>
+                <td class="col-amount">6596.72</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 2</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">499.9</td>
+                <td class="col-amount">3139.37</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 3</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">477.7</td>
+                <td class="col-amount">1218.13</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 3</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">394.18</td>
+                <td class="col-amount">969.68</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 3</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">84.22</td>
+                <td class="col-amount">331.83</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 4</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">125.51</td>
+                <td class="col-amount">198.31</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 4</td>
+                <td class="col-qty">12</td>
+                <td class="col-price">696.53</td>
+                <td class="col-amount">8281.74</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 5</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">772.86</td>
+                <td class="col-amount">5425.48</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 5</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">711.38</td>
+                <td class="col-amount">1572.15</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 5</td>
+                <td class="col-qty">10</td>
+                <td class="col-price">298.06</td>
+                <td class="col-amount">3019.35</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 6</td>
+                <td class="col-qty">8</td>
+                <td class="col-price">260.23</td>
+                <td class="col-amount">2157.31</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 6</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">886.94</td>
+                <td class="col-amount">2811.6</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 6</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">249.89</td>
+                <td class="col-amount">832.13</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 6</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">477.82</td>
+                <td class="col-amount">1834.83</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 7</td>
+                <td class="col-qty">5</td>
+                <td class="col-price">435.95</td>
+                <td class="col-amount">2136.16</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 7</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">887.93</td>
+                <td class="col-amount">994.48</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 7</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">484.38</td>
+                <td class="col-amount">1089.86</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 8</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">531.26</td>
+                <td class="col-amount">3756.01</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 8</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">847.73</td>
+                <td class="col-amount">3484.17</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 8</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">653.14</td>
+                <td class="col-amount">4016.81</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 8</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">118.27</td>
+                <td class="col-amount">360.72</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 9</td>
+                <td class="col-qty">12</td>
+                <td class="col-price">411.78</td>
+                <td class="col-amount">4854.89</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 9</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">394.17</td>
+                <td class="col-amount">1493.9</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 10</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">638.34</td>
+                <td class="col-amount">3517.25</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 10</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">447.83</td>
+                <td class="col-amount">1688.32</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 10</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">742.7</td>
+                <td class="col-amount">2450.91</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 11</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">163.52</td>
+                <td class="col-amount">1427.53</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 11</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">745.61</td>
+                <td class="col-amount">5085.06</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 11</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">721.89</td>
+                <td class="col-amount">5370.86</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 12</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">625.54</td>
+                <td class="col-amount">3834.56</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 12</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">493.74</td>
+                <td class="col-amount">3046.38</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 12</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">377.65</td>
+                <td class="col-amount">4173.03</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 12</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">457.74</td>
+                <td class="col-amount">3103.48</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 5 for invoice 12</td>
+                <td class="col-qty">12</td>
+                <td class="col-price">826.72</td>
+                <td class="col-amount">9697.43</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 6 for invoice 12</td>
+                <td class="col-qty">5</td>
+                <td class="col-price">426.73</td>
+                <td class="col-amount">2137.92</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 13</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">406.34</td>
+                <td class="col-amount">889.88</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 13</td>
+                <td class="col-qty">8</td>
+                <td class="col-price">355.09</td>
+                <td class="col-amount">2670.28</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 13</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">173.32</td>
+                <td class="col-amount">1150.84</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 13</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">643.08</td>
+                <td class="col-amount">7035.3</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 5 for invoice 13</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">306.08</td>
+                <td class="col-amount">355.05</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 6 for invoice 13</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">802.82</td>
+                <td class="col-amount">7056.79</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 14</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">542.93</td>
+                <td class="col-amount">5841.93</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 14</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">50.31</td>
+                <td class="col-amount">539.32</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 15</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">581.42</td>
+                <td class="col-amount">813.99</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 15</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">467.39</td>
+                <td class="col-amount">2659.45</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 15</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">638.46</td>
+                <td class="col-amount">676.77</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 15</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">668.06</td>
+                <td class="col-amount">6326.53</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 16</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">440.28</td>
+                <td class="col-amount">4847.48</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 16</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">763.15</td>
+                <td class="col-amount">5532.84</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 16</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">524.72</td>
+                <td class="col-amount">2041.16</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 17</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">645.18</td>
+                <td class="col-amount">5767.91</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 17</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">116.83</td>
+                <td class="col-amount">1107.55</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 17</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">844.63</td>
+                <td class="col-amount">4932.64</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 17</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">362.83</td>
+                <td class="col-amount">3301.75</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 5 for invoice 17</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">623.29</td>
+                <td class="col-amount">3914.26</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 18</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">162.17</td>
+                <td class="col-amount">228.66</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 18</td>
+                <td class="col-qty">9</td>
+                <td class="col-price">199.46</td>
+                <td class="col-amount">1870.93</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 18</td>
+                <td class="col-qty">5</td>
+                <td class="col-price">421.11</td>
+                <td class="col-amount">2071.86</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 4 for invoice 18</td>
+                <td class="col-qty">4</td>
+                <td class="col-price">640.82</td>
+                <td class="col-amount">2877.28</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 5 for invoice 18</td>
+                <td class="col-qty">5</td>
+                <td class="col-price">627.16</td>
+                <td class="col-amount">3443.11</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 19</td>
+                <td class="col-qty">7</td>
+                <td class="col-price">281.44</td>
+                <td class="col-amount">2102.36</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 19</td>
+                <td class="col-qty">2</td>
+                <td class="col-price">553.13</td>
+                <td class="col-amount">1095.2</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 19</td>
+                <td class="col-qty">3</td>
+                <td class="col-price">517.53</td>
+                <td class="col-amount">1769.95</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 1 for invoice 20</td>
+                <td class="col-qty">6</td>
+                <td class="col-price">291.82</td>
+                <td class="col-amount">1844.3</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 2 for invoice 20</td>
+                <td class="col-qty">11</td>
+                <td class="col-price">665.36</td>
+                <td class="col-amount">7352.23</td>
+            </tr>
+<tr>
+                <td class="col-desc">Line item 3 for invoice 20</td>
+                <td class="col-qty">1</td>
+                <td class="col-price">575.35</td>
+                <td class="col-amount">655.9</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div class="totals-section">
+        <table class="totals-table">
+            <tbody><tr>
+                <td class="totals-label">Subtotal</td>
+                <td class="totals-value">212861.51</td>
+            </tr>
+            <tr>
+                <td class="totals-label">Tax</td>
+                <td class="totals-value">212861.51</td>
+            </tr>
+            <tr class="balance-row">
+                <td class="totals-label">BALANCE DUE</td>
+                <td class="totals-value">212861.51</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    
+    <div class="notes-section">
+        <h2 class="notes-title">Notes</h2>
+        <div class="notes-box">
+            Thank you for your business.
+        </div>
+    </div>
+
+    
+    ONLINE INVOICE GENERATOR &rarr;
+
+

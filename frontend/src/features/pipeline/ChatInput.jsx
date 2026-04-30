@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import {
   Send as SendIcon, AttachFile as AttachIcon,
+  Psychology as ThinkIcon,
   Image as ImageIcon, Close as CloseIcon, InsertDriveFile as FileIcon,
 } from '@mui/icons-material'
 import usePipelineStore from '@/stores/pipeline'
@@ -40,6 +41,8 @@ export default function ChatInput({ onSend, onAttach }) {
   const inputValue = usePipelineStore(s => s.inputValue)
   const isProcessing = usePipelineStore(s => s.isProcessing)
   const setInputValue = usePipelineStore(s => s.setInputValue)
+  const thinkingEnabled = usePipelineStore(s => s.thinkingEnabled)
+  const toggleThinking = usePipelineStore(s => s.toggleThinking)
   const fileInputRef = useRef(null)
   const inputRef = useRef(null)
   const [showSlash, setShowSlash] = useState(false)
@@ -196,6 +199,21 @@ export default function ChatInput({ onSend, onAttach }) {
           disabled={isProcessing}
           sx={{ flex: 1, fontSize: '0.9rem', px: 1 }}
         />
+
+        <Tooltip title={thinkingEnabled ? 'Thinking ON — model shows reasoning' : 'Thinking OFF — click to enable'}>
+          <IconButton
+            size="small"
+            onClick={toggleThinking}
+            sx={{
+              color: thinkingEnabled ? '#7c4dff' : '#bdbdbd',
+              bgcolor: thinkingEnabled ? 'rgba(124,77,255,0.08)' : 'transparent',
+              borderRadius: 1,
+              transition: 'all 0.2s',
+            }}
+          >
+            <ThinkIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         {isProcessing ? (
           <CircularProgress size={24} sx={{ m: 0.5 }} />

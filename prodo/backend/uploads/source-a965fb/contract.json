@@ -1,0 +1,547 @@
+{
+  "tokens": {
+    "scalars": [
+      "company_name",
+      "company_address_line1",
+      "company_address_line2",
+      "phone",
+      "email",
+      "website",
+      "bill_to_name",
+      "bill_to_address_line1",
+      "bill_to_address_line2",
+      "ship_to_name",
+      "ship_to_address_line1",
+      "ship_to_address_line2",
+      "invoice_number",
+      "invoice_date",
+      "terms",
+      "due_date",
+      "customer_message",
+      "subtotal",
+      "sales_tax",
+      "shipping",
+      "total"
+    ],
+    "row_tokens": [
+      "row_item_service",
+      "row_description",
+      "row_quantity_hrs",
+      "row_rate",
+      "row_amount"
+    ],
+    "totals": []
+  },
+  "mapping": {
+    "company_name": "invoices.vendor_name",
+    "company_address_line1": "invoices.vendor_name",
+    "company_address_line2": "invoices.vendor_name",
+    "phone": "customers.phone",
+    "email": "customers.email",
+    "bill_to_name": "customers.customer_name",
+    "bill_to_address_line1": "customers.billing_address",
+    "bill_to_address_line2": "customers.city",
+    "ship_to_name": "customers.customer_name",
+    "ship_to_address_line1": "customers.billing_address",
+    "ship_to_address_line2": "customers.city",
+    "invoice_number": "invoices.invoice_number",
+    "invoice_date": "invoices.issue_date",
+    "due_date": "invoices.due_date",
+    "customer_message": "invoices.notes",
+    "subtotal": "invoices.subtotal",
+    "sales_tax": "invoices.tax_amount",
+    "shipping": "invoices.discount_amount",
+    "total": "invoices.total_amount",
+    "row_item_service": "invoice_items.item_code",
+    "row_description": "invoice_items.description",
+    "row_quantity_hrs": "invoice_items.quantity",
+    "row_rate": "invoice_items.unit_price",
+    "row_amount": "invoice_items.line_total"
+  },
+  "unresolved": [
+    "website",
+    "terms"
+  ],
+  "join": {
+    "parent_table": "invoices",
+    "parent_key": "invoice_number",
+    "child_table": "invoice_items",
+    "child_key": "invoice_number"
+  },
+  "date_columns": {
+    "invoices": "issue_date"
+  },
+  "filters": {
+    "optional": {
+      "date_from": "invoices.issue_date",
+      "date_to": "invoices.issue_date"
+    }
+  },
+  "reshape_rules": [
+    {
+      "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+      "strategy": "SELECT",
+      "columns": [
+        {
+          "as": "row_item_service",
+          "from": [
+            "invoice_items.item_code"
+          ]
+        },
+        {
+          "as": "row_description",
+          "from": [
+            "invoice_items.description"
+          ]
+        },
+        {
+          "as": "row_quantity_hrs",
+          "from": [
+            "invoice_items.quantity"
+          ]
+        },
+        {
+          "as": "row_rate",
+          "from": [
+            "invoice_items.unit_price"
+          ]
+        },
+        {
+          "as": "row_amount",
+          "from": [
+            "invoice_items.line_total"
+          ]
+        }
+      ],
+      "order_by": []
+    }
+  ],
+  "row_computed": {},
+  "totals_math": {},
+  "totals": {},
+  "formatters": {
+    "subtotal": "currency(2)",
+    "sales_tax": "currency(2)",
+    "shipping": "currency(2)",
+    "total": "currency(2)",
+    "row_quantity_hrs": "number(2)",
+    "row_rate": "currency(2)",
+    "row_amount": "currency(2)",
+    "company_name": "number(2)",
+    "company_address_line1": "number(2)",
+    "company_address_line2": "number(2)",
+    "phone": "number(2)",
+    "email": "number(2)",
+    "bill_to_name": "number(2)",
+    "bill_to_address_line1": "number(2)",
+    "bill_to_address_line2": "number(2)",
+    "ship_to_name": "number(2)",
+    "ship_to_address_line1": "number(2)",
+    "ship_to_address_line2": "number(2)",
+    "invoice_number": "number(2)",
+    "invoice_date": "number(2)",
+    "due_date": "number(2)",
+    "customer_message": "number(2)",
+    "row_item_service": "number(2)",
+    "row_description": "number(2)"
+  },
+  "order_by": {
+    "rows": [
+      "invoice_items.line_no ASC"
+    ]
+  },
+  "header_tokens": [
+    "company_name",
+    "company_address_line1",
+    "company_address_line2",
+    "phone",
+    "email",
+    "bill_to_name",
+    "bill_to_address_line1",
+    "bill_to_address_line2",
+    "ship_to_name",
+    "ship_to_address_line1",
+    "ship_to_address_line2",
+    "invoice_number",
+    "invoice_date",
+    "due_date",
+    "customer_message",
+    "subtotal",
+    "sales_tax",
+    "shipping",
+    "total"
+  ],
+  "row_tokens": [
+    "row_item_service",
+    "row_description",
+    "row_quantity_hrs",
+    "row_rate",
+    "row_amount"
+  ],
+  "row_order": [
+    "invoice_items.line_no ASC"
+  ],
+  "literals": {},
+  "notes": "Mapped 'shipping' to 'discount_amount' as no explicit shipping column exists in catalog. 'website' and 'terms' are unresolved due to missing catalog columns. Address lines 2 mapped to 'city' as a fallback.",
+  "_schema_version": "2.2",
+  "fields": {
+    "total": {
+      "source": "invoices.total_amount",
+      "format": "currency(2)"
+    },
+    "phone": {
+      "source": "customers.phone",
+      "format": "number(2)"
+    },
+    "due_date": {
+      "source": "invoices.due_date",
+      "format": "number(2)"
+    },
+    "row_amount": {
+      "source": "invoice_items.line_total",
+      "format": "currency(2)"
+    },
+    "row_description": {
+      "source": "invoice_items.description",
+      "format": "number(2)"
+    },
+    "row_item_service": {
+      "source": "invoice_items.item_code",
+      "format": "number(2)"
+    },
+    "company_address_line2": {
+      "source": "invoices.vendor_name",
+      "format": "number(2)"
+    },
+    "company_name": {
+      "source": "invoices.vendor_name",
+      "format": "number(2)"
+    },
+    "customer_message": {
+      "source": "invoices.notes",
+      "format": "number(2)"
+    },
+    "bill_to_name": {
+      "source": "customers.customer_name",
+      "format": "number(2)"
+    },
+    "row_rate": {
+      "source": "invoice_items.unit_price",
+      "format": "currency(2)"
+    },
+    "invoice_date": {
+      "source": "invoices.issue_date",
+      "format": "number(2)"
+    },
+    "shipping": {
+      "source": "invoices.discount_amount",
+      "format": "currency(2)"
+    },
+    "email": {
+      "source": "customers.email",
+      "format": "number(2)"
+    },
+    "company_address_line1": {
+      "source": "invoices.vendor_name",
+      "format": "number(2)"
+    },
+    "ship_to_name": {
+      "source": "customers.customer_name",
+      "format": "number(2)"
+    },
+    "bill_to_address_line1": {
+      "source": "customers.billing_address",
+      "format": "number(2)"
+    },
+    "bill_to_address_line2": {
+      "source": "customers.city",
+      "format": "number(2)"
+    },
+    "sales_tax": {
+      "source": "invoices.tax_amount",
+      "format": "currency(2)"
+    },
+    "subtotal": {
+      "source": "invoices.subtotal",
+      "format": "currency(2)"
+    },
+    "ship_to_address_line1": {
+      "source": "customers.billing_address",
+      "format": "number(2)"
+    },
+    "ship_to_address_line2": {
+      "source": "customers.city",
+      "format": "number(2)"
+    },
+    "invoice_number": {
+      "source": "invoices.invoice_number",
+      "format": "number(2)"
+    },
+    "row_quantity_hrs": {
+      "source": "invoice_items.quantity",
+      "format": "number(2)"
+    }
+  },
+  "joins": [
+    {
+      "from": "invoices.invoice_number",
+      "to": "invoice_items.invoice_number",
+      "type": "LEFT JOIN",
+      "cardinality": "1:N"
+    }
+  ],
+  "constraints": [
+    {
+      "field": "total",
+      "operator": "notNull",
+      "message": "total must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "phone",
+      "operator": "notNull",
+      "message": "phone must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "phone",
+      "operator": "isNumeric",
+      "message": "phone must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "due_date",
+      "operator": "notNull",
+      "message": "due_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "due_date",
+      "operator": "isNumeric",
+      "message": "due_date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_amount",
+      "operator": "notNull",
+      "message": "row_amount must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description",
+      "operator": "notNull",
+      "message": "row_description must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_description",
+      "operator": "isNumeric",
+      "message": "row_description must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_item_service",
+      "operator": "notNull",
+      "message": "row_item_service must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_item_service",
+      "operator": "isNumeric",
+      "message": "row_item_service must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_address_line2",
+      "operator": "notNull",
+      "message": "company_address_line2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "company_address_line2",
+      "operator": "isNumeric",
+      "message": "company_address_line2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_name",
+      "operator": "notNull",
+      "message": "company_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "company_name",
+      "operator": "isNumeric",
+      "message": "company_name must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "customer_message",
+      "operator": "notNull",
+      "message": "customer_message must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "customer_message",
+      "operator": "isNumeric",
+      "message": "customer_message must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_name",
+      "operator": "notNull",
+      "message": "bill_to_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "bill_to_name",
+      "operator": "isNumeric",
+      "message": "bill_to_name must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_rate",
+      "operator": "notNull",
+      "message": "row_rate must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "notNull",
+      "message": "invoice_date must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_date",
+      "operator": "isNumeric",
+      "message": "invoice_date must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "shipping",
+      "operator": "notNull",
+      "message": "shipping must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "email",
+      "operator": "notNull",
+      "message": "email must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "email",
+      "operator": "isNumeric",
+      "message": "email must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "company_address_line1",
+      "operator": "notNull",
+      "message": "company_address_line1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "company_address_line1",
+      "operator": "isNumeric",
+      "message": "company_address_line1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "ship_to_name",
+      "operator": "notNull",
+      "message": "ship_to_name must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "ship_to_name",
+      "operator": "isNumeric",
+      "message": "ship_to_name must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_address_line1",
+      "operator": "notNull",
+      "message": "bill_to_address_line1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "bill_to_address_line1",
+      "operator": "isNumeric",
+      "message": "bill_to_address_line1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "bill_to_address_line2",
+      "operator": "notNull",
+      "message": "bill_to_address_line2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "bill_to_address_line2",
+      "operator": "isNumeric",
+      "message": "bill_to_address_line2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "sales_tax",
+      "operator": "notNull",
+      "message": "sales_tax must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "subtotal",
+      "operator": "notNull",
+      "message": "subtotal must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "ship_to_address_line1",
+      "operator": "notNull",
+      "message": "ship_to_address_line1 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "ship_to_address_line1",
+      "operator": "isNumeric",
+      "message": "ship_to_address_line1 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "ship_to_address_line2",
+      "operator": "notNull",
+      "message": "ship_to_address_line2 must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "ship_to_address_line2",
+      "operator": "isNumeric",
+      "message": "ship_to_address_line2 must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "notNull",
+      "message": "invoice_number must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "invoice_number",
+      "operator": "isNumeric",
+      "message": "invoice_number must be numeric",
+      "severity": "warning"
+    },
+    {
+      "field": "row_quantity_hrs",
+      "operator": "notNull",
+      "message": "row_quantity_hrs must not be NULL",
+      "severity": "error"
+    },
+    {
+      "field": "row_quantity_hrs",
+      "operator": "isNumeric",
+      "message": "row_quantity_hrs must be numeric",
+      "severity": "warning"
+    }
+  ]
+}

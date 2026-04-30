@@ -1,0 +1,216 @@
+{
+  "prompt_version": "v3_df",
+  "model": "qwen",
+  "input_signature": "d3ae040f3e7a79c30301dc49ebfa0968edeea9b02def2407c50363d04e87bacc",
+  "db_signature": "78668e7d76e35a70b65207098720f864c9c07b02bf81f57c76f0f8786b696ea3",
+  "page_summary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": 1777468606,
+  "assumptions": [],
+  "warnings": [],
+  "validation": {
+    "unknown_tokens": [],
+    "unknown_columns": [],
+    "token_coverage": {
+      "scalars_mapped_pct": 100,
+      "row_tokens_mapped_pct": 100,
+      "totals_mapped_pct": 100
+    }
+  },
+  "overview_path": "overview.md",
+  "step5_requirements_path": "step5_requirements.json",
+  "contract_payload": {
+    "tokens": {
+      "scalars": [
+        "invoice_number",
+        "balance_due",
+        "bill_to_name",
+        "bill_to_address",
+        "bill_to_city",
+        "bill_to_zip",
+        "bill_to_country",
+        "invoice_date",
+        "terms",
+        "due_date",
+        "po_number",
+        "project_name",
+        "sub_total",
+        "tax_1_amount",
+        "tax_2_amount",
+        "total_amount",
+        "payment_made"
+      ],
+      "row_tokens": [
+        "row_item_number",
+        "row_item_description",
+        "row_description_sub",
+        "row_qty",
+        "row_rate",
+        "row_discount",
+        "row_amount"
+      ],
+      "totals": []
+    },
+    "mapping": {
+      "invoice_number": "invoices.invoice_number",
+      "bill_to_name": "customers.customer_name",
+      "bill_to_address": "customers.billing_address",
+      "bill_to_city": "customers.city",
+      "bill_to_zip": "customers.postal_code",
+      "bill_to_country": "customers.country",
+      "invoice_date": "invoices.issue_date",
+      "due_date": "invoices.due_date",
+      "row_item_number": "invoice_items.line_no",
+      "row_item_description": "invoice_items.description",
+      "row_qty": "invoice_items.quantity",
+      "row_rate": "invoice_items.unit_price",
+      "row_amount": "invoice_items.line_total",
+      "sub_total": "invoices.subtotal",
+      "total_amount": "invoices.total_amount",
+      "payment_made": "payments.amount_paid"
+    },
+    "unresolved": [
+      "balance_due",
+      "terms",
+      "po_number",
+      "project_name",
+      "row_description_sub",
+      "row_discount",
+      "tax_1_amount",
+      "tax_2_amount"
+    ],
+    "join": {
+      "parent_table": "invoices",
+      "parent_key": "invoice_number",
+      "child_table": "invoice_items",
+      "child_key": "invoice_number"
+    },
+    "date_columns": {
+      "invoices": "due_date"
+    },
+    "filters": {
+      "optional": {
+        "date_from": "invoices.issue_date",
+        "date_to": "invoices.issue_date"
+      }
+    },
+    "reshape_rules": [
+      {
+        "purpose": "Auto-generated reshape rule derived from mapping tokens.",
+        "strategy": "SELECT",
+        "columns": [
+          {
+            "as": "row_item_number",
+            "from": [
+              "invoice_items.line_no"
+            ]
+          },
+          {
+            "as": "row_item_description",
+            "from": [
+              "invoice_items.description"
+            ]
+          },
+          {
+            "as": "row_qty",
+            "from": [
+              "invoice_items.quantity"
+            ]
+          },
+          {
+            "as": "row_rate",
+            "from": [
+              "invoice_items.unit_price"
+            ]
+          },
+          {
+            "as": "row_amount",
+            "from": [
+              "invoice_items.line_total"
+            ]
+          }
+        ],
+        "order_by": []
+      }
+    ],
+    "row_computed": {
+      "invoice_date": {
+        "op": "format_date",
+        "column": "UNRESOLVED",
+        "format": "%d-%m-%Y %H:%M:%S"
+      },
+      "due_date": {
+        "op": "format_date",
+        "column": "UNRESOLVED",
+        "format": "%d-%m-%Y %H:%M:%S"
+      },
+      "row_discount": {
+        "op": "subtract",
+        "left": {
+          "op": "multiply",
+          "left": "unit_price",
+          "right": "quantity"
+        },
+        "right": "line_total"
+      }
+    },
+    "totals_math": {},
+    "totals": {},
+    "formatters": {
+      "balance_due": "currency(2)",
+      "row_qty": "number(2)",
+      "row_rate": "currency(2)",
+      "row_discount": "currency(2)",
+      "row_amount": "currency(2)",
+      "sub_total": "currency(2)",
+      "tax_1_amount": "currency(2)",
+      "tax_2_amount": "currency(2)",
+      "total_amount": "currency(2)",
+      "payment_made": "currency(2)",
+      "invoice_number": "number(2)",
+      "bill_to_name": "number(2)",
+      "bill_to_address": "number(2)",
+      "bill_to_city": "number(2)",
+      "bill_to_zip": "number(2)",
+      "bill_to_country": "number(2)",
+      "row_item_number": "number(2)",
+      "row_item_description": "number(2)"
+    },
+    "order_by": {
+      "rows": [
+        "row_item_number ASC"
+      ]
+    },
+    "header_tokens": [
+      "invoice_number",
+      "bill_to_name",
+      "bill_to_address",
+      "bill_to_city",
+      "bill_to_zip",
+      "bill_to_country",
+      "invoice_date",
+      "due_date",
+      "sub_total",
+      "total_amount",
+      "payment_made"
+    ],
+    "row_tokens": [
+      "row_item_number",
+      "row_item_description",
+      "row_qty",
+      "row_rate",
+      "row_amount"
+    ],
+    "row_order": [
+      "row_item_number ASC"
+    ],
+    "literals": {
+      "terms_default": "Due On Receipt",
+      "po_default": "",
+      "project_default": "",
+      "desc_sub_default": ""
+    },
+    "notes": "Tax rates (4.7% and 7.0%) are hardcoded based on template labels. Discount is derived from (Rate * Qty) - LineTotal. If LineTotal is pre-discounted, this logic may need adjustment. Unresolved text fields default to empty or static strings.",
+    "_schema_version": "2.2"
+  },
+  "key_tokens": []
+}

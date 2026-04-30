@@ -1,0 +1,28 @@
+{
+  "dialect": "duckdb",
+  "mode": "dataframe",
+  "entrypoints": {},
+  "params": {
+    "required": [
+      "bill_to_label",
+      "po_number",
+      "project_name",
+      "tax1_label",
+      "tax2_label",
+      "terms_content"
+    ],
+    "optional": []
+  },
+  "needs_user_fix": [],
+  "invalid": false,
+  "summary": {
+    "scalars": 22,
+    "row_tokens": 7,
+    "totals": 6,
+    "reshape_rules": 1,
+    "row_computed": 1,
+    "totals_math": 6,
+    "formatters": 23
+  },
+  "key_tokens": []
+}

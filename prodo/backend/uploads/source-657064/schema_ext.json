@@ -1,0 +1,29 @@
+{
+  "scalars": [
+    "plant_name",
+    "location",
+    "print_date",
+    "from_date",
+    "to_date",
+    "batch_no",
+    "report_title"
+  ],
+  "row_tokens": [
+    "row_batch_num",
+    "row_start_time",
+    "row_end_time",
+    "row_sl_no",
+    "row_material_name",
+    "row_set_wt_kg",
+    "row_ach_wt_kg",
+    "row_error_kg",
+    "row_error_percent"
+  ],
+  "totals": [
+    "total_set_wt_kg",
+    "total_ach_wt_kg",
+    "total_error_kg",
+    "total_error_percent"
+  ],
+  "notes": "Schema derived from the Consumption Report structure. Row tokens include the batch header info (Start/End times) as they are part of the repeating block logic."
+}
